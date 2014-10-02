@@ -20,10 +20,24 @@ http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz
 * Fastjet
 http://fastjet.fr/
 
+Here one also needs to install fastjet contrib
+http://fastjet.hepforge.org/contrib/
+to access the Variable R jets
+
+
 * LHAPDFv5
 
 The paths for these programs needs to be edited in the 
 first of the Makefile. The rest of the Makefile should be
 left untouched.
+
+************************************
+
+To run the code, you should edit in HH4b.cc
+
+"string samples_path"
+
+and set it to the path to the MC samples Dropbox folder
+
 
 ************************************

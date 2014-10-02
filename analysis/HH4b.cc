@@ -87,6 +87,7 @@ void InitPythia(Pythia & pythiaRun, string eventfile){
   pythiaRun.readString("25:onIfAll = 5 -5");
 
   // b quarks and do not decay
+  // They are treated as stable particles in the detector
   pythiaRun.readString("5:mayDecay = no");
   pythiaRun.readString("-5:mayDecay = no");
 
@@ -104,8 +105,12 @@ void InitPythia(Pythia & pythiaRun, string eventfile){
  
 int main() {
 
+  cout<<"\n ***************************************************"<<endl;
   cout<<"\n Double Higgs Production in the 4b final state \n "<<endl;
+  cout<<"***************************************************\n"<<endl;
 
+  // Set here the path to the MC samples Dropbox folder
+  string samples_path="/Users/juanrojo/Dropbox/HH4bMC";
 
   // Init histogarms
   histo_init();
@@ -113,20 +118,31 @@ int main() {
   // Open file to output the results
   ofstream out_results;
   out_results.open("hh4b.res");
+  
+  /* ---------------------------------------------------------------------------
+     //
+     // Loop over signal and background events
+     // Signal: gg -> hh with mg5_amc at LO in EFT with heavy quark mass effects
+     // Background: QCD 4b, 2b2j, 4j production
 
-  // Loop over signal and background events
-  // Signal: gg -> hh with mg5_amc at LO in EFT with heavy quark mass effects
-  // Background: QCD 4b, 2b2j, 4j production
-  // Both signal and backgrounds have been matched to parton showers
-  int const nlhe=3;
+     ---------------------------------------------------------------------------*/
+  
+
+  int const nlhe=4; // Number of signal and bkg MC samples
+
   for(int ilhe=0; ilhe<nlhe;ilhe++){
-
+    
     // Name of the input file
     string eventfile;
     double xsec;
-
+    
     // Create histograms
     histo_create();
+
+    // Now we loop over the MC samples
+    // The total cross-section for each sample can be
+    // read from the .lhe file, see the number next to:
+    // #  Integrated weight (pb)  
 
     // SM gg->HH, 100K
     if(ilhe==0) {
@@ -136,28 +152,36 @@ int main() {
       xsec *= 0.34; // HH-> 4b BR
       xsec *= 2.5; // NNLO K-factor
     }
+
     // BSM gg->HH, 100K, trilinear multiplied by a factor 10
     else if(ilhe==1) {
-      eventfile="HH_BMS_Lam_10_eft_100K_gcut.lhe";
+      eventfile="HH_bsm_lam_10_eft_100K.lhe";
       xsec = .27923E+00;// pb
       xsec *= 1e3; // fb
       xsec *= 0.34; // HH-> 4b BR
       xsec *= 2.5; // NNLO K-factor
     }
+
+    // QCD background, 4b
     else if(ilhe==2) {
       eventfile="qcd_madgraph_4b_14tev_100k_gcuts.lhe";
       xsec = .58013e+03; // pb
       xsec *= 1e3; // fb
     }
+
+    // QCD background, 2b2j
     else if(ilhe==3) {
       eventfile="qcd_madgraph_2b2j_14tev_100k_gcuts.lhe";
       xsec = .53822E+06; // pb
       xsec *= 1e3; // fb
     }
+    
     else{
-      std::cout<<"Invalid value of LHEF"<<std::endl;
+      std::cout<<"Invalid Monte Carlo sample, exit"<<std::endl;
       exit(-10);
     }
+
+    
     
     // Init Pythia8
     Pythia pythiaRun;
