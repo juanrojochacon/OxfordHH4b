@@ -16,7 +16,7 @@ LHAPDFLOCATION=/Users/juanrojo/software/lhapdf/lha-5.9.0/lib
 ROOTDIR=/Users/juanrojo/software/root/root-v5-34-00-patches
 #
 # Path to FastJet installation
-FASTJETPATH=/Users/juanrojo/software/fastjet/fastjet-3.0.3-install
+FASTJETPATH=/Users/juanrojo/software/fastjet/fastjet-3.1.0-install
 #
 # The rest of the Makefile should not be edited
 #

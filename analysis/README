@@ -1,0 +1,29 @@
+**************
+README
+*************
+
+In this folder we have the main analysis code 
+
+HH4b.cc
+
+which takes a Les Houches parton level event file, showers it with
+Pythia8 and then does the corresponding analysis, filling histograms,
+creating plots etc.
+
+It requires that you have installed:
+
+* Pythia8 (I have tested up to v8.180):
+http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz
+
+* Root
+
+* Fastjet
+http://fastjet.fr/
+
+* LHAPDFv5
+
+The paths for these programs needs to be edited in the 
+first of the Makefile. The rest of the Makefile should be
+left untouched.
+
+************************************
