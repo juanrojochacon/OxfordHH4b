@@ -304,6 +304,10 @@ bool analysis_4b_ucl(vector<fastjet::PseudoJet> & bjets, double event_weight ){
   PseudoJet higgs1 = bjets.at( jet1_id1) + bjets.at( jet1_id2); 
   PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
 
+  // Histograms before cut in pt Higgs candidates
+  histo_fill("pth", event_weight, higgs1.pt());
+  histo_fill("pth", event_weight, higgs2.pt());
+
   // Now, the pt of the dijet Higgs candidates must be above 150 GeV
   double pt_dijet_ucl=150.0;
   if(higgs1.pt() < pt_dijet_ucl ||higgs1.pt() < pt_dijet_ucl ) return false;
@@ -323,24 +327,12 @@ bool analysis_4b_ucl(vector<fastjet::PseudoJet> & bjets, double event_weight ){
   double mass_diff1 = fabs(higgs1.m()-m_higgs)/m_higgs;
   double mass_diff2 = fabs(higgs2.m()-m_higgs)/m_higgs;
   if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return false;
+
+  // Histograms for the pt of the HH system
+  // no cuts are applied on this variable
+  PseudoJet dihiggs= higgs1+higgs2;
+  histo_fill("pthh", event_weight, dihiggs.pt());
   
-
-  /*
-  // Here fill the histogram for the pt of the hh system
-  string histofill="pthh";
-  double xsec_fill=1.0;
-  PseudoJet dihiggs = higgs1+higgs2;
-  double pthh = dihiggs.pt();
-  histo_fill(histofill, xsec_fill, pthh);
-
-  // Fill histogram for pt of individual higgses
-  histofill="pth";
-  double pth = higgs1.pt();
-  histo_fill(histofill, xsec_fill, pth);
-  pth = higgs2.pt();
-  histo_fill(histofill, xsec_fill, pth);
-  */
-
   //  std::cout<<"Event tagged as HH->4b event"<<std::endl;
 
   return true;

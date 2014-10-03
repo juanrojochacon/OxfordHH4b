@@ -154,8 +154,7 @@ int main() {
     for (int iEvent = 0; ;  ++iEvent) {
       
       nev_tot++;
-      if(nev_tot>5e3) break;
-
+      //if(nev_tot>5e3) break;
 
       if (!pythiaRun.next()) {
 	// Stop showering when the end of the LHE file is reached
@@ -210,8 +209,8 @@ int main() {
     out_results<<"nev_tot, nev_pass (300 1/fb) = "<< lumi_run2*xsec*total_weight/nev_tot<<std::endl;
     out_results<<"nev_tot, nev_pass (3000 1/fb) = "<< lumi_hllhc*xsec*total_weight/nev_tot<<std::endl;
 
-    double scalefactor=1.0;
-    histo_plot(scalefactor);
+    // Create the histograms for this sample
+    histo_plot();
     
   } // End loop over signal and background samples
   
