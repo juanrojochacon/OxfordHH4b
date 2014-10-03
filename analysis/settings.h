@@ -2,15 +2,8 @@
 This are the common settings used in the analysis code
  */
 
-// b jets
-double const pt_bjet = 25;
-double const eta_bjet=2.5;
-
 // Cuts for the b-jet candidates for b-tagging
-double const pt_btagging=20;
-
-// Minimum pt for the hh system
-double const pthh_cut=40;
+double const pt_btagging=15;
 
 // hadronic dijet mass resolution -> Taken to be 15 GeV
 // Taken from LHC H -> bb papers
@@ -20,11 +13,12 @@ double const mass_resolution = 0.12; // 15 GeV
 double const m_higgs = 125.0;
 
 // Jet definition
-double const jetR=0.5; // To avoid overlapping b's as much as possible
+// Small radius jet reconstruction
+double const jetR_0p5=0.5; // To avoid overlapping b's as much as possible
+// Large radius jet reconstruction
+double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
 
-// Jet definition for substructure
-double const Rsb = 1.2;
-JetDefinition CA10(cambridge_algorithm, Rsb);
+JetDefinition CA10(cambridge_algorithm, jetR_1p2);
 
 // Set parameters of the mass drop tagger for jet substructure
 // mu = 0.67 and y = 0.09 are the default choice in FastJet
@@ -40,6 +34,10 @@ double const btag_mistag = 0.01; // Mistag probability
 // Run II Lumi in 1/fb
 double const lumi_run2=300;
 double const lumi_hllhc=3000;
+
+// To check energy-momentum conservation
+double const Eref=14000; // Samples generated for LHC 14 TeV
+double const tol_emom=1.0;
 
 //-------------------------------------------------------------
 

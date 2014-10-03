@@ -64,6 +64,7 @@ void histo_create(){
 void histo_plot(){
 
   double total_xsec=0.0;
+  bool draw=true;
 
   std::cout<<"\n Drawing pthh histogram \n "<<std::endl;
   
@@ -82,13 +83,17 @@ void histo_plot(){
   for(int j=1; j<=histo_pthh.back()->GetNbinsX(); j++   ){
     total_xsec+= histo_pthh.back()->GetBinContent(j) * histo_pthh_binwidth ;
   }
+  draw=true;
   if(total_xsec<1e-30){
     std::cout<<"Too small xsec = "<<total_xsec<<std::endl;
-    exit(-10);
+    std::cout<<"Not drawing histograms for this sample"<<std::endl;
+    draw=false;
   }
-  histo_pthh.back()->Scale(1.0/total_xsec);
-  if( histo_pthh.size()==1)histo_pthh.back()->Draw();
-  if( histo_pthh.size()>1)histo_pthh.back()->Draw("same");
+  if(draw){
+    histo_pthh.back()->Scale(1.0/total_xsec);
+    if( histo_pthh.size()==1)histo_pthh.back()->Draw();
+    if( histo_pthh.size()>1)histo_pthh.back()->Draw("same");
+  }
   
   std::cout<<"\n Drawing pth histogram \n "<<std::endl;
   
@@ -107,13 +112,17 @@ void histo_plot(){
   for(int j=1; j<=histo_pth.back()->GetNbinsX(); j++   ){
     total_xsec+= histo_pth.back()->GetBinContent(j) * histo_pth_binwidth ;
   }
+  draw=true;
   if(total_xsec<1e-30){
     std::cout<<"Too small xsec = "<<total_xsec<<std::endl;
-    exit(-10);
+    std::cout<<"Not drawing histograms for this sample"<<std::endl;
+    draw=false;
   }
-  histo_pth.back()->Scale(1.0/total_xsec);
-  if( histo_pth.size()==1)histo_pth.back()->Draw();
-  if( histo_pth.size()>1)histo_pth.back()->Draw("same");
+  if(draw){
+    histo_pth.back()->Scale(1.0/total_xsec);
+    if( histo_pth.size()==1)histo_pth.back()->Draw();
+    if( histo_pth.size()>1)histo_pth.back()->Draw("same");
+  }
 
 }
 

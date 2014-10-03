@@ -2,7 +2,6 @@
 This routine initializes Pythia8
 with all the settings for the shower and underlying event
  */
-
 void InitPythia(Pythia & pythiaRun, string eventfile){
 
   // Initialize random seed
@@ -25,17 +24,23 @@ void InitPythia(Pythia & pythiaRun, string eventfile){
   pythiaRun.readString("Beams:frameType = 4"); 
   
   // Shower settings
-  // For the time being no  UE or PU included
-  pythiaRun.readString("SpaceShower:QEDshowerByQ  = off"); // QED shower offf
-  pythiaRun.readString("SpaceShower:QEDshowerByL  = off"); // QED shower offf
-  pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
+ 
+  // The shower is QCD only, no QED or weak effects included
+  pythiaRun.readString("SpaceShower:QEDshowerByQ  = off"); // QED shower off
+  pythiaRun.readString("SpaceShower:QEDshowerByL  = off"); // QED shower off
   pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
   pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
   pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
-  pythiaRun.readString("PartonLevel:MI = off"); // Off multiple interactions (UE) 
+  // Initial and final state radiation activated
   pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
   pythiaRun.readString("PartonLevel:FSR = on");  // Shower on
-
+  
+  // No hadronization
+  pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
+ 
+  // For the time being no  UE or PU included
+  pythiaRun.readString("PartonLevel:MI = off"); // Off multiple interactions (UE) 
+ 
   // Higgs decays always into 4b
   // Need to correct by hand the xsecs for the BR(HH->4b) branching fraction
   pythiaRun.readString("25:onMode = off");
@@ -55,22 +60,57 @@ void InitPythia(Pythia & pythiaRun, string eventfile){
   pythiaRun.init();
 
   std::cout<<"\n Pythia8 Initialized \n "<<std::endl;
-
+  
 }
 
 //-------------------------------------------------------------------
 
 /*
-This routine read the event kinematics and performs the jet clustering
-It also checkes that energy momentum is conserved event by event
+This routine simulates the b tagging
+In its present form, it only requires that at least
+one of the jet constitutents is a b jet
+b quarks must be above some minimum pt
  */
 
-void jet_clustering_analysis(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bjets, double & event_weight ){
+bool btagging(int ijet, vector<fastjet::PseudoJet> jets){
 
-   // This are all the particles that enter the jet clustering
-  vector<fastjet::PseudoJet> particles;
-  
-  // Run over all particles in the event
+  bool btagging_result = false; // Initialization
+
+  // Get the jet constituents
+  vector<fastjet::PseudoJet> jet_constituents = jets.at(ijet).constituents();
+
+  // number of b quarks
+  int nb=0;
+
+  // Loop over constituents and look for b quarks
+  // also b quarks must be above some minimum pt
+  for(unsigned i=0;i<jet_constituents.size(); i++){
+    int userid= jet_constituents.at(i).user_index();
+    double pt_bcandidate = jet_constituents.at(i).pt();
+    if(abs(userid) ==5 ){
+      // Cut in pt
+      if( pt_bcandidate > pt_btagging){
+	nb++;
+      }
+    }
+  }
+
+  // b-tagging is succesful if at least one b quark with
+  // pt > pt_btagging has been found
+  if(nb > 0 ) btagging_result=true;
+
+  return btagging_result;
+
+}
+
+//----------------------------------------------------------------------------
+
+/*
+  Get the information on all final state particles
+ */
+
+void get_final_state_particles(Pythia & pythiaRun, vector<fastjet::PseudoJet> & particles){
+
   for (int i = 0; i < pythiaRun.event.size(); i++){
     
     // Initialization
@@ -128,8 +168,6 @@ void jet_clustering_analysis(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bj
     E_tot+= particles.at(ij).E();
   }
   // Check energy-momentum conservation
-  double const Eref=14000; // Samples generated for LHC 14 TeV
-  double const tol_emom=1.0;
   if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
       || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
     std::cout<<"\n ********************************************************************** \n"<<std::endl;
@@ -141,10 +179,28 @@ void jet_clustering_analysis(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bj
     exit(-10);
     std::cout<<"\n ********************************************************************** \n"<<std::endl;
   }
+}
+
+
+//-------------------------------------------------------------------
+
+/*
+This routine read the event kinematics and performs the jet clustering
+It also checkes that energy momentum is conserved event by event
+This applies for small R jet clustering with the anti-kt algorithm
+ */
+
+void jet_clustering_analysis_smallR(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bjets, double & event_weight ){
+
+   // This are all the particles that enter the jet clustering
+  vector<fastjet::PseudoJet> particles;
+  // Get all final state particles
+  get_final_state_particles(pythiaRun, particles);
   
   // Now perform jet clustering with anti-kT
   // jetR is defined in settings.h
-  JetDefinition akt(antikt_algorithm, jetR);
+  // Note that here we use a small R clustering
+  JetDefinition akt(antikt_algorithm, jetR_0p5);
   // Cluster all particles
   // The cluster sequence has to be saved to be used for jet substructure
   ClusterSequence cs_akt(particles, akt);
@@ -153,10 +209,10 @@ void jet_clustering_analysis(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bj
   
   // Check again four-momentum conservation, this time applied to jets
   // formed from the clustering of quarks and gluons (and beam remnants as well)
-  px_tot=0;
-  py_tot=0;
-  pz_tot=0;
-  E_tot=0;
+  double px_tot=0;
+  double py_tot=0;
+  double pz_tot=0;
+  double E_tot=0;
   for(unsigned ij=0;ij<jets_akt.size();ij++){
     px_tot+= jets_akt.at(ij).px();
     py_tot+= jets_akt.at(ij).py();
@@ -225,19 +281,152 @@ void jet_clustering_analysis(Pythia & pythiaRun, vector<fastjet::PseudoJet> & bj
     return;
   }
 
-  // Check that the four leading b jets are in acceptance
-  // Both in terms of transverse momentum and of rapidity
-  for(unsigned ijet=0; ijet<njet;ijet++){
 
-    if(bjets.at(ijet).pt() < pt_bjet || 
-       fabs( bjets.at(ijet).eta() ) > eta_bjet) {
-      event_weight=0.0;
-      return;
-    }
+} 
 
+// ----------------------------------------------------------------------------------
+
+/*
+This routine read the event kinematics and performs the jet clustering
+It also checkes that energy momentum is conserved event by event
+This applies for large R R jet clustering with the anti-kt algorithm
+Here we tag large-R jets using jet substructure tools 
+ */
+
+void jet_clustering_analysis_largeR(Pythia & pythiaRun, vector<fastjet::PseudoJet> & higgs_candidates, double & event_weight ){
+
+  // std::cout<<"in jet_clustering_analysis_largeR"<<std::endl;
+
+   // This are all the particles that enter the jet clustering
+  vector<fastjet::PseudoJet> particles;
+  // Get all final state particles
+  get_final_state_particles(pythiaRun, particles);
+  
+  // Now perform jet clustering with anti-kT
+  // jetR is defined in settings.h
+  // Here we use a large-R clustering, R=1.2
+  JetDefinition akt(antikt_algorithm, jetR_1p2);
+  // Cluster all particles
+  // The cluster sequence has to be saved to be used for jet substructure
+  ClusterSequence cs_akt(particles, akt);
+  // Get all the jets (no pt cut here)
+  vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
+  
+  // Check again four-momentum conservation, this time applied to jets
+  // formed from the clustering of quarks and gluons (and beam remnants as well)
+  double px_tot=0;
+  double py_tot=0;
+  double pz_tot=0;
+  double E_tot=0;
+  for(unsigned ij=0;ij<jets_akt.size();ij++){
+    px_tot+= jets_akt.at(ij).px();
+    py_tot+= jets_akt.at(ij).py();
+    pz_tot+= jets_akt.at(ij).pz();
+    E_tot+= jets_akt.at(ij).E();
+  }
+  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
+      || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
+    std::cout<<"\n ********************************************************************** \n"<<std::endl;
+    std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
+    std::cout<<"px_tot = "<<px_tot<<std::endl;
+    std::cout<<"py_tot = "<<py_tot<<std::endl;
+    std::cout<<"pz_tot = "<<pz_tot<<std::endl;
+    std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
+    exit(-10);
+    std::cout<<"\n ********************************************************************** \n"<<std::endl;
+  }
+  
+  // Now initialize the event weight
+  event_weight=1.0;
+
+  // We require at least 2 large-R jets in the event, else discard event
+  int const njet=2;
+  if(jets_akt.size() < njet) {
+    event_weight=0;
+    return;
   }
 
-  //  std::cout<<"4 b jets in acceptance found"<<std::endl;
+  // The two hardest jets must have pt > 200 GeV
+  // Before doing the cut fill the ptH histogram
+  histo_fill("pth", event_weight, jets_akt.at(0).pt());
+  histo_fill("pth", event_weight, jets_akt.at(1).pt());
+
+  // Now the cut on the pt of the Higgs candidates
+  double const pt_largeRjet = 200.0;
+  for(unsigned ijet=0;ijet<njet;ijet++){
+    if(jets_akt.at(ijet).pt() < pt_largeRjet) {
+      event_weight=0;
+      return;
+    }
+  }
+
+  // Now look for substructure in each of these two dijets using the BDRS
+  // mass-drop tagger
+  
+  for (unsigned i = 0; i < njet; i++) {
+    
+    // first recluster again with the large-R but with Cambridge-Aachen
+    ClusterSequence cs_sub(jets_akt[i].constituents(), CA10);
+    // get hardest jet
+    PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+    
+    // now run mass drop tagger
+    // parameters are specified in settings.h
+    MassDropTagger md_tagger(mu, ycut);
+    PseudoJet tagged_jet = md_tagger(ca_jet);
+    
+    // If tagging succesful - declare as Higgs candidate
+    if (tagged_jet != 0 )  higgs_candidates.push_back(tagged_jet);
+    
+  }
+
+  // If we don't have a mass-drop tag in each of the two leading large-R jets
+  // discard the event
+  if(higgs_candidates.size()!=2) {
+    event_weight=0.0;
+    return;
+  }
+
+  // Now we need to implement b-tagging
+  // Here different options possible
+  // To begin with, most agressive option
+  // Require only two b quarks in the fat jet
+  // each with pt > 40 GeV
+  // No restruction on how close they can be in angle
+  double const pt_btagging_largeR=40.0;
+
+  // Get the jet constituents
+  int const nb_fatjet=2;
+  for (unsigned i = 0; i < njet; i++) {
+
+    vector<fastjet::PseudoJet> jet_constituents = jets_akt.at(i).constituents();
+
+    // number of b quarks
+    int nb=0;
+
+    // Loop over constituents and look for b quarks
+    // These b quarks must be hard enough
+    for(unsigned i=0;i<jet_constituents.size(); i++){
+      int userid= jet_constituents.at(i).user_index();
+      double pt_bcandidate = jet_constituents.at(i).pt();
+      if(abs(userid) ==5 ){
+	// Cut in pt
+	if( pt_bcandidate > pt_btagging_largeR){
+	  nb++;
+	}
+      }
+    }
+    // Now assign the event weight
+    // This can be refined, for example requiring for fakes to have subjets with
+    // pt above some threshold
+    if(nb >= nb_fatjet) event_weight *= pow(btag_prob,2.0);
+    if(nb ==1 ) event_weight *= (btag_prob*btag_mistag);
+    if(nb ==0 ) event_weight *= pow(btag_mistag,2.0);
+  }
+
+  //std::cout<<"jet_clustering_analysis_largeR completed"<<std::endl;
+
+  return;
 
 } 
 
@@ -339,85 +528,52 @@ bool analysis_4b_ucl(vector<fastjet::PseudoJet> & bjets, double event_weight ){
 
 }
 
+//---------------------------------------------------------------------------------
 
 
-/* //\****************************************************************** */
-/* //\****************************************************************** */
+/*
+This analysis is inspired by the Durham group, based on jet substructure
+See for example the slides of their talk at Boost 2014
+https://indico.cern.ch/event/302395/session/12/contribution/25/material/slides/0.pdf
+as well as more details in their publication
+ arXiv:1404.7139
+Here we only use BDRS tagging, no attemp to use Shower Deconstruction
+ */
 
-/* bool bbbb_analysis_boosted(vector<fastjet::PseudoJet> jets_akt){ */
+bool analysis_4b_durham(vector<fastjet::PseudoJet> & higgs_candidates, double event_weight ){
+
+  // std::cout<<"in analysis_4b_durham"<<std::endl;
+
+  // Require that the Higgs candidates are in acceptance
+  double const eta_bjet_durham = 2.5;
   
-/*   bool hhtag=true; */
+  int const njet=2;
+  for(unsigned ijet=0; ijet<njet;ijet++){
+    if(fabs( higgs_candidates.at(ijet).eta() ) > eta_bjet_durham) return false;
+  }
+
+  // Same as in the UCL analysis
+  // require that these two leading fat jets are not too separated in rapidity
+  double delta_eta_dijet_fatjet=1.5;
+  double delta_eta_dijet = fabs(higgs_candidates.at(0).eta()- higgs_candidates.at(1).eta());
+  if(delta_eta_dijet > delta_eta_dijet_fatjet) return false;
+  
+  // Higgs mass window condition
+  double mass_diff1 = fabs(higgs_candidates.at(0).m()-m_higgs)/m_higgs;
+  double mass_diff2 = fabs(higgs_candidates.at(1).m()-m_higgs)/m_higgs;
+  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return false;
+  
+  // Histograms for the pt of the HH system
+  // no cuts are applied on this variable
+  PseudoJet dihiggs= higgs_candidates.at(0)+higgs_candidates.at(1);
+  histo_fill("pthh", event_weight, dihiggs.pt());
+  
+  //std::cout<<"Event tagged as HH->4b event"<<std::endl;
+
+  return true;
+
+}
+
+//--------------------------------------------------------------------------------------------
 
 
-/*   int const njet=2; */
-/*   // Exit if less than two jets */
-/*   // We are in the fully boosted regime */
-/*   if(jets_akt.size() < njet) return false; */
-
-/*   // Now look for substructure in the two hardest jets */
-/*   vector<PseudoJet> higgs; */
-
-/*   for (unsigned i = 0; i < njet; i++) { */
-    
-/*     // first recluster with some large CA (needed for mass-drop) */
-/*     ClusterSequence cs_sub(jets_akt[i].constituents(), CA10); */
-    
-/*     // next get hardest jet */
-/*     PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0]; */
-    
-/*     // now run mass drop tagger */
-/*     MassDropTagger md_tagger(mu, ycut); */
-/*     PseudoJet tagged_jet = md_tagger(ca_jet); */
-    
-/*     // Run also b-tagging */
-/*     bool btagging_result = btagging(i,jets_akt); */
-    
-/*     if (tagged_jet == 0 ) { */
-	    
-/*       // No mass-drop tag */
-      
-/*     } else { */
-	    
-/*       // Assign as a jet if on top of MDT also b tagging is positive */
-/*       // Here we would need to implement double b-tagging to  */
-/*       // improve background rejection */
-/*       if(btagging_result) higgs.push_back(tagged_jet); */
-	      
-/*     } */
-
-/*   } */
-
-/*   // If only and two only jets have been both mass-drop tagged */
-/*   // and b-tagged, continute */
-/*   if(higgs.size()!=2) return false; */
-
-/*    // Higgs mass window condition */
-/*   double mass_diff1 = fabs(higgs.at(0).m()-m_higgs)/m_higgs; */
-/*   double mass_diff2 = fabs(higgs.at(1).m()-m_higgs)/m_higgs; */
-
-/*   if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) { */
-/*     return false; */
-/*   } */
-
-/*   //std::cout<<higgs1.m()<<" "<<higgs2.m()<<std::endl; */
-
-/*   // Here fill the histogram for the pt of the hh system */
-/*   string histofill="pthh"; */
-/*   double xsec_fill=1.0; */
-/*   PseudoJet dihiggs = higgs.at(0)+higgs.at(1); */
-/*   double pthh = dihiggs.pt(); */
-/*   histo_fill(histofill, xsec_fill, pthh); */
-
-/*   // Fill histogram for pt of individual higgses */
-/*   histofill="pth"; */
-/*   double pth = higgs.at(0).pt(); */
-/*   histo_fill(histofill, xsec_fill, pth); */
-/*   pth = higgs.at(1).pt(); */
-/*   histo_fill(histofill, xsec_fill, pth); */
-
-/*   // Now impose kinematical cut in the pt of the hh system */
-/*   if(pthh < pthh_cut) return false; */
-
-/*   return hhtag; */
-
-/* } */
