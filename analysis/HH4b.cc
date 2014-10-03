@@ -49,68 +49,22 @@ using namespace fastjet;
 
 ///////////////////////////////////////////////////////////
 
-void InitPythia(Pythia & pythiaRun, string eventfile){
-
-  // Initialize random seed
-  srand (time(NULL));
-  std::cout<<"time = "<<time(NULL)<<std::endl;
-  double random = double(rand())/RAND_MAX;
-  std::cout<<"\n\n Random number I = "<<random<<"\n\n"<<std::endl;
-  random = double(rand())/RAND_MAX;
-  std::cout<<"\n\n Random number II = "<<random<<"\n\n"<<std::endl;
-  //  exit(-10);
-
-  // Random seed
-  pythiaRun.readString("Random:setSeed = on");
-  double random_seed_pythia = 100000 * double(rand())/RAND_MAX;
-  ostringstream o;
-  o<<"Random:seed = "<<int(random_seed_pythia);
-  cout<<o.str()<<endl;
-  pythiaRun.readString(o.str());
-
-  // Initialize Les Houches Event File run. List initialization information.
-  pythiaRun.readString("Beams:frameType = 4"); 
-  
-  // Shower settings
-  pythiaRun.readString("SpaceShower:QEDshowerByQ  = off"); // QED shower offf
-  pythiaRun.readString("SpaceShower:QEDshowerByL  = off"); // QED shower offf
-  pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
-  pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
-  pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
-  pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
-  pythiaRun.readString("PartonLevel:MI = off"); // Off multiple interactions (UE) 
-  pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
-  pythiaRun.readString("PartonLevel:FSR = on");  // Shower on
-
-  // Higgs decays always into 4b
-  pythiaRun.readString("25:onMode = off");
-  pythiaRun.readString("25:onIfAll = 5 -5");
-
-  // b quarks and do not decay
-  // They are treated as stable particles in the detector
-  pythiaRun.readString("5:mayDecay = no");
-  pythiaRun.readString("-5:mayDecay = no");
-
-  // Read the Les Houches Event File
-  string ofile;
-  ofile="Beams:LHEF = Events/"+eventfile;
-  pythiaRun.readString(ofile.c_str());
-
-   // Initialization
-  pythiaRun.init();
-
-}
-/////////////////////////////////////////////////////////////
-
- 
 int main() {
-
+  
   cout<<"\n ***************************************************"<<endl;
   cout<<"\n Double Higgs Production in the 4b final state \n "<<endl;
   cout<<"***************************************************\n"<<endl;
+  
+  // Output some of the settings
+  cout<<"\n ***************************************************\n"<<endl;
+  cout<<"jetR = "<<jetR<<std::endl;
+  cout<<"jetR_sb = "<<Rsb<<std::endl;
+  cout<<"btag_prob = "<<btag_prob<<std::endl;
+  cout<<"btag_mistag = "<<btag_mistag<<std::endl;
+  cout<<"\n ***************************************************"<<endl;
 
   // Set here the path to the MC samples Dropbox folder
-  string samples_path="/Users/juanrojo/Dropbox/HH4bMC";
+  string samples_path="/Users/juanrojo/Dropbox/HH4bMC/";
 
   // Init histogarms
   histo_init();
@@ -120,14 +74,13 @@ int main() {
   out_results.open("hh4b.res");
   
   /* ---------------------------------------------------------------------------
-     //
-     // Loop over signal and background events
-     // Signal: gg -> hh with mg5_amc at LO in EFT with heavy quark mass effects
-     // Background: QCD 4b, 2b2j, 4j production
-
-     ---------------------------------------------------------------------------*/
+  //
+  // Loop over signal and background events
+  // Signal: gg -> hh with mg5_amc at LO in EFT with heavy quark mass effects
+  // Background: QCD 4b, 2b2j, 4j production
+  //
+  ---------------------------------------------------------------------------*/
   
-
   int const nlhe=4; // Number of signal and bkg MC samples
 
   for(int ilhe=0; ilhe<nlhe;ilhe++){
@@ -181,188 +134,88 @@ int main() {
       exit(-10);
     }
 
-    
-    
+    // Write some info
+    eventfile= samples_path+eventfile;
+    cout<<"\n **********************************************************\n"<<endl;
+    cout<<"Sample = "<<eventfile<<std::endl;
+    cout<<"xsec (fb) = "<<xsec<<std::endl;
+    cout<<"\n ***********************************************************"<<endl;
+
     // Init Pythia8
     Pythia pythiaRun;
     InitPythia(pythiaRun, eventfile);
-
+    
     // Counter
-    int nev_pass=0;
-    int nev_pass_boosted=0;
-    int nev_tot=0;
+    int nev_tot=0, nev_pass=0;
+    // event weights
+    vector<double> weights;
     
     // Begin loop over events
     for (int iEvent = 0; ;  ++iEvent) {
       
       nev_tot++;
+      if(nev_tot>5e3) break;
 
-      if(iEvent > 1e5) break;
 
       if (!pythiaRun.next()) {
+	// Stop showering when the end of the LHE file is reached
 	if (pythiaRun.info.atEndOfFile()) {
 	  cout << "Info: end of input file reached" << endl;
-	  if(ilhe<3)break;
-	  if(ilhe==3){
-	    // Begin again from the same file
-	    // but different random seed
-	    Pythia pythiaRun;
-	    std::cout<<"Using again file with different random seed = "<<eventfile<<std::endl;
-	    InitPythia(pythiaRun, eventfile);
-	  }
+	  break;
 	}
       }
       
-      vector<PseudoJet> particles;
+      // Perform the jet clustering
+      // Also b tagging and substructure done here
+      // Returns the weight of the event including b tag and mistag probabilities
+      vector<fastjet::PseudoJet>  bjets;
+      double event_weight=0;
+      jet_clustering_analysis(pythiaRun, bjets, event_weight );
+
       
-      // Read event
-      double px = 0;
-      double py = 0;
-      double pz =0;
-      double E = 0;
-      
-      for (int i = 0; i < pythiaRun.event.size(); i++){
-	int particle_id = pythiaRun.event[i].id();
-	int particle_status = pythiaRun.event[i].status();
-	
-	//      std::cout<<particle_id<<" "<<particle_status<<std::endl;
-	
-	// Check final state particles
-	if( particle_status > 0 ) {
-	  
-	  // Get the particle kinematics
-	  px= pythiaRun.event[i].px();
-	  py= pythiaRun.event[i].py();
-	  pz= pythiaRun.event[i].pz();
-	  E= pythiaRun.event[i].e();
-	  
-	  // quarks and gluons
-	  // including b-quarks
-	  if(abs(particle_id)<6 || particle_id==21 ){
-	    particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-	    particles.at(particles.size()-1).set_user_index(particle_id);
-	  }
-	  // beam remnants
-	  else if(particle_id > 2000 ){
-	    particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-	    particles.at(particles.size()-1).set_user_index(particle_id);
-	  }
-	  else{
-	    std::cout<<"Invalid particle ID = "<<particle_id<<std::endl;
-	    exit(-10);
-	  }
-	  
-	} // End loop over final state particles
-	
-      } // End loop over particles in event
-      
-      // Check event energy conservation here
-      double px_tot=0;
-      double py_tot=0;
-      double pz_tot=0;
-      double E_tot=0;
-      
-      // quarks and gluons
-      for(unsigned ij=0;ij<particles.size();ij++){
-	px_tot+= particles.at(ij).px();
-	py_tot+= particles.at(ij).py();
-	pz_tot+= particles.at(ij).pz();
-	E_tot+= particles.at(ij).E();
-      }
-      // Check energy-momentum conservation
-      double const Eref=14000;
-      double const tol_emom=1.0;
-      if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-	std::cout<<"No conservation of energy in Pythia after shower "<<std::endl;
-	std::cout<<"px_tot = "<<px_tot<<std::endl;
-	std::cout<<"py_tot = "<<py_tot<<std::endl;
-	std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-	std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-	exit(-10);
-	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-      }
-      
-      // Do some simple jet clustering with FastJet
-      // Jet clustering
-      JetDefinition akt(antikt_algorithm, jetR);
-      // Cluster all particles
-      ClusterSequence cs_akt(particles, akt);
-      // Get all the jets (no pt cut here)
-      vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-      
-      // Check again four-momentum conservation, this time applied to jets
-      // quarks and gluons
-      px_tot=0;
-      py_tot=0;
-      pz_tot=0;
-      E_tot=0;
-      for(unsigned ij=0;ij<jets_akt.size();ij++){
-	px_tot+= jets_akt.at(ij).px();
-	py_tot+= jets_akt.at(ij).py();
-	pz_tot+= jets_akt.at(ij).pz();
-	E_tot+= jets_akt.at(ij).E();
-      }
-      
-      // Check energy-momentum conservation
-      if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-	std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
-	std::cout<<"px_tot = "<<px_tot<<std::endl;
-	std::cout<<"py_tot = "<<py_tot<<std::endl;
-	std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-	std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-	exit(-10);
-	std::cout<<"\n ********************************************************************** \n"<<std::endl;
+
+      // Skip this event if basic selection fails
+      if(event_weight<1e-20) continue;
+
+      // Now here comes the main analysis
+      // based on the reconstructed jets
+      // std::cout<<"Analysis UCL"<<std::endl;
+      bool tagging = analysis_4b_ucl(bjets, event_weight);
+
+      if(tagging){
+	// This event has passed all cuts
+	// and has been tagged as HH->4b
+	nev_pass++;
+	weights.push_back(event_weight);
       }
 
-      // Insert here your analysis
-      // based on the reconstructed jets 
-      // b-tagging effects are included here
-      // Returns true if the event is tagged as arising from HH->4b
-      bool hh4b_tagged = bbbb_analysis(jets_akt);
-      if(hh4b_tagged) nev_pass++;
+    }
 
-      // Here second analysis
-      // Based on jet substructure
-      // Avoid double counting as compared to the resolved regime
-      if(!hh4b_tagged){
-	bool hh4b_tagged_boosted = bbbb_analysis_boosted(jets_akt);
-	if(hh4b_tagged_boosted) nev_pass_boosted++;
-      }      
+    // Check
+    if(nev_pass != weights.size()) exit(-10);
+    
+    // Compute the total weight of the sample
+    // Should coincide with nev_pass for btag prob of 1.0 and light jet mistag prob of 0.0
+    double total_weight=0;
+    for(unsigned i=0; i < weights.size(); i++) total_weight += weights.at(i);
+    
+    std::cout<<"nev_pass, total_weight = "<<nev_pass<<"\t "<<total_weight<<std::endl;
 
-      // Output intermediate results every tot generations
-      if( ( nev_tot % 10000 ) == 0 ){
-	std::cout<<"\n\nSample = "<< eventfile<<std::endl;
-	std::cout<<"Resolved: "<<std::endl;
-	std::cout<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass<<std::endl;
-	std::cout<<"Boosted: "<<std::endl;
-	std::cout<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass_boosted<<std::endl;
-      }         
-
-    } // End loop over events in a given sample
- 
-    double const lumi=300;
-   
-    out_results<<"\n\nSample = "<< eventfile<<std::endl;
-    out_results<<"\n Resolved: "<<std::endl;
+    // Save results for cross-sections and number of events
+    // Use LHC Run II and HL-LHC luminosities
+    
+    out_results<<"\nSample = "<< eventfile<<std::endl;
     out_results<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass<<std::endl;
-    out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<xsec*double(nev_pass)/nev_tot<<std::endl;
-    out_results<<"nev_tot(300 1/fb), nev_pass (300 1/fb) = "<<xsec*lumi<< " , "<<lumi*xsec*double(nev_pass)/nev_tot<<std::endl;
-    out_results<<"nev_tot(3000 1/fb), nev_pass (3000 1/fb) = "<<xsec*lumi*10<< " , "<<lumi*10*xsec*double(nev_pass)/nev_tot<<std::endl;
-
-    out_results<<"\n Boosted: "<<std::endl;
-    out_results<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass_boosted<<std::endl;
-    out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<xsec*double(nev_pass_boosted)/nev_tot<<std::endl;
-    out_results<<"nev_tot(300 1/fb), nev_pass (300 1/fb) = "<<xsec*lumi<< " , "<<lumi*xsec*double(nev_pass_boosted)/nev_tot<<std::endl;
-    out_results<<"nev_tot(3000 1/fb), nev_pass (3000 1/fb) = "<<xsec*lumi*10<< " , "<<lumi*10*xsec*double(nev_pass_boosted)/nev_tot<<std::endl;
+    out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<total_weight/nev_tot<<std::endl;
+    out_results<<"nev_tot, nev_pass (300 1/fb) = "<< lumi_run2*xsec*total_weight/nev_tot<<std::endl;
+    out_results<<"nev_tot, nev_pass (3000 1/fb) = "<< lumi_hllhc*xsec*total_weight/nev_tot<<std::endl;
 
     double scalefactor=1.0;
     histo_plot(scalefactor);
-
+    
   } // End loop over signal and background samples
   
-  // Very final combined joint plot
+    // Very final combined joint plot
   histo_plot_final(); 
   
   // End of the main progream

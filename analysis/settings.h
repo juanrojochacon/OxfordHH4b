@@ -1,9 +1,6 @@
-//******************************************************************
-//******************************************************************
-//******************************************************************
-
-//----------------------------------------------------------------------
-// Kinematical cuts
+/*
+This are the common settings used in the analysis code
+ */
 
 // b jets
 double const pt_bjet = 25;
@@ -17,14 +14,13 @@ double const pthh_cut=40;
 
 // hadronic dijet mass resolution -> Taken to be 15 GeV
 // Taken from LHC H -> bb papers
-//double const mass_resolution = 0.12; // 15 GeV 
-double const mass_resolution = 0.06; // 15 GeV 
+double const mass_resolution = 0.12; // 15 GeV 
 
 // Higgs mass
 double const m_higgs = 125.0;
 
 // Jet definition
-double const jetR=0.7; // To avoid overlapping b's as much as possible
+double const jetR=0.5; // To avoid overlapping b's as much as possible
 
 // Jet definition for substructure
 double const Rsb = 1.2;
@@ -41,6 +37,9 @@ double const ycut = 0.09;
 double const btag_prob = 0.80; // Probability of correct b tagging
 double const btag_mistag = 0.01; // Mistag probability  
 
-//******************************************************************
-//******************************************************************
-//******************************************************************
+// Run II Lumi in 1/fb
+double const lumi_run2=300;
+double const lumi_hllhc=3000;
+
+//-------------------------------------------------------------
+
