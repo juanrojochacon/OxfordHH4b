@@ -41,3 +41,10 @@ and set it to the path to the MC samples Dropbox folder
 
 
 ************************************
+
+To compile the variableR example code, type
+
+make variableR
+
+************************************
+

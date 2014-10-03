@@ -22,6 +22,8 @@
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/Selector.hh"
 #include "fastjet/tools/MassDropTagger.hh"
+// FastJet contrib
+#include "fastjet/contrib/VariableRPlugin.hh"
 
 // Pythia8
 #include "Pythia8/Pythia.h"
@@ -30,6 +32,7 @@
 using namespace Pythia8; 
 using namespace std;
 using namespace fastjet;
+using namespace contrib;
 
 // General settings for analysis and jet reconstruction
 #include "settings.h"

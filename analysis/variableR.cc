@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------
 
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <stdio.h>
 
@@ -43,11 +44,33 @@ void read_event(vector<PseudoJet> &event);
 
 //----------------------------------------------------------------------
 int main(){
-   
+
+  std::cout<<"\n**************************************************************\n "<<std::endl;
+  std::cout<<"Test of the variable R implementation in FastJet contrib "<<std::endl;
+  std::cout<<"\n**************************************************************\n "<<std::endl;
+  
+  //----------------------------------------------------------
+  // read in input particles
+  vector<PseudoJet> event;
+  // read in input particles
+  string line;
+  ifstream in_event;
+  in_event.open("data/Pythia-PtMin1000-LHC-10ev.dat");
+  while(!in_event.eof() ){
+    getline(in_event,line);
+    //  std::cout<<line<<std::endl;
+    if (line.substr(0,4) == "#END") {break;}
+    if (line.substr(0,1) == "#") {continue;}
+    
+     istringstream linestream(line);
+     double px,py,pz,E;
+     linestream >> px >> py >> pz >> E;
+     //std::cout<<px<<" "<<py<<" "<<pz<<" "<<E<<std::endl;
+     //exit(-10);
+     PseudoJet particle(px,py,pz,E);
+     event.push_back(particle);
+   }
    //----------------------------------------------------------
-   // read in input particles
-   vector<PseudoJet> event;
-   read_event(event);
    cout << "# read an event with " << event.size() << " particles" << endl;
    
    //----------------------------------------------------------
@@ -72,26 +95,6 @@ int main(){
    cout << "Printing inclusive jets with pt > "<< ptmin <<" GeV\n";
    cout << "---------------------------------------\n";
    print_jets(clust_seqAKT, inclusive_jetsAKT);
-   cout << endl;
-   
-   //----------------------------------------------------------
-   // Same for Cambridge-Aachen variable R
-   //----------------------------------------------------------
-   
-   VariableRPlugin lvjet_pluginCA(rho, min_r, max_r, VariableRPlugin::CALIKE);
-   fastjet::JetDefinition jet_defCA(&lvjet_pluginCA);
-   fastjet::ClusterSequence clust_seqCA(event, jet_defCA);
-   
-   // tell the user what was done
-   cout << "Ran " << jet_defCA.description() << endl;
-   
-   // extract the inclusive jets with pt > 5 GeV
-   vector<fastjet::PseudoJet> inclusive_jetsCA = clust_seqCA.inclusive_jets(ptmin);
-   
-   // print them out
-   cout << "Printing inclusive jets with pt > "<< ptmin <<" GeV\n";
-   cout << "---------------------------------------\n";
-   print_jets(clust_seqCA, inclusive_jetsCA);
    cout << endl;
    
    //----------------------------------------------------------
@@ -135,30 +138,12 @@ int main(){
    cout << "Printing inclusive jets with pt > "<< ptmin <<" GeV\n";
    cout << "---------------------------------------\n";
    print_jets(clust_seqAKT_noprecluster, inclusive_jetsAKT_noprecluster);
-   cout << endl;
-
-   
+   cout << endl;   
    
    return 0;
 }
 
-// read in input particles
-void read_event(vector<PseudoJet> &event){
-   string line;
-   while (getline(cin, line)) {
-      istringstream linestream(line);
-      // take substrings to avoid problems when there are extra "pollution"
-      // characters (e.g. line-feed).
-      if (line.substr(0,4) == "#END") {return;}
-      if (line.substr(0,1) == "#") {continue;}
-      double px,py,pz,E;
-      linestream >> px >> py >> pz >> E;
-      PseudoJet particle(px,py,pz,E);
-      
-      // push event onto back of full_event vector
-      event.push_back(particle);
-   }
-}
+
 
 //----------------------------------------------------------------------
 /// a function that pretty prints a list of jets
