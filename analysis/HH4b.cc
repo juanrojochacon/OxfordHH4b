@@ -203,7 +203,7 @@ int main() {
       
       nev_tot++;
       // Uncomment if prefer to run over a subset of events only
-      if(nev_tot>5e3) break;
+      //if(nev_tot>5e3) break;
 
       if (!pythiaRun.next()) {
 	// Stop showering when the end of the LHE file is reached

@@ -183,7 +183,7 @@ void histo_plot(){
   }
 
   c_ptb2->cd();
-  histo_ptb2.back()->GetXaxis()->SetTitle("p_{T}^{b} Leading (GeV) ");
+  histo_ptb2.back()->GetXaxis()->SetTitle("p_{T}^{b} Sub-Leading (GeV) ");
   histo_ptb2.back()->GetXaxis()->CenterTitle(true);
   histo_ptb2.back()->GetYaxis()->CenterTitle(true);
   histo_ptb2.back()->GetYaxis()->SetTitle("d #sigma / d p_{T}^{b} ( AU ) ");
@@ -210,7 +210,7 @@ void histo_plot(){
   }
 
    c_ptb3->cd();
-  histo_ptb3.back()->GetXaxis()->SetTitle("p_{T}^{b} Leading (GeV) ");
+  histo_ptb3.back()->GetXaxis()->SetTitle("p_{T}^{b} Third Jet (GeV) ");
   histo_ptb3.back()->GetXaxis()->CenterTitle(true);
   histo_ptb3.back()->GetYaxis()->CenterTitle(true);
   histo_ptb3.back()->GetYaxis()->SetTitle("d #sigma / d p_{T}^{b} ( AU ) ");
@@ -237,7 +237,7 @@ void histo_plot(){
   }
 
   c_ptb4->cd();
-  histo_ptb4.back()->GetXaxis()->SetTitle("p_{T}^{b} Leading (GeV) ");
+  histo_ptb4.back()->GetXaxis()->SetTitle("p_{T}^{b} Fourth Jet (GeV) ");
   histo_ptb4.back()->GetXaxis()->CenterTitle(true);
   histo_ptb4.back()->GetYaxis()->CenterTitle(true);
   histo_ptb4.back()->GetYaxis()->SetTitle("d #sigma / d p_{T}^{b} ( AU ) ");
