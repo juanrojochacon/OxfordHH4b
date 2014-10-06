@@ -92,7 +92,7 @@ int main() {
   //
   ---------------------------------------------------------------------------*/
   
-  int const nlhe=5; // Number of signal and bkg MC samples
+  int const nlhe=6; // Number of signal and bkg MC samples
 
   for(int ilhe=0; ilhe<nlhe;ilhe++){
     
@@ -141,11 +141,18 @@ int main() {
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
     }
+    
+    // QCD background 4j
+    else if(ilhe==4) {
+      eventfile="qcd_madgraph_4j_14tev_100k_gcuts.lhe";
+      xsec = .19922E+08; // pb
+      xsec *= 1e3; // fb
+    }
 
     // ttbar productiom
     // Only fully hadronic decays considered
     // leptonic decays can be vetoed using leptons
-    else if(ilhe==4) {
+    else if(ilhe==5) {
       eventfile="qcd_madgraph_tt_hadr_14tev_100k_gcuts.lhe";
       xsec = .95450E+02; // pb
       xsec *= 1e3; // fb
