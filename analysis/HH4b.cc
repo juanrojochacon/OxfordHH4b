@@ -34,6 +34,9 @@ using namespace std;
 using namespace fastjet;
 using namespace contrib;
 
+// Units to save results
+ofstream out_ntuples;
+
 // General settings for analysis and jet reconstruction
 #include "settings.h"
 
@@ -81,6 +84,19 @@ int main() {
   // Open file to output the results
   ofstream out_results;
   out_results.open("hh4b.res");
+
+  // and this is another unit to save the event ntuples
+  // The relevant information to be saved can be easily modified
+  // The 4b system is defined by 10 uncorrelated variables, but if ANNs
+  // are used one can also input variables with non-zero correlation
+  out_ntuples.open("hh4b.ntuples");
+  if(strategy=="ucl"){
+    // This is for the UCL-like strategy
+    // sabe mass, pt and y of th 4b system
+    // the two dijet masses
+    // and all independent angular distances between the four b jets
+    out_ntuples<<"# m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
+  }
   
   /* ---------------------------------------------------------------------------
   //
@@ -169,6 +185,8 @@ int main() {
     cout<<"\n **********************************************************\n"<<endl;
     cout<<"Sample = "<<eventfile<<std::endl;
     cout<<"xsec (fb) = "<<xsec<<std::endl;
+    // For the ntuples 
+    out_ntuples<<"# Sample = "<<eventfile<<std::endl;
     cout<<"\n ***********************************************************"<<endl;
 
     // Initialize Pythia8
@@ -185,7 +203,7 @@ int main() {
       
       nev_tot++;
       // Uncomment if prefer to run over a subset of events only
-      // if(nev_tot>5e3) break;
+      if(nev_tot>5e3) break;
 
       if (!pythiaRun.next()) {
 	// Stop showering when the end of the LHE file is reached
@@ -271,6 +289,10 @@ int main() {
   
     // Plot the final combined histograms
   histo_plot_final(); 
+
+  // Close units
+  out_ntuples.close();
+  out_results.close();
   
   // End of the main progream
   return 0;

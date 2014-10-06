@@ -445,6 +445,16 @@ bool analysis_4b_ucl(vector<fastjet::PseudoJet> & bjets, double event_weight ){
   // they should also be in central rapodity, |eta| < 2.5
   double const eta_bjet_ucl = 2.5;
 
+  // Fill the histograms for the pt of the b jets before 
+  // the corresponding kinematical cuts
+  bjets = sorted_by_pt(bjets);
+  histo_fill("ptb1", event_weight, bjets.at(0).pt());
+  histo_fill("ptb2", event_weight, bjets.at(1).pt());
+  histo_fill("ptb3", event_weight, bjets.at(2).pt());
+  histo_fill("ptb4", event_weight, bjets.at(3).pt());
+  
+
+
   int const njet=4;
   // Restrict to the four leading jets in the event
   for(unsigned ijet=0; ijet<njet;ijet++){
@@ -524,8 +534,31 @@ bool analysis_4b_ucl(vector<fastjet::PseudoJet> & bjets, double event_weight ){
   
   //  std::cout<<"Event tagged as HH->4b event"<<std::endl;
 
-  return true;
+  /* Now save the ntuples to be used by the TMVA or the ANNs
+     In the UCL analysis they use
+     
+     m, y, pT of the 4b system and masses of the two dijets
+     3 decay angles (in resp. rest frames) & 2 angles between decay planes
+  */
 
+  // This is for the UCL-like strategy
+  // sabe mass, pt and y of th 4b system
+  // the two dijet masses
+  // and all independent angular distances between the four b jets
+  // out_ntuples<<"# m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
+  out_ntuples<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+    higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
+    bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
+    bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
+    bjets.at(0).delta_R(bjets.at(3))<<"\t"<<
+    bjets.at(1).delta_R(bjets.at(2))<<"\t"<<
+    bjets.at(1).delta_R(bjets.at(2))<<"\t"<<
+    bjets.at(2).delta_R(bjets.at(3))<<std::endl;
+  // Other combinations of kinematical variables could also be useful
+  // Need to investigate the kinematics of the 4b final state in more detail
+  
+  return true;
+  
 }
 
 //---------------------------------------------------------------------------------
