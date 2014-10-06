@@ -1,0 +1,47 @@
+Minutes meeting 2014/10/06
+---------------------------
+
+* Add the possibility to replace fixed R jet clustering
+with the  variable R algorithm
+Check the improvement in signal efficiency and background rejection
+
+* The parameters that Katharina derived for Higgs jets are
+rho = 500 GeV, Rmax = 1.0, Rmin = 0.2 
+
+* For b-tagging in the boosted regime, using tracking
+b tagger one can separate b quarks down to DeltaR = 0.05
+
+* Try b tagging with variable R jets, using small Rmin,
+this simulates how we we can do b tagging in the boosted regime
+
+* Can we improve the fake mistag rates? Can we go below 1%?
+This could be a limiting factor of the analysis
+
+* To tag  a b quark, its pt should be larger than 25 or 30 GeV
+
+* We agreed to plot the pt spectrum of the b jets from the
+Higgs decays
+leading, subleading etc
+
+* Add in the cut flow the numbers that quantify the
+effect of b tag both for signal and for background
+
+* To improve separation of signal and background, we agreed
+to use a home-made discriminant based on artificial neural networks,
+which we can validate with ROOT's TMVA.
+
+For this, the code will output the ntuples that then can be 
+fed into the ANNs
+
+ANN should be a able also to determine which of the kinematical
+variables are more relevant
+
+* We agreed that JR implements in the code the modifications above,
+and then we create N branches in GitHub (Nathan, Katharina) to be able
+to develop the code in parallel but then easily be able to merge back.
+
+* The plan is that by next week we have all the code installed
+and running, and we can begin assessing the impact of various 
+analysis strategies.
+
+*******************************
