@@ -63,7 +63,7 @@ int main()
   cout<<"\n ***************************************************"<<endl;
 
   // Set here the path to the MC samples Dropbox folder
-  string samples_path="~/Dropbox/HH4bMC/";
+  string samples_path=std::string(SAMPLEDIR);
 
   // Select the analysis strategy
   // Here one can add more analysis strategies keeping the same I/O format

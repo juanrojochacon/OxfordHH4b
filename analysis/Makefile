@@ -8,6 +8,8 @@ SHELL = /bin/sh
 
 BINDIR=bin
 
+SAMPLEDIR= -DSAMPLEDIR=\"/Users/nathanhartland/Dropbox/HH4bMC/\"
+
 # root libraries
 ROOTFLAGS = $(shell root-config --cflags) $(shell root-config --glibs)
 # fastjet libraries
@@ -19,10 +21,8 @@ LHAPDFFLAGS = $(shell lhapdf-config --cppflags) $(shell lhapdf-config --ldflags)
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --prefix)\"
 
-# Makefile options
-#-include $(PYTHIA8DIR)/config.mk
-
-CXXFLAGS = $(ROOTFLAGS) $(FASTJETFLAGS) $(PYTHIAFLAGS) $(LHAPDFFLAGS) $(PYTHIADIR)
+# All flags
+CXXFLAGS = $(ROOTFLAGS) $(FASTJETFLAGS) $(PYTHIAFLAGS) $(LHAPDFFLAGS) $(PYTHIADIR) $(SAMPLEDIR)
 
 #
 # The rest of the Makefile should not be edited
