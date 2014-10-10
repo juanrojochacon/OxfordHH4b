@@ -12,8 +12,7 @@ creating plots etc.
 
 It requires that you have installed:
 
-* Pythia8 (I have tested up to v8.180):
-http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz
+* Pythia8 (I have tested up to v8.186):
 
 * Root
 
@@ -27,18 +26,9 @@ to access the Variable R jets
 
 * LHAPDFv5
 
-The paths for these programs needs to be edited in the 
-first of the Makefile. The rest of the Makefile should be
-left untouched.
-
-************************************
-
-To run the code, you should edit in HH4b.cc
-
-"string samples_path"
-
-and set it to the path to the MC samples Dropbox folder
-
+The config programs for each of these dependencies should be reachable
+by the makefile. You should edit the Makefile samples path to the
+Dropbox location
 
 ************************************
 
