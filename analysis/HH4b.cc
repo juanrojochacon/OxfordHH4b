@@ -48,8 +48,8 @@ ofstream out_ntuples;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-int main() {
-  
+int main() 
+{  
   cout<<"\n ***************************************************"<<endl;
   cout<<"\n Double Higgs Production in the 4b final state \n "<<endl;
   cout<<"***************************************************\n"<<endl;
@@ -63,7 +63,7 @@ int main() {
   cout<<"\n ***************************************************"<<endl;
 
   // Set here the path to the MC samples Dropbox folder
-  string samples_path="/Users/juanrojo/Dropbox/HH4bMC/";
+  string samples_path="~/Dropbox/HH4bMC/";
 
   // Select the analysis strategy
   // Here one can add more analysis strategies keeping the same I/O format
@@ -190,7 +190,7 @@ int main() {
     cout<<"\n ***********************************************************"<<endl;
 
     // Initialize Pythia8
-    Pythia pythiaRun;
+    Pythia pythiaRun(std::string(PYTHIADIR)+"/xmldoc/");
     InitPythia(pythiaRun, eventfile);
     
     // Counters
