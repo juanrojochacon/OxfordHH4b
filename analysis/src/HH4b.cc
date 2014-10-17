@@ -83,13 +83,13 @@ int main()
 
   // Open file to output the results
   ofstream out_results;
-  out_results.open(std::string(RESDIR) + "/hh4b.res");
+  out_results.open("hh4b.res");
 
   // and this is another unit to save the event ntuples
   // The relevant information to be saved can be easily modified
   // The 4b system is defined by 10 uncorrelated variables, but if ANNs
   // are used one can also input variables with non-zero correlation
-  out_ntuples.open(std::string(RESDIR) + "/hh4b.ntuples");
+  out_ntuples.open("hh4b.ntuples");
   if(strategy=="ucl"){
     // This is for the UCL-like strategy
     // sabe mass, pt and y of th 4b system

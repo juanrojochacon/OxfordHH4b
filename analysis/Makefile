@@ -1,50 +1,112 @@
-SHELL = /bin/sh
-
-###################################
-####################################
-####################################
+################################################################################
 #
-# USER DEFINED PATHS
+# Makefile to compile and link C programs
+#
+# Version valid for Linux machines
+#
+# "make" compiles and links the specified main programs and modules
+# using the specified libraries (if any), and produces the executables
+# 
+# "make clean" removes all files created by "make"
+#
+# Dependencies on included files are automatically taken care of
+#
+################################################################################
 
-# Binary directory
-BINDIR=bin
+# Local directories
+SOURCEDIR=src
+INCLUDEDIR=inc
+RESDIR=res
+DESTDIR=.
+
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/Users/nathanhartland/Dropbox/HH4bMC/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --prefix)\"
 
+MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 
-# root libraries
-ROOTFLAGS = $(shell root-config --cflags) $(shell root-config --glibs)
+# Compiler options
+##################
+
+GCC = g++
+
+LHAPDFLIBS= $(shell lhapdf-config --libs)
+LHAPDFCFLAGS= $(shell lhapdf-config --cxxflags)
+
+ROOTCFLAGS=$(shell root-config --cflags)
+ROOTLIBS=$(shell root-config --glibs)
+
 # fastjet libraries
-FASTJETFLAGS = $(shell fastjet-config --libs) $(shell fastjet-config --cxxflags)
+FASTJETLIBS = $(shell fastjet-config --libs) 
+FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
+
 # Pythia 8 
-PYTHIAFLAGS = $(shell pythia8-config --cxxflags) $(shell pythia8-config --libs)
-# LHAPDF
-LHAPDFFLAGS = $(shell lhapdf-config --cppflags) $(shell lhapdf-config --ldflags)
+PYTHIALIBS = $(shell pythia8-config --libs)
+PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
 
+CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I $(INCLUDEDIR) $(LHAPDFCFLAGS) $(ROOTCFLAGS) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(MACROS)
+LIBS = $(LHAPDFLIBS) $(ROOTLIBS) $(FASTJETLIBS) $(PYTHIALIBS)
 
-# All flags
-CXXFLAGS = $(ROOTFLAGS) $(FASTJETFLAGS) $(PYTHIAFLAGS) $(LHAPDFFLAGS) $(PYTHIADIR) $(SAMPLEDIR)
+INCPATH = $(CFLAGS)
 
-#
-# The rest of the Makefile should not be edited
-#
-####################################
-####################################
-####################################
+#####################################
 
-# Create an executable that links to LHAPDF
-HH4b variableR:
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $@.cc -o $(BINDIR)/$@.exe 
-	@ln -fs $(BINDIR)/$@.exe $@.exe
+# main programs and required modules 
 
-# Clean up: remove executables and outdated files.
-.PHONY: clean
+MAIN =  HH4b
+
+MODULES = 
+
+############################## do not change ###################################
+
+VPATH=$(SOURCEDIR)
+
+all: rmxeq mkdep mkxeq
+#	mv $(MAIN) $(DESTDIR)
+.PHONY: all
+
+SHELL=/bin/bash
+
+CC=$(GCC)
+
+PGMS= $(MAIN) $(MODULES)
+INCDIRS = $(INCPATH)
+
+OBJECTS = $(addsuffix .o,$(MODULES))
+LDFLAGS = $(LIBS) -include $(addsuffix .d,$(PGMS))
+
+# rule to make dependencies
+$(addsuffix .d,$(PGMS)): %.d: %.cc Makefile
+	@ $(CC) -MM -ansi $(INCDIRS) $< -o $@
+
+# rule to compile source programs
+$(addsuffix .o,$(PGMS)): %.o: %.cc Makefile
+	$(CC) $< -c $(CFLAGS) $(INCDIRS) -o $@
+
+# rule to link object files
+$(MAIN): %: %.o $(OBJECTS) Makefile
+	$(CC) $< $(OBJECTS) $(CFLAGS) $(LDFLAGS) -o $@
+
+# produce executables
+mkxeq: $(MAIN)
+
+# remove old executables and old error log file
+rmxeq:
+	@ -rm -f $(MAIN); \
+        echo "delete old executables"		
+
+# make dependencies
+mkdep:  $(addsuffix .d,$(PGMS))
+	@ echo "generate tables of dependencies"
+
+# clean directory 
 clean:
-	rm -rf $(BINDIR)
-	rm -rf *.exe
-	rm -f *~; rm -f \#*; rm -f core* *.eps *.root *.C *.dat *.res *.tex *.pdf
+	@ -rm -rf *.d *.o *~ $(MAIN)
 
-#####################################################################################################
+.PHONY: clean
+
+################################################################################
+
+
+
