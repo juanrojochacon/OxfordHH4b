@@ -2,6 +2,15 @@
 This are the common settings used in the analysis code
  */
 
+#pragma once
+
+// FastJet
+#include "fastjet/Selector.hh"
+#include "fastjet/ClusterSequence.hh"
+#include "fastjet/tools/MassDropTagger.hh"
+// FastJet contrib
+#include "fastjet/contrib/VariableRPlugin.hh"
+
 // Cuts for the b-jet candidates for b-tagging
 double const pt_btagging=15;
 
@@ -11,14 +20,6 @@ double const mass_resolution = 0.12; // 15 GeV
 
 // Higgs mass
 double const m_higgs = 125.0;
-
-// Jet definition
-// Small radius jet reconstruction
-double const jetR_0p5=0.5; // To avoid overlapping b's as much as possible
-// Large radius jet reconstruction
-double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
-
-JetDefinition CA10(cambridge_algorithm, jetR_1p2);
 
 // Set parameters of the mass drop tagger for jet substructure
 // mu = 0.67 and y = 0.09 are the default choice in FastJet
