@@ -111,7 +111,7 @@ int main()
 
 	}
 
-	cout << "Init EC: " << fitness<<endl;
+	cout << "Init Fitness: " << fitness<<endl;
 	cout << "******************************************************"<<endl;
 
 	//const int nGen = 500000;
