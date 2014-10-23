@@ -74,5 +74,6 @@ void Analysis::InitSample(string const& sampleName)
 	const string ntup_path = analysisRoot + "ntuples/" + sampleName + "NTuple.dat";
 	std::cout << "Writing NTuple to " << ntup_path << std::endl; 
 	sampleNTuple.open("." + analysisRoot + "ntuples/" + sampleName + "NTuple.dat");
+	sampleNTuple<<tupleSpec<<std::endl;
 }
 

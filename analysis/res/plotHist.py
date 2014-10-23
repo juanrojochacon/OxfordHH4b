@@ -70,4 +70,4 @@ for x in xrange(0,len(xbin)):
 
 ax.plot(xbin,yval,ls = "steps-pre", color = colours[icol])
 fig.savefig(os.path.splitext(source)[0]+'.pdf')
-fig.savefig(os.path.splitext(source)[0]+'.png', dpi=80)
+#fig.savefig(os.path.splitext(source)[0]+'.png', dpi=80)

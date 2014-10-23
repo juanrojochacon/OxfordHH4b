@@ -41,6 +41,8 @@ class Analysis
 		int nPassed; 			//!< Number of events passing analysis cuts
 		double passedWeight; 	//!< Total weight of passed events
 
+		string tupleSpec; 		//!< Specification of tuples in output
+
 		std::ofstream totalNTuple;	//!< Ntuple record for all events
 		std::ofstream sampleNTuple;	//!< Ntuple record per LHE sample
 

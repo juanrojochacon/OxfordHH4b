@@ -26,7 +26,8 @@ Analysis("durham")
 	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
 	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
 	
- 	totalNTuple<<"# signal source pthh "<<std::endl;
+ 	tupleSpec = "# signal source pthh ";
+ 	totalNTuple<<tupleSpec<<std::endl;
 }
 
 void DurhamAnalysis::Analyse(string const& sampleID, bool const& signal, finalState const& fs)

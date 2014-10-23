@@ -14,7 +14,6 @@ with all the settings for the shower and underlying event
  */
 void InitPythia(Pythia8::Pythia & pythiaRun, string eventfile);
 
-
 /*
   Get the information on all final state particles
  */
