@@ -14,15 +14,13 @@ It requires that you have installed:
 
 * Pythia8 (I have tested up to v8.186):
 
-* Root
+* YODA 1.3.0 (https://yoda.hepforge.org)
 
-* Fastjet
-http://fastjet.fr/
+* Fastjet http://fastjet.fr/
 
 Here one also needs to install fastjet contrib
 http://fastjet.hepforge.org/contrib/
 to access the Variable R jets
-
 
 * LHAPDFv5
 

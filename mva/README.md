@@ -1,6 +1,5 @@
-**************
-README
-*************
+MVA README
+---------------------
 
 In this folder we have the code for the MVA analysis
 
@@ -15,7 +14,7 @@ It requires that you have installed:
 
 ************************************
 
-** Input data
+Input data
 ---------------------
 
 MVA reads plaintext Ntuples produced by HH4b.
@@ -27,7 +26,7 @@ The code reads the Ntuples from (for now)
 
 ************************************
 
-** Output and plotting
+Output and plotting
 ---------------------
 
 The code outputs the results of the MVA classification
