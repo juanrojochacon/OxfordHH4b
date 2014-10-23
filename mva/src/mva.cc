@@ -106,8 +106,8 @@ int main()
 		const double tpr = *outProb;
 		const double wgt = 1.0;//trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
 
-		//fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
-		fitness += wgt*pow((t-tpr),2.0);	// MSE
+		fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
+		//fitness += wgt*pow((t-tpr),2.0);	// MSE
 
 	}
 
@@ -135,8 +135,8 @@ int main()
 			const double tpr = *outProb;
 			const double wgt = 1.0;//trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
 
-			//mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
-			mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
+			mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
+			//mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
 		}
 
 		if (mut_fitness < fitness)
