@@ -30,7 +30,11 @@ class Analysis
 		string const& GetName() const {return analysisName;};
 		string const& GetRoot() const {return analysisRoot;};
 
+		int const& GetNPassed() const {return nPassed;};
+		double const& GetWeight() const {return passedWeight;};
+
 		void InitSample(string const& sampleID);
+		void ClearWeights();
 
 		virtual void Analyse(string const& sampleID, bool const& signal, finalState const&) = 0;
 

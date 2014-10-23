@@ -21,12 +21,18 @@
 #include "ucl.h"
 #include "durham.h"
 
+#include "settings.h"
+
 using namespace Pythia8;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 int main() 
 {  
+
+  // Results output
+  ofstream out_results;
+  out_results.open("./" + std::string(RESDIR) + "/hh4b.res");
 
   // Set here the path to the MC samples Dropbox folder
   string samples_path=std::string(SAMPLEDIR);
@@ -165,11 +171,34 @@ int main()
      finalState fs; get_final_state_particles(pythiaRun, fs);
      for (size_t i=0; i<HH4bAnalyses.size(); i++)
       HH4bAnalyses[i]->Analyse(samplename, signal, fs);
+
   }
+
+
+  // Compute the total weight of the sample
+    // Should coincide with nev_pass for btag prob of 1.0 and light jet mistag prob of 0.0
+    for (size_t i=0; i<HH4bAnalyses.size(); i++)
+    {
+      const double total_weight = HH4bAnalyses[i]->GetWeight();
+      const int nev_pass = HH4bAnalyses[i]->GetNPassed();
+
+      // Save results for cross-sections and number of events
+      // Use LHC Run II and HL-LHC luminosities
+      out_results<<"\nSample = "<< samplename<<" , Analysis = "<< HH4bAnalyses[i]->GetName()<<std::endl;
+      out_results<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass<<std::endl;
+      out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<total_weight/nev_tot<<std::endl;
+      // LHC run II numbers
+      out_results<<"nev_tot, nev_pass (300 1/fb) = "<< lumi_run2*xsec*total_weight/nev_tot<<std::endl;
+      // HL-LHC numbers
+      out_results<<"nev_tot, nev_pass (3000 1/fb) = "<< lumi_hllhc*xsec*total_weight/nev_tot<<std::endl;
+  }
+
 
 }
 
+// Finish up
 yoda_export();
+out_results.close();
 
   // End of the main progream
 return 0;

@@ -77,3 +77,10 @@ void Analysis::InitSample(string const& sampleName)
 	sampleNTuple<<tupleSpec<<std::endl;
 }
 
+void Analysis::ClearWeights()
+{
+	// Reset event counters
+	nPassed = 0;
+	passedWeight = 0;
+}
+

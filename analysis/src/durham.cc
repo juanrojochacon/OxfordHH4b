@@ -51,13 +51,13 @@ void DurhamAnalysis::Analyse(string const& sampleID, bool const& signal, finalSt
 
 	// Same as in the UCL analysis
 	// require that these two leading fat jets are not too separated in rapidity
-	double delta_eta_dijet_fatjet=1.5;
+	const double delta_eta_dijet_fatjet=1.5;
 	double delta_eta_dijet = fabs(higgs_candidates.at(0).eta()- higgs_candidates.at(1).eta());
 	if(delta_eta_dijet > delta_eta_dijet_fatjet) return;
 
 	// Higgs mass window condition
-	double mass_diff1 = fabs(higgs_candidates.at(0).m()-m_higgs)/m_higgs;
-	double mass_diff2 = fabs(higgs_candidates.at(1).m()-m_higgs)/m_higgs;
+	const double mass_diff1 = fabs(higgs_candidates.at(0).m()-m_higgs)/m_higgs;
+	const double mass_diff2 = fabs(higgs_candidates.at(1).m()-m_higgs)/m_higgs;
 	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return;
 
 	// Histograms for the pt of the HH system
