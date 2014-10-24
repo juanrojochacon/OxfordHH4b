@@ -20,41 +20,26 @@ all: rmxeq mkdep mkxeq
 SOURCEDIR=src
 INCLUDEDIR=inc
 RESDIR=res
+DATADIR=dat
 DESTDIR=.
 
 # Add sourcedir to vpath
 VPATH=$(SOURCEDIR)
 
-# MC sample directory
-SAMPLEDIR= -DSAMPLEDIR=\"/Users/nathanhartland/Dropbox/HH4bMC/\"
-# Pythia 8 xmldoc directory
-PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --prefix)\"
-
-MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
+# Global macros
+MACROS = -DRESDIR=\"$(RESDIR)\" -DDATADIR=\"$(DATADIR)\"
 
 # Compiler options
 ##################
 
 GCC = g++
 
-# LHAPDF
-LHAPDFLIBS= $(shell lhapdf-config --libs)
-LHAPDFCFLAGS= $(shell lhapdf-config --cxxflags)
+# gsl 
+GSLLIBS = $(shell gsl-config --libs) 
+GSLCFLAGS = $(shell gsl-config --cflags)
 
-# fastjet 
-FASTJETLIBS = $(shell fastjet-config --libs) 
-FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
-
-# Pythia 8 
-PYTHIALIBS = $(shell pythia8-config --libs)
-PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
-
-# YODA
-YODALIBS = $(shell yoda-config --libs)
-YODACFLAGS = $(shell yoda-config --cxxflags)
-
-CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I $(INCLUDEDIR) $(LHAPDFCFLAGS) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(MACROS)
-LIBS = $(LHAPDFLIBS) $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS)
+CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I $(INCLUDEDIR) $(GSLCFLAGS) $(MACROS)
+LIBS = $(GSLLIBS)
 
 INCPATH = $(CFLAGS)
 
@@ -62,9 +47,9 @@ INCPATH = $(CFLAGS)
 
 # main programs and required modules 
 
-MAIN =  HH4b
+MAIN =  mva
 
-MODULES = yodagrams analysis utils ucl durham
+MODULES = parametrisation random trainingdata
 
 ############################## do not change ###################################
 
