@@ -173,35 +173,15 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, string const
     return;
   }
 
-  // Now we need to implement b-tagging
-  // Here different options possible
-  // To begin with, most agressive option
-  // Require only two b quarks in the fat jet
-  // each with pt > 40 GeV
-  // No restruction on how close they can be in angle
-  double const pt_btagging_largeR=40.0;
+  
 
   // Get the jet constituents
   int const nb_fatjet=2;
-  for (unsigned i = 0; i < njet; i++) {
+  for (unsigned i = 0; i < njet; i++) 
+  {
+    // Tag b's
+    const int nb = BTagging(jets_akt[i]);
 
-    vector<fastjet::PseudoJet> jet_constituents = jets_akt.at(i).constituents();
-
-    // number of b quarks
-    int nb=0;
-
-    // Loop over constituents and look for b quarks
-    // These b quarks must be hard enough
-    for(unsigned i=0;i<jet_constituents.size(); i++){
-      int userid= jet_constituents.at(i).user_index();
-      double pt_bcandidate = jet_constituents.at(i).pt();
-      if(abs(userid) ==5 ){
-	// Cut in pt
-	if( pt_bcandidate > pt_btagging_largeR){
-	  nb++;
-	}
-      }
-    }
     // Now assign the event weight
     // This can be refined, for example requiring for fakes to have subjets with
     // pt above some threshold
@@ -210,11 +190,38 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, string const
     if(nb ==0 ) event_weight *= pow(btag_mistag,2.0);
   }
 
-  //std::cout<<"jet_clustering_analysis_largeR completed"<<std::endl;
-
   return;
 
 } 
 
 // ----------------------------------------------------------------------------------
+
+    // Now we need to implement b-tagging
+  // Here different options possible
+  // To begin with, most agressive option
+  // Require only two b quarks in the fat jet
+  // each with pt > 40 GeV
+  // No restruction on how close they can be in angle
+  int DurhamAnalysis::BTagging(fastjet::PseudoJet const& jet) const
+  {
+    // pT cut in Durham approach
+    double const pt_btagging_largeR=40.0;
+
+    const vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+
+    // Loop over constituents and look for b quarks
+    // These b quarks must be hard enough
+    int nb=0;
+    for(unsigned i=0;i<jet_constituents.size(); i++)
+    {
+      const int userid= jet_constituents.at(i).user_index();
+      const double pt_bcandidate = jet_constituents.at(i).pt();
+
+      if(abs(userid) ==5 )
+        if( pt_bcandidate > pt_btagging_largeR) // Cut in pt
+          nb++;
+    }
+
+    return nb;
+  }
 

@@ -23,5 +23,9 @@ class DurhamAnalysis : public Analysis
 		void Analyse(string const& sampleID, bool const& signal, finalState const&);
 
 	private:
+		// Jet clustering for Durham stragegy
 		void JetCluster_Durham(finalState const& particles, string const& sampleID, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight);
+
+		// Durham b tagging (returns number of bs)
+		int BTagging(fastjet::PseudoJet const& jet) const;
 };
