@@ -85,28 +85,3 @@ void Analysis::ClearWeights()
 	nPassed = 0;
 	passedWeight = 0;
 }
-
-
-bool Analysis::BTagging( fastjet::PseudoJet const& jet ) const
-{
-	// Cuts for the b-jet candidates for b-tagging
-	double const pt_btagging=15;
-
-	// Get the jet constituents
-	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
-
-	// Loop over constituents and look for b quarks
-	// also b quarks must be above some minimum pt
-	for(size_t i=0; i<jet_constituents.size(); i++)
-	{
-		// Flavour of jet constituent
-		const int userid= jet_constituents.at(i).user_index();
-		const double pt_bcandidate = jet_constituents.at(i).pt();
-
-		if(abs(userid) ==5 )
-			if( pt_bcandidate > pt_btagging)
-		  		return true;
-	}
-
- 	return false; // no b-jets found
-}

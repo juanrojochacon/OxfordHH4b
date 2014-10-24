@@ -20,5 +20,10 @@ class UCLAnalysis : public Analysis
 		void Analyse(string const& sampleID, bool const& signal, finalState const&);
 
 	private:
+		// Cluster Jets according to UCL strategy
 		void JetCluster_UCL(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight);
+		
+		// Tag bs according to UCL strategy
+		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method 
+
 };

@@ -42,8 +42,6 @@ class Analysis
 		void BookHistogram(YODA::Histo1D*, string const& name);
 		void FillHistogram(string const& rname, string const& sample, double const& weight, double const& coord );
 
-		virtual bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method 
-
 		int nPassed; 			//!< Number of events passing analysis cuts
 		double passedWeight; 	//!< Total weight of passed events
 
@@ -59,6 +57,6 @@ class Analysis
 
 		std::list<YODA::Histo1D*> protoHistograms; //!< Prototype histograms
 		std::list<string> bookedHistograms; 	   //!< Histograms booked into system
-		
+
 };
 
