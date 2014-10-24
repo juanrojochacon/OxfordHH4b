@@ -52,7 +52,6 @@ int main()
   //
   ---------------------------------------------------------------------------*/
 
-
   int const nlhe=6; // Number of signal and bkg MC samples
 
   for(int ilhe=0; ilhe<nlhe;ilhe++){

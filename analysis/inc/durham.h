@@ -7,7 +7,6 @@
 #include <vector>
 
 
-
 /*
 This analysis is inspired by the Durham group, based on jet substructure
 See for example the slides of their talk at Boost 2014

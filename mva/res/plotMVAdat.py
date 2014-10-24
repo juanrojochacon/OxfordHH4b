@@ -76,6 +76,11 @@ for idat in xrange(1,len(sys.argv)):
 
 	rocax.plot(falsepos,truepos, label = basename)
 
+# Gridlines
+rocax.xaxis.grid(True)
+rocax.yaxis.grid(True)
+
+# Legend
 legend = rocax.legend(loc='best')
 legend.get_frame().set_alpha(0.8)
 roc.savefig('roc.pdf')

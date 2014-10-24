@@ -39,7 +39,7 @@ covMat = numpy.corrcoef(kinematics)
 # Plot correlation matrix
 plt.xticks(rotation=70)
 fig, ax = plt.subplots()
-cax = ax.pcolor(covMat)
+cax = ax.pcolor(covMat, vmin=-1, vmax=1)
 
 # Adjustments
 ax.axis([0,11,0,11])

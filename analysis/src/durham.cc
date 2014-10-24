@@ -16,6 +16,12 @@
 static double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
 static fastjet::JetDefinition CA10(fastjet::cambridge_algorithm, jetR_1p2);
 
+// Set parameters of the mass drop tagger for jet substructure
+// mu = 0.67 and y = 0.09 are the default choice in FastJet
+static const double mu = 0.67;
+static const double ycut = 0.09;
+// The choice ycut = 0.15 is also recommended by Gavin to optimize S/sqrt(B)
+
 //-------------------------------------------------------------------
 
 	
