@@ -39,8 +39,8 @@ int main()
 
   // Initialise analyses
   vector<Analysis*> HH4bAnalyses;
-  HH4bAnalyses.push_back(new UCLAnalysis());
-  HH4bAnalyses.push_back(new DurhamAnalysis());
+  HH4bAnalyses.push_back(new UCLAnalysis("total"));
+  HH4bAnalyses.push_back(new DurhamAnalysis("total"));
   
   /* ---------------------------------------------------------------------------
   //
@@ -146,8 +146,9 @@ int main()
     InitPythia(pythiaRun, eventfile);
 
     // Initialse Analyses for sample
-    for (size_t i=0; i<HH4bAnalyses.size(); i++)
-      HH4bAnalyses[i]->InitSample(samplename);
+    vector<Analysis*> sampleAnalyses;
+    sampleAnalyses.push_back(new UCLAnalysis(samplename));
+    sampleAnalyses.push_back(new DurhamAnalysis(samplename));
     
     int nev_tot = 0;
 
@@ -168,22 +169,28 @@ int main()
 
       // Obtain the final state
      finalState fs; get_final_state_particles(pythiaRun, fs);
+
+     // Total analyses
      for (size_t i=0; i<HH4bAnalyses.size(); i++)
-      HH4bAnalyses[i]->Analyse(samplename, signal, fs);
+      HH4bAnalyses[i]->Analyse(signal, fs);
+
+      // Sample analyses
+     for (size_t i=0; i<sampleAnalyses.size(); i++)
+      sampleAnalyses[i]->Analyse(signal, fs);
 
   }
 
 
   // Compute the total weight of the sample
     // Should coincide with nev_pass for btag prob of 1.0 and light jet mistag prob of 0.0
-    for (size_t i=0; i<HH4bAnalyses.size(); i++)
+    for (size_t i=0; i<sampleAnalyses.size(); i++)
     {
-      const double total_weight = HH4bAnalyses[i]->GetWeight();
-      const int nev_pass = HH4bAnalyses[i]->GetNPassed();
+      const double total_weight = sampleAnalyses[i]->GetWeight();
+      const int nev_pass = sampleAnalyses[i]->GetNPassed();
 
       // Save results for cross-sections and number of events
       // Use LHC Run II and HL-LHC luminosities
-      out_results<<"\nSample = "<< samplename<<" , Analysis = "<< HH4bAnalyses[i]->GetName()<<std::endl;
+      out_results<<"\nSample = "<< samplename<<" , Analysis = "<< sampleAnalyses[i]->GetName()<<std::endl;
       out_results<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass<<std::endl;
       out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<total_weight/nev_tot<<std::endl;
       // LHC run II numbers
@@ -192,13 +199,18 @@ int main()
       out_results<<"nev_tot, nev_pass (3000 1/fb) = "<< lumi_hllhc*xsec*total_weight/nev_tot<<std::endl;
   }
 
+  // Free sample analyses
+ for (size_t i=0; i<sampleAnalyses.size(); i++)
+  delete sampleAnalyses[i];
+
 
 }
 
 // Finish up
-yoda_export();
 out_results.close();
-
+for (size_t i=0; i<HH4bAnalyses.size(); i++)
+  delete HH4bAnalyses[i];
+  
   // End of the main progream
 return 0;
 

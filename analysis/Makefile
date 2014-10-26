@@ -64,7 +64,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = yodagrams analysis utils ucl durham
+MODULES = analysis utils ucl durham
 
 ############################## do not change ###################################
 

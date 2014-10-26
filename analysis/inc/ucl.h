@@ -15,9 +15,9 @@ https://indico.cern.ch/event/302395/session/12/contribution/26/material/slides/1
 class UCLAnalysis : public Analysis
 {
 	public:
-		UCLAnalysis();
+		UCLAnalysis(std::string const& sampleName);
 
-		void Analyse(string const& sampleID, bool const& signal, finalState const&);
+		void Analyse(bool const& signal, finalState const&);
 
 	private:
 		// Cluster Jets according to UCL strategy

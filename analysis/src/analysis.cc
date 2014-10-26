@@ -6,82 +6,114 @@
 #include <iostream>
 
 #include "YODA/Histo1D.h"
+#include "YODA/WriterFLAT.h"
 
 #include "fastjet/Selector.hh"
 
+  // General string hasher
+static int IntHash(const std::string& _str)
+{
+	const char* s = _str.c_str();
+	unsigned h = 31;
+	while (*s) {
+		h = (h * 54059) ^ (s[0] * 76963);
+		s++;
+	}
+	return h % 86969;
+};
 
-Analysis::Analysis(string const& name):
+Analysis::Analysis(string const& name, string const& sample):
 analysisName(name),
-analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/")
+analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
+sampleName(sample)
 {
 	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl; 
-	totalNTuple.open( "." + analysisRoot + "ntuples/totalNTuple.dat");
+	outputNTuple.open( "." + analysisRoot + "ntuples/" +sampleName+ "_NTuple.dat");
 };
 
 
 Analysis::~Analysis()
 {
-	totalNTuple.close();
-	if (sampleNTuple.is_open())
-		sampleNTuple.close();
+	// Close NTuple output
+	outputNTuple.close();
+
+	// Export files
+	Export();
+
 }
 
 
 void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 {
+	// Histo path
+	const string path  = analysisRoot + "histodat/"+sampleName+"_" + name + ".dat";
+
 	// Add to histogram prototypes
 	hist->setTitle(name);
-	protoHistograms.push_back(hist);
+	hist->setPath(path);
 
-	// Generate total sample histogram
-	const string totalPath  = analysisRoot + "histodat/Total_" + name + ".dat";
-	YODA::Histo1D* totalHisto = new YODA::Histo1D(*hist);
-	totalHisto->setPath(totalPath);
-
-	// Add histo to analysis
-	yoda_add(totalHisto);
-	bookedHistograms.push_back(totalPath);
-}
-
-void Analysis::FillHistogram(string const& rname, string const& sname, double const& weight, double const& coord )
-{
-	// Path for both total and sample histograms
-	const string totalPath  = analysisRoot + "histodat/Total_" + rname + ".dat";
-	const string samplePath = analysisRoot + "histodat/" + sname + "_" + rname + ".dat";
-
-	// Fill histograms
-	yoda_fill(totalPath,  weight, coord);
-	yoda_fill(samplePath, weight, coord);
-}
-
-
-void Analysis::InitSample(string const& sampleName)
-{
-	// Generate histograms
-	std::list<YODA::Histo1D*>::iterator iProto;
-	for (iProto = protoHistograms.begin(); iProto != protoHistograms.end(); iProto++)
+	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.find(IntHash(name));
+	if (iMap != bookedHistograms.end())
 	{
-		// Generate new sample histogram
-		const string samplePath  = analysisRoot + "histodat/" + sampleName + "_" + (*iProto)->title() + ".dat";
-		YODA::Histo1D* sampleHisto = new YODA::Histo1D(*(*iProto));
-		sampleHisto->setPath(samplePath);
-
-		// Add to yoda list
-		yoda_add(sampleHisto);
+		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
+		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
+	}
+	else
+	{
+		bookedHistograms.insert(std::make_pair(IntHash(name),hist));
 	}
 
-	// new Ntuple
-	if (sampleNTuple.is_open())
-		sampleNTuple.close();
-	const string ntup_path = analysisRoot + "ntuples/" + sampleName + "NTuple.dat";
-	std::cout << "Writing NTuple to " << ntup_path << std::endl; 
-	sampleNTuple.open("." + analysisRoot + "ntuples/" + sampleName + "NTuple.dat");
-	sampleNTuple<<tupleSpec<<std::endl;
+//	hist->setAnnotation(std::string("XLabel"), std::string("p_T (GeV)"));
+
 }
 
-void Analysis::ClearWeights()
+void Analysis::FillHistogram(string const& rname, double const& weight, double const& coord )
 {
-	// Reset event counters
-	nPassed = 0;
-	passedWeight = 0;
+	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.find(IntHash(rname));
+	if (iMap != bookedHistograms.end())
+	{	(*iMap).second->fill(coord,weight);	}
+	else
+	{
+		std::cerr << "Analysis::FillHistogram error: Cannot find Histogram: "<<rname<<std::endl;
+		exit(-1);
+	}
+}
+
+void Analysis::Export()
+{
+	// Write out cut flow
+	std::cout << "Exporting cutFlow: "<<analysisRoot + "cutFlow.dat"<<std::endl;
+	std::ofstream cutFlow("./" + analysisRoot + sampleName + "_cutFlow.dat");
+	for (size_t i=0; i<cutWeight.size(); i++)
+		cutFlow << i << "\t" << cutWeight[i].first <<"\t" << cutWeight[i].second<<std::endl;
+
+	// Export histograms
+	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.begin();
+	while (iMap != bookedHistograms.end())
+	{
+		std::cout << "Writing Histogram: "<< (*iMap).second->path()<<std::endl;
+		YODA::WriterFLAT::write("." + (*iMap).second->path(), *(*iMap).second);
+		iMap++;
+	}
+}
+
+void Analysis::Cut(std::string const& cutStr, double const& weight)
+{
+	// Check for already booked cuts
+	for (size_t i=0; i< cutWeight.size(); i++)
+		if (cutWeight[i].first.compare(cutStr) == 0)
+		{
+			cutWeight[i].second += weight;
+			return;
+		}
+
+	// No cut found, book a new one
+	cutWeight.push_back(std::make_pair<const std::string, double>(cutStr, weight));
+	return;
+}
+
+void Analysis::Pass(double const& weight)
+{
+	nPassed++;
+	passedWeight += weight;
 }

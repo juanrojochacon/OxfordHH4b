@@ -25,24 +25,24 @@ static const double ycut = 0.09;
 //-------------------------------------------------------------------
 
 	
-DurhamAnalysis::DurhamAnalysis():
-Analysis("durham")
+DurhamAnalysis::DurhamAnalysis(std::string const& sampleName):
+Analysis("durham", sampleName)
 {
 	// Higgs histograms
 	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
 	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
 	
- 	tupleSpec = "# signal source pthh ";
- 	totalNTuple<<tupleSpec<<std::endl;
+ 	const std::string tupleSpec = "# signal pthh ";
+ 	outputNTuple<<tupleSpec<<std::endl;
 }
 
-void DurhamAnalysis::Analyse(string const& sampleID, bool const& signal, finalState const& fs)
+void DurhamAnalysis::Analyse(bool const& signal, finalState const& fs)
 {
 	double event_weight = 0.0;
 
 	// Fetch jets
 	std::vector<fastjet::PseudoJet> higgs_candidates;
-	JetCluster_Durham(fs, sampleID, higgs_candidates, event_weight);
+	JetCluster_Durham(fs, higgs_candidates, event_weight);
 
 	// Fails cuts
 	if(event_weight<1e-30) return;
@@ -69,14 +69,12 @@ void DurhamAnalysis::Analyse(string const& sampleID, bool const& signal, finalSt
 	// Histograms for the pt of the HH system
 	// no cuts are applied on this variable
 	fastjet::PseudoJet dihiggs= higgs_candidates.at(0)+higgs_candidates.at(1);
-	FillHistogram("pthh", sampleID, event_weight, dihiggs.pt() );
+	FillHistogram("pthh", event_weight, dihiggs.pt() );
 
-	totalNTuple << signal <<"\t" << sampleID <<"\t"<<dihiggs.pt()<<endl;
-  	sampleNTuple << signal <<"\t" << sampleID <<"\t"<<dihiggs.pt()<<endl;
+	outputNTuple << signal <<"\t"<<dihiggs.pt()<<endl;
 
-    // Increment passed counter
-	nPassed++;
-	passedWeight += event_weight;
+  // Pass event
+	Pass(event_weight);
 	
 }
 
@@ -86,7 +84,7 @@ It also checkes that energy momentum is conserved event by event
 This applies for small R jet clustering with the anti-kt algorithm
  */
 
-void DurhamAnalysis::JetCluster_Durham(finalState const& particles, string const& sampleID, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight)
+void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight)
 {  
   // Perform jet clustering with anti-kT
   // jetR is defined in settings.h
@@ -134,8 +132,8 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, string const
 
   // The two hardest jets must have pt > 200 GeV
   // Before doing the cut fill the ptH histogram
-  FillHistogram("pth", sampleID, event_weight, jets_akt.at(0).pt() );
-  FillHistogram("pth", sampleID, event_weight, jets_akt.at(1).pt() );
+  FillHistogram("pth", event_weight, jets_akt.at(0).pt() );
+  FillHistogram("pth", event_weight, jets_akt.at(1).pt() );
 
   // Now the cut on the pt of the Higgs candidates
   double const pt_largeRjet = 200.0;
