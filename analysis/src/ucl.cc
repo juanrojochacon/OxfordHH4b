@@ -27,7 +27,7 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
 
-	const std::string tupleSpec = "# signal m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
+	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
 	outputNTuple<<tupleSpec<<std::endl;
 }
 
@@ -151,7 +151,7 @@ void UCLAnalysis::Analyse(bool const& signal, finalState const& fs)
 	// the two dijet masses
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-	outputNTuple <<signal <<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<<sampleName<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
