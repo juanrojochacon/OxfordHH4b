@@ -8,14 +8,14 @@
 
 
 /*
-This is the analysis used by the us
+Basic analysis
  */
-class OxfordAnalysis : public Analysis
+class BasicAnalysis : public Analysis
 {
 	public:
-		OxfordAnalysis();
+		BasicAnalysis( string const& sample );
 
-		void Analyse(string const& sampleID, bool const& signal, finalState const&);
+		void Analyse(bool const& signal, double const& weightnorm, finalState const&);
 
 	private:
 };

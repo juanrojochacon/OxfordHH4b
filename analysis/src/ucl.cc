@@ -31,9 +31,10 @@ Analysis("ucl", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 }
 
-void UCLAnalysis::Analyse(bool const& signal, finalState const& fs)
+void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
-	double event_weight = 0.0;
+	// Set initial weight
+	double event_weight = weightnorm;
 
 	// Fetch jets
 	std::vector<fastjet::PseudoJet> bjets_unsort;
@@ -211,9 +212,6 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
   std::cout<<"\n ********************************************************************** \n"<<std::endl;
 }
 
-  // Now Initialize the event weight
-event_weight=1.0;
-
   // We require at least 4 jets in the event, else discard event
 int const njet=4;
 if(jets_akt.size() < njet) 
@@ -227,6 +225,7 @@ if(jets_akt.size() < njet)
   // we can simulate the effects of b tagging
 
   // Loop over the 4 hardest jets in event only
+const double initial_weight = event_weight;
 for(unsigned ijet=0; ijet<njet;ijet++)
 	if( BTagging(jets_akt[ijet]) )   // Check if at least one of its constituents is a b quark
 	{
@@ -240,7 +239,7 @@ for(unsigned ijet=0; ijet<njet;ijet++)
 	}
 
 	// cut from btagging
-	Cut("btag", 1.0 - event_weight);
+	Cut("4btag", initial_weight - event_weight);
 
 } 
 

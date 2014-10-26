@@ -18,8 +18,8 @@ static double const jetR_0p4=0.4;
 //-------------------------------------------------------------------
 
 	
-OxfordAnalysis::OxfordAnalysis():
-Analysis("oxford")
+BasicAnalysis::BasicAnalysis(string const& sample):
+Analysis("basic", sample)
 {
 	const double ptb_min=0;
 	const double ptb_max=600;
@@ -35,12 +35,11 @@ Analysis("oxford")
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
 
-	tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 ";
-
- 	totalNTuple<<tupleSpec<<std::endl;
+	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 ";
+ 	outputNTuple<<tupleSpec<<std::endl;
 }
 
-void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState const& fs)
+void BasicAnalysis::Analyse(string const& sampleID, bool const& signal, finalState const& fs)
 {
 	double event_weight = 0.0;
 
@@ -175,102 +174,3 @@ void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState
 	passedWeight += event_weight;
 	
 }
-
-/*
-This routine read the event kinematics and performs the jet clustering
-It also checkes that energy momentum is conserved event by event
-This applies for small R jet clustering with the anti-kt algorithm
- */
-
-void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight)
-{
-
-  // Perform jet clustering with anti-kT
-  // jetR is defined in settings.h
-  // Note that here we use a small R clustering
-  fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR_0p5);
-  // Cluster all particles
-  // The cluster sequence has to be saved to be used for jet substructure
-  fastjet::ClusterSequence cs_akt(particles, akt);
-  // Get all the jets (no pt cut here)
-  std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  
-  // Check again four-momentum conservation, this time applied to jets
-  // formed from the clustering of quarks and gluons (and beam remnants as well)
-  double px_tot=0;
-  double py_tot=0;
-  double pz_tot=0;
-  double E_tot=0;
-  for(unsigned ij=0;ij<jets_akt.size();ij++){
-    px_tot+= jets_akt.at(ij).px();
-    py_tot+= jets_akt.at(ij).py();
-    pz_tot+= jets_akt.at(ij).pz();
-    E_tot+= jets_akt.at(ij).E();
-  }
-  
-  // Check energy-momentum conservation
-  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
-      || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-    std::cout<<"\n ********************************************************************** \n"<<std::endl;
-    std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
-    std::cout<<"px_tot = "<<px_tot<<std::endl;
-    std::cout<<"py_tot = "<<py_tot<<std::endl;
-    std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-    std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-    exit(-10);
-    std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  }
-  
-  // Now Initialize the event weight
-  event_weight=1.0;
-
-  // We require at least 4 jets in the event, else discard event
-  int const njet=4;
-  if(jets_akt.size() < njet) {
-    event_weight=0;
-    return;
-  }
-
-  // By looking at the jet constituents
-  // we can simulate the effects of b tagging
-
-  // Loop over the 4 hardest jets in event only
-  for(unsigned ijet=0; ijet<njet;ijet++){
-  
-    // Check if at least one of its constituents is a b quark
-    bool btag = btagging(ijet, jets_akt);
-    
-    // If the jet has a pt > pt_btagging, assign this jet to be
-    // a b jet
-    if(jets_akt.at(ijet).pt() > pt_btagging){
-
-      // Account for b tagging efficiency
-      if(btag) {
-	bjets.push_back(jets_akt.at(ijet));
-	event_weight *= btag_prob;
-      }
-      // Else, account for the fake b-tag probabililty
-      else{
-	bjets.push_back(jets_akt.at(ijet));
-	event_weight *= btag_mistag;
-      }
-      // std::cout<<"ijet, btag = "<<ijet<<"\t"<<btag<<std::endl;
-      
-    }
-
-  }
-    
-  // Exit if less that 4 b jets found
-  // Recall that b jets require a minimum pt 
-  // to simulate realistic b tagging
-  bjets=sorted_by_pt(bjets);
-  if(bjets.size() < njet) {
-    event_weight=0;
-    return;
-  }
-
-
-} 
-
-// ----------------------------------------------------------------------------------
-

@@ -17,7 +17,7 @@ class UCLAnalysis : public Analysis
 	public:
 		UCLAnalysis(std::string const& sampleName);
 
-		void Analyse(bool const& signal, finalState const&);
+		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 
 	private:
 		// Cluster Jets according to UCL strategy

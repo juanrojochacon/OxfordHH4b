@@ -20,7 +20,7 @@ class DurhamAnalysis : public Analysis
 	public:
 		DurhamAnalysis(std::string const& sampleName);
 
-		void Analyse(bool const& signal, finalState const&);
+		void Analyse(bool const& signal, double const& weightnorm, finalState const&);
 
 	private:
 		// Jet clustering for Durham stragegy

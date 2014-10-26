@@ -35,7 +35,7 @@ class Analysis
 		int const& GetNPassed() const {return nPassed;};
 		double const& GetWeight() const {return passedWeight;};
 
-		virtual void Analyse(bool const& signal, finalState const&) = 0;
+		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&) = 0;
 		void Export();
 
 	protected:

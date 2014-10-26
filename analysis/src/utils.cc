@@ -73,6 +73,74 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string eventfile){
 
 
 /*
+This routine initializes Pythia8
+with all the settings for the shower and underlying event
+ */
+void InitPythia_PartonLevel(Pythia8::Pythia & pythiaRun, string eventfile){
+
+  // Initialize random seed
+  srand (time(NULL));
+  std::cout<<"time = "<<time(NULL)<<std::endl;
+  double random = double(rand())/RAND_MAX;
+  std::cout<<"\n\n Random number I = "<<random<<"\n\n"<<std::endl;
+  random = double(rand())/RAND_MAX;
+  std::cout<<"\n\n Random number II = "<<random<<"\n\n"<<std::endl;
+  
+  // Random seed
+  pythiaRun.readString("Random:setSeed = on");
+  double random_seed_pythia = 100000 * double(rand())/RAND_MAX;
+  ostringstream o;
+  o<<"Random:seed = "<<int(random_seed_pythia);
+  cout<<o.str()<<endl;
+  pythiaRun.readString(o.str());
+
+  // Initialize Les Houches Event File run. List initialization information.
+  pythiaRun.readString("Beams:frameType = 4"); 
+  
+  // Shower settings
+ 
+  // No shower
+  pythiaRun.readString("SpaceShower:QEDshowerByQ  = off"); // QED shower off
+  pythiaRun.readString("SpaceShower:QEDshowerByL  = off"); // QED shower off
+  pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
+  pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
+  pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
+
+  
+  // Initial and final state radiation deactivated
+  pythiaRun.readString("PartonLevel:ISR = off");  // Shower on
+  pythiaRun.readString("PartonLevel:FSR = off");  // Shower on
+  
+  // No hadronization
+  pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
+ 
+  // For the time being no  UE or PU included
+  pythiaRun.readString("PartonLevel:MI = off"); // Off multiple interactions (UE) 
+ 
+  // Higgs decays always into 4b
+  // Need to correct by hand the xsecs for the BR(HH->4b) branching fraction
+  pythiaRun.readString("25:onMode = off");
+  pythiaRun.readString("25:onIfAll = 5 -5");
+
+  // b quarks and do not decay
+  // They are treated as stable particles in the detector
+  pythiaRun.readString("5:mayDecay = no");
+  pythiaRun.readString("-5:mayDecay = no");
+
+  // Read the Les Houches Event File
+  string ofile;
+  ofile="Beams:LHEF = "+eventfile;
+  pythiaRun.readString(ofile.c_str());
+
+   // Main initialization
+  pythiaRun.init();
+
+  std::cout<<"\n Pythia8 Initialized \n "<<std::endl;
+  
+}
+
+
+/*
   Get the information on all final state particles
  */
 void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particles){

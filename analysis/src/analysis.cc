@@ -27,7 +27,7 @@ analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
 sampleName(sample)
 {
 	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl; 
-	outputNTuple.open( "." + analysisRoot + "ntuples/" +sampleName+ "_NTuple.dat");
+	outputNTuple.open( "." + analysisRoot + sampleName + "/ntuple.dat");
 };
 
 
@@ -45,7 +45,7 @@ Analysis::~Analysis()
 void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 {
 	// Histo path
-	const string path  = analysisRoot + "histodat/"+sampleName+"_" + name + ".dat";
+	const string path  = analysisRoot +sampleName+"/histo_" + name + ".dat";
 
 	// Add to histogram prototypes
 	hist->setTitle(name);
@@ -81,10 +81,18 @@ void Analysis::FillHistogram(string const& rname, double const& weight, double c
 void Analysis::Export()
 {
 	// Write out cut flow
-	std::cout << "Exporting cutFlow: "<<analysisRoot + "cutFlow.dat"<<std::endl;
-	std::ofstream cutFlow("./" + analysisRoot + sampleName + "_cutFlow.dat");
+	std::cout << "Exporting cutFlow: "<<analysisRoot + sampleName + "/cutFlow.dat"<<std::endl;
+	std::ofstream cutFlow("./" + analysisRoot + sampleName + "/cutFlow.dat");
+
+	// Total weights
+	double sumWeight = 0.0;
 	for (size_t i=0; i<cutWeight.size(); i++)
-		cutFlow << i << "\t" << cutWeight[i].first <<"\t" << cutWeight[i].second<<std::endl;
+		sumWeight += cutWeight[i].second;
+
+	for (size_t i=0; i<cutWeight.size(); i++)
+		cutFlow << i << "\t" << cutWeight[i].first <<"\t" << cutWeight[i].second<<"\t"<< 100.0*(cutWeight[i].second/sumWeight) <<std::endl;
+	cutFlow << cutWeight.size()<<"\t"<<"(Passed)"<<"\t"<<passedWeight<<std::endl;
+	cutFlow.close();
 
 	// Export histograms
 	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.begin();

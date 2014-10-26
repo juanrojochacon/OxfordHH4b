@@ -36,9 +36,9 @@ Analysis("durham", sampleName)
  	outputNTuple<<tupleSpec<<std::endl;
 }
 
-void DurhamAnalysis::Analyse(bool const& signal, finalState const& fs)
+void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
-	double event_weight = 0.0;
+	double event_weight = weightnorm;
 
 	// Fetch jets
 	std::vector<fastjet::PseudoJet> higgs_candidates;
@@ -119,13 +119,11 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
     exit(-10);
     std::cout<<"\n ********************************************************************** \n"<<std::endl;
   }
-  
-  // Now initialize the event weight
-  event_weight=1.0;
 
   // We require at least 2 large-R jets in the event, else discard event
   int const njet=2;
   if(jets_akt.size() < njet) {
+    Cut("2jets", event_weight);
     event_weight=0;
     return;
   }
@@ -138,7 +136,9 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   // Now the cut on the pt of the Higgs candidates
   double const pt_largeRjet = 200.0;
   for(unsigned ijet=0;ijet<njet;ijet++){
-    if(jets_akt.at(ijet).pt() < pt_largeRjet) {
+    if(jets_akt.at(ijet).pt() < pt_largeRjet) 
+    {
+      Cut("jet_pT", event_weight);
       event_weight=0;
       return;
     }
@@ -166,7 +166,9 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
 
   // If we don't have a mass-drop tag in each of the two leading large-R jets
   // discard the event
-  if(higgs_candidates.size()!=2) {
+  if(higgs_candidates.size()!=2) 
+  {
+    Cut("massdrop", event_weight);
     event_weight=0.0;
     return;
   }
@@ -175,6 +177,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
 
   // Get the jet constituents
   int const nb_fatjet=2;
+  const double initial_weight = event_weight;
   for (unsigned i = 0; i < njet; i++) 
   {
     // Tag b's
@@ -188,6 +191,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
     if(nb ==0 ) event_weight *= pow(btag_mistag,2.0);
   }
 
+  Cut("btag", initial_weight - event_weight);
   return;
 
 } 
