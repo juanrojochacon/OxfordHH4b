@@ -71,7 +71,7 @@ void DurhamAnalysis::Analyse(bool const& signal, finalState const& fs)
 	fastjet::PseudoJet dihiggs= higgs_candidates.at(0)+higgs_candidates.at(1);
 	FillHistogram("pthh", event_weight, dihiggs.pt() );
 
-	outputNTuple << signal <<"\t"<<sampleName<<"\t"<<dihiggs.pt()<<endl;
+	outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<dihiggs.pt()<<endl;
 
   // Pass event
 	Pass(event_weight);

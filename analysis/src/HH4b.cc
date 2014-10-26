@@ -14,9 +14,6 @@
 #include "Pythia8/Pythia.h"
 
 #include "utils.h"
-#include "yodagrams.h"
-
-// Analyses
 #include "analysis.h"
 #include "ucl.h"
 #include "durham.h"

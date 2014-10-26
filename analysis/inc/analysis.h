@@ -30,6 +30,7 @@ class Analysis
 
 		string const& GetName() const {return analysisName;};
 		string const& GetRoot() const {return analysisRoot;};
+		string const& GetSample() const {return sampleName;};
 
 		int const& GetNPassed() const {return nPassed;};
 		double const& GetWeight() const {return passedWeight;};

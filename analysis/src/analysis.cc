@@ -1,7 +1,6 @@
 // analyis.cc jr/nh 21/10/14
 
 #include "analysis.h"
-#include "yodagrams.h"
 
 #include <iostream>
 
