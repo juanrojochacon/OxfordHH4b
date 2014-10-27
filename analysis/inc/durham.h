@@ -18,13 +18,13 @@ Here we only use BDRS tagging, no attemp to use Shower Deconstruction
 class DurhamAnalysis : public Analysis
 {
 	public:
-		DurhamAnalysis();
+		DurhamAnalysis(std::string const& sampleName);
 
-		void Analyse(string const& sampleID, bool const& signal, finalState const&);
+		void Analyse(bool const& signal, double const& weightnorm, finalState const&);
 
 	private:
 		// Jet clustering for Durham stragegy
-		void JetCluster_Durham(finalState const& particles, string const& sampleID, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight);
+		void JetCluster_Durham(finalState const& particles, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight);
 
 		// Durham b tagging (returns number of bs)
 		int BTagging(fastjet::PseudoJet const& jet) const;

@@ -10,8 +10,8 @@
 
 #include "YODA/Histo1D.h"
 
-UCLAnalysis::UCLAnalysis():
-Analysis("ucl")
+UCLAnalysis::UCLAnalysis(std::string const& sampleName):
+Analysis("ucl", sampleName)
 {
 	const double ptb_min=0;
 	const double ptb_max=600;
@@ -27,14 +27,14 @@ Analysis("ucl")
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
 
-	tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
-
-	totalNTuple<<tupleSpec<<std::endl;
+	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
+	outputNTuple<<tupleSpec<<std::endl;
 }
 
-void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState const& fs)
+void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
-	double event_weight = 0.0;
+	// Set initial weight
+	double event_weight = weightnorm;
 
 	// Fetch jets
 	std::vector<fastjet::PseudoJet> bjets_unsort;
@@ -51,17 +51,21 @@ void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState
 	// Fill the histograms for the pt of the b jets before 
 	// the corresponding kinematical cuts
 	vector<fastjet::PseudoJet> bjets = sorted_by_pt(bjets_unsort);
-	FillHistogram("ptb1", sampleID, event_weight, bjets.at(0).pt() );
-	FillHistogram("ptb2", sampleID, event_weight, bjets.at(1).pt() );
-	FillHistogram("ptb3", sampleID, event_weight, bjets.at(2).pt() );
-	FillHistogram("ptb4", sampleID, event_weight, bjets.at(3).pt() );
+	FillHistogram("ptb1", event_weight, bjets.at(0).pt() );
+	FillHistogram("ptb2", event_weight, bjets.at(1).pt() );
+	FillHistogram("ptb3", event_weight, bjets.at(2).pt() );
+	FillHistogram("ptb4", event_weight, bjets.at(3).pt() );
 
 	int const njet=4;
 	// Restrict to the four leading jets in the event
 	for(unsigned ijet=0; ijet<njet;ijet++)
 	{
 		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
-			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) return;
+			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
+			{
+				Cut("bjet_kin", event_weight);	// Kinematics cut on b-jets
+				return;
+			}
 	}
 
 	// The next step is to apply the dijet selection
@@ -101,29 +105,40 @@ void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState
 	const fastjet::PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
 
 	// Histograms before cut in pt Higgs candidates
-	FillHistogram("pth", sampleID, event_weight, higgs1.pt() );
-	FillHistogram("pth", sampleID, event_weight, higgs2.pt() );
+	FillHistogram("pth", event_weight, higgs1.pt() );
+	FillHistogram("pth", event_weight, higgs2.pt() );
 
 
 	// Now, the pt of the dijet Higgs candidates must be above 150 GeV
 	const double pt_dijet_ucl=150.0;
-	if(higgs1.pt() < pt_dijet_ucl ||higgs1.pt() < pt_dijet_ucl ) return;
+	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
+	{
+		Cut("pT_dijet", event_weight);	// Kinematics cut on b-jets 
+		return;
+	}
 
 	// These two dijets cannot be too far in DeltaR
 	// Check exactly the cut used: deltaR or delta_eta?
 	const double delta_eta_dijet_ucl=1.5;
 	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
-	if(delta_eta_dijet > delta_eta_dijet_ucl) return;
+	if(delta_eta_dijet > delta_eta_dijet_ucl) 
+	{
+		Cut("deltaR_dijet", event_weight);
+		return;
+	}
 
 	// Higgs mass window condition
 	const double mass_diff1 = fabs(higgs1.m()-m_higgs)/m_higgs;
 	const double mass_diff2 = fabs(higgs2.m()-m_higgs)/m_higgs;
-	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return;
-
+	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+	{
+		Cut("Higgs_massRes", event_weight);
+		return;
+	}
 	// Histograms for the pt of the HH system
 	// no cuts are applied on this variable
 	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
-	FillHistogram("pthh", sampleID, event_weight, dihiggs.pt() );
+	FillHistogram("pthh", event_weight, dihiggs.pt() );
 
 	// Now save the ntuples to be used by the TMVA or the ANNs
 	//   In the UCL analysis they use
@@ -137,7 +152,7 @@ void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState
 	// the two dijet masses
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-	totalNTuple <<signal <<"\t"<< sampleID <<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
@@ -148,9 +163,8 @@ void UCLAnalysis::Analyse(string const& sampleID, bool const& signal, finalState
 	// Other combinations of kinematical variables could also be useful
 	// Need to investigate the kinematics of the 4b final state in more detail
 
-	// Increment passed counter
-	nPassed++;
-	passedWeight += event_weight;
+	// Pass event
+	Pass(event_weight);
 
 }
 
@@ -198,13 +212,11 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
   std::cout<<"\n ********************************************************************** \n"<<std::endl;
 }
 
-  // Now Initialize the event weight
-event_weight=1.0;
-
   // We require at least 4 jets in the event, else discard event
 int const njet=4;
 if(jets_akt.size() < njet) 
 {
+	Cut("4jet",event_weight);
 	event_weight=0;
 	return;
 }
@@ -213,6 +225,7 @@ if(jets_akt.size() < njet)
   // we can simulate the effects of b tagging
 
   // Loop over the 4 hardest jets in event only
+const double initial_weight = event_weight;
 for(unsigned ijet=0; ijet<njet;ijet++)
 	if( BTagging(jets_akt[ijet]) )   // Check if at least one of its constituents is a b quark
 	{
@@ -225,16 +238,8 @@ for(unsigned ijet=0; ijet<njet;ijet++)
 		event_weight *= btag_mistag;
 	}
 
-  	// Exit if less that 4 b jets found
-  	// Recall that b jets require a minimum pt 
-	// to simulate realistic b tagging
-
-	// nh -> This is automatically satisfied at the moment
-	// Could be a bias?
-	if(bjets.size() < njet) {
-		event_weight=0;
-		return;
-	}
+	// cut from btagging
+	Cut("4btag", initial_weight - event_weight);
 
 } 
 

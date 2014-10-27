@@ -5,6 +5,7 @@
 #include <fstream>
 #include <list>
 #include <vector>
+#include <map>
 
 using std::string;
 
@@ -24,39 +25,38 @@ typedef std::vector<fastjet::PseudoJet> finalState;
 class Analysis
 {
 	public:
-		Analysis(string const& name);
-		~Analysis();
+		Analysis(string const& name, string const& sample);
+		virtual ~Analysis();
 
 		string const& GetName() const {return analysisName;};
 		string const& GetRoot() const {return analysisRoot;};
+		string const& GetSample() const {return sampleName;};
 
 		int const& GetNPassed() const {return nPassed;};
 		double const& GetWeight() const {return passedWeight;};
 
-		void InitSample(string const& sampleID);
-		void ClearWeights();
-
-		virtual void Analyse(string const& sampleID, bool const& signal, finalState const&) = 0;
+		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&) = 0;
+		void Export();
 
 	protected:
 		void BookHistogram(YODA::Histo1D*, string const& name);
-		void FillHistogram(string const& rname, string const& sample, double const& weight, double const& coord );
+		void FillHistogram(string const& rname, double const& weight, double const& coord );
 
-		int nPassed; 			//!< Number of events passing analysis cuts
-		double passedWeight; 	//!< Total weight of passed events
+		void Cut(string const& cutname, double const& weight);
+		void Pass(double const& weight);
 
-		string tupleSpec; 		//!< Specification of tuples in output
-
-		std::ofstream totalNTuple;	//!< Ntuple record for all events
-		std::ofstream sampleNTuple;	//!< Ntuple record per LHE sample
+		std::ofstream outputNTuple;	//!< Ntuple record for all events
 
 	private:
 		// Standard analysis info
 		const string analysisName;		//!< Name of analysis
 		const string analysisRoot;		//!< Path to root of analysis results folder
+		const string sampleName;		//!< Name of the current sample
 
-		std::list<YODA::Histo1D*> protoHistograms; //!< Prototype histograms
-		std::list<string> bookedHistograms; 	   //!< Histograms booked into system
+		int nPassed; 			//!< Number of events passing analysis cuts
+		double passedWeight; 	//!< Total weight of passed events
 
+		std::map<int,YODA::Histo1D*> bookedHistograms;
+		std::vector<std::pair<const std::string, double> > cutWeight;
 };
 
