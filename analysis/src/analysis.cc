@@ -24,9 +24,11 @@ static int IntHash(const std::string& _str)
 Analysis::Analysis(string const& name, string const& sample):
 analysisName(name),
 analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
-sampleName(sample)
+sampleName(sample),
+nPassed(0),
+passedWeight(0)
 {
-	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl; 
+	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
 	outputNTuple.open( "." + analysisRoot + sampleName + "/ntuple.dat");
 };
 
