@@ -21,13 +21,20 @@ using std::endl;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-int main() 
+int main(int argc, char* argv[])
 {  
 	// Initialise RNG
 	rng_init(235243356345);
+  
+  if (argc != 2)
+  {
+    cerr << "Error: Wrong number of arguments!"<<endl;
+    cerr << "Usage: mva <path_to_trainingdata>" <<endl;
+    exit(-1);
+  }
 
 	// Read datafile
-	string dataPath = "./"+ string(DATADIR) + "/trainingData.dat";
+	string dataPath = argv[1];
 	cout << "Reading data from "<< dataPath<<endl;
 
 	ifstream datafile(dataPath.c_str());
@@ -104,7 +111,7 @@ int main()
 		// Compute cross-entropy
 		const double t = trainingData[i]->getSignal();
 		const double tpr = *outProb;
-		const double wgt = 1.0;//trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
+		const double wgt = trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
 
 		fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
 		//fitness += wgt*pow((t-tpr),2.0);	// MSE
@@ -159,7 +166,7 @@ int main()
 	}
 	arch << "_"<<nGen<<"-Gen";
 
-	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_MSE.dat";
+	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_CE.dat";
 	ofstream mvaout(mvafile.c_str());
 
 	cout << "******************************************************"<<endl;
