@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
 			// Compute cross-entropy
 			const double t = trainingData[i]->getSignal();
 			const double tpr = *outProb;
-			const double wgt = 1.0;//trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
+			const double wgt = trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
 
 			mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
 			//mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
