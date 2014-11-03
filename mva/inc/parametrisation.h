@@ -36,7 +36,7 @@ public:
   
   string const& GetParamName() const {return fParamName;};
 
-  void Export(string const& path) const;
+  virtual void Export(string const& path, string const& kinstream) const = 0;
     
 protected:
   int   fNParameters;   //!< Total number of parameters
@@ -65,6 +65,8 @@ public:
   const int*  GetArch() const {return fArch;};
   const int   GetNumNodeParams(int const& layer);                   //!< Returns the number of parameters that belong to a specific node (including biases).
   double*       GetNodeParams   (int const& layer, int const& node);  //!< Returns a pointer to the fParameters coordinate representing the parameters for a specific node
+
+  void Export(string const& path, string const& kinstream) const;
     
 private:
   const int fNLayers;   //!< Number of layers

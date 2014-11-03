@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
+#include <ostream>
+#include <fstream>
 
 using namespace std;
 
@@ -67,12 +69,6 @@ using namespace std;
     fParameters[i] = t->fParameters[i];
   
   return;
-}
-
-void Parametrization::Export(string const& path) const
-{
- // ofstream outputParam(path.c_str());
-
 }
 
 // ******************** MLP *********************************
@@ -268,3 +264,30 @@ void Parametrization::Export(string const& path) const
 
     return &fWeightMatrix[layer-1][node];
   }
+
+  void MultiLayerPerceptron::Export(string const& path, string const& inputs) const
+  {
+    ofstream outputParam(path.c_str());
+    for (size_t i=0; i<fNLayers; i++)
+      outputParam << fArch[i]<<"\t";
+    outputParam<<endl;
+    outputParam << inputs<<endl;
+    outputParam << "** Node, Previous Node, Threshold, Weight ** "<<endl;
+
+    int iNode = fArch[0];
+    int lNode = 0;
+    for (int i=1; i<(fNLayers); i++)
+    {
+      for (int j=0; j<fArch[i]; j++)
+      {
+        double *p = &fWeightMatrix[i-1][j*(1+fArch[i-1])]; // seems to help the compiler out
+        for (int k=0; k<fArch[i-1]; k++) // <= due to threshold term
+            outputParam << iNode<<"\t"<<k+lNode<<"\t"<<-*(p+fArch[i-1])<< "\t"<< *(p+k) <<endl; 
+        iNode++;
+      }
+
+      lNode+=fArch[i-1];
+    }
+
+  outputParam.close();
+}

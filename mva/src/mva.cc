@@ -48,8 +48,12 @@ int main(int argc, char* argv[])
 
 	// Count entries
 	int nKin = 0;
+	stringstream kinstream;
 	while (linestream >> line)
+	{
+		kinstream << line<<"\t";
 		nKin++;
+	}
 	
 	cout <<nKin << " kinematic points found"<< endl;
 
@@ -122,16 +126,17 @@ int main(int argc, char* argv[])
 	cout << "******************************************************"<<endl;
 
 	//const int nGen = 500000;
-	const int nGen = 50000;
+	const int nGen = 10000;
 	for (int i=0; i< nGen; i++)
 	{
 		MultiLayerPerceptron mutant(mlp);
 		// Mutate
 		const int NParam =  mutant.GetNParameters();
-        mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(0.2);
+    mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(0.2);
 
-        // Compute EC
-        double mut_fitness = 0;
+    // Compute EC
+    double mut_fitness = 0;
+    
 		for (size_t i=0; i<trainingData.size(); i++)
 		{
 			*outProb = 0;
@@ -180,6 +185,9 @@ int main(int argc, char* argv[])
 	mvaout.close();
 
 	cout << "******************************************************"<<endl;
+
+	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_CE.net";
+	mlp.Export(netfile, kinstream.str());
 
 	// End of the main progream
 	return 0;
