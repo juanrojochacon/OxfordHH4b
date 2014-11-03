@@ -7,10 +7,10 @@ import numpy
 
 # Setup ROC plot
 roc, rocax = plt.subplots()
-rocax.plot([0,1],[0,1], color='grey')
+rocax.plot([0,1],[1,0], color='grey')
 
-rocax.set_xlabel("False positive rate")
-rocax.set_ylabel("True positive rate")
+rocax.set_ylabel("Background rejection")
+rocax.set_xlabel("Signal efficiency")
 
 for idat in xrange(1,len(sys.argv)):
 
@@ -42,9 +42,6 @@ for idat in xrange(1,len(sys.argv)):
 	ax.set_ylim([0,8])
 
 
-	legend = ax.legend(loc='best')
-	legend.get_frame().set_alpha(0.8)
-
 	ax.set_xlabel("Neural network response")
 
 	numpoints = str( len(bkgprob) + len(sigprob) ) + " events: " + str(len(sigprob)) + " signal, " + str(len(bkgprob)) + " background."
@@ -65,7 +62,7 @@ for idat in xrange(1,len(sys.argv)):
 		for bkg in bkgprob:
 			if bkg > th:
 				fp = fp+1
-		falsepos.append(fp/float(len(bkgprob)))
+		falsepos.append(1- fp/float(len(bkgprob)))
 
 		tp = 0
 		for sig in sigprob:
@@ -74,7 +71,7 @@ for idat in xrange(1,len(sys.argv)):
 		truepos.append(tp/float(len(sigprob)))
 
 
-	rocax.plot(falsepos,truepos, label = basename)
+	rocax.plot(truepos, falsepos, label = basename)
 
 # Gridlines
 rocax.xaxis.grid(True)
