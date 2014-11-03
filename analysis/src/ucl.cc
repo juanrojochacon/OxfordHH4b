@@ -17,6 +17,13 @@ Analysis("ucl", sampleName)
 	const double ptb_max=600;
 	const int nbin_ptb=20;
 
+	// 4b system histograms
+	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b");
+	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b");
+
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs1");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs2");
+
 	// Higgs histograms
 	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
 	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
@@ -27,8 +34,23 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
 
+
+
+	const double DeltaRmin = 0;
+	const double DeltaRmax = 5;
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4");
+
 	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
 	outputNTuple<<tupleSpec<<std::endl;
+
+	// Order cutflow
+	Cut("Two dijets", 0);
+	Cut("Higgs window", 0);
 }
 
 void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -63,7 +85,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
 			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
 			{
-				Cut("bjet_kin", event_weight);	// Kinematics cut on b-jets
+				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
 				return;
 			}
 	}
@@ -113,7 +135,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double pt_dijet_ucl=150.0;
 	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
 	{
-		Cut("pT_dijet", event_weight);	// Kinematics cut on b-jets 
+		Cut("Two dijets", event_weight);	// Kinematics cut on b-jets 
 		return;
 	}
 
@@ -123,7 +145,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
 	if(delta_eta_dijet > delta_eta_dijet_ucl) 
 	{
-		Cut("deltaR_dijet", event_weight);
+		Cut("Two dijets", event_weight);
 		return;
 	}
 
@@ -132,7 +154,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double mass_diff2 = fabs(higgs2.m()-m_higgs)/m_higgs;
 	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
 	{
-		Cut("Higgs_massRes", event_weight);
+		Cut("Higgs window", event_weight);
 		return;
 	}
 	// Histograms for the pt of the HH system
@@ -162,6 +184,20 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	bjets.at(2).delta_R(bjets.at(3))<<std::endl; 
 	// Other combinations of kinematical variables could also be useful
 	// Need to investigate the kinematics of the 4b final state in more detail
+
+	// Fill remaining histograms
+	FillHistogram("m4b", event_weight, dihiggs.m() );
+	FillHistogram("y4b", event_weight, dihiggs.rapidity() );
+
+	FillHistogram("mHiggs1", event_weight, higgs1.m() );
+	FillHistogram("mHiggs2", event_weight, higgs2.m() );
+
+	FillHistogram("DeltaR_b1b2", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
+	FillHistogram("DeltaR_b1b3", event_weight, bjets.at(0).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b1b4", event_weight, bjets.at(0).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b2b3", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b2b4", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b3b4", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
 
 	// Pass event
 	Pass(event_weight);
@@ -216,7 +252,7 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
 int const njet=4;
 if(jets_akt.size() < njet) 
 {
-	Cut("4jet",event_weight);
+	Cut("Two dijets",event_weight);
 	event_weight=0;
 	return;
 }
@@ -239,7 +275,7 @@ for(unsigned ijet=0; ijet<njet;ijet++)
 	}
 
 	// cut from btagging
-	Cut("4btag", initial_weight - event_weight);
+	Cut("Two dijets", initial_weight - event_weight);
 
 } 
 

@@ -26,7 +26,6 @@ using namespace Pythia8;
 
 int main() 
 {  
-
   // Results output
   ofstream out_results;
   out_results.open("./" + std::string(RESDIR) + "/hh4b.res");
@@ -154,6 +153,9 @@ int main()
       break;
     }
 
+    // Maximum number of events to loop over
+    const int nevt_max = nevt_sample; // 5E3;
+
     // Initialize Pythia8
     eventfile= samples_path+eventfile;
     Pythia pythiaRun(std::string(PYTHIADIR)+"/xmldoc/");
@@ -171,7 +173,6 @@ int main()
 
       nev_tot++;
       // Uncomment if prefer to run over a subset of events only
-      const int nevt_max = 5E3;
       if(nev_tot>nevt_max) break;
 
       if (!pythiaRun.next()) {
@@ -186,7 +187,7 @@ int main()
      finalState fs; get_final_state_particles(pythiaRun, fs);
 
      // Event weight normalisation
-     const double wgt_norm = xsec/((double)min(nevt_sample, nevt_max));
+      const double wgt_norm = xsec/((double)min(nevt_sample, nevt_max));
 
      // Total analyses
      for (size_t i=0; i<HH4bAnalyses.size(); i++)
@@ -206,24 +207,39 @@ int main()
 
   }
 
-
-  // Compute the total weight of the sample
+    // Compute the total weight of the sample
     // Should coincide with nev_pass for btag prob of 1.0 and light jet mistag prob of 0.0
     for (size_t i=0; i<sampleAnalyses.size(); i++)
     {
-      const double total_weight = sampleAnalyses[i]->GetWeight();
+      const double wgt_pass = sampleAnalyses[i]->GetWeight();
       const int nev_pass = sampleAnalyses[i]->GetNPassed();
 
       // Save results for cross-sections and number of events
       // Use LHC Run II and HL-LHC luminosities
       out_results<<"\nSample = "<< samplename<<" , Analysis = "<< sampleAnalyses[i]->GetName()<<std::endl;
       out_results<<"nev_tot(MC), nev_pass(MC) = "<<nev_tot<<" , "<<nev_pass<<std::endl;
-      out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<total_weight/nev_tot<<std::endl;
+      out_results<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<wgt_pass<<std::endl;
       // LHC run II numbers
-      out_results<<"nev_tot, nev_pass (300 1/fb) = "<< lumi_run2*xsec*total_weight/nev_tot<<std::endl;
+      out_results<<"pass weight (300 1/fb) = "<< lumi_run2*wgt_pass<<std::endl;
       // HL-LHC numbers
-      out_results<<"nev_tot, nev_pass (3000 1/fb) = "<< lumi_hllhc*xsec*total_weight/nev_tot<<std::endl;
-  }
+      out_results<<"pass weight, nev_pass (3000 1/fb) = "<< lumi_hllhc*wgt_pass<<std::endl;
+  
+      // Save results for cross-sections and number of events
+      // Use LHC Run II and HL-LHC luminosities
+      const double notCounted = xsec - (sampleAnalyses[i]->GetCutWeight() + sampleAnalyses[i]->GetWeight());
+      cout<<"\nSample = "<< samplename<<" , Analysis = "<< sampleAnalyses[i]->GetName()<<std::endl;
+      cout<<"xsec_tot, xsec_pass (fb) = "<<xsec<< " , "<<wgt_pass<<std::endl;
+      cout << "cutWeight: "<< sampleAnalyses[i]->GetCutWeight() <<" PassedWeight: "<<sampleAnalyses[i]->GetWeight()<<endl;
+      cout << "Unaccounted for weights: "<< notCounted <<endl;
+      
+      if (notCounted > 1E-10)
+      {
+        cerr << "Warning: Unaccounted for weights are too large! "<<endl;
+        //exit(-1);
+      }
+    
+    }
+
 
   // Free sample analyses
  for (size_t i=0; i<sampleAnalyses.size(); i++)
@@ -242,7 +258,7 @@ for (size_t i=0; i<HH4bAnalyses.size(); i++)
 }
 
   
-  // End of the main progream
+  // End of the main program
 return 0;
 
 }

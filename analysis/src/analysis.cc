@@ -121,6 +121,15 @@ void Analysis::Cut(std::string const& cutStr, double const& weight)
 	return;
 }
 
+double Analysis::GetCutWeight() const
+{
+	double cutWeights = 0.0;
+	for (size_t i=0; i< cutWeight.size(); i++)
+		cutWeights += cutWeight[i].second;
+
+	return cutWeights;
+}
+
 void Analysis::Pass(double const& weight)
 {
 	nPassed++;
