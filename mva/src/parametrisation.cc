@@ -268,8 +268,9 @@ using namespace std;
   void MultiLayerPerceptron::Export(string const& path, string const& inputs) const
   {
     ofstream outputParam(path.c_str());
-    for (size_t i=0; i<fNLayers; i++)
+    for (int i=0; i<fNLayers; i++)
       outputParam << fArch[i]<<"\t";
+    
     outputParam<<endl;
     outputParam << inputs<<endl;
     outputParam << "** Node, Previous Node, Threshold, Weight ** "<<endl;
