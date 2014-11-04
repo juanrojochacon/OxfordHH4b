@@ -80,7 +80,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	int const njet=4;
 	// Restrict to the four leading jets in the event
-	for(unsigned ijet=0; ijet<njet;ijet++)
+	for(int ijet=0; ijet<njet;ijet++)
 	{
 		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
 			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
@@ -93,8 +93,8 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	// The next step is to apply the dijet selection
 	// Get the pairing that minimizes |m_dj1 - m_dj2|
 	double dijet_mass[njet][njet];
-	for(unsigned ijet=0;ijet<njet;ijet++)
-		for(unsigned jjet=0;jjet<njet;jjet++)
+	for(int ijet=0;ijet<njet;ijet++)
+		for(int jjet=0;jjet<njet;jjet++)
 		{
 			// Compute jet masses
 			const fastjet::PseudoJet sum = bjets[ijet] + bjets[jjet];
@@ -102,16 +102,17 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		}
 
 	double mdj_diff_min = 1e20; // Some large number to begin
-	unsigned jet1_id1=10,jet1_id2=10,jet2_id1=10,jet2_id2=10;
+	int jet1_id1=10,jet1_id2=10,jet2_id1=10,jet2_id2=10;
 
-	for(unsigned ijet=0;ijet<njet;ijet++)
-		for(unsigned jjet=ijet+1;jjet<njet;jjet++)
-			for(unsigned ijet2=0;ijet2<njet;ijet2++)
-				for(unsigned jjet2=ijet2+1;jjet2<njet;jjet2++)
+	for(int ijet=0;ijet<njet;ijet++)
+		for(int jjet=ijet+1;jjet<njet;jjet++)
+			for(int ijet2=0;ijet2<njet;ijet2++)
+				for(int jjet2=ijet2+1;jjet2<njet;jjet2++)
 				{
-					double mdj1 = dijet_mass[ijet][jjet];
-					double mdj2 = dijet_mass[ijet2][jjet2];
-					double min_dj = fabs(mdj1 - mdj2);
+					const double mdj1 = dijet_mass[ijet][jjet];
+					const double mdj2 = dijet_mass[ijet2][jjet2];
+					const double min_dj = fabs(mdj1 - mdj2);
+
 					if(min_dj <  mdj_diff_min && ijet != ijet2  && jjet != jjet2 && jjet !=ijet2 && ijet != jjet2 )
 					{
 						mdj_diff_min = min_dj;
@@ -228,7 +229,7 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
   double py_tot=0;
   double pz_tot=0;
   double E_tot=0;
-  for(unsigned ij=0;ij<jets_akt.size();ij++){
+  for(int ij=0;ij<jets_akt.size();ij++){
   	px_tot+= jets_akt.at(ij).px();
   	py_tot+= jets_akt.at(ij).py();
   	pz_tot+= jets_akt.at(ij).pz();
@@ -262,7 +263,7 @@ if(jets_akt.size() < njet)
 
   // Loop over the 4 hardest jets in event only
 const double initial_weight = event_weight;
-for(unsigned ijet=0; ijet<njet;ijet++)
+for(int ijet=0; ijet<njet;ijet++)
 	if( BTagging(jets_akt[ijet]) )   // Check if at least one of its constituents is a b quark
 	{
 		bjets.push_back(jets_akt.at(ijet));

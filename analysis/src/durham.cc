@@ -51,7 +51,7 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 	double const eta_bjet_durham = 2.5;
 
 	int const njet=2;
-	for(unsigned ijet=0; ijet<njet;ijet++){
+	for(int ijet=0; ijet<njet;ijet++){
 	if(fabs( higgs_candidates.at(ijet).eta() ) > eta_bjet_durham) return Cut("bjet_acceptance", event_weight);
 	}
 
@@ -102,7 +102,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   double py_tot=0;
   double pz_tot=0;
   double E_tot=0;
-  for(unsigned ij=0;ij<jets_akt.size();ij++){
+  for(size_t ij=0;ij<jets_akt.size();ij++){
     px_tot+= jets_akt.at(ij).px();
     py_tot+= jets_akt.at(ij).py();
     pz_tot+= jets_akt.at(ij).pz();
@@ -135,7 +135,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
 
   // Now the cut on the pt of the Higgs candidates
   double const pt_largeRjet = 200.0;
-  for(unsigned ijet=0;ijet<njet;ijet++){
+  for(int ijet=0;ijet<njet;ijet++){
     if(jets_akt.at(ijet).pt() < pt_largeRjet) 
     {
       Cut("jet_pT", event_weight);
@@ -147,7 +147,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   // Now look for substructure in each of these two dijets using the BDRS
   // mass-drop tagger
   
-  for (unsigned i = 0; i < njet; i++) {
+  for (int i = 0; i < njet; i++) {
     
     // first recluster again with the large-R but with Cambridge-Aachen
     fastjet::ClusterSequence cs_sub(jets_akt[i].constituents(), CA10);
@@ -178,7 +178,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   // Get the jet constituents
   int const nb_fatjet=2;
   const double initial_weight = event_weight;
-  for (unsigned i = 0; i < njet; i++) 
+  for (int i = 0; i < njet; i++) 
   {
     // Tag b's
     const int nb = BTagging(jets_akt[i]);
@@ -214,7 +214,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
     // Loop over constituents and look for b quarks
     // These b quarks must be hard enough
     int nb=0;
-    for(unsigned i=0;i<jet_constituents.size(); i++)
+    for(size_t i=0;i<jet_constituents.size(); i++)
     {
       const int userid= jet_constituents.at(i).user_index();
       const double pt_bcandidate = jet_constituents.at(i).pt();
