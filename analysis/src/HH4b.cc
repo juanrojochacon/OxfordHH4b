@@ -28,7 +28,8 @@ int main()
 {  
   // Results output
   ofstream out_results;
-  out_results.open("./" + std::string(RESDIR) + "/hh4b.res");
+  const string outDir = "./" + std::string(RESDIR) + "/hh4b.res";
+  out_results.open(outDir.c_str());
 
   // Set here the path to the MC samples Dropbox folder
   string samples_path=std::string(SAMPLEDIR);

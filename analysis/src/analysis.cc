@@ -29,7 +29,8 @@ nPassed(0),
 passedWeight(0)
 {
 	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
-	outputNTuple.open( "." + analysisRoot + sampleName + "/ntuple.dat");
+	const string ntupOut =  "." + analysisRoot + sampleName + "/ntuple.dat";
+	outputNTuple.open( ntupOut.c_str() );
 };
 
 
