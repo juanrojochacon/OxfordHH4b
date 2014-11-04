@@ -1,10 +1,10 @@
 #! /usr/bin/python
-
 import matplotlib.pyplot as plt
 import networkx as nx
 import os
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
+import numpy
 
 # Init data
 sourcefile = 'nn_11X5X3X1_10000-Gen_CE.net'
@@ -61,10 +61,12 @@ for line in infile:
 		G.node[tNode]['label'] = ''
 
 # Get input weights
+sumw = []
 for i in xrange(0,arch[0]):
 	G.node[i]['sumw'] = 0
 	for j in G.neighbors(i):
 		G.node[i]['sumw']=G.node[i]['sumw']+G[i][j]['wgt']
+	sumw.append(G.node[i]['sumw'])
 	print kinematics[i], G.node[i]['sumw']
 
 
@@ -106,6 +108,19 @@ for node in G.nodes(data=True):
 
 	labelList.append(node[1]['label'])
 
+
+
+plt.xticks(rotation=-25)
+plt.bar(numpy.arange(len(kinematics)), sumw, alpha=0.6)
+plt.subplots_adjust(bottom=0.20)
+
+plt.xlabel('Input Variable')
+plt.ylabel('Total associated weight')
+plt.xticks(numpy.arange(len(kinematics)) + 0.5, kinematics)
+
+plt.savefig("nnweights.pdf")
+plt.clf()
+
 nx.draw(G, pos=dict(zip(G.nodes(),posLoc)), labels=dict(zip(G.nodes(),labelList)), edge_color=colorList, node_color=biasList, width=2, with_labels=True)
 plt.savefig("nnarch.pdf")
-
+plt.clf()

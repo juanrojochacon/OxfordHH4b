@@ -13,11 +13,8 @@
 #include "trainingdata.h"
 #include "random.h"
 
-
 using std::cout;
 using std::endl;
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,13 +22,13 @@ int main(int argc, char* argv[])
 {  
 	// Initialise RNG
 	rng_init(235243356345);
-  
-  if (argc != 2)
-  {
-    cerr << "Error: Wrong number of arguments!"<<endl;
-    cerr << "Usage: mva <path_to_trainingdata>" <<endl;
-    exit(-1);
-  }
+
+	if (argc != 2)
+	{
+		cerr << "Error: Wrong number of arguments!"<<endl;
+		cerr << "Usage: mva <path_to_trainingdata>" <<endl;
+		exit(-1);
+	}
 
 	// Read datafile
 	string dataPath = argv[1];
@@ -54,7 +51,7 @@ int main(int argc, char* argv[])
 		kinstream << line<<"\t";
 		nKin++;
 	}
-	
+
 	cout <<nKin << " kinematic points found"<< endl;
 
 	// Read entries
@@ -119,7 +116,6 @@ int main(int argc, char* argv[])
 
 		fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
 		//fitness += wgt*pow((t-tpr),2.0);	// MSE
-
 	}
 
 	cout << "Init Fitness: " << fitness<<endl;
@@ -129,36 +125,37 @@ int main(int argc, char* argv[])
 	const int nGen = 10000;
 	for (int i=0; i< nGen; i++)
 	{
-		MultiLayerPerceptron mutant(mlp);
 		// Mutate
+		MultiLayerPerceptron mutant(mlp);
 		const int NParam =  mutant.GetNParameters();
-    mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(0.2);
+		mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(0.2);
 
-    // Compute EC
-    double mut_fitness = 0;
-    
-		for (size_t i=0; i<trainingData.size(); i++)
+		// Compute mutant fitness
+		double mut_fitness = 0;
+		for (size_t j=0; j<trainingData.size(); j++)
 		{
 			*outProb = 0;
-			mutant.Compute(trainingData[i]->getKinematics(), outProb);
+			mutant.Compute(trainingData[j]->getKinematics(), outProb);
 
 			// Compute cross-entropy
-			const double t = trainingData[i]->getSignal();
+			const double t = trainingData[j]->getSignal();
 			const double tpr = *outProb;
-			const double wgt = trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
+			const double wgt = trainingData[j]->getSignal() ? sig_wgt:bkg_wgt;
 
 			mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
 			//mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
 		}
 
+		// Selection
 		if (mut_fitness < fitness)
 		{
 			fitness = mut_fitness;
 			mlp.CopyPars(&mutant);
 		}
 
+		// Write progress to screen
 		if (i% 5000 == 0)
-		cout << i<<"\t"<<fitness<<endl;
+			cout << i<<"\t"<<fitness<<endl;
 	}
 
 	// Export for analysis
@@ -167,7 +164,7 @@ int main(int argc, char* argv[])
 	{
 		arch << nnArch[i];
 		if (i != nnArch.size()-1)
-			arch << "X";
+		arch << "X";
 	}
 	arch << "_"<<nGen<<"-Gen";
 
@@ -183,7 +180,6 @@ int main(int argc, char* argv[])
 	}
 
 	mvaout.close();
-
 	cout << "******************************************************"<<endl;
 
 	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_CE.net";
