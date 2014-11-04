@@ -26,7 +26,7 @@ DESTDIR=.
 VPATH=$(SOURCEDIR)
 
 # MC sample directory
-SAMPLEDIR= -DSAMPLEDIR=\"/Users/nathanhartland/Dropbox/HH4bMC/\"
+SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/users/rojo/HH4b/MCsamples/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --prefix)\"
 

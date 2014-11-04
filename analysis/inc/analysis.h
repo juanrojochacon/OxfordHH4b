@@ -59,6 +59,6 @@ class Analysis
 		double passedWeight; 	//!< Total weight of passed events
 
 		std::map<int,YODA::Histo1D*> bookedHistograms;
-		std::vector<std::pair<const std::string, double> > cutWeight;
+		std::vector<std::pair< std::string, double> > cutWeight;
 };
 
