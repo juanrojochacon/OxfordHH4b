@@ -42,7 +42,7 @@ FASTJETLIBS = $(shell fastjet-config --libs)
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # Pythia 8 
-PYTHIALIBS = $(shell pythia8-config --libs)
+PYTHIALIBS = $(shell pythia8-config --libs) -ldl
 PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
 
 # YODA
