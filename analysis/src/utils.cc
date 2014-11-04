@@ -47,7 +47,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string eventfile){
   pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
  
   // For the time being no  UE or PU included
-  pythiaRun.readString("PartonLevel:MI = off"); // Off multiple interactions (UE) 
+  pythiaRun.readString("PartonLevel:MPI = off"); // Off multiple interactions (UE) 
  
   // Higgs decays always into 4b
   // Need to correct by hand the xsecs for the BR(HH->4b) branching fraction
