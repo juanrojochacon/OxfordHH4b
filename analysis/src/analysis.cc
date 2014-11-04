@@ -119,7 +119,7 @@ void Analysis::Cut(std::string const& cutStr, double const& weight)
 		}
 
 	// No cut found, book a new one
-	cutWeight.push_back(std::make_pair<const std::string, double>(cutStr, weight));
+	cutWeight.push_back(std::make_pair<std::string, double>(cutStr, weight));
 	return;
 }
 
