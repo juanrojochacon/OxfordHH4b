@@ -85,7 +85,8 @@ void Analysis::Export()
 {
 	// Write out cut flow
 	std::cout << "Exporting cutFlow: "<<analysisRoot + sampleName + "/cutFlow.dat"<<std::endl;
-	std::ofstream cutFlow("./" + analysisRoot + sampleName + "/cutFlow.dat");
+	const string cutFlow_out = "./" + analysisRoot + sampleName + "/cutFlow.dat";
+	std::ofstream cutFlow(cutFlow_out.c_str());
 
 	// Total weights
 	double sumWeight = 0.0;
