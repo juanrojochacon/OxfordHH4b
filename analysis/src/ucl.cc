@@ -229,7 +229,7 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
   double py_tot=0;
   double pz_tot=0;
   double E_tot=0;
-  for(int ij=0;ij<jets_akt.size();ij++){
+  for(size_t ij=0;ij<jets_akt.size();ij++){
   	px_tot+= jets_akt.at(ij).px();
   	py_tot+= jets_akt.at(ij).py();
   	pz_tot+= jets_akt.at(ij).pz();
@@ -251,7 +251,7 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
 
   // We require at least 4 jets in the event, else discard event
 int const njet=4;
-if(jets_akt.size() < njet) 
+if((int)jets_akt.size() < njet) 
 {
 	Cut("Two dijets",event_weight);
 	event_weight=0;

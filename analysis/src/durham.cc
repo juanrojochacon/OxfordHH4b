@@ -122,7 +122,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
 
   // We require at least 2 large-R jets in the event, else discard event
   int const njet=2;
-  if(jets_akt.size() < njet) {
+  if((int)jets_akt.size() < njet) {
     Cut("2jets", event_weight);
     event_weight=0;
     return;
