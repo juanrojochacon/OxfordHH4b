@@ -160,7 +160,7 @@ int main(int argc, char* argv[])
 
 	// Export for analysis
 	stringstream arch;
-	for (int i=0; i<nnArch.size(); i++)
+	for (size_t i=0; i<nnArch.size(); i++)
 	{
 		arch << nnArch[i];
 		if (i != nnArch.size()-1)
