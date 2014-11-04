@@ -1,6 +1,7 @@
 // trainingdata.cc
 
 #include "trainingdata.h"
+#include <algorithm>
 
 trainingDatum::trainingDatum(int const& _signal, string const& _source, int const& _nKin, const double* _kinematics):
 signal(_signal),
