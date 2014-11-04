@@ -28,7 +28,7 @@ VPATH=$(SOURCEDIR)
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/users/rojo/HH4b/MCsamples/\"
 # Pythia 8 xmldoc directory
-PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --prefix)\"
+PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
 MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 

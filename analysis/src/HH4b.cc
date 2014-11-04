@@ -159,7 +159,7 @@ int main()
 
     // Initialize Pythia8
     eventfile= samples_path+eventfile;
-    Pythia pythiaRun(std::string(PYTHIADIR)+"/xmldoc/");
+    Pythia pythiaRun(std::string(PYTHIADIR));
     InitPythia(pythiaRun, eventfile);
 
     // Initialse Analyses for sample
