@@ -1,6 +1,5 @@
-**************
 README
-*************
+======
 
 In this folder we have the main analysis code 
 
@@ -27,7 +26,7 @@ by the makefile. You should edit the Makefile samples path to the location of yo
 
 ************************************
 
-To compile and run the code:
+### To compile and run the code
 
 make
 ./HH4b
@@ -43,7 +42,7 @@ a sample by sample basis.
 
 ************************************
 
-Writing analyses
+### Writing analyses
 
 An example barebones analysis class can be found in /src/basic.cc and /inc/basic.h.
 This may be expanded upon to make a new analysis. For use in the HH4b main code,
@@ -52,7 +51,7 @@ list of analyses in HH4b.cc
 
 ************************************
 
-Plotting results
+### Plotting results
 
 To plot the histograms output to the /res/ directory, use the plotHisto.py script
 located in /res.
