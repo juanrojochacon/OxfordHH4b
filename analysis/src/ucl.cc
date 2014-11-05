@@ -72,7 +72,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// Fill the histograms for the pt of the b jets before 
 	// the corresponding kinematical cuts
-	vector<fastjet::PseudoJet> bjets = sorted_by_pt(bjets_unsort);
+	std::vector<fastjet::PseudoJet> bjets = sorted_by_pt(bjets_unsort);
 	FillHistogram("ptb1", event_weight, bjets.at(0).pt() );
 	FillHistogram("ptb2", event_weight, bjets.at(1).pt() );
 	FillHistogram("ptb3", event_weight, bjets.at(2).pt() );

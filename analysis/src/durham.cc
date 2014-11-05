@@ -1,4 +1,4 @@
-// ucl.cc
+// durham.cc
 
 #include "durham.h"
 #include "utils.h"
@@ -71,7 +71,7 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 	fastjet::PseudoJet dihiggs= higgs_candidates.at(0)+higgs_candidates.at(1);
 	FillHistogram("pthh", event_weight, dihiggs.pt() );
 
-	outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<dihiggs.pt()<<endl;
+	outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<dihiggs.pt()<<std::endl;
 
   // Pass event
 	Pass(event_weight);
@@ -94,7 +94,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   // The cluster sequence has to be saved to be used for jet substructure
   fastjet::ClusterSequence cs_akt(particles, akt);
   // Get all the jets (no pt cut here)
-  vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
+  std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
   
   // Check again four-momentum conservation, this time applied to jets
   // formed from the clustering of quarks and gluons (and beam remnants as well)
@@ -209,7 +209,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
     // pT cut in Durham approach
     double const pt_btagging_largeR=40.0;
 
-    const vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+    const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
 
     // Loop over constituents and look for b quarks
     // These b quarks must be hard enough

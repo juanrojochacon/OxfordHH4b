@@ -49,7 +49,7 @@ PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
 YODALIBS = $(shell yoda-config --libs)
 YODACFLAGS = $(shell yoda-config --cxxflags)
 
-CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(MACROS)
+CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(MACROS)
 LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS)
 
 INCPATH = $(CFLAGS)
@@ -60,10 +60,9 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis utils ucl durham
+MODULES = analysis utils ucl durham basic
 
 ############################## do not change ###################################
-
 
 SHELL=/bin/bash
 
@@ -79,45 +78,31 @@ LDFLAGS = $(LIBS)
 
 -include $(addsuffix .d,$(PGMS))
 
-
 # rule to make dependencies
-
 $(addsuffix .d,$(PGMS)): %.d: %.cc Makefile
 	@ $(CC) -MM -ansi $(INCDIRS) $< -o $@
 
-
 # rule to compile source programs
-
 $(addsuffix .o,$(PGMS)): %.o: %.cc Makefile
 	$(CC) $< -c $(CFLAGS) $(INCDIRS) -o $@
 
-
 # rule to link object files
-
 $(MAIN): %: %.o $(OBJECTS) Makefile
 	$(CC) $< $(OBJECTS) $(CFLAGS) $(LDFLAGS) -o $@
 
-
 # produce executables
-
 mkxeq: $(MAIN)
 
-
 # remove old executables and old error log file
-
 rmxeq:
 	@ -rm -f $(MAIN); \
         echo "delete old executables"		
 
-
 # make dependencies
-
 mkdep:  $(addsuffix .d,$(PGMS))
 	@ echo "generate tables of dependencies"
 
-
 # clean directory 
-
 clean:
 	@ -rm -rf *.d *.o *~ $(MAIN)
 

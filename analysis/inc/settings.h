@@ -10,7 +10,7 @@ This are the common settings used in the analysis code
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/tools/MassDropTagger.hh"
 // FastJet contrib
-#include "fastjet/contrib/VariableRPlugin.hh"
+//#include "fastjet/contrib/VariableRPlugin.hh"
 
 // hadronic dijet mass resolution -> Taken to be 15 GeV
 // Taken from LHC H -> bb papers
