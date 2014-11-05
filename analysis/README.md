@@ -22,17 +22,22 @@ Here one also needs to install fastjet contrib
 http://fastjet.hepforge.org/contrib/
 to access the Variable R jets
 
-* LHAPDFv5
-
 The config programs for each of these dependencies should be reachable
-by the makefile. You should edit the Makefile samples path to the
-Dropbox location
+by the makefile. You should edit the Makefile samples path to the location of your samples.
 
 ************************************
 
-To compile the variableR example code, type
+To compile and run the code:
 
-make variableR
+make
+./HH4b
+
+This runs the analysis code for all the analyses specified in ./src/HH4b.cc.
+The code will output all results to /res/<analysis>/<sample>
+where <analysis> specified the name of the type of analysis, and <sample> refers to the source .lhe file.
+Additionally the "total" "signal" and "background" samples are generated.
 
 ************************************
 
+Plotting results
+******************
