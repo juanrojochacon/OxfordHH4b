@@ -3,11 +3,18 @@
 #include "analysis.h"
 
 #include <iostream>
+#include <sys/stat.h>
 
 #include "YODA/Histo1D.h"
 #include "YODA/WriterFLAT.h"
 
 #include "fastjet/Selector.hh"
+
+// Create directory structure
+static inline void createPath(std::string path)
+{
+	mkdir(path.c_str(),0777);
+}
 
   // General string hasher
 static int IntHash(const std::string& _str)
@@ -28,6 +35,9 @@ sampleName(sample),
 nPassed(0),
 passedWeight(0)
 {
+	createPath(analysisRoot);
+	createPath(analysisRoot + sampleName);
+
 	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
 	const string ntupOut =  "." + analysisRoot + sampleName + "/ntuple.dat";
 	outputNTuple.open( ntupOut.c_str() );
@@ -41,7 +51,6 @@ Analysis::~Analysis()
 
 	// Export files
 	Export();
-
 }
 
 

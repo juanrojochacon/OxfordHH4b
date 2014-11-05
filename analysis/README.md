@@ -57,6 +57,7 @@ To plot the histograms output to the /res/ directory, use the plotHisto.py scrip
 located in /res.
 
 It's arguments are the histograms to be compared. E.g
+
 ./plotHisto.py ./ucl/signal/histo_m4b.dat ./ucl/background/histo_m4b.dat
 
 To plot a correlation matrix upon an nTuple output, use the correlationPlot.py script

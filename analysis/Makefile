@@ -38,8 +38,11 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 GCC = g++
 
 # fastjet 
-FASTJETLIBS = $(shell fastjet-config --libs) 
+FASTJETLIBS = $(shell fastjet-config --libs)
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
+
+# fastjet-contrib
+FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.014/lib/ -lVariableR
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl
@@ -50,7 +53,7 @@ YODALIBS = $(shell yoda-config --libs)
 YODACFLAGS = $(shell yoda-config --cxxflags)
 
 CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(MACROS)
-LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS)
+LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS) $(FJCONTRIB)
 
 INCPATH = $(CFLAGS)
 
@@ -60,7 +63,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis utils ucl durham basic
+MODULES = analysis utils ucl durham basic variableR
 
 ############################## do not change ###################################
 
