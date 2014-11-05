@@ -16,7 +16,7 @@ class VariableRAnalysis : public Analysis
 		VariableRAnalysis(std::string const& sampleName);
 
 		// Analysis function - takes a finalstate and processes it
-		void Analyse(bool const& signal, double const& weightnorm, finalState const&) = 0;
+		void Analyse(bool const& signal, double const& weightnorm, finalState const&);
 
 	private:
 };
