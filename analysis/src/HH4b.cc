@@ -3,22 +3,20 @@
 // C++
 #include <fstream>
 
-// FastJet
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/Selector.hh"
 #include "fastjet/tools/MassDropTagger.hh"
-// FastJet contrib
 #include "fastjet/contrib/VariableRPlugin.hh"
-
-// Pythia8
 #include "Pythia8/Pythia.h"
 
+#include "settings.h"
 #include "utils.h"
 #include "analysis.h"
+
 #include "ucl.h"
 #include "durham.h"
+#include "variableR.h"
 
-#include "settings.h"
 
 using namespace Pythia8;
 
@@ -104,11 +102,11 @@ int main()
 
     // QCD background, 4b
       case 2: 
-      eventfile="qcd_madgraph_4b_14tev_100k_gcuts.lhe";
+      eventfile="mg5_qcd4b_14tev_combined.lhe";
       samplename="QCD4b";
       signal = false;
-      nevt_sample = 1E5;
-      xsec = .58013e+03; // pb
+      nevt_sample = 502038;
+      xsec = 6.41539E+02;//.58013e+03; // pb
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
@@ -159,6 +157,7 @@ int main()
 
     // Initialize Pythia8
     eventfile= samples_path+eventfile;
+    std::cout << "Reading samples from: "<<eventfile<<std::endl;
     Pythia pythiaRun(std::string(PYTHIADIR));
     InitPythia(pythiaRun, eventfile);
 
