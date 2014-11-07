@@ -35,8 +35,9 @@ sampleName(sample),
 nPassed(0),
 passedWeight(0)
 {
-	createPath(analysisRoot);
-	createPath(analysisRoot + sampleName);
+	std::cout << "Creating Path: "<<"."+analysisRoot<<std::endl;
+	createPath("." + analysisRoot);
+	createPath("." + analysisRoot + sampleName);
 
 	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
 	const string ntupOut =  "." + analysisRoot + sampleName + "/ntuple.dat";
