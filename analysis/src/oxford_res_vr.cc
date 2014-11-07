@@ -1,0 +1,320 @@
+// oxford_res_vr.cc
+
+#include "oxford_res_vr.h"
+#include "utils.h"
+#include "settings.h"
+
+#include "fastjet/Selector.hh"
+#include "fastjet/ClusterSequence.hh"
+#include "fastjet/tools/MassDropTagger.hh"
+#include "fastjet/contrib/VariableRPlugin.hh"
+
+#include "YODA/Histo1D.h"
+
+using namespace fastjet::contrib;
+
+OxfordResVRAnalysis::OxfordResVRAnalysis(std::string const& sampleName):
+Analysis("oxford_res_vr", sampleName)
+{
+	const double ptb_min=0;
+	const double ptb_max=600;
+	const int nbin_ptb=20;
+
+	// 4b system histograms
+	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b");
+	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b");
+
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs1");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs2");
+
+	// Higgs histograms
+	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
+
+	// b Jet histograms
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb2");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
+
+	const double DeltaRmin = 0;
+	const double DeltaRmax = 5;
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4");
+
+	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
+	outputNTuple<<tupleSpec<<std::endl;
+
+	// Order cutflow
+	Cut("Two dijets", 0);
+	Cut("Higgs window", 0);
+}
+
+void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+{
+	// Set initial weight
+	double event_weight = weightnorm;
+
+	// Fetch jets
+	std::vector<fastjet::PseudoJet> bjets_unsort;
+	JetCluster_SmallVR(fs, bjets_unsort, event_weight);
+
+	// Fails cuts
+	if(event_weight<1e-30) return;
+
+	// Fill the histograms for the pt of the b jets before 
+	// the corresponding kinematical cuts
+	std::vector<fastjet::PseudoJet> bjets = sorted_by_pt(bjets_unsort);
+	FillHistogram("ptb1", event_weight, bjets.at(0).pt() );
+	FillHistogram("ptb2", event_weight, bjets.at(1).pt() );
+	FillHistogram("ptb3", event_weight, bjets.at(2).pt() );
+	FillHistogram("ptb4", event_weight, bjets.at(3).pt() );
+	
+	
+	// First of all, after basic selection, require that all four b jets are above 40 GeV
+	double const pt_bjet_ucl = 40.0;
+	// they should also be in central rapodity, |eta| < 2.5
+	double const eta_bjet_ucl = 2.5;
+
+
+	int const njet=4;
+	// Restrict to the four leading jets in the event
+	for(int ijet=0; ijet<njet;ijet++)
+	{
+		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
+			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
+			{
+				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
+				return;
+			}
+	}
+
+	// The next step is to apply the dijet selection
+	// Get the pairing that minimizes |m_dj1 - m_dj2|
+	double dijet_mass[njet][njet];
+	for(int ijet=0;ijet<njet;ijet++)
+		for(int jjet=0;jjet<njet;jjet++)
+		{
+			// Compute jet masses
+			const fastjet::PseudoJet sum = bjets[ijet] + bjets[jjet];
+			dijet_mass[ijet][jjet] = sum.m();
+		}
+
+	double mdj_diff_min = 1e20; // Some large number to begin
+	int jet1_id1=10,jet1_id2=10,jet2_id1=10,jet2_id2=10;
+
+	for(int ijet=0;ijet<njet;ijet++)
+		for(int jjet=ijet+1;jjet<njet;jjet++)
+			for(int ijet2=0;ijet2<njet;ijet2++)
+				for(int jjet2=ijet2+1;jjet2<njet;jjet2++)
+				{
+					const double mdj1 = dijet_mass[ijet][jjet];
+					const double mdj2 = dijet_mass[ijet2][jjet2];
+					const double min_dj = fabs(mdj1 - mdj2);
+
+					if(min_dj <  mdj_diff_min && ijet != ijet2  && jjet != jjet2 && jjet !=ijet2 && ijet != jjet2 )
+					{
+						mdj_diff_min = min_dj;
+						jet1_id1 = ijet;
+						jet1_id2 = jjet;
+						jet2_id1 = ijet2;
+						jet2_id2 = jjet2;
+					}
+				}
+
+	// Construct the Higgs candidates
+	const fastjet::PseudoJet higgs1 = bjets.at( jet1_id1) + bjets.at( jet1_id2); 
+	const fastjet::PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
+
+	// Histograms before cut in pt Higgs candidates
+	FillHistogram("pth", event_weight, higgs1.pt() );
+	FillHistogram("pth", event_weight, higgs2.pt() );
+
+
+	// Now, the pt of the dijet Higgs candidates must be above 150 GeV
+	const double pt_dijet_ucl=150.0;
+	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
+	{
+		Cut("Two dijets", event_weight);	// Kinematics cut on b-jets 
+		return;
+	}
+
+	// These two dijets cannot be too far in DeltaR
+	// Check exactly the cut used: deltaR or delta_eta?
+	const double delta_eta_dijet_ucl=1.5;
+	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
+	if(delta_eta_dijet > delta_eta_dijet_ucl) 
+	{
+		Cut("Two dijets", event_weight);
+		return;
+	}
+
+	// Higgs mass window condition
+	const double mass_diff1 = fabs(higgs1.m()-m_higgs)/m_higgs;
+	const double mass_diff2 = fabs(higgs2.m()-m_higgs)/m_higgs;
+	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+	{
+		Cut("Higgs window", event_weight);
+		return;
+	}
+	// Histograms for the pt of the HH system
+	// no cuts are applied on this variable
+	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
+	FillHistogram("pthh", event_weight, dihiggs.pt() );
+
+	// Now save the ntuples to be used by the TMVA or the ANNs
+	//   In the UCL analysis they use
+	//   
+	//   m, y, pT of the 4b system and masses of the two dijets
+	//   3 decay angles (in resp. rest frames) & 2 angles between decay planes
+
+
+	// This is for the UCL-like strategy
+	// sabe mass, pt and y of th 4b system
+	// the two dijet masses
+	// and all independent angular distances between the four b jets
+	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
+	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
+	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
+	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
+	bjets.at(0).delta_R(bjets.at(3))<<"\t"<<
+	bjets.at(1).delta_R(bjets.at(2))<<"\t"<<
+	bjets.at(1).delta_R(bjets.at(2))<<"\t"<<
+	bjets.at(2).delta_R(bjets.at(3))<<std::endl; 
+	// Other combinations of kinematical variables could also be useful
+	// Need to investigate the kinematics of the 4b final state in more detail
+
+	// Fill remaining histograms
+	FillHistogram("m4b", event_weight, dihiggs.m() );
+	FillHistogram("y4b", event_weight, dihiggs.rapidity() );
+
+	FillHistogram("mHiggs1", event_weight, higgs1.m() );
+	FillHistogram("mHiggs2", event_weight, higgs2.m() );
+
+	FillHistogram("DeltaR_b1b2", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
+	FillHistogram("DeltaR_b1b3", event_weight, bjets.at(0).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b1b4", event_weight, bjets.at(0).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b2b3", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b2b4", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b3b4", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
+
+	// Pass event
+	Pass(event_weight);
+
+}
+
+/*
+This routine read the event kinematics and performs the jet clustering
+It also checkes that energy momentum is conserved event by event
+This applies for small R jet clustering with the anti-kt algorithm
+ */
+
+void OxfordResVRAnalysis::JetCluster_SmallVR(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight)
+{
+  // Perform jet clustering with VR anti-kT
+  // Note that here we use a small R clustering
+  
+  //Define VR parameters
+  static double const jet_Rmax	=0.5;
+  static double const jet_Rmin	=0.1;
+  static double const jet_Rho	=40.;
+  
+  //Instantiate VR plugin
+  VariableRPlugin lvjet_pluginAKT(jet_Rho, jet_Rmin, jet_Rmax, VariableRPlugin::AKTLIKE);
+  fastjet::JetDefinition VR_AKT(&lvjet_pluginAKT);
+
+  // Cluster all particles
+  // The cluster sequence has to be saved to be used for jet substructure
+  fastjet::ClusterSequence cs_akt(particles, VR_AKT);
+  // Get all the jets (no pt cut here)
+  std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
+  
+  // Check again four-momentum conservation, this time applied to jets
+  // formed from the clustering of quarks and gluons (and beam remnants as well)
+  double px_tot=0;
+  double py_tot=0;
+  double pz_tot=0;
+  double E_tot=0;
+  for(size_t ij=0;ij<jets_vr_akt.size();ij++){
+  	px_tot+= jets_vr_akt.at(ij).px();
+  	py_tot+= jets_vr_akt.at(ij).py();
+  	pz_tot+= jets_vr_akt.at(ij).pz();
+  	E_tot+= jets_vr_akt.at(ij).E();
+  }
+  
+  // Check energy-momentum conservation
+  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
+  	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
+  	std::cout<<"\n ********************************************************************** \n"<<std::endl;
+  std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
+  std::cout<<"px_tot = "<<px_tot<<std::endl;
+  std::cout<<"py_tot = "<<py_tot<<std::endl;
+  std::cout<<"pz_tot = "<<pz_tot<<std::endl;
+  std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
+  exit(-10);
+  std::cout<<"\n ********************************************************************** \n"<<std::endl;
+}
+
+  // We require at least 4 jets in the event, else discard event
+int const njet=4;
+if((int)jets_vr_akt.size() < njet) 
+{
+	Cut("Two dijets",event_weight);
+	event_weight=0;
+	return;
+}
+
+  // By looking at the jet constituents
+  // we can simulate the effects of b tagging
+
+  // Loop over the 4 hardest jets in event only
+const double initial_weight = event_weight;
+for(int ijet=0; ijet<njet;ijet++)
+	if( BTagging(jets_vr_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+	{
+		bjets.push_back(jets_vr_akt.at(ijet));
+		event_weight *= btag_prob; // Account for b tagging efficiency
+	}
+	else // Else, account for the fake b-tag probabililty
+	{
+		bjets.push_back(jets_vr_akt.at(ijet));
+		event_weight *= btag_mistag;
+	}
+
+	// cut from btagging
+	Cut("Two dijets", initial_weight - event_weight);
+
+} 
+
+// ----------------------------------------------------------------------------------
+
+bool OxfordResVRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+{
+	// Cuts for the b-jet candidates for b-tagging
+	double const pt_btagging=15;
+
+	// Get the jet constituents
+	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+
+	// Loop over constituents and look for b quarks
+	// also b quarks must be above some minimum pt
+	for(size_t i=0; i<jet_constituents.size(); i++)
+	{
+		// Flavour of jet constituent
+		const int userid= jet_constituents.at(i).user_index();
+		const double pt_bcandidate = jet_constituents.at(i).pt();
+
+		if(abs(userid) ==5 )
+			if( pt_bcandidate > pt_btagging)
+		  		return true;
+	}
+
+ 	return false; // no b-jets found
+}
+
+
