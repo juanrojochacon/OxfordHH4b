@@ -11,7 +11,7 @@ creating plots etc.
 
 It requires that you have installed:
 
-* Pythia8 (I have tested up to v8.186):
+* Pythia8 (I have tested up to v8.201):
 
 * YODA 1.3.0 (https://yoda.hepforge.org)
 
