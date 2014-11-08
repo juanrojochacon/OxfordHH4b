@@ -83,6 +83,11 @@ Analysis("durham", sampleName)
   // CutFlow
   Cut("Basic: Two FatJets", 0);
   Cut("Basic: bTagging", 0);
+  Cut("mass-drop", 0);
+  Cut("fatjet pT", 0);
+  Cut("fatjet acceptance", 0);
+  Cut("fatjet deltaEta", 0);
+  Cut("Higgs_window", 0);
 
   const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
   outputNTuple<<tupleSpec<<std::endl;
@@ -166,7 +171,7 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   for(size_t ijet=0; ijet<higgs_candidates.size(); ijet++)
     if(higgs_candidates[ijet].pt() < pt_largeRjet) 
     {
-      Cut("jet_pT", event_weight);
+      Cut("fatjet pT", event_weight);
       event_weight=0;
       return;
     }
@@ -175,13 +180,13 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   double const eta_bjet_durham = 2.5;
   for(size_t ijet=0; ijet<higgs_candidates.size(); ijet++)
     if(fabs( higgs_candidates.at(ijet).eta() ) > eta_bjet_durham) 
-      return Cut("bjet_acceptance", event_weight);
+      return Cut("fatjet acceptance", event_weight);
 
   // Same as in the UCL analysis
   // require that these two leading fat jets are not too separated in rapidity
   const double delta_eta_dijet_fatjet=1.5;
   double delta_eta_dijet = fabs(higgs_candidates.at(0).eta()- higgs_candidates.at(1).eta());
-  if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("delta_eta_dijet", event_weight);
+  if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("fatjet deltaEta", event_weight);
 
   // Higgs mass window condition
   const double mass_diff1 = fabs(higgs_candidates.at(0).m()-m_higgs)/m_higgs;
@@ -214,8 +219,13 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
   // ************************************* MVA Output **********************************************************
 
-
-  outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<fj2.pt()<<std::endl;
+  // Now save the ntuples to be used by the TMVA or the ANNs
+  //"# signal source m2fj pthh y2fj mHiggs1 mHiggs2 DeltaR_fj1fj2"
+  outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<fj2.m()<<"\t"<<fj2.pt()<<"\t"<<fj2.rapidity()<<"\t"<<
+  higgs_candidates[0].m()<<"\t"<<higgs_candidates[1].m()<<"\t"<<
+  split12_vec.at(0)<<"\t"<<split12_vec.at(1)<<"\t"<<
+  tau21_vec.at(0)<<"\t"<<tau21_vec.at(1)<<"\t"<<
+  fatjets.at(0).delta_R(fatjets.at(1))<<std::endl; 
 
   // Pass event
   Pass(event_weight);
