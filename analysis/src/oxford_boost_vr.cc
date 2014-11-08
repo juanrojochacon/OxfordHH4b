@@ -121,7 +121,6 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	split12_vec.at(0)<<"\t"<<split12_vec.at(1)<<"\t"<<
 	tau21_vec.at(0)<<"\t"<<tau21_vec.at(1)<<"\t"<<
 	fatjets.at(0).delta_R(fatjets.at(1))<<std::endl; 
-	// Other combinations of kinematical variables could also be useful
 
 	// Fill remaining histograms
 	FillHistogram("m2fj", event_weight, dihiggs.m() );
@@ -221,7 +220,7 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   int const njet_cut=2;
   if((int)higgs_candidates.size() < njet_cut) 
   {
-	  Cut("Two dijets",event_weight);
+	  Cut("Basic: Two MD FatJets",event_weight);
 	  event_weight=0;
 	  return;
   }
@@ -250,7 +249,7 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
 	}
 
 	// cut from btagging
-	Cut("Two dijets", initial_weight - event_weight);
+	Cut("Basic: bTagging", initial_weight - event_weight);
   }
 } 
 

@@ -125,7 +125,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   int const njet=2;
   if((int)jets_akt.size() < njet) 
   {
-    Cut("2jets", event_weight);
+    Cut("Basic: Two FatJets", event_weight);
     event_weight=0;
     return;
   }
