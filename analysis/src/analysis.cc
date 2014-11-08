@@ -69,6 +69,7 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 	{
 		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
 		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
+		exit(-1);
 	}
 	else
 	{

@@ -13,37 +13,95 @@
 UCLAnalysis::UCLAnalysis(std::string const& sampleName):
 Analysis("ucl", sampleName)
 {
+	// ********************* Histogram settings******************
+
+	const double DeltaRmin = 0;
+	const double DeltaRmax = 5;
+
+	const double DeltaPhimin = -3;
+	const double DeltaPhimax = 3;
+
+	const double DeltaEtamin = -2.5;
+	const double DeltaEtamax = 2.5;
+
 	const double ptb_min=0;
 	const double ptb_max=600;
 	const int nbin_ptb=20;
 
-	// 4b system histograms
-	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b");
-	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b");
-
-	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs1");
-	BookHistogram(new YODA::Histo1D(20, 0, 200), "mHiggs2");
+	// ********************* Histograms before cuts ***************************
 
 	// Higgs histograms
-	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet1_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet2_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 500), "pt4b_preCut");
+
+	// Histograms of dijet systems
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_preCut");
 
 	// b Jet histograms
-	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1");
-	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb2");
-	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3");
-	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1_preCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb2_preCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3_preCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_preCut");
+
+	// 4b system histograms
+	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b_preCut");
+	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_preCut");
+
+	// Dijet distance
+	BookHistogram(new YODA::Histo1D(20, -3, 3), "dijet_dijet_deltaPhi_preCut");
+
+	// Delta-b histograms
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4_preCut");
 
 
+	// ********************* Histograms after ***************************
 
-	const double DeltaRmin = 0;
-	const double DeltaRmax = 5;
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4");
+	// Higgs histograms
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet1_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet2_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 500), "pt4b_postCut");
+
+	// Histograms of dijet systems
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_postCut");
+
+	// b Jet histograms
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1_postCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb2_postCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3_postCut");
+	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_postCut");
+
+	// 4b system histograms
+	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b_postCut");
+	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_postCut");
+
+	// Dijet distance
+	BookHistogram(new YODA::Histo1D(20, -3, 3), "dijet_dijet_deltaPhi_postCut");
+
+	// Delta-b histograms
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4_postCut");
+
+	// ********************************************************************
 
 	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
 	outputNTuple<<tupleSpec<<std::endl;
@@ -62,35 +120,14 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	std::vector<fastjet::PseudoJet> bjets_unsort;
 	JetCluster_UCL(fs, bjets_unsort, event_weight);
 
-	// Fails cuts
+	// Fails basic cuts
 	if(event_weight<1e-30) return;
 
-	// First of all, after basic selection, require that all four b jets are above 40 GeV
-	double const pt_bjet_ucl = 40.0;
-	// they should also be in central rapodity, |eta| < 2.5
-	double const eta_bjet_ucl = 2.5;
-
-	// Fill the histograms for the pt of the b jets before 
-	// the corresponding kinematical cuts
+	// Fill the histograms before the corresponding kinematical cuts
 	std::vector<fastjet::PseudoJet> bjets = sorted_by_pt(bjets_unsort);
-	FillHistogram("ptb1", event_weight, bjets.at(0).pt() );
-	FillHistogram("ptb2", event_weight, bjets.at(1).pt() );
-	FillHistogram("ptb3", event_weight, bjets.at(2).pt() );
-	FillHistogram("ptb4", event_weight, bjets.at(3).pt() );
+	int const njet=4;	// Restrict analysis to leading 4 jets
 
-	int const njet=4;
-	// Restrict to the four leading jets in the event
-	for(int ijet=0; ijet<njet;ijet++)
-	{
-		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
-			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
-			{
-				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
-				return;
-			}
-	}
-
-	// The next step is to apply the dijet selection
+	// Form Higgs pairs
 	// Get the pairing that minimizes |m_dj1 - m_dj2|
 	double dijet_mass[njet][njet];
 	for(int ijet=0;ijet<njet;ijet++)
@@ -127,10 +164,71 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const fastjet::PseudoJet higgs1 = bjets.at( jet1_id1) + bjets.at( jet1_id2); 
 	const fastjet::PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
 
-	// Histograms before cut in pt Higgs candidates
-	FillHistogram("pth", event_weight, higgs1.pt() );
-	FillHistogram("pth", event_weight, higgs2.pt() );
+		// Form di-higgs system
+	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
 
+	// *******************************************************************************
+
+	// Histograms before cut in pt Higgs candidates
+
+	FillHistogram("ptdijet_preCut", event_weight, higgs1.pt() );
+	FillHistogram("ptdijet_preCut", event_weight, higgs2.pt() );
+
+	FillHistogram("ptdijet1_preCut", event_weight, higgs1.pt() );
+	FillHistogram("ptdijet2_preCut", event_weight, higgs2.pt() );
+
+	FillHistogram("pt4b_preCut", event_weight, dihiggs.pt() );
+
+	// dijet higgs candidates: delta<obs> between jets
+	FillHistogram("DeltaR_dijet_preCut", event_weight, bjets.at(jet1_id1).delta_R(bjets.at(jet1_id2)) );
+	FillHistogram("DeltaR_dijet_preCut", event_weight, bjets.at(jet2_id1).delta_R(bjets.at(jet2_id2)) );
+	FillHistogram("DeltaPhi_dijet_preCut", event_weight, bjets.at(jet1_id1).delta_phi_to(bjets.at(jet1_id2)) );
+	FillHistogram("DeltaPhi_dijet_preCut", event_weight, bjets.at(jet2_id1).delta_phi_to(bjets.at(jet2_id2)) );
+	FillHistogram("DeltaEta_dijet_preCut", event_weight, bjets.at(jet1_id1).eta() - bjets.at(jet1_id2).eta() );
+	FillHistogram("DeltaEta_dijet_preCut", event_weight, bjets.at(jet2_id1).eta() - bjets.at(jet2_id2).eta() );
+
+	// Higgs candidate mass
+	FillHistogram("mDijet1_preCut", event_weight, higgs1.m() );
+	FillHistogram("mDijet2_preCut", event_weight, higgs2.m() );
+
+	// bJet pT
+	FillHistogram("ptb1_preCut", event_weight, bjets.at(0).pt() );
+	FillHistogram("ptb2_preCut", event_weight, bjets.at(1).pt() );
+	FillHistogram("ptb3_preCut", event_weight, bjets.at(2).pt() );
+	FillHistogram("ptb4_preCut", event_weight, bjets.at(3).pt() );
+
+	// dihiggs system
+	FillHistogram("m4b_preCut", event_weight, dihiggs.m() );
+	FillHistogram("y4b_preCut", event_weight, dihiggs.rapidity() );
+
+	// Dijet distance
+	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs1.delta_phi_to(higgs2) );
+
+	// bJet delta-R
+	FillHistogram("DeltaR_b1b2_preCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
+	FillHistogram("DeltaR_b1b3_preCut", event_weight, bjets.at(0).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b1b4_preCut", event_weight, bjets.at(0).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b2b3_preCut", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b2b4_preCut", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b3b4_preCut", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
+
+	// ************* CUTS ************************************************************
+
+	// First of all, after basic selection, require that all four b jets are above 40 GeV
+	double const pt_bjet_ucl = 40.0;
+	// they should also be in central rapodity, |eta| < 2.5
+	double const eta_bjet_ucl = 2.5;
+
+	// Restrict to the four leading jets in the event
+	for(int ijet=0; ijet<njet;ijet++)
+	{
+		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
+			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
+			{
+				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
+				return;
+			}
+	}
 
 	// Now, the pt of the dijet Higgs candidates must be above 150 GeV
 	const double pt_dijet_ucl=150.0;
@@ -158,10 +256,52 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		Cut("Higgs window", event_weight);
 		return;
 	}
-	// Histograms for the pt of the HH system
-	// no cuts are applied on this variable
-	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
-	FillHistogram("pthh", event_weight, dihiggs.pt() );
+
+	// *************************** Post cut fills **************************************
+
+	FillHistogram("ptdijet_postCut", event_weight, higgs1.pt() );
+	FillHistogram("ptdijet_postCut", event_weight, higgs2.pt() );
+
+	FillHistogram("ptdijet1_postCut", event_weight, higgs1.pt() );
+	FillHistogram("ptdijet2_postCut", event_weight, higgs2.pt() );
+
+	FillHistogram("pt4b_postCut", event_weight, dihiggs.pt() );
+
+	// dijet higgs candidates: delta<obs> between jets
+	FillHistogram("DeltaR_dijet_postCut", event_weight, bjets.at(jet1_id1).delta_R(bjets.at(jet1_id2)) );
+	FillHistogram("DeltaR_dijet_postCut", event_weight, bjets.at(jet2_id1).delta_R(bjets.at(jet2_id2)) );
+	FillHistogram("DeltaPhi_dijet_postCut", event_weight, bjets.at(jet1_id1).delta_phi_to(bjets.at(jet1_id2)) );
+	FillHistogram("DeltaPhi_dijet_postCut", event_weight, bjets.at(jet2_id1).delta_phi_to(bjets.at(jet2_id2)) );
+	FillHistogram("DeltaEta_dijet_postCut", event_weight, bjets.at(jet1_id1).eta() - bjets.at(jet1_id2).eta() );
+	FillHistogram("DeltaEta_dijet_postCut", event_weight, bjets.at(jet2_id1).eta() - bjets.at(jet2_id2).eta() );
+
+	// Higgs candidate mass
+	FillHistogram("mDijet1_postCut", event_weight, higgs1.m() );
+	FillHistogram("mDijet2_postCut", event_weight, higgs2.m() );
+
+	// bJet pT
+	FillHistogram("ptb1_postCut", event_weight, bjets.at(0).pt() );
+	FillHistogram("ptb2_postCut", event_weight, bjets.at(1).pt() );
+	FillHistogram("ptb3_postCut", event_weight, bjets.at(2).pt() );
+	FillHistogram("ptb4_postCut", event_weight, bjets.at(3).pt() );
+
+	// dihiggs system
+	FillHistogram("m4b_postCut", event_weight, dihiggs.m() );
+	FillHistogram("y4b_postCut", event_weight, dihiggs.rapidity() );
+
+	// Dijet distance
+	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs1.delta_phi_to(higgs2) );
+
+	// bJet delta-R
+	FillHistogram("DeltaR_b1b2_postCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
+	FillHistogram("DeltaR_b1b3_postCut", event_weight, bjets.at(0).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b1b4_postCut", event_weight, bjets.at(0).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b2b3_postCut", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
+	FillHistogram("DeltaR_b2b4_postCut", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
+	FillHistogram("DeltaR_b3b4_postCut", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
+
+	// ************************************* MVA Output **********************************************************
+
 
 	// Now save the ntuples to be used by the TMVA or the ANNs
 	//   In the UCL analysis they use
@@ -185,20 +325,6 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	bjets.at(2).delta_R(bjets.at(3))<<std::endl; 
 	// Other combinations of kinematical variables could also be useful
 	// Need to investigate the kinematics of the 4b final state in more detail
-
-	// Fill remaining histograms
-	FillHistogram("m4b", event_weight, dihiggs.m() );
-	FillHistogram("y4b", event_weight, dihiggs.rapidity() );
-
-	FillHistogram("mHiggs1", event_weight, higgs1.m() );
-	FillHistogram("mHiggs2", event_weight, higgs2.m() );
-
-	FillHistogram("DeltaR_b1b2", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
-	FillHistogram("DeltaR_b1b3", event_weight, bjets.at(0).delta_R(bjets.at(2)) );
-	FillHistogram("DeltaR_b1b4", event_weight, bjets.at(0).delta_R(bjets.at(3)) );
-	FillHistogram("DeltaR_b2b3", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
-	FillHistogram("DeltaR_b2b4", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
-	FillHistogram("DeltaR_b3b4", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
 
 	// Pass event
 	Pass(event_weight);
