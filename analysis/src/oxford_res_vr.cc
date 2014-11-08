@@ -111,7 +111,11 @@ Analysis("oxford_res_vr", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
-	Cut("Two dijets", 0);
+	Cut("Basic: Two dijets", 0);
+	Cut("Basic: bTagging", 0);
+	Cut("bJet pT/Eta", 0)
+	Cut("diJet pT", 0);
+	Cut("diJet DeltaR", 0);
 	Cut("Higgs window", 0);
 }
 
@@ -228,7 +232,7 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
 			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
 			{
-				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
+				Cut("bJet pT/Eta", event_weight);	// Kinematics cut on b-jets
 				return;
 			}
 	}
@@ -238,7 +242,7 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	const double pt_dijet_ucl=150.0;
 	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
 	{
-		Cut("Two dijets", event_weight);	// Kinematics cut on b-jets 
+		Cut("diJet pT", event_weight);	// Kinematics cut on dijets
 		return;
 	}
 
@@ -248,7 +252,7 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
 	if(delta_eta_dijet > delta_eta_dijet_ucl) 
 	{
-		Cut("Two dijets", event_weight);
+		Cut("diJet DeltaR", event_weight);
 		return;
 	}
 
@@ -342,54 +346,50 @@ This applies for small R jet clustering with the anti-kt algorithm
 
 void OxfordResVRAnalysis::JetCluster_SmallVR(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight)
 {
-  // Perform jet clustering with VR anti-kT
-  // Note that here we use a small R clustering
-  
-  //Define VR parameters
-  static double const jet_Rmax	=0.5;
-  static double const jet_Rmin	=0.1;
-  static double const jet_Rho	=40.;
-  
-  //Instantiate VR plugin
-  VariableRPlugin lvjet_pluginAKT(jet_Rho, jet_Rmin, jet_Rmax, VariableRPlugin::AKTLIKE);
-  fastjet::JetDefinition VR_AKT(&lvjet_pluginAKT);
+	//Define VR parameters
+	static double const jet_Rmax	=0.5;
+	static double const jet_Rmin	=0.1;
+	static double const jet_Rho	=40.;
 
-  // Cluster all particles
-  // The cluster sequence has to be saved to be used for jet substructure
-  fastjet::ClusterSequence cs_akt(particles, VR_AKT);
-  // Get all the jets (no pt cut here)
-  std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  VerifyFourMomentum(jets_vr_akt);
+	//Instantiate VR plugin
+	VariableRPlugin lvjet_pluginAKT(jet_Rho, jet_Rmin, jet_Rmax, VariableRPlugin::AKTLIKE);
+	fastjet::JetDefinition VR_AKT(&lvjet_pluginAKT);
 
-  // We require at least 4 jets in the event, else discard event
-int const njet=4;
-if((int)jets_vr_akt.size() < njet) 
-{
-	Cut("Two dijets",event_weight);
-	event_weight=0;
-	return;
-}
+	// Cluster all particles
+	// The cluster sequence has to be saved to be used for jet substructure
+	fastjet::ClusterSequence cs_akt(particles, VR_AKT);
+	// Get all the jets (no pt cut here)
+	std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
+	VerifyFourMomentum(jets_vr_akt);
 
-  // By looking at the jet constituents
-  // we can simulate the effects of b tagging
-
-  // Loop over the 4 hardest jets in event only
-const double initial_weight = event_weight;
-for(int ijet=0; ijet<njet;ijet++)
-	if( BTagging(jets_vr_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+	// We require at least 4 jets in the event, else discard event
+	int const njet=4;
+	if((int)jets_vr_akt.size() < njet) 
 	{
-		bjets.push_back(jets_vr_akt.at(ijet));
-		event_weight *= btag_prob; // Account for b tagging efficiency
+		Cut("Basic: Two dijets",event_weight);
+		event_weight=0;
+		return;
 	}
-	else // Else, account for the fake b-tag probabililty
-	{
-		bjets.push_back(jets_vr_akt.at(ijet));
-		event_weight *= btag_mistag;
-	}
+
+	// By looking at the jet constituents
+	// we can simulate the effects of b tagging
+
+	// Loop over the 4 hardest jets in event only
+	const double initial_weight = event_weight;
+	for(int ijet=0; ijet<njet;ijet++)
+		if( BTagging(jets_vr_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+		{
+			bjets.push_back(jets_vr_akt.at(ijet));
+			event_weight *= btag_prob; // Account for b tagging efficiency
+		}
+		else // Else, account for the fake b-tag probabililty
+		{
+			bjets.push_back(jets_vr_akt.at(ijet));
+			event_weight *= btag_mistag;
+		}
 
 	// cut from btagging
-	Cut("Two dijets", initial_weight - event_weight);
-
+	Cut("Basic: bTagging", initial_weight - event_weight);
 } 
 
 // ----------------------------------------------------------------------------------

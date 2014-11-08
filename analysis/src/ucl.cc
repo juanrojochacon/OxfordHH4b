@@ -107,7 +107,11 @@ Analysis("ucl", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
-	Cut("Two dijets", 0);
+	Cut("Basic: Two dijets", 0);
+	Cut("Basic: bTagging", 0);
+	Cut("bJet pT/Eta", 0)
+	Cut("diJet pT", 0);
+	Cut("diJet DeltaR", 0);
 	Cut("Higgs window", 0);
 }
 
@@ -225,7 +229,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		if(bjets.at(ijet).pt() < pt_bjet_ucl || 
 			fabs( bjets.at(ijet).eta() ) > eta_bjet_ucl) 
 			{
-				Cut("Two dijets", event_weight);	// Kinematics cut on b-jets
+				Cut("bJet pT/Eta", event_weight);	// Kinematics cut on b-jets
 				return;
 			}
 	}
@@ -234,7 +238,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double pt_dijet_ucl=150.0;
 	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
 	{
-		Cut("Two dijets", event_weight);	// Kinematics cut on b-jets 
+		Cut("diJet pT", event_weight);	// Kinematics cut on b-jets 
 		return;
 	}
 
@@ -244,7 +248,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
 	if(delta_eta_dijet > delta_eta_dijet_ucl) 
 	{
-		Cut("Two dijets", event_weight);
+		Cut("diJet DeltaR", event_weight);
 		return;
 	}
 
@@ -352,7 +356,7 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
 	int const njet=4;
 	if((int)jets_akt.size() < njet) 
 	{
-		Cut("Two dijets",event_weight);
+		Cut("Basic: Two dijets",event_weight);
 		event_weight=0;
 		return;
 	}
@@ -375,9 +379,8 @@ void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastje
 		}
 
 		// cut from btagging
-		Cut("Two dijets", initial_weight - event_weight);
-
-} 
+		Cut("Basic: bTagging", initial_weight - event_weight);
+}
 
 // ----------------------------------------------------------------------------------
 
