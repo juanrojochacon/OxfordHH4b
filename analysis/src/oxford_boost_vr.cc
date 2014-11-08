@@ -20,9 +20,17 @@ Analysis("oxford_boost_vr", sampleName)
 	const double ptfj_max=900;
 	const int nbin_ptfj=20;
 	
-	// Fat Jet histograms
+	// Fat Jet histograms (before kinematic cuts)
 	BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1");
 	BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj2");
+
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2");
+	
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj1");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj2");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj1");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj2");
 	
 	// 2 fat jet system histograms
 	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m2fj");
@@ -53,19 +61,16 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	double event_weight = weightnorm;
 
 	// Fetch jets
-	std::vector<fastjet::PseudoJet> fatjets_unsort;
-	JetCluster_LargeVR(fs, fatjets_unsort, event_weight);
+	std::vector<fastjet::PseudoJet> fatjets;
+	JetCluster_LargeVR(fs, fatjets, event_weight);
 
 	// Fails cuts
 	if(event_weight<1e-30) return;
+	
+	//------------------------------------------------------------------
+	// pt ordering is now done in the JetCluster_LargeVR(...) function
+	//------------------------------------------------------------------
 
-	// Fill the histograms for the pt of the fat jets before 
-	// the corresponding kinematical cuts
-	std::vector<fastjet::PseudoJet> fatjets = sorted_by_pt(fatjets_unsort);
-	FillHistogram("ptfj1", event_weight, fatjets.at(0).pt() );
-	FillHistogram("ptfj2", event_weight, fatjets.at(1).pt() );
-	
-	
 	// First of all, after basic selection, require that both jets are above 100 GeV
 	double const pt_fatjet_ox = 100.0;
 	// they should also be in central rapodity, |eta| < 2.5
@@ -123,7 +128,6 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 
 	// Pass event
 	Pass(event_weight);
-
 }
 
 /*
@@ -182,9 +186,26 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
   exit(-10);
   std::cout<<"\n ********************************************************************** \n"<<std::endl;
-}
+  }
+  
+  // Calculate some substructure variables
+  std::vector< double > SPLIT12_vec = SplittingScales( jets_vr_akt );
+  std::vector< double > TAU21_vec = NSubjettiness( jets_vr_akt, jet_Rmax, jet_Rmin, jet_Rho );
 
+  // Fill the histograms for the pt of the fat jets before 
+  // the corresponding kinematical cuts
+  FillHistogram("ptfj1", event_weight, jets_vr_akt.at(0).pt() );
+  FillHistogram("ptfj2", event_weight, jets_vr_akt.at(1).pt() );
 
+  FillHistogram("mfj1", event_weight, jets_vr_akt.at(0).m() );
+  FillHistogram("mfj2", event_weight, jets_vr_akt.at(1).m() );
+
+  FillHistogram("split12_fj1", event_weight, SPLIT12_vec.at(0) );
+  FillHistogram("split12_fj2", event_weight, SPLIT12_vec.at(1) );
+  
+  FillHistogram("tau21_fj1", event_weight, TAU21_vec.at(0) );
+  FillHistogram("tau21_fj2", event_weight, TAU21_vec.at(1) );
+  
   //-----------------------------------------------
   // Mass drop and b-tagging
   //-----------------------------------------------
@@ -309,4 +330,150 @@ bool OxfordBoostVRAnalysis::TwoBTagging( fastjet::PseudoJet const& jet ) const
 	if(countB>1) return true;
 
  	return false; // no b-jets found
+}
+
+// ----------------------------------------------------------------------------------
+// Recluster with kt algorithm to obtain splitting scales
+std::vector< double > OxfordBoostVRAnalysis::SplittingScales( std::vector<fastjet::PseudoJet> jetVec )
+{
+   
+   //vectors that contain the respective splitting scales for all jets
+   std::vector<double> split12_vec;
+   
+   for( int i = 0; i < (int) jetVec.size(); i++){
+   
+      double split12 = -1.;
+
+      if (!jetVec.at(i).has_constituents()){
+         std::cout << "ERROR! Splittings (d12, d23, ...) can only be calculated on jets for which the constituents are known."<< std::endl;
+         split12_vec.push_back(-1);
+         continue;
+      }
+   
+      vector<fastjet::PseudoJet> constits = jetVec.at(i).constituents();
+      
+//       std::cout << "Jet " <<  i << " has " << constits.size() << " constituents." << std::endl;
+      
+      fastjet::JetDefinition ekt_jd = fastjet::JetDefinition( fastjet::kt_algorithm, 1.5, fastjet::E_scheme, fastjet::Best);
+      const fastjet::ClusterSequence kt_seq_excl = fastjet::ClusterSequence( constits, ekt_jd);
+      fastjet::PseudoJet kt_jet = sorted_by_pt( kt_seq_excl.inclusive_jets())[0];
+      
+      split12 = 1.5*sqrt( kt_seq_excl.exclusive_subdmerge( kt_jet, 1));
+      
+      split12_vec.push_back(split12);
+   }
+   
+   return split12_vec;
+}
+
+// ----------------------------------------------------------------------------------
+// Recluster with kt algorithm to obtain nsubjettiness
+std::vector< double > OxfordBoostVRAnalysis::NSubjettiness( std::vector<fastjet::PseudoJet> jetVec, double jet_Rmax, double jet_Rmin, double jet_Rho )
+{
+
+   // Reclustering with VR kt algorithm to obtain nsubjettiness
+   
+   //vector that contain the respective nsubjettiness variables for all jets
+   std::vector<double> tau1_vec;
+   std::vector<double> tau2_vec;
+   std::vector<double> tau3_vec;
+   
+   std::vector<double> tau21_vec;
+   
+   double alpha=1;
+   
+   for( int i = 0; i < (int) jetVec.size(); i++){
+   
+      double tau1 = -1.;
+      double tau2 = -1.;
+      double tau3 = -1.;
+      
+      // Calculate effective jet radius
+      double jet_Pt = jetVec[i].pt();
+      
+      double jet_rad;
+      if( jet_Pt > jet_Rmax ) jet_rad = jet_Rmax;
+      else if( jet_Pt < jet_Rmin ) jet_rad = jet_Rmin;
+      else jet_rad = jet_Rho / jet_Pt;
+
+      if (!jetVec.at(i).has_constituents()){
+         std::cout << "ERROR! NSubjettiness (tau1, tau2, ...) can only be calculated on jets for which the constituents are known."<< std::endl;
+         
+         tau1_vec.push_back(-1);
+	 tau2_vec.push_back(-1);
+	 tau3_vec.push_back(-1);
+	
+	 double tau21 = tau2/tau1;
+	 tau21_vec.push_back(-1);
+         continue;
+      }
+      
+      //Code snippet taken from https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/JetSubstructureVariables#N_subjettiness
+      vector<fastjet::PseudoJet> constits = jetVec.at(i).constituents();
+      if(constits.size()>0){
+      
+	 double R_kt = 1.5;
+	 fastjet::JetDefinition jet_def = fastjet::JetDefinition(fastjet::kt_algorithm,R_kt,fastjet::E_scheme,fastjet::Best);
+	 fastjet::ClusterSequence kt_clust_seq(constits, jet_def);
+	 vector<fastjet::PseudoJet> kt1axes = kt_clust_seq.exclusive_jets(1);
+	 double tauNum = 0.0;
+	 double tauDen = 0.0;
+	 for (int i = 0; i < (int)constits.size(); i++) {
+	    // find minimum distance
+	    double minR = 10000.0; // large number
+	    for (int j = 0; j < (int)kt1axes.size(); j++) {
+	       double tempR = sqrt(constits[i].squared_distance(kt1axes[j])); // delta R distance
+	       if (tempR < minR) minR = tempR;
+	    }
+	    tauNum += constits[i].perp() * pow(minR,alpha);
+	    tauDen += constits[i].perp() * pow(jet_rad,alpha);
+	 }
+	 tau1 = tauNum/tauDen;
+
+	 if(constits.size()>1){
+	    vector<fastjet::PseudoJet> kt2axes = kt_clust_seq.exclusive_jets(2);
+	    tauNum = 0.0;
+	    tauDen = 0.0;
+	    for (int i = 0; i < (int)constits.size(); i++) {
+	    // find minimum distance
+	    double minR = 10000.0; // large number
+	    for (int j = 0; j < (int)kt2axes.size(); j++) {
+	       double tempR = sqrt(constits[i].squared_distance(kt2axes[j]));
+	       if (tempR < minR) minR = tempR;
+	    }
+	    tauNum += constits[i].perp() * pow(minR,alpha);
+	    tauDen += constits[i].perp() * pow(jet_rad,alpha);
+	    }
+	    tau2 = tauNum/tauDen;
+	    
+	    if(constits.size() > 2){
+	    
+	       vector<fastjet::PseudoJet> kt3axes = kt_clust_seq.exclusive_jets(3);
+	       tauNum = 0.0;
+	       tauDen = 0.0;
+	       for (int i = 0; i < (int)constits.size(); i++) {
+	       // find minimum distance
+	       double minR = 10000.0; // large number
+	       for (int j = 0; j < (int)kt3axes.size(); j++) {
+		  double tempR = sqrt(constits[i].squared_distance(kt3axes[j]));
+		  if (tempR < minR) minR = tempR;
+	       }
+	       tauNum += constits[i].perp() * pow(minR,alpha);
+	       tauDen += constits[i].perp() * pow(jet_rad,alpha);
+	       }
+	       tau3 = tauNum/tauDen;
+	    }
+
+	 }
+      }
+      
+      tau1_vec.push_back(tau1);
+      tau2_vec.push_back(tau2);
+      tau3_vec.push_back(tau3);
+      
+      double tau21 = tau2/tau1;
+      tau21_vec.push_back(tau21);
+   }
+   
+   return tau21_vec;
 }
