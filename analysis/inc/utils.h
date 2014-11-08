@@ -27,4 +27,5 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
 
 // Substructure variables
 std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec );
+std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_rad );
 std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_Rmax, double const& jet_Rmin, double const& jet_Rho );

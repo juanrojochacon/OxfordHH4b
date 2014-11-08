@@ -28,41 +28,138 @@ static const double ycut = 0.09;
 DurhamAnalysis::DurhamAnalysis(std::string const& sampleName):
 Analysis("durham", sampleName)
 {
-  // Higgs histograms
-  BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
-  BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
+  // Plotting parameters
+  const double ptfj_min=0;
+  const double ptfj_max=900;
+  const int nbin_ptfj=20;
 
-  const std::string tupleSpec = "# signal pthh ";
+  const double DeltaRmin = 0;
+  const double DeltaRmax = 5;
+  
+  // *********************** preCut **************************
+
+  // Fat Jet histograms
+  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1_preCut");
+  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj2_preCut");
+
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2_preCut");
+  
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj1_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj2_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj1_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj2_preCut");
+  
+  // 2 fat jet system histograms
+  BookHistogram(new YODA::Histo1D(20, 200, 1500), "m2fj_preCut");
+  BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y2fj_preCut");
+  BookHistogram(new YODA::Histo1D(20, 200, 1500), "pT2fj_preCut");
+
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_preCut");
+
+  // ************************* postCut ********************************
+
+  // Fat Jet histograms
+  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1_postCut");
+  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj2_postCut");
+
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1_postCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2_postCut");
+  
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj1_postCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj2_postCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj1_postCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj2_postCut");
+  
+  // 2 fat jet system histograms
+  BookHistogram(new YODA::Histo1D(20, 200, 1500), "m2fj_postCut");
+  BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y2fj_postCut");
+  BookHistogram(new YODA::Histo1D(20, 200, 1500), "pT2fj_postCut");
+
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_postCut");
+
+  // ************************* cutFlow/Ntuples ********************************
+
+  // CutFlow
+  Cut("Basic: Two FatJets", 0);
+  Cut("Basic: bTagging", 0);
+
+  const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
   outputNTuple<<tupleSpec<<std::endl;
+
 }
 
 void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
   double event_weight = weightnorm;
+  const int njet = 2; // limit to 2 hardest jets
 
   // Fetch jets
-  std::vector<fastjet::PseudoJet> higgs_candidates;
-  JetCluster_Durham(fs, higgs_candidates, event_weight);
+  std::vector<fastjet::PseudoJet> fatjets;
+  JetCluster_Durham(fs, fatjets, event_weight);
 
   // Fails basic cuts
   if(event_weight<1e-30) return;
 
   // Form dihiggs candidate
-  fastjet::PseudoJet dihiggs= higgs_candidates[0]+higgs_candidates[1];
+  fastjet::PseudoJet fj2= fatjets[0]+fatjets[1];
+
+   // Calculate some substructure variables
+  std::vector<double> split12_vec = SplittingScales( fatjets );
+  std::vector<double> tau21_vec = NSubjettiness( fatjets, jetR_1p2 );
 
   // *******************************************************************************
 
   // Histograms before cuts
 
-  // ptH histogram
-  FillHistogram("pth", event_weight, higgs_candidates[0].pt() );
-  FillHistogram("pth", event_weight, higgs_candidates[1].pt() );
+  // Fill the histograms for the fat jets before the corresponding kinematical cuts
+  FillHistogram("ptfj1_preCut", event_weight, fatjets.at(0).pt() );
+  FillHistogram("ptfj2_preCut", event_weight, fatjets.at(1).pt() );
 
+  FillHistogram("mfj1_preCut", event_weight, fatjets.at(0).m() );
+  FillHistogram("mfj2_preCut", event_weight, fatjets.at(1).m() );
 
-  // Histograms for the pt of the HH system
-  FillHistogram("pthh", event_weight, dihiggs.pt() );
+  FillHistogram("split12_fj1_preCut", event_weight, split12_vec.at(0) );
+  FillHistogram("split12_fj2_preCut", event_weight, split12_vec.at(1) );
+  
+  FillHistogram("tau21_fj1_preCut", event_weight, tau21_vec.at(0) );
+  FillHistogram("tau21_fj2_preCut", event_weight, tau21_vec.at(1) );
+
+  FillHistogram("m2fj_preCut", event_weight, fj2.m() );
+  FillHistogram("y2fj_preCut", event_weight, fj2.rapidity() );
+  FillHistogram("pT2fj_preCut", event_weight, fj2.pt() );
+
+  FillHistogram("DeltaR_fj1fj2_preCut", event_weight, fatjets[0].delta_R(fatjets[1]) );
 
   // ************* CUTS ************************************************************
+
+  // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
+  std::vector<fastjet::PseudoJet> higgs_candidates;
+  for (int i = 0; i < njet; i++) 
+  {
+    // first recluster again with the large-R but with Cambridge-Aachen
+    fastjet::ClusterSequence cs_sub(fatjets[i].constituents(), CA10);
+    // get hardest jet
+    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+
+    // now run mass drop tagger
+    // parameters are specified in settings.h
+    fastjet::MassDropTagger md_tagger(mu, ycut);
+    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
+
+    // If tagging succesful - declare as Higgs candidate
+    if (tagged_jet != 0 )  
+      higgs_candidates.push_back(tagged_jet);
+  }
+
+  // If we don't have a mass-drop tag in each of the two leading large-R jets
+  // discard the event
+  if(higgs_candidates.size()!=2) 
+  {
+    Cut("mass-drop", event_weight);
+    event_weight=0.0;
+    return;
+  }
 
   // Now the cut on the pt of the Higgs candidates
   double const pt_largeRjet = 200.0;
@@ -94,10 +191,31 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
   // ************************************ Post cut fills ***********************************************
 
+  // Histograms after cuts
+
+  // Fill the histograms for the fat jets before the corresponding kinematical cuts
+  FillHistogram("ptfj1_postCut", event_weight, fatjets.at(0).pt() );
+  FillHistogram("ptfj2_postCut", event_weight, fatjets.at(1).pt() );
+
+  FillHistogram("mfj1_postCut", event_weight, fatjets.at(0).m() );
+  FillHistogram("mfj2_postCut", event_weight, fatjets.at(1).m() );
+
+  FillHistogram("split12_fj1_postCut", event_weight, split12_vec.at(0) );
+  FillHistogram("split12_fj2_postCut", event_weight, split12_vec.at(1) );
+  
+  FillHistogram("tau21_fj1_postCut", event_weight, tau21_vec.at(0) );
+  FillHistogram("tau21_fj2_postCut", event_weight, tau21_vec.at(1) );
+
+  FillHistogram("m2fj_postCut", event_weight, fj2.m() );
+  FillHistogram("y2fj_postCut", event_weight, fj2.rapidity() );
+  FillHistogram("pT2fj_postCut", event_weight, fj2.pt() );
+
+  FillHistogram("DeltaR_fj1fj2_postCut", event_weight, fatjets[0].delta_R(fatjets[1]) );
+
   // ************************************* MVA Output **********************************************************
 
 
-  outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<dihiggs.pt()<<std::endl;
+  outputNTuple << signal <<"\t"<<GetSample()<<"\t"<<fj2.pt()<<std::endl;
 
   // Pass event
   Pass(event_weight);
@@ -130,34 +248,6 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
     return;
   }
 
-  // Now look for substructure in each of these two dijets using the BDRS
-  // mass-drop tagger
-  for (int i = 0; i < njet; i++) 
-  {
-    // first recluster again with the large-R but with Cambridge-Aachen
-    fastjet::ClusterSequence cs_sub(jets_akt[i].constituents(), CA10);
-    // get hardest jet
-    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
-
-    // now run mass drop tagger
-    // parameters are specified in settings.h
-    fastjet::MassDropTagger md_tagger(mu, ycut);
-    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
-
-    // If tagging succesful - declare as Higgs candidate
-    if (tagged_jet != 0 )  
-      higgs_candidates.push_back(tagged_jet);
-  }
-
-  // If we don't have a mass-drop tag in each of the two leading large-R jets
-  // discard the event
-  if(higgs_candidates.size()!=2) 
-  {
-    Cut("massdrop", event_weight);
-    event_weight=0.0;
-    return;
-  }
-
   // Get the jet constituents
   int const nb_fatjet=2;
   const double initial_weight = event_weight;
@@ -174,7 +264,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
         if(nb ==0 ) event_weight *= pow(btag_mistag,2.0);
   }
 
-  Cut("btag", initial_weight - event_weight);
+  Cut("Basic: bTagging", initial_weight - event_weight);
   return;
 
 } 
