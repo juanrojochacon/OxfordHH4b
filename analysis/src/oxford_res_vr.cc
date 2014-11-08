@@ -233,32 +233,7 @@ void OxfordResVRAnalysis::JetCluster_SmallVR(finalState const& particles, std::v
   fastjet::ClusterSequence cs_akt(particles, VR_AKT);
   // Get all the jets (no pt cut here)
   std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  
-  // Check again four-momentum conservation, this time applied to jets
-  // formed from the clustering of quarks and gluons (and beam remnants as well)
-  double px_tot=0;
-  double py_tot=0;
-  double pz_tot=0;
-  double E_tot=0;
-  for(size_t ij=0;ij<jets_vr_akt.size();ij++){
-  	px_tot+= jets_vr_akt.at(ij).px();
-  	py_tot+= jets_vr_akt.at(ij).py();
-  	pz_tot+= jets_vr_akt.at(ij).pz();
-  	E_tot+= jets_vr_akt.at(ij).E();
-  }
-  
-  // Check energy-momentum conservation
-  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
-  	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-  	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
-  std::cout<<"px_tot = "<<px_tot<<std::endl;
-  std::cout<<"py_tot = "<<py_tot<<std::endl;
-  std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-  std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-  exit(-10);
-  std::cout<<"\n ********************************************************************** \n"<<std::endl;
-}
+  VerifyFourMomentum(jets_vr_akt);
 
   // We require at least 4 jets in the event, else discard event
 int const njet=4;

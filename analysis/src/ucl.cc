@@ -339,70 +339,43 @@ This applies for small R jet clustering with the anti-kt algorithm
 
 void UCLAnalysis::JetCluster_UCL(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight)
 {
-  // Perform jet clustering with anti-kT
-  // Note that here we use a small R clustering
-  static double const jetR=0.5; // To avoid overlapping b's as much as possible
-  fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
-  // Cluster all particles
-  // The cluster sequence has to be saved to be used for jet substructure
-  fastjet::ClusterSequence cs_akt(particles, akt);
-  // Get all the jets (no pt cut here)
-  std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  
-  // Check again four-momentum conservation, this time applied to jets
-  // formed from the clustering of quarks and gluons (and beam remnants as well)
-  double px_tot=0;
-  double py_tot=0;
-  double pz_tot=0;
-  double E_tot=0;
-  for(size_t ij=0;ij<jets_akt.size();ij++){
-  	px_tot+= jets_akt.at(ij).px();
-  	py_tot+= jets_akt.at(ij).py();
-  	pz_tot+= jets_akt.at(ij).pz();
-  	E_tot+= jets_akt.at(ij).E();
-  }
-  
-  // Check energy-momentum conservation
-  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
-  	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-  	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
-  std::cout<<"px_tot = "<<px_tot<<std::endl;
-  std::cout<<"py_tot = "<<py_tot<<std::endl;
-  std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-  std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-  exit(-10);
-  std::cout<<"\n ********************************************************************** \n"<<std::endl;
-}
+	// Perform jet clustering with anti-kT
+	// Note that here we use a small R clustering
+	static double const jetR=0.5; // To avoid overlapping b's as much as possible
+	fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
+	fastjet::ClusterSequence cs_akt(particles, akt);
 
-  // We require at least 4 jets in the event, else discard event
-int const njet=4;
-if((int)jets_akt.size() < njet) 
-{
-	Cut("Two dijets",event_weight);
-	event_weight=0;
-	return;
-}
+	std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
+	VerifyFourMomentum(jets_akt); // Verify clustering
 
-  // By looking at the jet constituents
-  // we can simulate the effects of b tagging
-
-  // Loop over the 4 hardest jets in event only
-const double initial_weight = event_weight;
-for(int ijet=0; ijet<njet;ijet++)
-	if( BTagging(jets_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+	// We require at least 4 jets in the event, else discard event
+	int const njet=4;
+	if((int)jets_akt.size() < njet) 
 	{
-		bjets.push_back(jets_akt.at(ijet));
-		event_weight *= btag_prob; // Account for b tagging efficiency
-	}
-	else // Else, account for the fake b-tag probabililty
-	{
-		bjets.push_back(jets_akt.at(ijet));
-		event_weight *= btag_mistag;
+		Cut("Two dijets",event_weight);
+		event_weight=0;
+		return;
 	}
 
-	// cut from btagging
-	Cut("Two dijets", initial_weight - event_weight);
+	// By looking at the jet constituents
+	// we can simulate the effects of b tagging
+
+	// Loop over the 4 hardest jets in event only
+	const double initial_weight = event_weight;
+	for(int ijet=0; ijet<njet;ijet++)
+		if( BTagging(jets_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+		{
+			bjets.push_back(jets_akt.at(ijet));
+			event_weight *= btag_prob; // Account for b tagging efficiency
+		}
+		else // Else, account for the fake b-tag probabililty
+		{
+			bjets.push_back(jets_akt.at(ijet));
+			event_weight *= btag_mistag;
+		}
+
+		// cut from btagging
+		Cut("Two dijets", initial_weight - event_weight);
 
 } 
 

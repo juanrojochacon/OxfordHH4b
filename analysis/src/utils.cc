@@ -188,29 +188,6 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     
   } // End loop over particles in event
   
-  // Check event energy conservation here
-  double px_tot=0;
-  double py_tot=0;
-  double pz_tot=0;
-  double E_tot=0;
-  
-  // Loop over all particles
-  for(unsigned ij=0;ij<particles.size();ij++){
-    px_tot+= particles.at(ij).px();
-    py_tot+= particles.at(ij).py();
-    pz_tot+= particles.at(ij).pz();
-    E_tot+= particles.at(ij).E();
-  }
-  // Check energy-momentum conservation
-  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
-      || fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-    std::cout<<"\n ********************************************************************** \n"<<std::endl;
-    std::cout<<"No conservation of energy in Pythia after shower "<<std::endl;
-    std::cout<<"px_tot = "<<px_tot<<std::endl;
-    std::cout<<"py_tot = "<<py_tot<<std::endl;
-    std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-    std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-    exit(-10);
-    std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  }
+  // Verify final state four momenta
+  Analysis::VerifyFourMomentum(particles);
 }

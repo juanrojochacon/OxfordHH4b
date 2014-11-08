@@ -16,9 +16,13 @@ using namespace fastjet::contrib;
 OxfordBoostVRAnalysis::OxfordBoostVRAnalysis(std::string const& sampleName):
 Analysis("oxford_boost_vr", sampleName)
 {
+	// Plotting parameters
 	const double ptfj_min=0;
 	const double ptfj_max=900;
 	const int nbin_ptfj=20;
+
+	const double DeltaRmin = 0;
+	const double DeltaRmax = 5;
 	
 	// Fat Jet histograms (before kinematic cuts)
 	BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1");
@@ -43,8 +47,6 @@ Analysis("oxford_boost_vr", sampleName)
 	BookHistogram(new YODA::Histo1D(20, 0, 500), "pthh");
 	BookHistogram(new YODA::Histo1D(20, 0, 600), "pth");
 
-	const double DeltaRmin = 0;
-	const double DeltaRmax = 5;
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2");
 
 	const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
@@ -165,32 +167,7 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   fastjet::ClusterSequence cs_akt(particles, VR_AKT);
   // Get all the jets (no pt cut here)
   std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  
-  // Check again four-momentum conservation, this time applied to jets
-  // formed from the clustering of quarks and gluons (and beam remnants as well)
-  double px_tot=0;
-  double py_tot=0;
-  double pz_tot=0;
-  double E_tot=0;
-  for(size_t ij=0;ij<jets_vr_akt.size();ij++){
-  	px_tot+= jets_vr_akt.at(ij).px();
-  	py_tot+= jets_vr_akt.at(ij).py();
-  	pz_tot+= jets_vr_akt.at(ij).pz();
-  	E_tot+= jets_vr_akt.at(ij).E();
-  }
-  
-  // Check energy-momentum conservation
-  if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
-  	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom ){
-  	std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
-  std::cout<<"px_tot = "<<px_tot<<std::endl;
-  std::cout<<"py_tot = "<<py_tot<<std::endl;
-  std::cout<<"pz_tot = "<<pz_tot<<std::endl;
-  std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-  exit(-10);
-  std::cout<<"\n ********************************************************************** \n"<<std::endl;
-  }
+  VerifyFourMomentum(jets_vr_akt);
   
   // Calculate some substructure variables
   split12_vec = SplittingScales( jets_vr_akt );

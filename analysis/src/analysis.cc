@@ -148,3 +148,50 @@ void Analysis::Pass(double const& weight)
 	nPassed++;
 	passedWeight += weight;
 }
+
+
+void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
+{
+
+	// To check energy-momentum conservation
+	double const Eref=14000; // Samples generated for LHC 14 TeV
+	double const tol_emom=1.0;
+
+	// Check again four-momentum conservation, this time applied to jets
+	// formed from the clustering of quarks and gluons (and beam remnants as well)
+	double px_tot=0;
+	double py_tot=0;
+	double pz_tot=0;
+	double E_tot=0;
+	for(size_t ij=0;ij<jets.size();ij++)
+	{
+		px_tot+= jets.at(ij).px();
+		py_tot+= jets.at(ij).py();
+		pz_tot+= jets.at(ij).pz();
+		E_tot+= jets.at(ij).E();
+	}
+
+	// Check energy-momentum conservation
+	if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
+	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom )
+	{
+		std::cout<<"\n ********************************************************************** \n"<<std::endl;
+		std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
+		std::cout<<"px_tot = "<<px_tot<<std::endl;
+		std::cout<<"py_tot = "<<py_tot<<std::endl;
+		std::cout<<"pz_tot = "<<pz_tot<<std::endl;
+		std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
+		exit(-10);
+		std::cout<<"\n ********************************************************************** \n"<<std::endl;
+	}
+
+}
+
+
+
+
+
+
+
+
+

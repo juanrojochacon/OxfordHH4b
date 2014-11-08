@@ -28,9 +28,5 @@ double const btag_mistag = 0.01; // Mistag probability
 double const lumi_run2=300;
 double const lumi_hllhc=3000;
 
-// To check energy-momentum conservation
-double const Eref=14000; // Samples generated for LHC 14 TeV
-double const tol_emom=1.0;
-
 //-------------------------------------------------------------
 

@@ -40,6 +40,8 @@ class Analysis
 		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&) = 0;
 		void Export();
 
+		static void VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets);
+
 	protected:
 		void BookHistogram(YODA::Histo1D*, string const& name);
 		void FillHistogram(string const& rname, double const& weight, double const& coord );
