@@ -22,7 +22,7 @@ class OxfordBoostVRAnalysis : public Analysis
 
 	private:
 		// Cluster Jets using VariableR jets
-		void JetCluster_LargeVR(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight);
+		void JetCluster_LargeVR(finalState const& particles, std::vector<fastjet::PseudoJet>& fatjets,  std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight);
 		
 		// Tag bs according to UCL strategy
 		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method

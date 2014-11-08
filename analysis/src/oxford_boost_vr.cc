@@ -47,7 +47,7 @@ Analysis("oxford_boost_vr", sampleName)
 	const double DeltaRmax = 5;
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2");
 
-	const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 DeltaR_fj1fj2";
+	const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
@@ -60,9 +60,11 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	// Set initial weight
 	double event_weight = weightnorm;
 
-	// Fetch jets
+	// Fetch jets and substructure information
 	std::vector<fastjet::PseudoJet> fatjets;
-	JetCluster_LargeVR(fs, fatjets, event_weight);
+	std::vector<double> split12_vec;
+	std::vector<double> tau21_vec;
+	JetCluster_LargeVR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
 	// Fails cuts
 	if(event_weight<1e-30) return;
@@ -114,6 +116,8 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	//"# signal source m2fj pthh y2fj mHiggs1 mHiggs2 DeltaR_fj1fj2"
 	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
+	split12_vec.at(0)<<"\t"<<split12_vec.at(1)<<"\t"<<
+	tau21_vec.at(0)<<"\t"<<tau21_vec.at(1)<<"\t"<<
 	fatjets.at(0).delta_R(fatjets.at(1))<<std::endl; 
 	// Other combinations of kinematical variables could also be useful
 
@@ -136,7 +140,7 @@ It also checkes that energy momentum is conserved event by event
 This applies for small R jet clustering with the anti-kt algorithm
  */
 
-void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std::vector<fastjet::PseudoJet>& fatjets, double& event_weight)
+void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight)
 {
   // Perform jet clustering with VR anti-kT
   // Note that here we use a small R clustering
@@ -189,8 +193,8 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   }
   
   // Calculate some substructure variables
-  std::vector< double > SPLIT12_vec = SplittingScales( jets_vr_akt );
-  std::vector< double > TAU21_vec = NSubjettiness( jets_vr_akt, jet_Rmax, jet_Rmin, jet_Rho );
+  split12_vec = SplittingScales( jets_vr_akt );
+  tau21_vec = NSubjettiness( jets_vr_akt, jet_Rmax, jet_Rmin, jet_Rho );
 
   // Fill the histograms for the pt of the fat jets before 
   // the corresponding kinematical cuts
@@ -200,11 +204,11 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   FillHistogram("mfj1", event_weight, jets_vr_akt.at(0).m() );
   FillHistogram("mfj2", event_weight, jets_vr_akt.at(1).m() );
 
-  FillHistogram("split12_fj1", event_weight, SPLIT12_vec.at(0) );
-  FillHistogram("split12_fj2", event_weight, SPLIT12_vec.at(1) );
+  FillHistogram("split12_fj1", event_weight, split12_vec.at(0) );
+  FillHistogram("split12_fj2", event_weight, split12_vec.at(1) );
   
-  FillHistogram("tau21_fj1", event_weight, TAU21_vec.at(0) );
-  FillHistogram("tau21_fj2", event_weight, TAU21_vec.at(1) );
+  FillHistogram("tau21_fj1", event_weight, tau21_vec.at(0) );
+  FillHistogram("tau21_fj2", event_weight, tau21_vec.at(1) );
   
   //-----------------------------------------------
   // Mass drop and b-tagging
@@ -342,6 +346,9 @@ std::vector< double > OxfordBoostVRAnalysis::SplittingScales( std::vector<fastje
    
    for( int i = 0; i < (int) jetVec.size(); i++){
    
+      // For now: Calculate substructure information only for the two leading jets
+      if( i > 1 ) continue;
+   
       double split12 = -1.;
 
       if (!jetVec.at(i).has_constituents()){
@@ -383,6 +390,9 @@ std::vector< double > OxfordBoostVRAnalysis::NSubjettiness( std::vector<fastjet:
    double alpha=1;
    
    for( int i = 0; i < (int) jetVec.size(); i++){
+   
+      // For now: Calculate substructure information only for the two leading jets
+      if( i > 1 ) continue;
    
       double tau1 = -1.;
       double tau2 = -1.;
