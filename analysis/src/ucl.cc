@@ -109,7 +109,7 @@ Analysis("ucl", sampleName)
 	// Order cutflow
 	Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
-	Cut("bJet pT/Eta", 0)
+	Cut("bJet pT/Eta", 0);
 	Cut("diJet pT", 0);
 	Cut("diJet DeltaR", 0);
 	Cut("Higgs window", 0);
