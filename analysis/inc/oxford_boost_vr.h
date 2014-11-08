@@ -28,7 +28,4 @@ class OxfordBoostVRAnalysis : public Analysis
 		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method
 		bool TwoBTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
 		
-		// Calculate substructure variables
-		std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> jetVec );
-		std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> jetVec, double jet_Rmax, double jet_Rmin, double jet_Rho );
 };

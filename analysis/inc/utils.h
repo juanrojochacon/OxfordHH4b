@@ -19,8 +19,12 @@ This routine initializes Pythia8 with no shower/UE/Hadronisation
  */
 void InitPythia_PartonLevel(Pythia8::Pythia & pythiaRun, string eventfile);
 
-
 /*
   Get the information on all final state particles
  */
 void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particles);
+
+
+// Substructure variables
+std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec );
+std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_Rmax, double const& jet_Rmin, double const& jet_Rho );
