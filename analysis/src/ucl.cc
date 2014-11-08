@@ -169,7 +169,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// *******************************************************************************
 
-	// Histograms before cut in pt Higgs candidates
+	// Histograms before cuts
 
 	FillHistogram("ptdijet_preCut", event_weight, higgs1.pt() );
 	FillHistogram("ptdijet_preCut", event_weight, higgs2.pt() );
