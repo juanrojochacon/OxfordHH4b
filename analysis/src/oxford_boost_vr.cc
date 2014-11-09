@@ -149,7 +149,7 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   // Set VR parameters
   static double const jet_Rmax	=1.0;
   static double const jet_Rmin	=0.1;
-  static double const jet_Rho	=600.;
+  static double const jet_Rho	=250.;
   
   // Set parameters for mass-drop tagger
   // mu = 0.67 and y = 0.09 are the default choice in FastJet
@@ -237,7 +237,7 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& particles, std:
   
   for(unsigned int ijet=0; ijet<nhjet; ijet++)
   {
-	if( BTagging(higgs_candidates[ijet]) )   // Check if at least two of its constituents are b quarks
+	if( TwoBTagging(higgs_candidates[ijet]) )   // Check if at least two of its constituents are b quarks
 	{
 		fatjets.push_back(higgs_candidates.at(ijet));
 		event_weight *= btag_prob; // Account for b tagging efficiency
