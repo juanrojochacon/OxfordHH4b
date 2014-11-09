@@ -15,6 +15,7 @@
 
 static double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
 static fastjet::JetDefinition CA10(fastjet::cambridge_algorithm, jetR_1p2);
+static fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR_1p2);
 
 // Set parameters of the mass drop tagger for jet substructure
 // mu = 0.67 and y = 0.09 are the default choice in FastJet
@@ -87,7 +88,7 @@ Analysis("durham", sampleName)
   Cut("fatjet pT", 0);
   Cut("fatjet acceptance", 0);
   Cut("fatjet deltaEta", 0);
-  Cut("Higgs_window", 0);
+  Cut("Higgs window", 0);
 
   const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
   outputNTuple<<tupleSpec<<std::endl;
@@ -100,8 +101,9 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   const int njet = 2; // limit to 2 hardest jets
 
   // Fetch jets
+  fastjet::ClusterSequence cs_akt(fs, akt);
   std::vector<fastjet::PseudoJet> fatjets;
-  JetCluster_Durham(fs, fatjets, event_weight);
+  JetCluster_Durham(cs_akt, fatjets, event_weight);
 
   // Fails basic cuts
   if(event_weight<1e-30) return;
@@ -160,27 +162,19 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   // If we don't have a mass-drop tag in each of the two leading large-R jets
   // discard the event
   if(higgs_candidates.size()!=2) 
-  {
-    Cut("mass-drop", event_weight);
-    event_weight=0.0;
-    return;
-  }
+    return Cut("mass-drop", event_weight);
 
   // Now the cut on the pt of the Higgs candidates
   double const pt_largeRjet = 200.0;
   for(size_t ijet=0; ijet<higgs_candidates.size(); ijet++)
     if(higgs_candidates[ijet].pt() < pt_largeRjet) 
-    {
-      Cut("fatjet pT", event_weight);
-      event_weight=0;
-      return;
-    }
+      return Cut("fatjet pT", event_weight);
 
   // Require that the Higgs candidates are in acceptance
   double const eta_bjet_durham = 2.5;
   for(size_t ijet=0; ijet<higgs_candidates.size(); ijet++)
     if(fabs( higgs_candidates.at(ijet).eta() ) > eta_bjet_durham) 
-      return Cut("fatjet acceptance", event_weight);
+      return Cut("fatjet Eta", event_weight);
 
   // Same as in the UCL analysis
   // require that these two leading fat jets are not too separated in rapidity
@@ -191,7 +185,7 @@ void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   // Higgs mass window condition
   const double mass_diff1 = fabs(higgs_candidates.at(0).m()-m_higgs)/m_higgs;
   const double mass_diff2 = fabs(higgs_candidates.at(1).m()-m_higgs)/m_higgs;
-  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return  Cut("Higgs_window", event_weight);
+  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return  Cut("Higgs window", event_weight);
 
 
   // ************************************ Post cut fills ***********************************************
@@ -238,14 +232,8 @@ It also checkes that energy momentum is conserved event by event
 This applies for small R jet clustering with the anti-kt algorithm
 */
 
-void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight)
+void DurhamAnalysis::JetCluster_Durham(fastjet::ClusterSequence const& cs_akt, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight)
 {  
-  // Perform jet clustering with anti-kT
-  // jetR is defined in settings.h
-  // Here we use a large-R clustering, R=1.2
-  fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR_1p2);
-  fastjet::ClusterSequence cs_akt(particles, akt);
-
   std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
   VerifyFourMomentum(jets_akt);
 
@@ -263,7 +251,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
   const double initial_weight = event_weight;
   for (int i = 0; i < njet; i++) 
   {
-    // Tag b's
+    higgs_candidates.push_back(jets_akt[i]);
     const int nb = BTagging(jets_akt[i]);
 
     // Now assign the event weight
@@ -274,9 +262,7 @@ void DurhamAnalysis::JetCluster_Durham(finalState const& particles, std::vector<
         if(nb ==0 ) event_weight *= pow(btag_mistag,2.0);
   }
 
-  Cut("Basic: bTagging", initial_weight - event_weight);
-  return;
-
+  return Cut("Basic: bTagging", initial_weight - event_weight);;
 } 
 
 // ----------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "analysis.h"
+#include "fastjet/ClusterSequence.hh"
 
 #include <iostream>
 #include <vector>
@@ -24,7 +25,7 @@ class DurhamAnalysis : public Analysis
 
 	private:
 		// Jet clustering for Durham stragegy
-		void JetCluster_Durham(finalState const& particles, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight);
+		void JetCluster_Durham(fastjet::ClusterSequence const& cs, std::vector<fastjet::PseudoJet>& higgs_candidates, double& event_weight);
 
 		// Durham b tagging (returns number of bs)
 		int BTagging(fastjet::PseudoJet const& jet) const;
