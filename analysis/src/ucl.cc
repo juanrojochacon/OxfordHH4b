@@ -111,7 +111,7 @@ Analysis("ucl", sampleName)
 	Cut("Basic: bTagging", 0);
 	Cut("bJet pT/Eta", 0);
 	Cut("diJet pT", 0);
-	Cut("diJet DeltaR", 0);
+	Cut("diJet DeltaEta", 0);
 	Cut("Higgs window", 0);
 }
 
@@ -248,7 +248,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
 	if(delta_eta_dijet > delta_eta_dijet_ucl) 
 	{
-		Cut("diJet DeltaR", event_weight);
+		Cut("diJet DeltaEta", event_weight);
 		return;
 	}
 
