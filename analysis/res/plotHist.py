@@ -28,7 +28,8 @@ for idat in xrange(1,len(sys.argv)):
   print "Processing " + infilenm + " ..."
   datafile = open(infilenm, 'rb')
 
-  xbin = []
+  xhi = []
+  xlo = []
   yval = []
 
   errup = []
@@ -45,8 +46,8 @@ for idat in xrange(1,len(sys.argv)):
       break
 
     if dataread == True:
-      xbin.append(float(linesplit[1]))
-      #xbin.append(float(linesplit[0]))
+      xlo.append(float(linesplit[0]))
+      xhi.append(float(linesplit[1]))
       yval.append(float(linesplit[2]))
       errdn.append(float(linesplit[3]))
       errup.append(float(linesplit[4]))
@@ -54,30 +55,29 @@ for idat in xrange(1,len(sys.argv)):
     if linesplit[1] == 'xlow':
       dataread = True
 
-  # Error bars
-  CVup = map(add, yval, errup)
-  CVdn = map(sub, yval, errdn)
-
   # Normalisations
   norm = 0
-  lastbin = 0
-  for i in xrange(0,len(xbin)):
-    h = xbin[i] - lastbin
-    lastbin = xbin[i]
+  for i in xrange(0,len(xhi)):
+    h = xhi[i] - xlo[i]
     norm = norm + h*yval[i]
 
   norm = np.sum(norm) # Numpy types
 
+  # Error bars
+  CVup = map(add, yval/norm, errup/norm)
+  CVdn = map(sub, yval/norm, errdn/norm)
 
-  xlow = 0
-  for x in xrange(0,len(xbin)):
-    xvals = [xlow, xbin[x]]
+  for x in xrange(0,len(xhi)):
+    xvals = [xlo[x], xhi[x]]
     yvalsup = [CVup[x], CVup[x]]
     yvalsdn = [CVdn[x], CVdn[x]]
-    xlow = xbin[x]
-    ax.fill_between(xvals, yvalsup/norm, yvalsdn/norm, facecolor=colours[icol], alpha = 0.4, linewidth = 1, color = colours[icol])
+    ax.fill_between(xvals, yvalsup, yvalsdn, facecolor=colours[icol], alpha = 0.4, linewidth = 1, color = colours[icol])
 
-  ax.plot(xbin,yval/norm,ls = "steps-pre", color = colours[icol], label=infilenm)
+  # Insert lower x-values
+  xhi.insert(0,xlo[0])
+  yval.insert(0,yval[0])
+
+  ax.plot(xhi,yval/norm,ls = "steps-pre", color = colours[icol], label=infilenm[2:-4])
   icol=icol+1
 
 # Gridlines
