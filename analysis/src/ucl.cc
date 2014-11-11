@@ -40,6 +40,7 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_preCut");
 	BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_preCut");
 	BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet_preCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_preCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_preCut");
 
@@ -50,7 +51,7 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_preCut");
 
 	// 4b system histograms
-	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b_preCut");
+	BookHistogram(new YODA::Histo1D(20, 200, 1200), "m4b_preCut");
 	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_preCut");
 
 	// Dijet distance
@@ -77,6 +78,7 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_postCut");
 	BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_postCut");
 	BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet_postCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_postCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_postCut");
 
@@ -87,7 +89,7 @@ Analysis("ucl", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_postCut");
 
 	// 4b system histograms
-	BookHistogram(new YODA::Histo1D(20, 200, 1500), "m4b_postCut");
+	BookHistogram(new YODA::Histo1D(20, 200, 1200), "m4b_postCut");
 	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_postCut");
 
 	// Dijet distance
@@ -165,21 +167,22 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 				}
 
 	// Construct the Higgs candidates
-	const fastjet::PseudoJet higgs1 = bjets.at( jet1_id1) + bjets.at( jet1_id2); 
-	const fastjet::PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
-
-		// Form di-higgs system
-	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
+	std::vector<fastjet::PseudoJet> higgs;
+	higgs.push_back(bjets.at( jet1_id1) + bjets.at( jet1_id2)); 
+	higgs.push_back(bjets.at( jet2_id1) + bjets.at( jet2_id2));
+	const fastjet::PseudoJet dihiggs= higgs[0]+higgs[1];
+	// Sort by higgs pt
+	higgs = sorted_by_pt(higgs);
 
 	// *******************************************************************************
 
 	// Histograms before cuts
 
-	FillHistogram("ptdijet_preCut", event_weight, higgs1.pt() );
-	FillHistogram("ptdijet_preCut", event_weight, higgs2.pt() );
+	FillHistogram("ptdijet_preCut", event_weight, higgs[0].pt() );
+	FillHistogram("ptdijet_preCut", event_weight, higgs[1].pt() );
 
-	FillHistogram("ptdijet1_preCut", event_weight, higgs1.pt() );
-	FillHistogram("ptdijet2_preCut", event_weight, higgs2.pt() );
+	FillHistogram("ptdijet1_preCut", event_weight, higgs[0].pt() );
+	FillHistogram("ptdijet2_preCut", event_weight, higgs[1].pt() );
 
 	FillHistogram("pt4b_preCut", event_weight, dihiggs.pt() );
 
@@ -192,8 +195,10 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("DeltaEta_dijet_preCut", event_weight, bjets.at(jet2_id1).eta() - bjets.at(jet2_id2).eta() );
 
 	// Higgs candidate mass
-	FillHistogram("mDijet1_preCut", event_weight, higgs1.m() );
-	FillHistogram("mDijet2_preCut", event_weight, higgs2.m() );
+	FillHistogram("mDijet_preCut", event_weight, higgs[0].m() );
+	FillHistogram("mDijet_preCut", event_weight, higgs[1].m() );
+	FillHistogram("mDijet1_preCut", event_weight, higgs[0].m() );
+	FillHistogram("mDijet2_preCut", event_weight, higgs[1].m() );
 
 	// bJet pT
 	FillHistogram("ptb1_preCut", event_weight, bjets.at(0).pt() );
@@ -206,7 +211,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("y4b_preCut", event_weight, dihiggs.rapidity() );
 
 	// Dijet distance
-	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs1.delta_phi_to(higgs2) );
+	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs[0].delta_phi_to(higgs[1]) );
 
 	// bJet delta-R
 	FillHistogram("DeltaR_b1b2_preCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
@@ -236,7 +241,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// Now, the pt of the dijet Higgs candidates must be above 150 GeV
 	const double pt_dijet_ucl=150.0;
-	if( higgs1.pt() < pt_dijet_ucl || higgs2.pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
+	if( higgs[0].pt() < pt_dijet_ucl || higgs[1].pt() < pt_dijet_ucl ) // Was bugged, to higgs1 in both cases
 	{
 		Cut("diJet pT", event_weight);	// Kinematics cut on b-jets 
 		return;
@@ -245,7 +250,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	// These two dijets cannot be too far in DeltaR
 	// Check exactly the cut used: deltaR or delta_eta?
 	const double delta_eta_dijet_ucl=1.5;
-	const double delta_eta_dijet = fabs(higgs1.eta()- higgs2.eta());
+	const double delta_eta_dijet = fabs(higgs[0].eta()- higgs[1].eta());
 	if(delta_eta_dijet > delta_eta_dijet_ucl) 
 	{
 		Cut("diJet DeltaEta", event_weight);
@@ -253,8 +258,8 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	}
 
 	// Higgs mass window condition
-	const double mass_diff1 = fabs(higgs1.m()-m_higgs)/m_higgs;
-	const double mass_diff2 = fabs(higgs2.m()-m_higgs)/m_higgs;
+	const double mass_diff1 = fabs(higgs[0].m()-m_higgs)/m_higgs;
+	const double mass_diff2 = fabs(higgs[1].m()-m_higgs)/m_higgs;
 	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
 	{
 		Cut("Higgs window", event_weight);
@@ -263,11 +268,12 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// *************************** Post cut fills **************************************
 
-	FillHistogram("ptdijet_postCut", event_weight, higgs1.pt() );
-	FillHistogram("ptdijet_postCut", event_weight, higgs2.pt() );
+	// Histograms after cuts
+	FillHistogram("ptdijet_postCut", event_weight, higgs[0].pt() );
+	FillHistogram("ptdijet_postCut", event_weight, higgs[1].pt() );
 
-	FillHistogram("ptdijet1_postCut", event_weight, higgs1.pt() );
-	FillHistogram("ptdijet2_postCut", event_weight, higgs2.pt() );
+	FillHistogram("ptdijet1_postCut", event_weight, higgs[0].pt() );
+	FillHistogram("ptdijet2_postCut", event_weight, higgs[1].pt() );
 
 	FillHistogram("pt4b_postCut", event_weight, dihiggs.pt() );
 
@@ -280,8 +286,10 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("DeltaEta_dijet_postCut", event_weight, bjets.at(jet2_id1).eta() - bjets.at(jet2_id2).eta() );
 
 	// Higgs candidate mass
-	FillHistogram("mDijet1_postCut", event_weight, higgs1.m() );
-	FillHistogram("mDijet2_postCut", event_weight, higgs2.m() );
+	FillHistogram("mDijet_postCut", event_weight, higgs[0].m() );
+	FillHistogram("mDijet_postCut", event_weight, higgs[1].m() );
+	FillHistogram("mDijet1_postCut", event_weight, higgs[0].m() );
+	FillHistogram("mDijet2_postCut", event_weight, higgs[1].m() );
 
 	// bJet pT
 	FillHistogram("ptb1_postCut", event_weight, bjets.at(0).pt() );
@@ -294,7 +302,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("y4b_postCut", event_weight, dihiggs.rapidity() );
 
 	// Dijet distance
-	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs1.delta_phi_to(higgs2) );
+	FillHistogram("dijet_dijet_deltaPhi_postCut", event_weight, higgs[0].delta_phi_to(higgs[1]) );
 
 	// bJet delta-R
 	FillHistogram("DeltaR_b1b2_postCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
@@ -320,7 +328,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
 	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
-	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
+	higgs[0].m()<<"\t"<<higgs[1].m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(3))<<"\t"<<
