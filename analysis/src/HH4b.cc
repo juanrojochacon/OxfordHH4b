@@ -106,6 +106,7 @@ int main()
       xsec *= 1e3; // fb
       xsec *= 0.34; // HH-> 4b BR
       xsec *= 2.5; // NNLO K-factor
+      continue;
       break;
 
     // QCD background, 4b
@@ -113,19 +114,19 @@ int main()
       eventfile="mg5_qcd4b_14tev_combined.lhe";
       samplename="QCD4b";
       signal = false;
-      nevt_sample = 502038;
-      xsec = 6.41539E+02;//.58013e+03; // pb
+      nevt_sample = 725748;
+      xsec = 6.21058E+02; //pb 
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
 
     // QCD background, 2b2j
       case 3: 
-      eventfile="qcd_madgraph_2b2j_14tev_100k_gcuts.lhe";
+      eventfile="mg5_qcd2b2j_14tev_combined.lhe";
       samplename="QCD2b2j";
       signal = false;
-      nevt_sample = 1E5;
-      xsec = .53822E+06; // pb
+      nevt_sample = 96E4;
+      xsec = 6.82617E+06; //pb
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
