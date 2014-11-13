@@ -14,9 +14,11 @@
 #include "analysis.h"
 
 #include "ucl.h"
+#include "ucl_vr.h"
 #include "durham.h"
 #include "oxford_res_vr.h"
 #include "oxford_boost_vr.h"
+#include "oxford_boost_fr.h"
 #include "variableR.h"
 
 
@@ -38,20 +40,26 @@ int main()
   vector<Analysis*> HH4bAnalyses;
   HH4bAnalyses.push_back(new UCLAnalysis("total"));
   HH4bAnalyses.push_back(new DurhamAnalysis("total"));
+  HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
+//   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
   vector<Analysis*> signalAnalyses;
   signalAnalyses.push_back(new UCLAnalysis("signal"));
   signalAnalyses.push_back(new DurhamAnalysis("signal"));
+  signalAnalyses.push_back(new UCLVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
+//   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
   vector<Analysis*> backgroundAnalyses;
   backgroundAnalyses.push_back(new UCLAnalysis("background"));
   backgroundAnalyses.push_back(new DurhamAnalysis("background"));
+  backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
+//   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
   
   /* ---------------------------------------------------------------------------
   //
@@ -174,8 +182,10 @@ int main()
     vector<Analysis*> sampleAnalyses;
     sampleAnalyses.push_back(new UCLAnalysis(samplename));
     sampleAnalyses.push_back(new DurhamAnalysis(samplename));
+    sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
+//     sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
     
     int nev_tot = 0;
 

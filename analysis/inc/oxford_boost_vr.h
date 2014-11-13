@@ -9,10 +9,7 @@
 
 
 /*
-This is the analysis used by the UCL group
-with AKT5 jets replaced by small VR jets with Rmax=0.5, Rmin=0.1 and rho=40GeV
-See for example the slides of their talk at Boost 2014
-https://indico.cern.ch/event/302395/session/12/contribution/26/material/slides/1.pdf
+This is a minimal analysis with only jet acceptance cuts (as of 14th November 2014)
  */
 class OxfordBoostVRAnalysis : public Analysis
 {
@@ -23,7 +20,7 @@ class OxfordBoostVRAnalysis : public Analysis
 
 	private:
 		// Cluster Jets using VariableR jets
-		void JetCluster_LargeVR(fastjet::ClusterSequence const& cs, std::vector<fastjet::PseudoJet>& fatjets, double& event_weight);
+		void JetCluster_LargeVR(fastjet::ClusterSequence const& cs_akt, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight);
 		
 		// Tag bs 
 		bool TwoBTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
