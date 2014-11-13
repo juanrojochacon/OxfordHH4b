@@ -114,8 +114,8 @@ int main()
       eventfile="mg5_qcd4b_14tev_combined.lhe";
       samplename="QCD4b";
       signal = false;
-      nevt_sample = 725748;
-      xsec = 6.21058E+02; //pb 
+      nevt_sample = 829431;
+      xsec = 6.23211E+02; //pb 
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
@@ -125,8 +125,8 @@ int main()
       eventfile="mg5_qcd2b2j_14tev_combined.lhe";
       samplename="QCD2b2j";
       signal = false;
-      nevt_sample = 960000;
-      xsec = 6.82617E+06; //pb
+      nevt_sample = 1060000;
+      xsec = 6.82757E+06; //pb
       xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
