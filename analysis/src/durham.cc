@@ -32,24 +32,23 @@ Analysis("durham", sampleName)
   // Plotting parameters
   const double ptfj_min=0;
   const double ptfj_max=900;
-  const int nbin_ptfj=20;
 
-  const double DeltaRmin = 0;
+  const double DeltaRmin = 1;
   const double DeltaRmax = 5;
   
   // *********************** preCut **************************
 
   // Fat Jet histograms
-  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1_preCut");
-  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj2_preCut");
+  BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj1_preCut");
+  BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj2_preCut");
 
   BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1_preCut");
   BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2_preCut");
   
   BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj1_preCut");
   BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj2_preCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj1_preCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj2_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 1), "tau21_fj1_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 1), "tau21_fj2_preCut");
   
   // 2 fat jet system histograms
   BookHistogram(new YODA::Histo1D(20, 200, 1500), "m2fj_preCut");
@@ -61,23 +60,23 @@ Analysis("durham", sampleName)
   // ************************* postCut ********************************
 
   // Fat Jet histograms
-  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj1_postCut");
-  BookHistogram(new YODA::Histo1D(nbin_ptfj, ptfj_min, ptfj_max), "ptfj2_postCut");
+  BookHistogram(new YODA::Histo1D(40, ptfj_min, ptfj_max), "ptfj1_postCut");
+  BookHistogram(new YODA::Histo1D(40, ptfj_min, ptfj_max), "ptfj2_postCut");
 
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1_postCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 200), "mfj1_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 200), "mfj2_postCut");
   
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj1_postCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "split12_fj2_postCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj1_postCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "tau21_fj2_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 200), "split12_fj1_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 200), "split12_fj2_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 1), "tau21_fj1_postCut");
+  BookHistogram(new YODA::Histo1D(40, 0, 1), "tau21_fj2_postCut");
   
   // 2 fat jet system histograms
-  BookHistogram(new YODA::Histo1D(20, 200, 1500), "m2fj_postCut");
-  BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y2fj_postCut");
-  BookHistogram(new YODA::Histo1D(20, 200, 1500), "pT2fj_postCut");
+  BookHistogram(new YODA::Histo1D(40, 200, 1500), "m2fj_postCut");
+  BookHistogram(new YODA::Histo1D(40, -2.5, 2.5), "y2fj_postCut");
+  BookHistogram(new YODA::Histo1D(40, 200, 1500), "pT2fj_postCut");
 
-  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_postCut");
+  BookHistogram(new YODA::Histo1D(40, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_postCut");
 
   // ************************* cutFlow/Ntuples ********************************
 
