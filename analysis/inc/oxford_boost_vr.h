@@ -2,6 +2,7 @@
 #pragma once
 
 #include "analysis.h"
+#include "fastjet/ClusterSequence.hh"
 
 #include <iostream>
 #include <vector>
@@ -22,10 +23,9 @@ class OxfordBoostVRAnalysis : public Analysis
 
 	private:
 		// Cluster Jets using VariableR jets
-		void JetCluster_LargeVR(finalState const& particles, std::vector<fastjet::PseudoJet>& fatjets,  std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight);
+		void JetCluster_LargeVR(fastjet::ClusterSequence const& cs, std::vector<fastjet::PseudoJet>& fatjets, double& event_weight);
 		
-		// Tag bs according to UCL strategy
-		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method
+		// Tag bs 
 		bool TwoBTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
 		
 };
