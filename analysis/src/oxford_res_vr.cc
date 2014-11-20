@@ -59,6 +59,7 @@ Analysis("oxford_res_vr", sampleName)
 
 	// Dijet distance
 	BookHistogram(new YODA::Histo1D(20, -3, 3), "dijet_dijet_deltaPhi_preCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "minBJetDeltaR_preCut");
 
 	// Delta-b histograms
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2_preCut");
@@ -97,6 +98,7 @@ Analysis("oxford_res_vr", sampleName)
 
 	// Dijet distance
 	BookHistogram(new YODA::Histo1D(20, -3, 3), "dijet_dijet_deltaPhi_postCut");
+	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "minBJetDeltaR_postCut");
 
 	// Delta-b histograms
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2_postCut");
@@ -179,6 +181,13 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	// Sort by higgs pt
 	higgs = sorted_by_pt(higgs);
 
+	// Fetch minimum deltaR between b jets
+	const double minDR11 = bjets[jet1_id1].delta_R(bjets[jet2_id1]);
+	const double minDR12 = bjets[jet1_id1].delta_R(bjets[jet2_id2]);
+	const double minDR21 = bjets[jet1_id2].delta_R(bjets[jet2_id1]);
+	const double minDR22 = bjets[jet1_id2].delta_R(bjets[jet2_id2]);
+	const double minDR = min(minDR11,min(minDR12,min(minDR21,minDR22)));
+
 	// *******************************************************************************
 
 	// Histograms before cuts
@@ -217,6 +226,9 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
 	// Dijet distance
 	FillHistogram("dijet_dijet_deltaPhi_preCut", event_weight, higgs[0].delta_phi_to(higgs[1]) );
+
+	// Closest distance
+	FillHistogram("minBJetDeltaR_preCut", event_weight, minDR );
 
 	// bJet delta-R
 	FillHistogram("DeltaR_b1b2_preCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );
@@ -280,6 +292,9 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
 	// Dijet distance
 	FillHistogram("dijet_dijet_deltaPhi_postCut", event_weight, higgs[0].delta_phi_to(higgs[1]) );
+
+	// Closest distance
+	FillHistogram("minBJetDeltaR_postCut", event_weight, minDR );
 
 	// bJet delta-R
 	FillHistogram("DeltaR_b1b2_postCut", event_weight, bjets.at(0).delta_R(bjets.at(1)) );

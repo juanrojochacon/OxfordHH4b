@@ -8,6 +8,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/contrib/VariableRPlugin.hh"
 #include "Pythia8/Pythia.h"
+#include "Pythia8/Info.h"
 
 #include "settings.h"
 #include "utils.h"
@@ -20,6 +21,7 @@
 #include "oxford_boost_vr.h"
 #include "oxford_boost_fr.h"
 #include "variableR.h"
+#include "amcatnlo.h"
 
 
 using namespace Pythia8;
@@ -38,28 +40,34 @@ int main()
 
   // Initialise analyses
   vector<Analysis*> HH4bAnalyses;
+  vector<Analysis*> signalAnalyses;
+  vector<Analysis*> backgroundAnalyses;
+
+  // aMC@NLO numbers for total xsecs
+  HH4bAnalyses.push_back(new AMCAnalysis("total"));
+  
   HH4bAnalyses.push_back(new UCLAnalysis("total"));
   HH4bAnalyses.push_back(new DurhamAnalysis("total"));
   HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
-//   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
+   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
-  vector<Analysis*> signalAnalyses;
   signalAnalyses.push_back(new UCLAnalysis("signal"));
   signalAnalyses.push_back(new DurhamAnalysis("signal"));
   signalAnalyses.push_back(new UCLVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
-//   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
+   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
-  vector<Analysis*> backgroundAnalyses;
   backgroundAnalyses.push_back(new UCLAnalysis("background"));
   backgroundAnalyses.push_back(new DurhamAnalysis("background"));
   backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
-//   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
+   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
+
+
   
   /* ---------------------------------------------------------------------------
   //
@@ -84,7 +92,7 @@ int main()
     // The total cross-section for each sample can be
     // read from the .lhe file, see the number next to:
     // #  Integrated weight (pb)  
-    double xsec = 0.9;
+    double xsec_norm = 1e3; // pb -> fb conversion
 
     // Number of events in sample
     int nevt_sample = 0;
@@ -98,10 +106,8 @@ int main()
       samplename="SMggHH";
       signal = true;
       nevt_sample = 1E5;
-      xsec = 0.17291e-1;// pb
-      xsec *= 1e3; // fb
-      xsec *= 0.34; // HH-> 4b BR
-      xsec *= 2.5; // NNLO K-factor
+      xsec_norm *= 0.34; // HH-> 4b BR
+      xsec_norm *= 2.5; // NNLO K-factor
       break;
 
     // BSM gg->HH, 100K, trilinear multiplied by a factor 10
@@ -110,10 +116,8 @@ int main()
       samplename="BSMggHH";
       signal = true;
       nevt_sample = 1E5;
-      xsec = .27923E+00;// pb
-      xsec *= 1e3; // fb
-      xsec *= 0.34; // HH-> 4b BR
-      xsec *= 2.5; // NNLO K-factor
+      xsec_norm *= 0.34; // HH-> 4b BR
+      xsec_norm *= 2.5; // NNLO K-factor
       continue;
       break;
 
@@ -123,8 +127,6 @@ int main()
       samplename="QCD4b";
       signal = false;
       nevt_sample = 829431;
-      xsec = 6.23211E+02; //pb 
-      xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
 
@@ -134,8 +136,6 @@ int main()
       samplename="QCD2b2j";
       signal = false;
       nevt_sample = 1060000;
-      xsec = 6.82757E+06; //pb
-      xsec *= 1e3; // fb
       // Need to add NLO K-factor here
       break;
 
@@ -145,8 +145,7 @@ int main()
       samplename="QCD4j";
       signal = false;
       nevt_sample = 1E5;
-      xsec = .19922E+08; // pb
-      xsec *= 1e3; // fb
+      continue;
       break;
 
     // ttbar productiom
@@ -157,9 +156,8 @@ int main()
       samplename="QCDttbar";
       signal = false;
       nevt_sample = 1E5;
-      xsec = .95450E+02; // pb
-      xsec *= 1e3; // fb
-      xsec *= 2.5; // NNLO K-factor
+      xsec_norm *= 2.5; // NNLO K-factor
+      continue;
       break;
 
 
@@ -169,24 +167,39 @@ int main()
       break;
     }
 
-    // Maximum number of events to loop over
-    const int nevt_max = nevt_sample; // 5E3;
-
     // Initialize Pythia8
     eventfile= samples_path+eventfile;
     std::cout << "Reading samples from: "<<eventfile<<std::endl;
     Pythia pythiaRun(std::string(PYTHIADIR));
     InitPythia(pythiaRun, eventfile);
 
+    // Verify pythia event sample
+    if (pythiaRun.info.nProcessesLHEF() != 1)
+    {
+      std::cerr << "Error: number of subprocesses in LHE sample is not equal to 1 " <<std::endl;
+      std::cerr << "This code does not support this at the moment"<<std::endl;
+      exit(-1);
+    }
+
+    // Maximum number of events to loop over
+    const int nevt_max = 10E3;//nevt_sample; // 5E3;
+
+    // Event weight information
+    const double pythia_wgt = pythiaRun.info.sigmaLHEF(0); // Total sample weight
+    const double xsec = xsec_norm*pythia_wgt;              // Normalised sample weight (fb, Kfactors)
+    const double wgt_norm = xsec/((double) nevt_max);      // Unit weight
+
     // Initialse Analyses for sample
     vector<Analysis*> sampleAnalyses;
+    sampleAnalyses.push_back(new AMCAnalysis(samplename));
+    /*
     sampleAnalyses.push_back(new UCLAnalysis(samplename));
     sampleAnalyses.push_back(new DurhamAnalysis(samplename));
     sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
 //     sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
-    
+    */
     int nev_tot = 0;
 
     // Begin loop over events
@@ -206,9 +219,6 @@ int main()
 
       // Obtain the final state
      finalState fs; get_final_state_particles(pythiaRun, fs);
-
-     // Event weight normalisation
-      const double wgt_norm = xsec/((double)min(nevt_sample, nevt_max));
 
      // Total analyses
      for (size_t i=0; i<HH4bAnalyses.size(); i++)

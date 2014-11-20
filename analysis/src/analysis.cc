@@ -3,6 +3,7 @@
 #include "analysis.h"
 
 #include <iostream>
+#include <iomanip>
 #include <sys/stat.h>
 
 #include "YODA/Histo1D.h"
@@ -105,8 +106,10 @@ void Analysis::Export()
 		sumWeight += cutWeight[i].second;
 
 	for (size_t i=0; i<cutWeight.size(); i++)
-		cutFlow << i << "\t" << cutWeight[i].first <<"\t" << cutWeight[i].second<<"\t"<< 100.0*(cutWeight[i].second/sumWeight) <<std::endl;
-	cutFlow << cutWeight.size()<<"\t"<<"(Passed)"<<"\t"<<passedWeight<<std::endl;
+		cutFlow << std::left<<std::setw(5) << i << std::left<<std::setw(25) << cutWeight[i].first <<std::left<<std::setw(25) << cutWeight[i].second<<std::left<<std::setw(20)<<std::endl;
+	cutFlow << std::left<<std::setw(5) << cutWeight.size()<<std::left<<std::setw(25)<<"(Passed)"<<std::left<<std::setw(25)<<passedWeight<<std::endl;
+
+
 	cutFlow.close();
 
 	// Export histograms
@@ -170,7 +173,7 @@ void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 		pz_tot+= jets.at(ij).pz();
 		E_tot+= jets.at(ij).E();
 	}
-
+/*
 	// Check energy-momentum conservation
 	if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
 	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom )
@@ -184,6 +187,7 @@ void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 		exit(-10);
 		std::cout<<"\n ********************************************************************** \n"<<std::endl;
 	}
+	*/
 
 }
 
