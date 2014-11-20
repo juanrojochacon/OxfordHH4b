@@ -63,7 +63,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis utils ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr
+MODULES = analysis utils ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr amcatnlo
 
 ############################## do not change ###################################
 
