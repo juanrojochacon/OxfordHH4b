@@ -145,7 +145,6 @@ int main()
       samplename="QCD4j";
       signal = false;
       nevt_sample = 1E5;
-      continue;
       break;
 
     // ttbar productiom
@@ -157,7 +156,6 @@ int main()
       signal = false;
       nevt_sample = 1E5;
       xsec_norm *= 2.5; // NNLO K-factor
-      continue;
       break;
 
 
@@ -182,7 +180,7 @@ int main()
     }
 
     // Maximum number of events to loop over
-    const int nevt_max = 10E3;//nevt_sample; // 5E3;
+    const int nevt_max = 5E3;//nevt_sample; // 5E3;
 
     // Event weight information
     const double pythia_wgt = pythiaRun.info.sigmaLHEF(0); // Total sample weight
@@ -276,17 +274,18 @@ int main()
  for (size_t i=0; i<sampleAnalyses.size(); i++)
   delete sampleAnalyses[i];
 
-
 }
 
 // Finish up
 out_results.close();
 for (size_t i=0; i<HH4bAnalyses.size(); i++)
-{
   delete HH4bAnalyses[i];
+ 
+for (size_t i=0; i<signalAnalyses.size(); i++)
   delete signalAnalyses[i];
+
+for (size_t i=0; i<backgroundAnalyses.size(); i++)
   delete backgroundAnalyses[i];
-}
 
   
   // End of the main program
