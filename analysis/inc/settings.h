@@ -1,5 +1,5 @@
 /*
-This are the common settings used in the analysis code
+Common settings used in the analysis code
  */
 
 #pragma once
@@ -29,4 +29,3 @@ double const lumi_run2=300;
 double const lumi_hllhc=3000;
 
 //-------------------------------------------------------------
-

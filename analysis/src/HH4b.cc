@@ -51,21 +51,21 @@ int main()
   HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
- // HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
+ HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
   signalAnalyses.push_back(new UCLAnalysis("signal"));
   signalAnalyses.push_back(new DurhamAnalysis("signal"));
   signalAnalyses.push_back(new UCLVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
-  //signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
   backgroundAnalyses.push_back(new UCLAnalysis("background"));
   backgroundAnalyses.push_back(new DurhamAnalysis("background"));
   backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
-  //backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
 
 
   
@@ -196,7 +196,7 @@ int main()
     sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
     sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
-//     sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
+    sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
     
     int nev_tot = 0;
 

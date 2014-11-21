@@ -86,7 +86,10 @@ Analysis("oxford_boost_vr", sampleName)
 
 	// Order cutflow
 	Cut("Basic: Two fatjets", 0);
-	Cut("Two fatjets", 0);
+	Cut("Basic: Fatjet cuts", 1);
+	Cut("Basic: 4 small-R jets", 2);
+	Cut("Basic: 2 subjets for each fatjet", 3);
+	Cut("Basic: bTagging", 4);
 }
 
 void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -96,36 +99,19 @@ void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm
 
 	// Perform jet clustering with VR anti-kT
 	std::vector<fastjet::PseudoJet> fatjets;
-	fastjet::ClusterSequence cs_akt(fs, VR_AKT);
+	
 	// Fetch jets and substructure information
 	std::vector<double> split12_vec;
 	std::vector<double> tau21_vec;
-	JetCluster_LargeVR(cs_akt, fatjets, split12_vec, tau21_vec, event_weight);
+	JetCluster_LargeVR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
 
 	// Fails cuts
 	if(event_weight<1e-30) return;
 	
-	//------------------------------------------------------------------
-	// pt ordering is now done in the JetCluster_LargeVR(...) function
-	//------------------------------------------------------------------
-
-	// First of all, after basic selection, require that both jets are above 100 GeV
-	double const pt_fatjet_ox = 100.0;
-	// they should also be in central rapodity, |eta| < 2.5
-	double const eta_fatjet_ox = 2.5;
-
-	int const njet=2;
-	// Restrict to the four leading jets in the event
-	for(int ijet=0; ijet<njet;ijet++)
-	{
-		if(fatjets.at(ijet).pt() < pt_fatjet_ox || 
-			fabs( fatjets.at(ijet).eta() ) > eta_fatjet_ox) 
-			{
-				Cut("Two dijets", event_weight);
-				return;
-			}
-	}
+	//------------------------------------------------------------------------------
+	// pt ordering and basic cuts now done in the JetCluster_LargeVR(...) function
+	//------------------------------------------------------------------------------
 
 	// Construct the Higgs candidates
 	const fastjet::PseudoJet higgs1 = fatjets.at(0);
@@ -174,10 +160,11 @@ It also checkes that energy momentum is conserved event by event
 This applies for small R jet clustering with the anti-kt algorithm
  */
 
-void OxfordBoostVRAnalysis::JetCluster_LargeVR(fastjet::ClusterSequence const& cs_akt, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight)
+void OxfordBoostVRAnalysis::JetCluster_LargeVR(finalState const& fs, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight)
 {
  
   // Get all the jets (no pt cut here)
+  fastjet::ClusterSequence cs_akt(fs, VR_AKT);
   std::vector<fastjet::PseudoJet> jets_vr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
   VerifyFourMomentum(jets_vr_akt);
   
@@ -218,31 +205,129 @@ void OxfordBoostVRAnalysis::JetCluster_LargeVR(fastjet::ClusterSequence const& c
   FillHistogram("pT2fj_preCut", event_weight, dihiggs.pt() );
   FillHistogram("y2fj_preCut", event_weight, dihiggs.rapidity() );
   FillHistogram("DeltaR_fj1fj2_preCut", event_weight, jets_vr_akt.at(0).delta_R(jets_vr_akt.at(1)) );
+  
+  
+  //------------------------------------------------------------------------------------------------------
+  // First of all, after basic selection, require that both jets are above 100 GeV
+  double const pt_fatjet_ox = 100.0;
+  // they should also be in central rapodity, |eta| < 2.5
+  double const eta_fatjet_ox = 2.5;
+  
+  //Basic kinematic cuts on the jets
+  int const nfatjet=2;
+  // Restrict to the two leading jets in the event
+  for(int ijet=0; ijet<nfatjet;ijet++)
+  {
+	  if(jets_vr_akt.at(ijet).pt() < pt_fatjet_ox || 
+		  fabs( jets_vr_akt.at(ijet).eta() ) > eta_fatjet_ox) 
+		  {
+			  Cut("Basic: Fatjet cuts", event_weight);
+			  event_weight=0;
+			  return;
+		  }
+		  else fatjets.push_back(jets_vr_akt.at(ijet));
+  }
+  
+  //------------------------------------------------------------------------------------------------------
+  // Simulate subjets:
+  // Perform small-R jet clustering with anti-kT
+  static double const jetR=0.3; // To avoid overlapping b's as much as possible
+  fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, jetR);
+  fastjet::ClusterSequence cs_subjets(fs, jd_subjets);
 
+  std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_subjets.inclusive_jets()  );
+  
+  std::vector<fastjet::PseudoJet> subjets;
+  
+  //------------------------------------------------------------------------------------------------------
+  //Consider only jets that pass basic kinematic cuts
+  double const pt_subjet_ox = 25.0;
+  // they should also be in central rapidity, |eta| < 2.5
+  double const eta_subjet_ox = 2.5;
+  
+  //Basic kinematic cuts on the jets
+  // Restrict to the four leading subjets in the event
+  for(int ijet=0; ijet<(int)subjets.size();ijet++)
+  {
+	  if(subjets.at(ijet).pt() > pt_subjet_ox && 
+		  fabs( jets_akt.at(ijet).eta() ) < eta_subjet_ox) 
+		  {
+			  subjets.push_back(jets_akt.at(ijet));
+		  }
+  }
+
+  // We require at least 4 selected subjets in the event, else discard event
+  int const nsubjet=4;
+  if((int)subjets.size() < nsubjet) 
+  {
+	  Cut("Basic: 4 small-R jets",event_weight);
+	  event_weight=0;
+	  return;
+  }
+
+  std::vector<fastjet::PseudoJet> subjets_jet0;
+  std::vector<fastjet::PseudoJet> subjets_jet1;
+  
+  get_assoc_trkjets( jets_vr_akt.at(0), jets_akt, subjets_jet0, false);
+  get_assoc_trkjets( jets_vr_akt.at(1), jets_akt, subjets_jet1, false);
+  
+  // Require at least 2 subjets matched to each fatjet
+  if((int)subjets_jet0.size() < 2 || (int)subjets_jet1.size() < 2) 
+  {
+	  Cut("Basic: 2 subjets for each fatjet",event_weight);
+	  event_weight=0;
+	  return;
+  }
+  
+  std::vector<fastjet::PseudoJet> bjets_jet0;
+  std::vector<fastjet::PseudoJet> bjets_jet1;
+  
   // By looking at the jet constituents
   // we can simulate the effects of b tagging
   const double initial_weight = event_weight;
-  for(unsigned int ijet=0; ijet<jets_vr_akt.size(); ijet++)
-  	if( TwoBTagging(jets_vr_akt[ijet]) )   // Check if at least two of its constituents are b quarks
+  for(unsigned int ijet=0; ijet<subjets_jet0.size(); ijet++){
+  	if( BTagging(subjets_jet0[ijet]) )   // Check if at least two of its constituents are b quarks
   	{
-  		fatjets.push_back(jets_vr_akt.at(ijet));
+  		bjets_jet0.push_back(subjets_jet0.at(ijet));
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else // Else, account for the fake b-tag probabililty
+  	else // Else, account for the fake b-tag probability
   	{
-  		fatjets.push_back(jets_vr_akt.at(ijet));
   		event_weight *= btag_mistag;
   	}
-
-  Cut("Basic: bTagging", initial_weight - event_weight);
+  }
+  for(unsigned int ijet=0; ijet<subjets_jet1.size(); ijet++){
+  	if( BTagging(subjets_jet1[ijet]) )   // Check if at least one of its constituents are b quarks
+  	{
+  		bjets_jet1.push_back(subjets_jet1.at(ijet));
+  		double btag_prob = btag_eff( subjets_jet1.at(ijet).pt() );
+  		event_weight *= btag_prob; // Account for b tagging efficiency
+  	}
+  	else if( CTagging(subjets_jet1[ijet])) {
+		double ctag_prob = charm_eff( subjets_jet1.at(ijet).pt() );
+		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	}
+  	else // Else, account for the fake b-tag probability
+  	{	
+		double mistag_prob = mistag_eff( subjets_jet1.at(ijet).pt() );
+  		event_weight *= mistag_prob;
+  	}
+  }
+  
+  if( bjets_jet0.size() < 2 || bjets_jet1.size() < 2 ){
+  
+      Cut("Basic: bTagging", initial_weight - event_weight);
+      event_weight=0;
+      return;
+  }
+  
   return;
-
-} 
+}
 
 
 // ----------------------------------------------------------------------------------
 
-bool OxfordBoostVRAnalysis::TwoBTagging( fastjet::PseudoJet const& jet ) const
+bool OxfordBoostVRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 {
 	// Cuts for the b-jet candidates for b-tagging
 	double const pt_btagging=15.;
@@ -265,7 +350,36 @@ bool OxfordBoostVRAnalysis::TwoBTagging( fastjet::PseudoJet const& jet ) const
 		  		countB++;
 	}
 	
-	if(countB>1) return true;
+	if(countB>0) return true;
 
  	return false; // no b-jets found
+}
+
+
+bool OxfordBoostVRAnalysis::CTagging( fastjet::PseudoJet const& jet ) const
+{
+	// Cuts for the b-jet candidates for b-tagging
+	double const pt_ctagging=15.;
+
+	// Get the jet constituents
+	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+
+	int countC=0;
+	
+	// Loop over constituents and look for c quarks
+	// also c quarks must be above some minimum pt
+	for(size_t i=0; i<jet_constituents.size(); i++)
+	{
+		// Flavour of jet constituent
+		const int userid= jet_constituents.at(i).user_index();
+		const double pt_ccandidate = jet_constituents.at(i).pt();
+
+		if(abs(userid) ==5 )
+			if( pt_ccandidate > pt_ctagging)
+		  		countC++;
+	}
+	
+	if(countC>0) return true;
+
+ 	return false; // no c-jets found
 }
