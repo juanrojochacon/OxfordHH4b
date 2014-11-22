@@ -1,0 +1,111 @@
+%  sample eprint article in LaTeX           --- M. Peskin, 9/7/00
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% basic data for the eprint:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textwidth=6.0in  \textheight=8.25in
+
+%%  Adjust these for your printer:
+\leftmargin=-0.3in   \topmargin=-0.20in
+
+%% preprint number data:
+\newcommand\pubnumber{DRAFT-001}
+\newcommand\pubdate{\today}
+
+%%  address and funding acknowledgement data:
+\def\oxford{}
+\def\support{\footnote{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   document style macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Title#1{\begin{center} {\Large #1 } \end{center}}
+\def\Author#1{\begin{center}{ \sc #1} \end{center}}
+\def\Address#1{\begin{center}{ \it #1} \end{center}}
+\def\andauth{\begin{center}{and} \end{center}}
+\def\submit#1{\begin{center}Submitted to {\sl #1} \end{center}}
+\newcommand\pubblock{\rightline{\begin{tabular}{l} \pubnumber\\
+         \pubdate  \end{tabular}}}
+\newenvironment{Abstract}{\begin{quotation}  }{\end{quotation}}
+\def\Acknowledgements{\bigskip  \bigskip \begin{center} \begin{large}
+             \bf ACKNOWLEDGEMENTS \end{large}\end{center}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  personal abbreviations and macros
+%    the following package contains macros which can be used in this document:
+%\input econfmacros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{titlepage}
+\hspace{-1.4cm}\pubblock
+
+\vfill
+\Title{Feasibility Study for the Final State $hh\rightarrow (b\bar{b})(b\bar{b})$}
+\vfill
+\Author{}
+\Address{}
+\vfill
+\begin{Abstract}
+This is a feasibility study for the final state $hh\rightarrow (b\bar{b})(b\bar{b})$ using reconstruction techniques for both resolved
+and boosted topologies as well as multivariate methods.
+\end{Abstract}
+\vfill
+\end{titlepage}
+\def\thefootnote{\fnsymbol{footnote}}
+\setcounter{footnote}{0}
+%
+
+\section{Introduction}
+
+
+\section{Samples}
+
+\section{Object and Event Selection}
+
+\subsection{Resolved Topology}
+
+The resolved selection requires the presence of at least four b-tagged anti-$k_T$ $R=0.4$ jets with $p_T >$25~GeV and $|\eta|>2.5$.
+\textit{Pre-cut} histograms are written out for various kinematic distributions for all events with at least four b-tagged jets but before applying
+further kinematic cuts. \textit{Post-cut} histograms contain only events where the four jets also pass the above kinematic cuts.
+
+The di-Higgs system is reconstructed by considering all possibilities of forming two pairs of jets with invariant masses $m_{j1j2}$ and 
+$m_{j3j4}$, respectively, and chosing the configuration that minimises their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
+are considered here.
+
+\subsection{Boosted Topology}\label{sec:Boosted_FR}
+
+In the boosted topology, the decay products of each Higgs boson are merged into a single large-$R$ jet with a two-prong substructure. 
+These Higgs jets are reconstructed as anti-$k_T$ $R=1.0$ jets for which two substructure variables, the first $k_T$ splitting scale $d_{12}$
+and the 2-subjettiness ratio $\tau_{21}$, are calculated.
+\textit{Pre-cut} histograms are written out after requiring the presence of at least two large-$R$ in the event but without applying any further
+kinematic cuts. \textit{Post-cut} histograms are filled after the following additional cuts: 
+Both jets are required to have $p_T >$100~GeV and $|\eta|>2.5$. Moreover, each jet is required to have at least two b-tagged anti-$k_T$ $R=0.3$ 
+jets matched to it via \textit{ghost association}: 
+To this end, the constituents of a given large-$R$ jet is reclustered using the jet algorithm 
+and radius parameter of the original jet and so-called \textit{ghost jets}, each corresponding to a small-$R$ jet in the event, 
+are added to the input for the cluster sequence. The 4-vector of a ghost jet is obtained from a given small-$R$ jet 
+by setting its transverse momentum and mass to negligibly small values but retaining its direction in $\eta$ and $\phi$. A small-$R$ jet is 
+considered matched to the large-$R$ jet if its ghost is found among the constituents of the reclustered jet. Ghost association allows to unambiguously
+match small-$R$ to large-$R$ jets, even in dense environments where a simple matching based on the distance $\Delta R$ between jets 
+may lead to multiple matchings.
+
+\subsection{Boosted Topology with Variable-$R$ Jets}
+
+The same selection as in Subsection~\ref{sec:Boosted_FR} is applied but this time using Variable-$R$ jets with the following parameters:
+$\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
+
+\section{Multivariate Tools}
+
+\section{Results}
+
+\section{Conclusion}
+
+
+% \Acknowledgements
+
+ 
+\end{document}
+

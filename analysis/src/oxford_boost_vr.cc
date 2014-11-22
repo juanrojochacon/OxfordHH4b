@@ -15,7 +15,7 @@ using namespace fastjet::contrib;
 
 // Set VR parameters
 static double const jet_Rmax	=1.0;
-static double const jet_Rmin	=0.1;
+static double const jet_Rmin	=0.2;
 static double const jet_Rho	=500.;
 
 //Instantiate VR plugin

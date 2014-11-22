@@ -237,10 +237,11 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("DeltaR_b2b3_preCut", event_weight, bjets.at(1).delta_R(bjets.at(2)) );
 	FillHistogram("DeltaR_b2b4_preCut", event_weight, bjets.at(1).delta_R(bjets.at(3)) );
 	FillHistogram("DeltaR_b3b4_preCut", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
+	
+	
+// ************* CUTS ************************************************************
 
-	// ************* CUTS ************************************************************
-
-	// First of all, after basic selection, require that all four b jets are above 40 GeV
+	// First of all, after basic selection, require that all four jets are above 25 GeV
 	double const pt_bjet_ox = 25.0;
 	// they should also be in central rapidity, |eta| < 2.5
 	double const eta_bjet_ox = 2.5;
@@ -251,7 +252,8 @@ void OxfordResVRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 		if(bjets.at(ijet).pt() < pt_bjet_ox || 
 			fabs( bjets.at(ijet).eta() ) > eta_bjet_ox) 
 			{
-				Cut("bJet pT/Eta", event_weight);	// Kinematics cut on b-jets
+				Cut("Jet pT/Eta", event_weight);	// Kinematics cut on b-jets
+				event_weight=0;
 				return;
 			}
 	}
@@ -366,7 +368,7 @@ void OxfordResVRAnalysis::JetCluster_SmallVR(finalState const& particles, std::v
 		event_weight=0;
 		return;
 	}
-
+	
 	// By looking at the jet constituents
 	// we can simulate the effects of b tagging
 
