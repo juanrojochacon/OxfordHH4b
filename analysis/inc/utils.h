@@ -4,6 +4,8 @@
 #include <vector>
 #include "analysis.h"
 
+#include "HepMC/GenEvent.h"
+
 namespace Pythia8{
 class Pythia;
 }
@@ -23,6 +25,7 @@ void InitPythia_PartonLevel(Pythia8::Pythia & pythiaRun, string eventfile);
   Get the information on all final state particles
  */
 void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particles);
+void get_final_state_particles(HepMC::GenEvent & hepMCevent, finalState& particles);
 
 
 // Substructure variables

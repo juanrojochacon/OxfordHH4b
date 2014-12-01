@@ -37,6 +37,10 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 
 GCC = g++
 
+# hepmc2 
+HEPMCLIBS = -lHepMC
+HEPMCCFLAGS = 
+
 # fastjet 
 FASTJETLIBS = $(shell fastjet-config --libs)
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
@@ -52,8 +56,8 @@ PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
 YODALIBS = $(shell yoda-config --libs)
 YODACFLAGS = $(shell yoda-config --cxxflags)
 
-CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(MACROS)
-LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS) $(FJCONTRIB)
+CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(HEPMCCFLAGS) $(MACROS)
+LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS) $(FJCONTRIB) $(HEPMCLIBS)
 
 INCPATH = $(CFLAGS)
 

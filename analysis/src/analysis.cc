@@ -173,7 +173,7 @@ void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 		pz_tot+= jets.at(ij).pz();
 		E_tot+= jets.at(ij).E();
 	}
-/*
+
 	// Check energy-momentum conservation
 	if( fabs(px_tot) > tol_emom || fabs(py_tot)  > tol_emom 
 	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom )
@@ -187,8 +187,6 @@ void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 		exit(-10);
 		std::cout<<"\n ********************************************************************** \n"<<std::endl;
 	}
-	*/
-
 }
 
 

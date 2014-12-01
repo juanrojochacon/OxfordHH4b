@@ -195,6 +195,47 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
   Analysis::VerifyFourMomentum(particles);
 }
 
+/*
+  Get the information on all final state particles - HepMC version
+ */
+void get_final_state_particles(HepMC::GenEvent & event, finalState& particles){
+
+  for ( HepMC::GenEvent::particle_iterator p = event.particles_begin();
+        p != event.particles_end(); ++p ) 
+     if ( !(*p)->end_vertex() && (*p)->status()==1 ) // Is final-state
+     {
+        HepMC::GenParticle* gp = *p;
+
+        const double E = gp->momentum().e();
+        const double px = gp->momentum().px();
+        const double py = gp->momentum().py();
+        const double pz = gp->momentum().pz();
+
+        const int pdg = gp->pdg_id();
+
+        // partons
+        if(abs(pdg)<6 || pdg==21 )
+        {
+          particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
+          particles.at(particles.size()-1).set_user_index(pdg);
+        }
+        // beam remnants
+        else if(pdg > 2000 )
+        {
+          particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
+          particles.at(particles.size()-1).set_user_index(pdg);
+        }
+        else
+        {
+          std::cout<<"Invalid particle ID = "<<pdg<<std::endl;
+          exit(-10);
+        }
+     }
+
+  // Verify final state four momenta
+  Analysis::VerifyFourMomentum(particles);
+}
+
 
 // ----------------------------------------------------------------------------------
 // Recluster with kt algorithm to obtain splitting scales
