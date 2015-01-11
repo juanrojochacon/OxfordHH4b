@@ -67,7 +67,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis utils ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo
+MODULES = analysis run utils pythia hepmc ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo
 
 ############################## do not change ###################################
 

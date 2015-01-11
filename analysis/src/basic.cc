@@ -27,8 +27,11 @@ Analysis("basic", sample)
  	outputNTuple<<tupleSpec<<std::endl;	// DO NOT CHANGE
 }
 
-void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const&)
+void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+	// Call basic analysis
+	Analysis::Analyse(signal, weightnorm, fs);
+
 	// Weightnorm provides the sample's unit weight
 	double event_weight = weightnorm;
 

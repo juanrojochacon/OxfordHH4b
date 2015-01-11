@@ -52,6 +52,8 @@ Analysis("variabler", sample)
 
 void VariableRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& event)
 {
+	Analysis::Analyse(signal, weightnorm, event);
+
 	// Weightnorm provides the sample's unit weight
 	double event_weight = weightnorm;
 

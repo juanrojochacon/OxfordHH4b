@@ -11,6 +11,9 @@
 
 #include "fastjet/Selector.hh"
 
+// Default Verbosity
+bool Analysis::Verbose = false;
+
 // Create directory structure
 static inline void createPath(std::string path)
 {
@@ -34,13 +37,14 @@ analysisName(name),
 analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
 sampleName(sample),
 nPassed(0),
+totalWeight(0),
 passedWeight(0)
 {
-	std::cout << "Creating Path: "<<"."+analysisRoot<<std::endl;
+	if (Verbose) std::cout << "Creating Path: "<<"."+analysisRoot<<std::endl;
 	createPath("." + analysisRoot);
 	createPath("." + analysisRoot + sampleName);
 
-	std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
+	if (Verbose) std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
 	const string ntupOut =  "." + analysisRoot + sampleName + "/ntuple.dat";
 	outputNTuple.open( ntupOut.c_str() );
 };
@@ -96,7 +100,7 @@ void Analysis::FillHistogram(string const& rname, double const& weight, double c
 void Analysis::Export()
 {
 	// Write out cut flow
-	std::cout << "Exporting cutFlow: "<<analysisRoot + sampleName + "/cutFlow.dat"<<std::endl;
+	if (Verbose) std::cout << "Exporting cutFlow: "<<analysisRoot + sampleName + "/cutFlow.dat"<<std::endl;
 	const string cutFlow_out = "./" + analysisRoot + sampleName + "/cutFlow.dat";
 	std::ofstream cutFlow(cutFlow_out.c_str());
 
@@ -106,8 +110,15 @@ void Analysis::Export()
 		sumWeight += cutWeight[i].second;
 
 	for (size_t i=0; i<cutWeight.size(); i++)
-		cutFlow << std::left<<std::setw(5) << i << std::left<<std::setw(25) << cutWeight[i].first <<std::left<<std::setw(25) << cutWeight[i].second<<std::left<<std::setw(20)<<std::endl;
-	cutFlow << std::left<<std::setw(5) << cutWeight.size()<<std::left<<std::setw(25)<<"(Passed)"<<std::left<<std::setw(25)<<passedWeight<<std::endl;
+	{
+		cutFlow << std::left<<std::setw(5) << i << std::left<<std::setw(25) 
+		<< cutWeight[i].first <<std::left<<std::setw(25) 
+		<< totalWeight - cutWeight[i].second<<std::left<<std::setw(20)<<std::endl;
+		totalWeight -= cutWeight[i].second;
+	}
+	cutFlow << std::left<<std::setw(5) << cutWeight.size()<<std::left
+	<<std::setw(25)<<"(Passed)"<<std::left<<std::setw(25)
+	<<passedWeight<<"  ("<<totalWeight<<")"<<std::endl;
 
 
 	cutFlow.close();
@@ -116,7 +127,7 @@ void Analysis::Export()
 	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.begin();
 	while (iMap != bookedHistograms.end())
 	{
-		std::cout << "Writing Histogram: "<< (*iMap).second->path()<<std::endl;
+		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap).second->path()<<std::endl;
 		YODA::WriterFLAT::write("." + (*iMap).second->path(), *(*iMap).second);
 		iMap++;
 	}
@@ -153,9 +164,8 @@ void Analysis::Pass(double const& weight)
 }
 
 
-void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
+bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 {
-
 	// To check energy-momentum conservation
 	double const Eref=14000; // Samples generated for LHC 14 TeV
 	double const tol_emom=1.0;
@@ -179,14 +189,15 @@ void Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 	|| fabs(pz_tot)  > tol_emom || fabs(E_tot-Eref)  > tol_emom )
 	{
 		std::cout<<"\n ********************************************************************** \n"<<std::endl;
-		std::cout<<"No conservation of energy in Pythia after shower and jet reconstruction "<<std::endl;
+		std::cout<<"No conservation of energy after jet reconstruction "<<std::endl;
 		std::cout<<"px_tot = "<<px_tot<<std::endl;
 		std::cout<<"py_tot = "<<py_tot<<std::endl;
 		std::cout<<"pz_tot = "<<pz_tot<<std::endl;
 		std::cout<<"E_tot, Eref = "<<E_tot<<" "<<Eref<<std::endl;
-		exit(-10);
 		std::cout<<"\n ********************************************************************** \n"<<std::endl;
+		return false;
 	}
+	return true;
 }
 
 

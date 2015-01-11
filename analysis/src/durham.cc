@@ -96,6 +96,8 @@ Analysis("durham", sampleName)
 
 void DurhamAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+  Analysis::Analyse(signal, weightnorm, fs);
+
   double event_weight = weightnorm;
   const int njet = 2; // limit to 2 hardest jets
 

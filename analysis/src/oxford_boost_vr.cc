@@ -94,6 +94,8 @@ Analysis("oxford_boost_vr", sampleName)
 
 void OxfordBoostVRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+  Analysis::Analyse(signal, weightnorm, fs);
+
 	// Set initial weight
 	double event_weight = weightnorm;
 

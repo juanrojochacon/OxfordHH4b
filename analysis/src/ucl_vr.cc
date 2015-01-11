@@ -123,6 +123,8 @@ Analysis("ucl_vr", sampleName)
 
 void UCLVRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+	Analysis::Analyse(signal, weightnorm, fs);
+
 	// Set initial weight
 	double event_weight = weightnorm;
 

@@ -90,6 +90,8 @@ Analysis("oxford_boost_fr", sampleName)
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+  Analysis::Analyse(signal, weightnorm, fs);
+
 	// Set initial weight
 	double event_weight = weightnorm;
 

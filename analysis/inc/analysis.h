@@ -37,10 +37,16 @@ class Analysis
 
 		double GetCutWeight() const;
 
-		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&) = 0;
+		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&)
+		{
+			totalWeight += weightnorm;
+		};
+		
 		void Export();
 
-		static void VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets);
+		static bool VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets);
+
+		static bool Verbose;
 
 	protected:
 		void BookHistogram(YODA::Histo1D*, string const& name);
@@ -58,6 +64,7 @@ class Analysis
 		const string sampleName;		//!< Name of the current sample
 
 		int nPassed; 			//!< Number of events passing analysis cuts
+		double totalWeight;		//!< Total sample weight
 		double passedWeight; 	//!< Total weight of passed events
 
 		std::map<int,YODA::Histo1D*> bookedHistograms;
