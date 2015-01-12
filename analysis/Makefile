@@ -26,7 +26,7 @@ DESTDIR=.
 VPATH=$(SOURCEDIR)
 
 # MC sample directory
-SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/users/rojo/HH4b/MCsamples/\"
+SAMPLEDIR= -DSAMPLEDIR=\"/data/atlastemp/DiHiggsSharedSamples/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
@@ -38,8 +38,8 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 GCC = g++
 
 # hepmc2 
-HEPMCLIBS = -lHepMC
-HEPMCCFLAGS = 
+HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/lib
+HEPMCCFLAGS = -I /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/include
 
 # fastjet 
 FASTJETLIBS = $(shell fastjet-config --libs)
