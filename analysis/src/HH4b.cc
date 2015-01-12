@@ -54,7 +54,7 @@ int main()
 
     // Initialise Pythia and HepMC
     Pythia pythiaRun(std::string(PYTHIADIR)); // Pythia input
-    std::ifstream hepmc_is( eventfile );      // HepMC input
+    std::ifstream hepmc_is( eventfile.c_str() );      // HepMC input
 
     // Initialise the event sample and weight normalisation
     double weight_norm = 0;
