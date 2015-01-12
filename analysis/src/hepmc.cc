@@ -7,7 +7,7 @@ void InitHepMC( std::string const& eventfile, int const& nevt_max, double& weigh
   double gen_xsec = 0;
   double sum_weights = 0;
 
-  std::ifstream hepmc_is( eventfile );            // HepMC input
+  std::ifstream hepmc_is( eventfile.c_str() );            // HepMC input
   for (int iEvent = 0; iEvent < nevt_max; iEvent++)
     {
       if (! hepmc_is )
