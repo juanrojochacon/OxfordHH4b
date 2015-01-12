@@ -23,8 +23,8 @@ static std::vector<eventSample> samples;
 	// **************** PLEASE MODIFY  ****************
 
 // Global run parameters
-const int nSamples = 2;
-const int max_evt = 3E5;
+const int nSamples = 3;
+const int max_evt = 1E7;
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -44,7 +44,7 @@ eventSample GetSample( int const& isample )
 	{
 
 	// **************** PLEASE MODIFY  ****************
-	  case 2: 
+	  case 0: 
 	  eventfile="HH_sm_eft_100K.lhe";
 	  samplename="diHiggs";
 	  signal = true;
@@ -52,20 +52,20 @@ eventSample GetSample( int const& isample )
 	  nevt_sample = 1E5;
 	  break;
 
-	  case 0: 
-	  eventfile="SHERPA_2b2j_1_8M.hepmc";
+	  case 1: 
+	  eventfile="SHERPA_QCD_2b2j.hepmc";
 	  samplename="SHERPA_QCD2b2j";
 	  signal = false;
 	  hepmc = true;
-	  nevt_sample = 1.4E6;
+	  nevt_sample = 3E6;
 	  break;
 
-	  case 1: 
-	  eventfile="SHERPA_4b_1M.hepmc";
+	  case 2: 
+	  eventfile="SHERPA_QCD_4b.hepmc";
 	  samplename="SHERPA_QCD4b";
 	  signal = false;
 	  hepmc = true;
-	  nevt_sample = 1E6;
+	  nevt_sample = 3E6;
 	  break;
 	// **************** DO NOT MODIFY  ****************
 
