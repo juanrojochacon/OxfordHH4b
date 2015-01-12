@@ -77,7 +77,7 @@ std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetV
         tau2_vec.push_back(-1);
         tau3_vec.push_back(-1);
   
-        double tau21 = tau2/tau1;
+        //double tau21 = tau2/tau1;
         tau21_vec.push_back(-1);
         continue;
       }
@@ -195,7 +195,7 @@ std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetV
    tau2_vec.push_back(-1);
    tau3_vec.push_back(-1);
   
-   double tau21 = tau2/tau1;
+   //double tau21 = tau2/tau1;
    tau21_vec.push_back(-1);
          continue;
       }

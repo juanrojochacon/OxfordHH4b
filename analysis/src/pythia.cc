@@ -105,7 +105,7 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     int particle_id = pythiaRun.event[i].id();
     
     // Get PDG chargeID (three times the real charge)
-    int particle_charge = pythiaRun.event[i].chargeType();
+   // int particle_charge = pythiaRun.event[i].chargeType();
     
     // Get particle status: in pythia8, status > 0 means final state particles
     int particle_status = pythiaRun.event[i].status();
