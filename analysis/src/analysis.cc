@@ -109,9 +109,13 @@ void Analysis::Export()
 	for (size_t i=0; i<cutWeight.size(); i++)
 		sumWeight += cutWeight[i].second;
 
+	cutFlow << std::left<<std::setw(5) << 0 << std::left<<std::setw(25) 
+		<< "Total" <<std::left<<std::setw(25) 
+		<< totalWeight <<std::left<<std::setw(20)<<std::endl;
+
 	for (size_t i=0; i<cutWeight.size(); i++)
 	{
-		cutFlow << std::left<<std::setw(5) << i << std::left<<std::setw(25) 
+		cutFlow << std::left<<std::setw(5) << i+1 << std::left<<std::setw(25) 
 		<< cutWeight[i].first <<std::left<<std::setw(25) 
 		<< totalWeight - cutWeight[i].second<<std::left<<std::setw(20)<<std::endl;
 		totalWeight -= cutWeight[i].second;
