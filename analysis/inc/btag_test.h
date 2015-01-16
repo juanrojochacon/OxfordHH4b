@@ -9,15 +9,16 @@
 
 /*
 	This is a resolved style analysis intended to test the b-Tagging procedure
+	In this case, only the hardest 4 jets are considered
  */
 class bTagTestAnalysis : public Analysis
 {
 	public:
 		bTagTestAnalysis(std::string const& sampleName);
 
-		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
+		virtual void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 
-	private:
+	protected:
 		// Test bTagging
-		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method 
+		int BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method - returns number of consitutent b's
 };

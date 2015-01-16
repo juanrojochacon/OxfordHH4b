@@ -28,6 +28,9 @@ Analysis("bTagTest", sampleName)
 	const std::string tupleSpec = "# signal source";
 	outputNTuple<<tupleSpec<<std::endl;
 
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbJets");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbConstituents");
+
 	// Order cutflow
 	Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
@@ -55,9 +58,15 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 	std::vector<fastjet::PseudoJet> bjets;
 
 	// Loop over the 4 hardest jets in event only
+	int NbJets = 0;
 	for(int ijet=0; ijet<njet;ijet++)
-		if( BTagging(jets_fr_akt[ijet]) )   // Check if at least one of its constituents is a b quark
+	{
+		int bQuarks = BTagging(jets_fr_akt[ijet]);
+		FillHistogram("truth_NbConstituents", 1, bQuarks+0.5 );
+
+		if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
 		{
+			NbJets++;
 			bjets.push_back(jets_fr_akt.at(ijet));
 			event_weight *= test_btag_prob; // Account for b tagging efficiency
 		}
@@ -66,6 +75,9 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 			bjets.push_back(jets_fr_akt.at(ijet));
 			event_weight *= test_btag_mistag;
 		}
+	}
+
+	FillHistogram("truth_NbJets", 1, NbJets+0.5 );
 
 	// cut from btagging
 	Cut("Basic: bTagging", initial_weight - event_weight);
@@ -81,7 +93,7 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 
 // ----------------------------------------------------------------------------------
 
-bool bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+int bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 {
 	// Cuts for the b-jet candidates for b-tagging
 	double const pt_btagging=0;
@@ -91,6 +103,7 @@ bool bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 
 	// Loop over constituents and look for b quarks
 	// also b quarks must be above some minimum pt
+	int bquarks = 0;
 	for(size_t i=0; i<jet_constituents.size(); i++)
 	{
 		// Flavour of jet constituent
@@ -99,10 +112,10 @@ bool bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 
 		if(abs(userid) ==5 )
 			if( pt_bcandidate > pt_btagging)
-		  		return true;
+		  		bquarks++;
 	}
 
- 	return false; // no b-jets found
+ 	return bquarks; // no b-jets found
 }
 
 
