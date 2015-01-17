@@ -32,7 +32,7 @@ Analysis("oxford_boost_fr", sampleName)
   // *********************** preCut **************************
 
   // Fat Jet histograms
-  BookHistogram(new YODA::Histo1D(20, 0, 20), "nJets_preCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nFatJets_preCut");
   
   BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj1_preCut");
   BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj2_preCut");
@@ -51,11 +51,21 @@ Analysis("oxford_boost_fr", sampleName)
   BookHistogram(new YODA::Histo1D(20, 200, 1500), "pT2fj_preCut");
 
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_preCut");
+  
+  // Subjet histograms (after pt, m cuts on both fatjets)
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_postFJCut");
+
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "leadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "leadSubjet_fj1_pt_postFJCut");
+  
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "subleadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 200), "subleadSubjet_fj1_pt_postFJCut");
 
   // ************************* postCut ********************************
 
   // Fat Jet histograms
-  BookHistogram(new YODA::Histo1D(20, 0, 20), "nJets_postCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nFatJets_postCut");
   
   BookHistogram(new YODA::Histo1D(40, ptfj_min, ptfj_max), "ptfj1_postCut");
   BookHistogram(new YODA::Histo1D(40, ptfj_min, ptfj_max), "ptfj2_postCut");
@@ -82,10 +92,9 @@ Analysis("oxford_boost_fr", sampleName)
 
 	// Order cutflow
 	Cut("Basic: Two fatjets", 0);
-	Cut("Basic: Fatjet cuts", 1);
-	Cut("Basic: 4 small-R jets", 2);
-	Cut("Basic: 2 subjets for each fatjet", 3);
-	Cut("Basic: bTagging", 4);
+	Cut("Basic: Fatjet kinematic cuts", 1);
+	Cut("Basic: 2 subjets for each fatjet", 2);
+	Cut("Basic: bTagging", 3);
 }
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -115,13 +124,12 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	const fastjet::PseudoJet higgs1 = fatjets.at(0);
 	const fastjet::PseudoJet higgs2 = fatjets.at(1);
 
-	// Histograms for the pt of the HH system
-	// no cuts are applied on this variable
+	// Histograms for the HH system
 	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
 
 	int nJets = fatjets.size();
 	// Record jet multiplicity before cuts
-	FillHistogram("nJets_postCut", event_weight, nJets );
+	FillHistogram("nFatJets_postCut", event_weight, nJets );
 
 	FillHistogram("ptfj1_postCut", event_weight, fatjets.at(0).pt() );
 	FillHistogram("ptfj2_postCut", event_weight, fatjets.at(1).pt() );
@@ -183,7 +191,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   const fastjet::PseudoJet dihiggs= jets_fr_akt.at(0)+jets_fr_akt.at(1);
   
   // Record jet multiplicity before cuts
-  FillHistogram("nJets_preCut", event_weight, nJets );
+  FillHistogram("nFatJets_preCut", event_weight, nJets );
 
   // Fill the histograms for the pt of the fat jets before 
   // the corresponding kinematical cuts
@@ -236,46 +244,37 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_subjets.inclusive_jets()  );
   
   std::vector<fastjet::PseudoJet> subjets;
-  
-  //------------------------------------------------------------------------------------------------------
-  //Consider only jets that pass basic kinematic cuts
-  double const pt_subjet_ox = 25.0;
-  // they should also be in central rapidity, |eta| < 2.5
-  double const eta_subjet_ox = 2.5;
-  
-  //Basic kinematic cuts on the jets
-  // Restrict to the four leading subjets in the event
-  for(int ijet=0; ijet<(int)subjets.size();ijet++)
-  {
-	  if(subjets.at(ijet).pt() > pt_subjet_ox && 
-		  fabs( jets_akt.at(ijet).eta() ) < eta_subjet_ox) 
-		  {
-			  subjets.push_back(jets_akt.at(ijet));
-		  }
-  }
 
-  // We require at least 4 selected subjets in the event, else discard event
-  int const nsubjet=4;
-  if((int)subjets.size() < nsubjet) 
+  //---------------------------------------------------------------------------------------
+  // Ghost association of small jets to fat jets
+  std::vector<fastjet::PseudoJet> subjets_fj0_unsrt;
+  std::vector<fastjet::PseudoJet> subjets_fj1_unsrt;
+  
+  get_assoc_trkjets( jets_fr_akt.at(0), jets_akt, subjets_fj0_unsrt, false);
+  get_assoc_trkjets( jets_fr_akt.at(1), jets_akt, subjets_fj1_unsrt, false);
+  
+  // Subjet multiplicity (before any subjet cuts)
+  FillHistogram("nSubjets_fj0_postFJCut", event_weight, (int)subjets_fj0_unsrt.size() );
+  FillHistogram("nSubjets_fj1_postFJCut", event_weight, (int)subjets_fj1_unsrt.size() );
+  
+  // Require at least 2 subjets per fat jet
+  int const nsubjet=2;
+  if( ((int)subjets_fj0_unsrt.size() < nsubjet ) || ((int)subjets_fj1_unsrt.size() < nsubjet ) ) 
   {
-	  Cut("Basic: 4 small-R jets",event_weight);
+	  Cut("Basic: 2 subjets for each fat jet",event_weight);
 	  event_weight=0;
 	  return;
   }
-
-  std::vector<fastjet::PseudoJet> subjets_jet0;
-  std::vector<fastjet::PseudoJet> subjets_jet1;
   
-  get_assoc_trkjets( jets_fr_akt.at(0), jets_akt, subjets_jet0, false);
-  get_assoc_trkjets( jets_fr_akt.at(1), jets_akt, subjets_jet1, false);
+  std::vector<fastjet::PseudoJet> subjets_fj0 = sorted_by_pt( subjets_fj0_unsrt  );
+  std::vector<fastjet::PseudoJet> subjets_fj1 = sorted_by_pt( subjets_fj1_unsrt  );
   
-  // Require at least 2 subjets matched to each fatjet
-  if((int)subjets_jet0.size() < 2 || (int)subjets_jet1.size() < 2) 
-  {
-	  Cut("Basic: 2 subjets for each fatjet",event_weight);
-	  event_weight=0;
-	  return;
-  }
+  FillHistogram("leadSubjet_fj0_pt_postFJCut", event_weight, subjets_fj0[0].pt() );
+  FillHistogram("leadSubjet_fj1_pt_postFJCut", event_weight, subjets_fj1[0].pt() );
+  
+  FillHistogram("subleadSubjet_fj0_pt_postFJCut", event_weight, subjets_fj0[1].pt() );
+  FillHistogram("subleadSubjet_fj1_pt_postFJCut", event_weight, subjets_fj1[1].pt() );
+  //---------------------------------------------------------------------------------------
   
   std::vector<fastjet::PseudoJet> bjets_jet0;
   std::vector<fastjet::PseudoJet> bjets_jet1;
@@ -283,10 +282,10 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   // By looking at the jet constituents
   // we can simulate the effects of b tagging
   const double initial_weight = event_weight;
-  for(unsigned int ijet=0; ijet<subjets_jet0.size(); ijet++){
-  	if( BTagging(subjets_jet0[ijet]) )   // Check if at least two of its constituents are b quarks
+  for(unsigned int ijet=0; ijet<subjets_fj0.size(); ijet++){
+  	if( BTagging(subjets_fj0[ijet]) )   // Check if at least two of its constituents are b quarks
   	{
-  		bjets_jet0.push_back(subjets_jet0.at(ijet));
+  		bjets_jet0.push_back(subjets_fj0.at(ijet));
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
@@ -294,20 +293,20 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   		event_weight *= btag_mistag;
   	}
   }
-  for(unsigned int ijet=0; ijet<subjets_jet1.size(); ijet++){
-  	if( BTagging(subjets_jet1[ijet]) )   // Check if at least one of its constituents are b quarks
+  for(unsigned int ijet=0; ijet<subjets_fj1.size(); ijet++){
+  	if( BTagging(subjets_fj1[ijet]) )   // Check if at least one of its constituents are b quarks
   	{
-  		bjets_jet1.push_back(subjets_jet1.at(ijet));
-  		double btag_prob = btag_eff( subjets_jet1.at(ijet).pt() );
+  		bjets_jet1.push_back(subjets_fj1.at(ijet));
+  		double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_jet1[ijet])) {
-		double ctag_prob = charm_eff( subjets_jet1.at(ijet).pt() );
+  	else if( CTagging(subjets_fj1[ijet])) {
+		double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
 		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{	
-		double mistag_prob = mistag_eff( subjets_jet1.at(ijet).pt() );
+		double mistag_prob = mistag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= mistag_prob;
   	}
   }

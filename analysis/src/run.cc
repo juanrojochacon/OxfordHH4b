@@ -25,6 +25,7 @@ static std::vector<eventSample> samples;
 // Global run parameters
 const int nSamples = 3;
 const int max_evt = 1E7;
+// const int max_evt = 1000;
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -101,7 +102,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
+//   HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
   signalAnalyses.push_back(new UCLAnalysis("signal"));
@@ -109,7 +110,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   signalAnalyses.push_back(new UCLVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
+//   signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
   backgroundAnalyses.push_back(new UCLAnalysis("background"));
@@ -117,7 +118,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResFRAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
+//   backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
@@ -131,7 +132,7 @@ void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string con
 	sampleAnalyses.push_back(new UCLAnalysis(samplename));
 	sampleAnalyses.push_back(new DurhamAnalysis(samplename));
 	sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
-	sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
+// 	sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordResFRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));

@@ -104,8 +104,8 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     // Get PDG ID
     int particle_id = pythiaRun.event[i].id();
     
-    // Get PDG chargeID (three times the real charge)
-   // int particle_charge = pythiaRun.event[i].chargeType();
+   //Get PDG chargeID (three times the real charge)
+//    int particle_charge = pythiaRun.event[i].chargeType();
     
     // Get particle status: in pythia8, status > 0 means final state particles
     int particle_status = pythiaRun.event[i].status();
@@ -126,6 +126,14 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
       particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
       // Set PDG ID
       particles.at(particles.size()-1).set_user_index(particle_id);
+      
+//       // Save charged particles for track jets
+//       if( particle_charge != 0 ){
+//           // Set kinematics
+// 	  charged_particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
+// 	  // Set PDG ID
+// 	  charged_particles.at(charged_particles.size()-1).set_user_index(particle_id);
+//       }
     }
     // beam remnants
     else if(particle_id > 2000 ){

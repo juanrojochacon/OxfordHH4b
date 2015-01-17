@@ -331,7 +331,8 @@ void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJ
       if( debug ) std::cout << " user index = " << constit.user_index() << ", pt of constit = " << constit.pt() << std::endl;
       if(constit.user_index()>=0){
 	  int iter = constit.user_index();
-	  if(trkjets.at(iter).pt() > 20. && fabs(trkjets.at(iter).eta()) < 2.5 ) matched_trkjets.push_back(trkjets.at(iter));
+// 	  if(trkjets.at(iter).pt() > 20. && fabs(trkjets.at(iter).eta()) < 2.5 ) matched_trkjets.push_back(trkjets.at(iter));
+	  matched_trkjets.push_back(trkjets.at(iter));
       }
     }
 
