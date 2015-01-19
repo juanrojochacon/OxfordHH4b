@@ -27,6 +27,7 @@ VPATH=$(SOURCEDIR)
 
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/data/atlastemp/DiHiggsSharedSamples/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"/Users/nathanhartland/Work/Code/OxfordHH4b/analysis/data/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
@@ -67,7 +68,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis run utils pythia hepmc ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo
+MODULES = analysis run utils pythia hepmc ucl ucl_vr durham basic btag_test variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo
 
 ############################## do not change ###################################
 

@@ -13,6 +13,7 @@
 #include "oxford_boost_fr.h"
 #include "variableR.h"
 #include "amcatnlo.h"
+#include "btag_test.h"
 
 #include <vector>
 #include <cmath>
@@ -128,6 +129,8 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
 	// **************** PLEASE MODIFY  ****************
+	sampleAnalyses.push_back(new bTagTestAnalysis(samplename));
+
 	sampleAnalyses.push_back(new AMCAnalysis(samplename));
 	sampleAnalyses.push_back(new UCLAnalysis(samplename));
 	sampleAnalyses.push_back(new DurhamAnalysis(samplename));

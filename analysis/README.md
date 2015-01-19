@@ -15,6 +15,8 @@ It requires that you have installed:
 
 * YODA 1.3.0 (https://yoda.hepforge.org)
 
+* HepMC 2.06.08 or later (http://lcgapp.cern.ch/project/simu/HepMC/)
+
 * Fastjet http://fastjet.fr/
 
 Here one also needs to install fastjet contrib
@@ -28,8 +30,7 @@ by the makefile. You should edit the Makefile samples path to the location of yo
 
 ### To compile and run the code
 
-make
-./HH4b
+make && ./HH4b
 
 This runs the analysis code for all the analyses specified in ./src/HH4b.cc.
 The code will output all results to /res/<analysis>/<sample>
