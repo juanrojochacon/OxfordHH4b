@@ -43,11 +43,11 @@ void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		return Cut("Basic: Two dijets",event_weight);
 
 	// Require at least one jet with pT > 100 GeV
-	if ( jets_akt[0].pt() < 30 )
+	if ( jets_akt[0].pt() < 100 )
 		return Cut("Leading jet pT", event_weight);
 
 	// pT / eta cuts
-	const double pt_amc_cut = 30;
+	const double pt_amc_cut = 80;
 	const double eta_amc_cut = 2.5;
 	for(int ijet=0; ijet<4;ijet++)
 	{
