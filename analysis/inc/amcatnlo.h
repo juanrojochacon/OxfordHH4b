@@ -18,4 +18,7 @@ class AMCAnalysis : public Analysis
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 
 	private:
+
+		bool BTagging( fastjet::PseudoJet const& jet ) const;
+
 };

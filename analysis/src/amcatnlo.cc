@@ -14,10 +14,11 @@ AMCAnalysis::AMCAnalysis(std::string const& sampleName):
 Analysis("aMC@NLO", sampleName)
 {
 	// CutFlow
-	Cut("Basic: Two dijets",  0);
-	Cut("Leading jet pT", 	  0);
-	Cut("Subleading Jet pT",  0);
-	Cut("Jet eta acceptance", 0);
+	Cut("Basic: Four jets",  0);
+	Cut("Basic: Leading jet pT", 	  0);
+	Cut("Unrec Sample", 0);
+	Cut("NbJets 80",  0);
+	Cut("NbJets 100", 0);
 
 	BookHistogram(new YODA::Histo1D(1, 0, 1), "xSec_postCut");
 
@@ -27,36 +28,66 @@ Analysis("aMC@NLO", sampleName)
 
 void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
+	Analysis::Analyse(signal, weightnorm, fs);
+
 	// Set initial weight
 	double event_weight = weightnorm;
 
-	static double const jetR=0.5;
+	const double jetR = 0.5;
+	const double eta_amc_cut = 2.5;
+
 	fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 	fastjet::ClusterSequence cs_akt(fs, akt);
 
-	std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-	if (!VerifyFourMomentum(jets_akt)) return Cut("4Momentum",event_weight); // Verify clustering
+	std::vector<fastjet::PseudoJet> jets_akt_80  = sorted_by_pt( cs_akt.inclusive_jets( 80.0  )  );
+	std::vector<fastjet::PseudoJet> jets_akt_100 = sorted_by_pt( cs_akt.inclusive_jets( 100.0 )  );
 
-	// We require at least 4 jets in the event, else discard event
-	int const njet=4;
-	if ( (int)jets_akt.size() < njet) 
-		return Cut("Basic: Two dijets",event_weight);
+	// Need at least 4 jets with pT > 80
+	if ( (int)jets_akt_80.size() < 4) 
+		return Cut("Basic: Four jets",event_weight);
 
-	// Require at least one jet with pT > 100 GeV
-	if ( jets_akt[0].pt() < 100 )
-		return Cut("Leading jet pT", event_weight);
+	// Need at least 1 jet with pT > 100
+	if ( (int)jets_akt_100.size() < 1) 
+		return Cut("Basic: Leading jet pT",event_weight);
 
-	// pT / eta cuts
-	const double pt_amc_cut = 80;
-	const double eta_amc_cut = 2.5;
-	for(int ijet=0; ijet<4;ijet++)
+	// b-Tagging
+	int NbJet_80 = 0;
+	int NbJet_100 = 0;
+
+	for (size_t i=0; i<jets_akt_80.size(); i++)
+		if ( fabs(jets_akt_80[i].eta()) < eta_amc_cut )
+			if (BTagging(jets_akt_80[i]))
+				NbJet_80++;
+
+	for (size_t i=0; i<jets_akt_100.size(); i++)
+		if ( fabs(jets_akt_100[i].eta()) < eta_amc_cut )
+			if (BTagging(jets_akt_100[i]))
+				NbJet_100++;
+
+	int Nb_Req_80 = 0;
+	int Nb_Req_100 = 0;
+
+	if (GetSample().compare("SHERPA_QCD4b") == 0)
 	{
-		if ( jets_akt[ijet].pt() < pt_amc_cut )
-			return Cut("Subleading Jet pT", event_weight);
-
-		if ( fabs(jets_akt[ijet].eta()) > eta_amc_cut )
-			return Cut("Jet eta acceptance", event_weight);
+		Nb_Req_80 = 4;
+		Nb_Req_100 = 1;
+	} else if (GetSample().compare("SHERPA_QCD2b2j") == 0)
+	{
+		Nb_Req_80 = 2;
+		Nb_Req_100 = 0;
+	} else
+	{
+		return Cut("Unrec Sample", event_weight);
 	}
+
+	// Require either 2 or 4 b-Jets at 80GeV
+	if ( NbJet_80 < Nb_Req_80 )
+		return Cut("NbJets 80", event_weight);
+
+	// Require wither 1 or 0 b-Jets at 100GeV
+	if ( NbJet_100 < Nb_Req_100 )
+		return Cut("NbJets 100", event_weight);
+
 
 	FillHistogram("xSec_postCut", event_weight, 0.5 );
 
@@ -66,6 +97,24 @@ void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// Pass event
 	Pass(event_weight);
+}
+
+bool AMCAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+{
+	// Get the jet constituents
+	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+
+	// Loop over constituents and look for b quarks
+	// also b quarks must be above some minimum pt
+	for(size_t i=0; i<jet_constituents.size(); i++)
+	{
+		// Flavour of jet constituent
+		const int userid= jet_constituents.at(i).user_index();
+		if(abs(userid) ==5 )
+	  		return true;
+	}
+
+ 	return false; 
 }
 
 

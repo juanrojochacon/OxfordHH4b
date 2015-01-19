@@ -22,8 +22,8 @@ static const fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 static double const test_btag_prob = 0.80; 		// Probability of correct b tagging
 static double const test_btag_mistag = 0.01; 	// Mistag probability  
 
-bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName):
-Analysis("bTagTest", sampleName)
+bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName, std::string anaName):
+Analysis(anaName, sampleName)
 {
 	const std::string tupleSpec = "# signal source";
 	outputNTuple<<tupleSpec<<std::endl;
@@ -118,4 +118,74 @@ int bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
  	return bquarks; // no b-jets found
 }
 
+// ****************************************** UCL Style b-Tagging test *********************************************
 
+bTagTestUCLAnalysis::bTagTestUCLAnalysis(std::string const& sampleName):
+bTagTestAnalysis(sampleName, "bTagTest_UCL")
+{
+	const std::string tupleSpec = "# signal source";
+	outputNTuple<<tupleSpec<<std::endl;
+
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbJets");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbConstituents");
+
+	// Order cutflow
+	Cut("Basic: Two dijets pT > 40 GeV", 0);
+	Cut("Basic: bTagging", 0);
+}
+
+void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+{
+	Analysis::Analyse(signal, weightnorm, fs);
+
+	// Set initial weight
+	double event_weight = weightnorm;
+
+	// Fetch jets
+	fastjet::ClusterSequence cs_akt(fs, akt);
+	std::vector<fastjet::PseudoJet> jets_fr_akt = sorted_by_pt( cs_akt.inclusive_jets( 40.0 )  );
+	//VerifyFourMomentum(jets_fr_akt); // not a good idea here!
+
+	// We require at least 4 jets in the event, else discard event
+	int const njet=4;
+	if((int)jets_fr_akt.size() < njet) 
+		return Cut("Basic: Two dijets pT > 40 GeV",event_weight);
+
+	// Determine b-jets
+	std::vector<fastjet::PseudoJet> bjets;
+
+	// Loop over the 4 hardest jets in event only
+	int NbJets = 0;
+	for(int ijet=0; ijet<njet;ijet++)
+	{
+		int bQuarks = BTagging(jets_fr_akt[ijet]);
+		FillHistogram("UCL_truth_NbConstituents", 1, bQuarks+0.5 );
+
+		const int dice = ((double) rand() / (RAND_MAX));
+		if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
+		{
+			NbJets++;
+
+			if (dice < test_btag_prob)
+				bjets.push_back(jets_fr_akt.at(ijet));				
+		}
+		else // Else, account for the fake b-tag probabililty
+		{
+			if (dice < test_btag_mistag)
+				bjets.push_back(jets_fr_akt.at(ijet));
+		}
+	}
+
+	// Not enough b-jets
+	if (bjets.size() < 4)
+		return 	Cut("Basic: bTagging", event_weight);
+
+	FillHistogram("UCL_truth_NbJets", 1, NbJets+0.5 );
+	
+	// ************************************* MVA Output **********************************************************
+	outputNTuple <<signal <<"\t"<<GetSample()<<std::endl; 
+
+	// Pass event
+	Pass(event_weight);
+
+}
