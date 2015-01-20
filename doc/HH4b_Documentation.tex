@@ -2,14 +2,20 @@
 \documentclass[12pt]{article}
 \usepackage{graphicx}
 
+\usepackage{geometry}
+\geometry{margin=1.5in}
+
+%\usepackage{chngcntr}
+%\counterwithin{table}{section}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % basic data for the eprint:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\textwidth=6.0in  \textheight=8.25in
+% \textwidth=6.0in  \textheight=8.25in
 
 %%  Adjust these for your printer:
-\leftmargin=-0.3in   \topmargin=-0.20in
+% \leftmargin=-0.3in   \topmargin=-0.20in
 
 %% preprint number data:
 \newcommand\pubnumber{DRAFT-001}
@@ -62,11 +68,50 @@ and boosted topologies as well as multivariate methods.
 
 
 \section{Samples}
+\label{sec:samples}
 \subsection{Background}
 All background samples are generated with the {\tt SHERPA} event generator, version 2.1.1. For the explicit runcards used in the generation, see Appendix~\ref{app:runcards}.
 
-The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$ (in hindsight, $H_T/4$ would probably have made more sense).
+The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
 
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Process & Filename & Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
+\hline
+\hline
+$pp \to HH$ & HH\_sm\_eft\_100K.lhe & MG5\_aMC@NLO & 100K & $1.729\times10^{-2}$ pb \\
+\hline
+$pp \to b\bar{b}b\bar{b}$ & SHERPA\_QCD\_4b.hepmc & SHERPA 2.1.1 & 3M &$1.016 \times10^3$ pb \\
+$pp \to b\bar{b}jj$ & SHERPA\_QCD\_2b2j.hepmc & SHERPA 2.1.1 & 3M & $4.076 \times 10^5$ pb\\
+$pp \to jjjj$ & Running & SHERPA 2.1.1 & 3M  & ??? \\
+$pp \to t\bar{t}$ &  & &  & \\
+\hline
+\end{tabular}
+\caption{Summary of generated samples to date} \label{tab:samples}
+\end{center}
+\end{table}%
+
+Although suffering from a large theory uncertainty, we can compare the result of our background samples against those presented in the MG5\_aMC@NLO paper~\cite{Alwall:2014hca}.
+Here for comparison we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV. All jets must be within an acceptance of $|\eta| \le 2.5 $. In the case of the samples with $b$ quarks in the final state, these requirements are extended to the appropriate number of $b$-jets. For example, in the 2$b$2$j$ sample there must be at least two $b$-jets that pass the cuts outlined above.
+
+In Table~\ref{tab:xsecs} this comparison is summarised for the $2b2j$ and $4b$ samples. Considering the large theory errors, agreement is reasonable in both instances.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Process & $\sigma$ aMC@NLO & $\sigma$ Oxford (SHERPA) \\
+\hline\hline
+$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $3.473\times10^{-1}$ pb \\ 
+$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$5.193 \times 10^2$ pb \\ 
+\hline
+\end{tabular}
+\caption{Comparison of LO Oxford SHERPA cross-sections with those of the aMC@NLO paper. The aMC@NLO cross-sections come with a quoted $~50\%$ theory uncertainty.} \label{tab:xsecs}
+\end{center}
+\end{table}%
 \section{Object and Event Selection}
 
 \subsection{Resolved Topology}
@@ -76,8 +121,72 @@ The resolved selection requires the presence of at least four b-tagged anti-$k_T
 further kinematic cuts. \textit{Post-cut} histograms contain only events where the four jets also pass the above kinematic cuts.
 
 The di-Higgs system is reconstructed by considering all possibilities of forming two pairs of jets with invariant masses $m_{j1j2}$ and 
-$m_{j3j4}$, respectively, and chosing the configuration that minimises their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
+$m_{j3j4}$, respectively, and choosing the configuration that minimises their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
 are considered here.
+
+\subsubsection{Resolved $b$-jet tagging efficiencies}
+In order to perform an initial validation of the b-tagging procedure used in our resolved analysis we consider first a simple flat b-jet tagging efficiency of $\epsilon_b=0.8$ and a light jet mis-tag rate of $\epsilon_l=0.01$. In the UCL diHiggs analysis~\cite{Wardrope:2014kya} the 2$b$2$j$ background was discarded by applying a naive selection factor of $\epsilon^2_l\epsilon^2_b$ to a similar $2b2j$ cross-section as in Table~\ref{tab:xsecs} and finding the resulting cross-section to be considerably smaller than the equivalent selection factor applied to the 4$b$ sample.
+
+In practice we have found with these simple efficiencies, that the actual selection efficiencies differ considerably from the naive factors of $\epsilon_b^{n_b}\epsilon_l^{n_l}$.
+In Table~\ref{tab:btageff1} the results of this simple b-tagging test are demonstrated. Shown in the table are the total cross-sections before and after the application of the described b-tagging procedure, the resulting percentage of the cross-section passing the b-tag, and the naive selection percentage that would result from applying powers of $\epsilon_{b/l}$ to the total cross-section. The pass rate for samples with four $b$ quarks in the final state is therefore considerably lower in practice than one would naively expect, and the pass rate for the $2b2j$ sample considerably higher.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Process & $\sigma_{\mathrm{tot}}$ & After b-tag & \% selected & \% Naive selection \\
+\hline \hline
+$H\bar{H}$ & $1.729 \times 10^{-2}$ pb & $1.565\times 10^{-3}$ pb & \textbf{9.050\%} & 40.96\% \\
+\hline
+$b\bar{b}b\bar{b}$ & $1.016 \times10^3$ pb & $93.46$ pb & \textbf{9.199\%} & 40.96\%\\
+$b\bar{b}jj$ &  $4.076 \times 10^5$ pb & 103.904 pb & \textbf{0.026\%} & 0.0064\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{$b$-tagging analysis performed upon the samples described in Section~\ref{sec:samples}. Cross-sections are given for the samples before and after the application of the b-tagging procedure whereby the four hardest jets in the event are used, and the flat selection efficiency and mis-tag rates applied. The percentage of cross-section surviving the selection is shown, along with the naive expectation ($\epsilon_b^{n_b}\epsilon_l^{n_l}$) for comparison.} \label{tab:btageff1}
+\end{table}%
+
+These differences are due to the choices made in the selection procedure. In practice the four hardest jets in the event often do not correspond directly to the four parton level final state particles. In Table~\ref{tab:nbjets} the number of true $b$-jets (that is, prior to the application of selection efficiencies and fake rates) present in the hardest four jets per event is shown. Indeed, for the samples with four $b$-quarks in the parton level final state, the most common scenario has only three $b$-jets in the hardest four jets, significantly affecting the selection efficiency.
+
+ A more accurate estimation for the passing cross-section may be obtained by multiplying the various fractions of $b$-jets by the corresponding efficiencies, for example the 3 $b$-jet rate by $\epsilon_b^{3}\epsilon_l^{1}$. Summing the various scenarios we then have a better estimate for the percentage of cross-section passing the selection, shown in the final column of Table~\ref{tab:nbjets}. This agrees well with the observed rates shown in Table~\ref{tab:btageff1}.
+
+
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c||c|}
+\hline
+Process & 0 $b$-jets & 1 $b$-jet & 2 $b$-jets & 3 $b$-jets & 4 $b$-jets & \% selected \\
+\hline\hline
+$H\bar{H}$ & 0.049\% &  2.448\% &  23.49\% & 52.58\% &  21.43\% & \textbf{9.050\%}\\
+\hline
+$b\bar{b}b\bar{b}$ & 0.429\% & 5.477\%   & 25.53\% & 46.67\%  &  21.89\% & \textbf{9.208\%} \\
+$b\bar{b}jj$ & 6.213\%  &40.56\%  &51.93\%  &  1.227\% & 0.072\% & \textbf{0.039\%}\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Breakdown of the number of true $b$-jets in the hardest four clustered jets for various samples. The final column shows the predicted pass rate for the $b$-tagging given the distribution of events in the preceding columns.}\label{tab:nbjets}
+\end{table}%
+
+\subsubsection{$b$-jet tagging efficiencies with UCL-style selection}
+In the UCL analysis their jet selection does not proceed as described in the previous section, presumably as requiring the four hardest jets in the event to be b-Tagged cuts too aggressively upon the signal process. Rather, the selection proceeds by taking all anti-$k_T$ $R=0.5$ jets with $p_T > 40$ GeV and running the b-Tagging algorithm on them. The four hardest successfully b-tagged jets are then selected for further analysis. With such a method implemented for our samples and with our previous selection efficiencies and fake rates, Table \ref{tab:UCLbtag} summarises the results.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Process & $\sigma_{\mathrm{tot}}$ (4 Jets $p_T>40$ GeV) & After b-tag & \% selected  \\
+\hline \hline
+$H\bar{H}$ & $1.081 \times 10^{-2}$ pb & $8.1147\times 10^{-4}$ pb & 7.467\% \\
+\hline
+$b\bar{b}b\bar{b}$ & $7.239 \times10^1$ pb & $3.961$ pb & 5.472\% \\
+$b\bar{b}jj$ &  $2.137 \times 10^4$ pb & 4.779 pb & 0.0224\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Summary of the $b$-tagging procedure of the UCL analysis. Presented as in Table~\ref{tab:btageff1}. In this case the total cross-sections are presented after a cut requiring four anti-$k_T$ R=0.5 jets with $p_T>40$ GeV in the final state. The percentage selected column is given for the $b$-tagging stage \emph{only} for comparison.}\label{tab:UCLbtag}
+\end{table}%
+
+Once again, it is clear that more of the $bbjj$ sample is making it past the $b$-tagging selection than originally expected. It seems unlikely that this background can be neglected in the resolved analysis based upon a simple factor of $\epsilon_b^{2}\epsilon_l^{2}$ as used by the UCL group.
 
 \subsection{Boosted Topology}\label{sec:Boosted_FR}
 
@@ -107,8 +216,29 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
 
 \section{Conclusion}
 
-
 % \Acknowledgements
+
+
+\begin{thebibliography}{1}
+
+%\cite{Alwall:2014hca}
+\bibitem{Alwall:2014hca}
+  J.~Alwall, R.~Frederix, S.~Frixione, V.~Hirschi, F.~Maltoni, O.~Mattelaer, H.-S.~Shao and T.~Stelzer {\it et al.},
+  %``The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations,''
+  JHEP {\bf 1407} (2014) 079
+  [arXiv:1405.0301 [hep-ph]].
+  %%CITATION = ARXIV:1405.0301;%%
+  %168 citations counted in INSPIRE as of 19 Jan 2015
+
+%\cite{Wardrope:2014kya}
+\bibitem{Wardrope:2014kya}
+  D.~Wardrope, E.~Jansen, N.~Konstantinidis, B.~Cooper, R.~Falla and N.~Norjoharuddeen,
+  ``Non-resonant Higgs pair production in the $b\overline{b}b\overline{b}$ final state at the LHC,''
+  arXiv:1410.2794 [hep-ph].
+  %%CITATION = ARXIV:1410.2794;%%
+
+
+  \end{thebibliography}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
