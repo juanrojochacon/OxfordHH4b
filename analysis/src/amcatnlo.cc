@@ -74,7 +74,7 @@ void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	} else if (GetSample().compare("SHERPA_QCD2b2j") == 0)
 	{
 		Nb_Req_80 = 2;
-		Nb_Req_100 = 0;
+		Nb_Req_100 = 1;
 	} else
 	{
 		return Cut("Unrec Sample", event_weight);
