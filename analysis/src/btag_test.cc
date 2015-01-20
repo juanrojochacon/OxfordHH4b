@@ -22,8 +22,8 @@ static const fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 static double const test_btag_prob = 0.80; 		// Probability of correct b tagging
 static double const test_btag_mistag = 0.01; 	// Mistag probability  
 
-bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName, std::string anaName):
-Analysis(anaName, sampleName)
+bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName):
+Analysis("bTagTest_hardest4", sampleName)
 {
 	const std::string tupleSpec = "# signal source";
 	outputNTuple<<tupleSpec<<std::endl;
@@ -64,22 +64,17 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 		int bQuarks = BTagging(jets_fr_akt[ijet]);
 		FillHistogram("truth_NbConstituents", 1, bQuarks+0.5 );
 
+		// Add jet
+		bjets.push_back(jets_fr_akt.at(ijet));
+
 		if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
-		{
 			NbJets++;
-			bjets.push_back(jets_fr_akt.at(ijet));
-			event_weight *= test_btag_prob; // Account for b tagging efficiency
-		}
-		else // Else, account for the fake b-tag probabililty
-		{
-			bjets.push_back(jets_fr_akt.at(ijet));
-			event_weight *= test_btag_mistag;
-		}
 	}
 
 	FillHistogram("truth_NbJets", 1, NbJets+0.5 );
 
 	// cut from btagging
+	event_weight*=pow(test_btag_mistag, (double) (4-NbJets))*pow(test_btag_prob, (double)NbJets);
 	Cut("Basic: bTagging", initial_weight - event_weight);
 
 	
@@ -121,7 +116,7 @@ int bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 // ****************************************** UCL Style b-Tagging test *********************************************
 
 bTagTestUCLAnalysis::bTagTestUCLAnalysis(std::string const& sampleName):
-bTagTestAnalysis(sampleName, "bTagTest_UCL")
+Analysis("bTagTest_UCL", sampleName)
 {
 	const std::string tupleSpec = "# signal source";
 	outputNTuple<<tupleSpec<<std::endl;
@@ -161,7 +156,7 @@ void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 		int bQuarks = BTagging(jets_fr_akt[ijet]);
 		FillHistogram("UCL_truth_NbConstituents", 1, bQuarks+0.5 );
 
-		const int dice = ((double) rand() / (RAND_MAX));
+		const double dice = ((double) rand() / (double)(RAND_MAX));
 		if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
 		{
 			NbJets++;
@@ -188,4 +183,31 @@ void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	// Pass event
 	Pass(event_weight);
 
+}
+
+// ----------------------------------------------------------------------------------
+
+int bTagTestUCLAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+{
+	// Cuts for the b-jet candidates for b-tagging
+	double const pt_btagging=0;
+
+	// Get the jet constituents
+	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+
+	// Loop over constituents and look for b quarks
+	// also b quarks must be above some minimum pt
+	int bquarks = 0;
+	for(size_t i=0; i<jet_constituents.size(); i++)
+	{
+		// Flavour of jet constituent
+		const int userid= jet_constituents.at(i).user_index();
+		const double pt_bcandidate = jet_constituents.at(i).pt();
+
+		if(abs(userid) ==5 )
+			if( pt_bcandidate > pt_btagging)
+		  		bquarks++;
+	}
+
+ 	return bquarks; // no b-jets found
 }
