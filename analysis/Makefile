@@ -68,7 +68,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = analysis run utils pythia hepmc ucl ucl_vr durham basic btag_test variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo
+MODULES = analysis run utils pythia hepmc ucl ucl_vr durham basic variableR oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr amcatnlo btag_test
 
 ############################## do not change ###################################
 
