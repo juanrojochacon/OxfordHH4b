@@ -87,7 +87,7 @@ Analysis("oxford_boost_fr", sampleName)
 
 	// ************************* cutFlow/Ntuples ********************************
 
-	const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
+	const std::string tupleSpec = "# signal source weight m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
@@ -150,7 +150,7 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 
 	// Now save the ntuples to be used by the TMVA or the ANNs
 	//"# signal source m2fj pthh y2fj mHiggs1 mHiggs2 DeltaR_fj1fj2"
-	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs1.m()<<"\t"<<higgs2.m()<<"\t"<<
 	split12_vec.at(0)<<"\t"<<split12_vec.at(1)<<"\t"<<
 	tau21_vec.at(0)<<"\t"<<tau21_vec.at(1)<<"\t"<<

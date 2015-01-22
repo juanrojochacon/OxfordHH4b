@@ -25,7 +25,7 @@ static double const test_btag_mistag = 0.01; 	// Mistag probability
 bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName):
 Analysis("bTagTest_hardest4", sampleName)
 {
-	const std::string tupleSpec = "# signal source";
+	const std::string tupleSpec = "# signal source weight";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbJets");
@@ -79,7 +79,7 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 
 	
 	// ************************************* MVA Output **********************************************************
-	outputNTuple <<signal <<"\t"<<GetSample()<<std::endl; 
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<std::endl; 
 
 	// Pass event
 	Pass(event_weight);
@@ -118,7 +118,7 @@ int bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 bTagTestUCLAnalysis::bTagTestUCLAnalysis(std::string const& sampleName):
 Analysis("bTagTest_UCL", sampleName)
 {
-	const std::string tupleSpec = "# signal source";
+	const std::string tupleSpec = "# signal source weight";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbJets");
@@ -178,7 +178,7 @@ void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("UCL_truth_NbJets", 1, NbJets+0.5 );
 	
 	// ************************************* MVA Output **********************************************************
-	outputNTuple <<signal <<"\t"<<GetSample()<<std::endl; 
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<std::endl; 
 
 	// Pass event
 	Pass(event_weight);

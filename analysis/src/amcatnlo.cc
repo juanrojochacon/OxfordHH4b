@@ -22,7 +22,7 @@ Analysis("aMC@NLO", sampleName)
 
 	BookHistogram(new YODA::Histo1D(1, 0, 1), "xSec_postCut");
 
-	const std::string tupleSpec = "# signal source";
+	const std::string tupleSpec = "# signal source weight";
 	outputNTuple<<tupleSpec<<std::endl;
 }
 
@@ -93,7 +93,7 @@ void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 
 	// ************************************* MVA Output **********************************************************
 
-	outputNTuple <<signal <<"\t"<<GetSample()<<std::endl; 
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<std::endl; 
 
 	// Pass event
 	Pass(event_weight);

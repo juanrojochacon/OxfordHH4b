@@ -109,7 +109,7 @@ Analysis("ucl_vr", sampleName)
 	// ********************************************************************
 
 
-	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
+	const std::string tupleSpec = "# signal source weight m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
@@ -333,7 +333,7 @@ void UCLVRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalS
 	// the two dijet masses
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs[0].m()<<"\t"<<higgs[1].m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<

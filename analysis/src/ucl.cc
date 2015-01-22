@@ -105,7 +105,7 @@ Analysis("ucl", sampleName)
 
 	// ********************************************************************
 
-	const std::string tupleSpec = "# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
+	const std::string tupleSpec = "# signal source weight m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4";
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
@@ -224,7 +224,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("DeltaR_b3b4_preCut", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
 
 	// ************* CUTS ************************************************************
-
+/*
 	// First of all, after basic selection, require that all four b jets are above 40 GeV
 	double const pt_bjet_ucl = 40.0;
 	// they should also be in central rapodity, |eta| < 2.5
@@ -267,7 +267,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		Cut("Higgs window", event_weight);
 		return;
 	}
-
+*/
 	// *************************** Post cut fills **************************************
 
 	// Histograms after cuts
@@ -329,7 +329,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	// the two dijet masses
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs[0].m()<<"\t"<<higgs[1].m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<

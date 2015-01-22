@@ -89,7 +89,7 @@ Analysis("durham", sampleName)
   Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
 
-  const std::string tupleSpec = "# signal source m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
+  const std::string tupleSpec = "# signal source weight m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
   outputNTuple<<tupleSpec<<std::endl;
 
 }

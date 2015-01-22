@@ -22,8 +22,8 @@ Analysis("basic", sample)
 	// Example histogram
 	BookHistogram(new YODA::Histo1D(nbins_example, histo_min, histo_max), "example_histo");
 
-	// Output nTuple kinematics description (# signal source) is required
-	const std::string tupleSpec = "# signal source example_kin example_kin2";
+	// Output nTuple kinematics description (# signal source weight) is required
+	const std::string tupleSpec = "# signal source weight example_kin example_kin2";
  	outputNTuple<<tupleSpec<<std::endl;	// DO NOT CHANGE
 }
 
@@ -49,7 +49,7 @@ void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalS
 
 	
 	// Write kinematics to nTuple
-	outputNTuple <<signal <<"\t"<< GetSample() <<"\t" // DO NOT CHANGE
+	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t" // DO NOT CHANGE
 	<< hist_coord<<"\t"<<5*hist_coord<<"\t"<<std::endl; 
 
 	// Pass event
