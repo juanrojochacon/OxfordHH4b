@@ -56,12 +56,23 @@ Analysis("oxford_boost_fr", sampleName)
   BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_postFJCut");
   BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_postFJCut");
 
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "leadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "leadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 300), "leadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 300), "leadSubjet_fj1_pt_postFJCut");
   
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "subleadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "subleadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 300), "subleadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 300), "subleadSubjet_fj1_pt_postFJCut");
 
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nBQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nBQuarks_postFJCut");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nBQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nBQuarks_postFJCut");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nCQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nCQuarks_postFJCut");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nCQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nCQuarks_postFJCut");
   // ************************* postCut ********************************
 
   // Fat Jet histograms
@@ -91,10 +102,10 @@ Analysis("oxford_boost_fr", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
-	Cut("Basic: Two fatjets", 0);
-	Cut("Basic: Fatjet kinematic cuts", 1);
-	Cut("Basic: 2 subjets for each fatjet", 2);
-	Cut("Basic: bTagging", 3);
+	Cut("Basic: Two fatjets ", 0);
+	Cut("Basic: Fatjet kinematic cuts ", 1);
+	Cut("Basic: 2 subjets for each fatjet ", 2);
+	Cut("Basic: bTagging ", 3);
 }
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -215,7 +226,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   //------------------------------------------------------------------------------------------------------
   // First of all, after basic selection, require that both jets are above 100 GeV
-  double const pt_fatjet_ox = 100.0;
+  double const pt_fatjet_ox = 250.0;
   // they should also be in central rapodity, |eta| < 2.5
   double const eta_fatjet_ox = 2.5;
   
@@ -274,6 +285,27 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   FillHistogram("subleadSubjet_fj0_pt_postFJCut", event_weight, subjets_fj0[1].pt() );
   FillHistogram("subleadSubjet_fj1_pt_postFJCut", event_weight, subjets_fj1[1].pt() );
+
+  int nBQuarks_fj0_0 = BTagging(subjets_fj0[0]);
+  int nBQuarks_fj0_1 = BTagging(subjets_fj0[1]);
+  int nBQuarks_fj1_0 = BTagging(subjets_fj1[0]);
+  int nBQuarks_fj1_1 = BTagging(subjets_fj1[1]);
+
+  FillHistogram("leadSubjet_fj0_nBQuarks_postFJCut", event_weight, nBQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nBQuarks_postFJCut", event_weight, nBQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nBQuarks_postFJCut", event_weight, nBQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nBQuarks_postFJCut", event_weight, nBQuarks_fj1_1 );
+
+
+  int nCQuarks_fj0_0 = CTagging(subjets_fj0[0]);
+  int nCQuarks_fj0_1 = CTagging(subjets_fj0[1]);
+  int nCQuarks_fj1_0 = CTagging(subjets_fj1[0]);
+  int nCQuarks_fj1_1 = CTagging(subjets_fj1[1]);
+  
+  FillHistogram("leadSubjet_fj0_nCQuarks_postFJCut", event_weight, nCQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nCQuarks_postFJCut", event_weight, nCQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nCQuarks_postFJCut", event_weight, nCQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nCQuarks_postFJCut", event_weight, nCQuarks_fj1_1 );
   //---------------------------------------------------------------------------------------
   
   std::vector<fastjet::PseudoJet> bjets_jet0;
@@ -288,19 +320,23 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   		bjets_jet0.push_back(subjets_fj0.at(ijet));
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
+  	else if( CTagging(subjets_fj0[ijet]) > 0) {
+		double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
+		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	}
   	else // Else, account for the fake b-tag probability
   	{
   		event_weight *= btag_mistag;
   	}
   }
   for(unsigned int ijet=0; ijet<subjets_fj1.size(); ijet++){
-  	if( BTagging(subjets_fj1[ijet]) )   // Check if at least one of its constituents are b quarks
+  	if( BTagging(subjets_fj1[ijet]) > 0 )   // Check if at least one of its constituents are b quarks
   	{
   		bjets_jet1.push_back(subjets_fj1.at(ijet));
   		double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_fj1[ijet])) {
+  	else if( CTagging(subjets_fj1[ijet]) > 0) {
 		double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
 		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
@@ -324,10 +360,10 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
 
 // ----------------------------------------------------------------------------------
 
-bool OxfordBoostFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+int OxfordBoostFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 {
-	// Cuts for the b-jet candidates for b-tagging
-	double const pt_btagging=15.;
+	// Cuts for the b-quark candidates for b-tagging
+	double const pt_btagging=5.;
 
 	// Get the jet constituents
 	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
@@ -347,16 +383,14 @@ bool OxfordBoostFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 		  		countB++;
 	}
 	
-	if(countB>0) return true;
-
- 	return false; // no b-jets found
+ 	return countB;
 }
 
 
-bool OxfordBoostFRAnalysis::CTagging( fastjet::PseudoJet const& jet ) const
+int OxfordBoostFRAnalysis::CTagging( fastjet::PseudoJet const& jet ) const
 {
-	// Cuts for the b-jet candidates for b-tagging
-	double const pt_ctagging=15.;
+	// Cuts for the c-quark candidates for c-(mis)tagging
+	double const pt_ctagging=5.;
 
 	// Get the jet constituents
 	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
@@ -371,12 +405,10 @@ bool OxfordBoostFRAnalysis::CTagging( fastjet::PseudoJet const& jet ) const
 		const int userid= jet_constituents.at(i).user_index();
 		const double pt_ccandidate = jet_constituents.at(i).pt();
 
-		if(abs(userid) ==5 )
+		if(abs(userid) ==4 )
 			if( pt_ccandidate > pt_ctagging)
 		  		countC++;
 	}
 	
-	if(countC>0) return true;
-
- 	return false; // no c-jets found
+ 	return countC;
 }

@@ -72,7 +72,7 @@ and boosted topologies as well as multivariate methods.
 \subsection{Background}
 All background samples are generated with the {\tt SHERPA} event generator, version 2.1.1. For the explicit runcards used in the generation, see Appendix~\ref{app:runcards}.
 
-The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
+The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
 
 
 \begin{table}[h]
@@ -125,7 +125,7 @@ $m_{j3j4}$, respectively, and choosing the configuration that minimises their di
 are considered here.
 
 \subsubsection{Resolved $b$-jet tagging efficiencies}
-In order to perform an initial validation of the $b$-tagging procedure used in our resolved analysis we consider first a simple flat $b$-jet tagging efficiency of $\epsilon_b=0.8$ and a light jet mis-tag rate of $\epsilon_l=0.01$. In the UCL diHiggs analysis~\cite{Wardrope:2014kya} the 2$b$2$j$ background was discarded by applying a naive selection factor of $\epsilon^2_l\epsilon^2_b$ to a similar $2b2j$ cross-section as in Table~\ref{tab:xsecs} and finding the resulting cross-section to be considerably smaller than the equivalent selection factor applied to the 4$b$ sample.
+In order to perform an initial validation of the $b$-tagging procedure used in our resolved analysis we consider first a simple flat $b$-jet tagging efficiency of $\epsilon_b=0.8$ and a light jet mis-tag rate of $\epsilon_l=0.01$. In the UCL diHiggs analysis~\cite{Wardrope:2014kya} the 2$b$2$j$ background was discarded by applying a naive selection factor of $\epsilon^2_b\epsilon^2_l$ to a similar $2b2j$ cross-section as in Table~\ref{tab:xsecs} and finding the resulting cross-section to be considerably smaller than the equivalent selection factor applied to the 4$b$ sample.
 
 In practice we have found with these simple efficiencies, that the actual selection efficiencies differ considerably from the naive factors of $\epsilon_b^{n_b}\epsilon_l^{n_l}$.
 In Table~\ref{tab:btageff1} the results of this simple $b$-tagging test are demonstrated. Shown in the table are the total cross-sections before and after the application of the described $b$-tagging procedure, the resulting percentage of the cross-section passing the b-tag, and the naive selection percentage that would result from applying powers of $\epsilon_{b/l}$ to the total cross-section. The pass rate for samples with four $b$ quarks in the final state is therefore considerably lower in practice than one would naively expect, and the pass rate for the $2b2j$ sample considerably higher.

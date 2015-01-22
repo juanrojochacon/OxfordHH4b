@@ -23,7 +23,7 @@ class OxfordBoostFRAnalysis : public Analysis
 		void JetCluster_LargeFR(finalState const& fs, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight);
 		
 		// Tag bs 
-		bool BTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
-		bool CTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
+		int BTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
+		int CTagging(fastjet::PseudoJet const& jet) const; //!< 2b Tagging method
 		
 };
