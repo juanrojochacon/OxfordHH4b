@@ -224,7 +224,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	FillHistogram("DeltaR_b3b4_preCut", event_weight, bjets.at(2).delta_R(bjets.at(3)) );
 
 	// ************* CUTS ************************************************************
-/*
+
 	// First of all, after basic selection, require that all four b jets are above 40 GeV
 	double const pt_bjet_ucl = 40.0;
 	// they should also be in central rapodity, |eta| < 2.5
@@ -267,7 +267,7 @@ void UCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 		Cut("Higgs window", event_weight);
 		return;
 	}
-*/
+
 	// *************************** Post cut fills **************************************
 
 	// Histograms after cuts
