@@ -53,6 +53,14 @@ Analysis("oxford_res_fr", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb3_preCut");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_preCut");
 
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbJets");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbConstituents");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NcJets");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NcConstituents");
+	BookHistogram(new YODA::Histo1D(20, 0, 100), "truth_cPT");
+	BookHistogram(new YODA::Histo1D(20, 0, 100), "truth_bPT");
+
+
 	// 4b system histograms
 	BookHistogram(new YODA::Histo1D(20, 200, 1200), "m4b_preCut");
 	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_preCut");
@@ -322,7 +330,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	// the two dijet masses
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
+	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
 	higgs[0].m()<<"\t"<<higgs[1].m()<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
@@ -369,19 +377,40 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 	// By looking at the jet constituents
 	// we can simulate the effects of b tagging
 
+	int Nbjets=0;
+	int Ncjets=0;
+
 	// Loop over the 4 hardest jets in event only
 	const double initial_weight = event_weight;
-	for(int ijet=0; ijet<njet;ijet++)
-		if( BTagging(jets_fr_akt[ijet]) )   // Check if at least one of its constituents is a b quark
-		{
-			bjets.push_back(jets_fr_akt.at(ijet));
-			event_weight *= btag_prob; // Account for b tagging efficiency
-		}
-		else // Else, account for the fake b-tag probabililty
-		{
-			bjets.push_back(jets_fr_akt.at(ijet));
-			event_weight *= btag_mistag;
-		}
+	for(int ijet=0; ijet<njet;ijet++) {
+	  int bQuarks = BTagging(jets_fr_akt[ijet]);
+	  int cQuarks = CTagging(jets_fr_akt[ijet]);
+	  //int cQuarks = 0;
+	  FillHistogram("truth_NbConstituents", 1, bQuarks+0.5 );
+	  FillHistogram("truth_NcConstituents", 1, cQuarks+0.5 );
+	  
+	  if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
+	    {
+	      bjets.push_back(jets_fr_akt.at(ijet));
+	      event_weight *= btag_prob; // Account for b tagging efficiency
+	      Nbjets++;
+	    }
+	  else if ( cQuarks > 0 ) {
+	    bjets.push_back(jets_fr_akt.at(ijet));
+	    event_weight *= ctag_prob; // Include c-mis tag rate
+	    Ncjets++;
+	  }
+	
+	  else // Else, account for the fake b-tag probabililty
+	    {
+	      bjets.push_back(jets_fr_akt.at(ijet));
+	      event_weight *= btag_mistag;
+	    }
+	  
+	  FillHistogram("truth_NbJets", 1, Nbjets+0.5 );
+	  FillHistogram("truth_NcJets", 1, Ncjets+0.5 );
+
+	}
 
 	// cut from btagging
 	Cut("Basic: bTagging", initial_weight - event_weight);
@@ -389,13 +418,14 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 
 // ----------------------------------------------------------------------------------
 
-bool OxfordResFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
+int OxfordResFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) 
 {
 	// Cuts for the b-jet candidates for b-tagging
 	double const pt_btagging=15;
 
 	// Get the jet constituents
 	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+	int countB = 0;
 
 	// Loop over constituents and look for b quarks
 	// also b quarks must be above some minimum pt
@@ -406,11 +436,36 @@ bool OxfordResFRAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 		const double pt_bcandidate = jet_constituents.at(i).pt();
 
 		if(abs(userid) ==5 )
+		  {     FillHistogram("truth_bPT", 1, pt_bcandidate);
 			if( pt_bcandidate > pt_btagging)
-		  		return true;
+		  		countB++;
+		  }
 	}
 
- 	return false; // no b-jets found
+ 	return countB; // no b-jets found
 }
 
+//----------------------------------------------------------------------------------
 
+int OxfordResFRAnalysis::CTagging( fastjet::PseudoJet const& jet ) 
+{
+  // Cuts for the c-quark candidates for c-(mis)tagging
+  double const pt_ctagging=15.;
+  // Get the jet constituents
+  const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
+  int countC=0;
+  // Loop over constituents and look for c quarks
+  // also c quarks must be above some minimum pt
+  for(size_t i=0; i<jet_constituents.size(); i++)
+    {
+      // Flavour of jet constituent
+      const int userid= jet_constituents.at(i).user_index();
+      const double pt_ccandidate = jet_constituents.at(i).pt();
+      if(abs(userid) ==4 )
+	{ FillHistogram("truth_cPT", 1, pt_ccandidate);
+	  if( pt_ccandidate > pt_ctagging)
+	    countC++;
+	}
+    }
+  return countC;
+}

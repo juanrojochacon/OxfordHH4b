@@ -23,6 +23,7 @@ double const m_higgs = 125.0;
 // Choose working point with high purity
 double const btag_prob = 0.80; // Probability of correct b tagging
 double const btag_mistag = 0.01; // Mistag probability  
+const double ctag_prob = 0.17; // c-mistag rate ~1/6.
 
 // Run II Lumi in 1/fb
 double const lumi_run2=300;

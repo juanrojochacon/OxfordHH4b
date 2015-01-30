@@ -25,5 +25,7 @@ class OxfordResFRAnalysis : public Analysis
 		void JetCluster_SmallFR(finalState const& particles, std::vector<fastjet::PseudoJet>& bjets, double& event_weight);
 		
 		// Tag bs according to UCL strategy
-		bool BTagging(fastjet::PseudoJet const& jet) const; //!< b Tagging method 
+		int BTagging(fastjet::PseudoJet const& jet); //!< b Tagging method 
+		int CTagging(fastjet::PseudoJet const& jet); //!< c Tagging method 
+
 };
