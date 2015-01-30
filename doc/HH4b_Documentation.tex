@@ -72,22 +72,22 @@ and boosted topologies as well as multivariate methods.
 \subsection{Background}
 All background samples are generated with the {\tt SHERPA} event generator, version 2.1.1. For the explicit runcards used in the generation, see Appendix~\ref{app:runcards}.
 
-The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
+The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. All final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
 
 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Process & Filename & Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
+Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
 \hline
 \hline
-$pp \to HH$ & HH\_sm\_eft\_100K.lhe & MG5\_aMC@NLO & 100K & $1.729\times10^{-2}$ pb \\
+$pp \to HH$ &  MG5\_aMC@NLO & 100K & $1.729\times10^{-2}$ pb \\
 \hline
-$pp \to b\bar{b}b\bar{b}$ & SHERPA\_QCD\_4b.hepmc & SHERPA 2.1.1 & 3M &$1.016 \times10^3$ pb \\
-$pp \to b\bar{b}jj$ & SHERPA\_QCD\_2b2j.hepmc & SHERPA 2.1.1 & 3M & $4.076 \times 10^5$ pb\\
-$pp \to jjjj$ & Running & SHERPA 2.1.1 & 3M  & ??? \\
-$pp \to t\bar{t}$ &  & &  & \\
+$pp \to b\bar{b}b\bar{b}$ &  SHERPA 2.1.1 & 3M &$9.298 \times10^2$ pb \\
+$pp \to b\bar{b}jj$ &  SHERPA 2.1.1 & 3M & $2.208 \times 10^5$ pb\\
+$pp \to jjjj$ &  SHERPA 2.1.1 & 3M  & $9.709\times 10^6$ pb \\
+$pp \to t\bar{t}$ (had) &  SHERPA 2.1.1 & 100K & $2.511\times 10^3$ pb \\
 \hline
 \end{tabular}
 \caption{Summary of generated samples to date} \label{tab:samples}
@@ -105,8 +105,9 @@ In Table~\ref{tab:xsecs} this comparison is summarised for the $2b2j$ and $4b$ s
 \hline
 Process & $\sigma$ aMC@NLO & $\sigma$ Oxford (SHERPA) \\
 \hline\hline
-$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $3.473\times10^{-1}$ pb \\ 
-$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$5.193 \times 10^2$ pb \\ 
+$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $3.492\times10^{-1}$ pb \\ 
+$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$4.209 \times 10^2$ pb \\ 
+$jjjj$ & -  & $4.450\times 10^4$ pb \\
 \hline
 \end{tabular}
 \caption{Comparison of LO Oxford SHERPA cross-sections with those of the aMC@NLO paper. The aMC@NLO cross-sections come with a quoted $~50\%$ theory uncertainty.} \label{tab:xsecs}
@@ -124,7 +125,7 @@ The di-Higgs system is reconstructed by considering all possibilities of forming
 $m_{j3j4}$, respectively, and choosing the configuration that minimises their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
 are considered here.
 
-\subsubsection{Resolved $b$-jet tagging efficiencies}
+\subsubsection{Resolved $b$-jet tagging efficiencies} \label{sec:btagtest}
 In order to perform an initial validation of the $b$-tagging procedure used in our resolved analysis we consider first a simple flat $b$-jet tagging efficiency of $\epsilon_b=0.8$ and a light jet mis-tag rate of $\epsilon_l=0.01$. In the UCL diHiggs analysis~\cite{Wardrope:2014kya} the 2$b$2$j$ background was discarded by applying a naive selection factor of $\epsilon^2_b\epsilon^2_l$ to a similar $2b2j$ cross-section as in Table~\ref{tab:xsecs} and finding the resulting cross-section to be considerably smaller than the equivalent selection factor applied to the 4$b$ sample.
 
 In practice we have found with these simple efficiencies, that the actual selection efficiencies differ considerably from the naive factors of $\epsilon_b^{n_b}\epsilon_l^{n_l}$.
@@ -136,14 +137,15 @@ In Table~\ref{tab:btageff1} the results of this simple $b$-tagging test are demo
 \hline
 Process & $\sigma_{\mathrm{tot}}$ & After b-tag & \% selected & \% Naive selection \\
 \hline \hline
-$H\bar{H}$ & $1.729 \times 10^{-2}$ pb & $1.565\times 10^{-3}$ pb & \textbf{9.050\%} & 40.96\% \\
+$H\bar{H}$ & $1.729 \times 10^{-2}$ pb & $1.460\times 10^{-3}$ pb & \textbf{8.444\%} & 40.96\% \\
 \hline
-$b\bar{b}b\bar{b}$ & $1.016 \times10^3$ pb & $93.46$ pb & \textbf{9.199\%} & 40.96\%\\
-$b\bar{b}jj$ &  $4.076 \times 10^5$ pb & 103.904 pb & \textbf{0.026\%} & 0.0064\% \\
+$b\bar{b}b\bar{b}$ & $9.298 \times10^2$ pb & $78.32$ pb & \textbf{8.423\%} & 40.96\%\\
+$b\bar{b}jj$ &  $2.208 \times 10^5$ pb & $84.80$ pb & \textbf{0.038\%} & 0.0064\% \\
+$jjjj$ & $9.709\times 10^6$ pb & $20.85$ pb & \textbf{2.147 $\times$ 10$^{-4}$\%} & $1.0\times 10^{-6}$\%\\
 \hline
-\textbf{S/B} & $4.23 \times 10^{-8}$ & $7.93 \times 10^{-6}$& \multicolumn{2}{c}{}\\
+\textbf{S/B} & $1.74 \times 10^{-9}$ & $7.94 \times 10^{-6}$& \multicolumn{2}{c}{}\\
 \cline{1-3}
-\textbf{S/$\sqrt{\mathrm{\textbf{B}}}$}& $4.68 \times 10^{-2}$ & $1.93 \times 10^{-1}$& \multicolumn{2}{c}{}\\
+\textbf{S/$\sqrt{\mathrm{\textbf{B}}}$}& $9.50 \times 10^{-3}$ & $1.86 \times 10^{-1}$& \multicolumn{2}{c}{}\\
 \cline{1-3}
 \end{tabular}
 \end{center}
@@ -161,10 +163,11 @@ These differences are due to the choices made in the selection procedure. In pra
 \hline
 Process & 0 $b$-jets & 1 $b$-jet & 2 $b$-jets & 3 $b$-jets & 4 $b$-jets & \% selected \\
 \hline\hline
-$H\bar{H}$ & 0.049\% &  2.448\% &  23.49\% & 52.58\% &  21.43\% & \textbf{9.050\%}\\
+$H\bar{H}$ & 0.083\% & 2.599\% &  24.712\% &   52.651\% &  19.955\% & \textbf{8.445\%}\\
 \hline
-$b\bar{b}b\bar{b}$ & 0.429\% & 5.477\%   & 25.53\% & 46.67\%  &  21.89\% & \textbf{9.208\%} \\
-$b\bar{b}jj$ & 6.213\%  &40.56\%  &51.93\%  &  1.227\% & 0.072\% & \textbf{0.039\%}\\
+$b\bar{b}b\bar{b}$ & 0.858\% &  7.606\% &  27.523\% &  43.977\% &   20.036\% & \textbf{8.434\%} \\
+$b\bar{b}jj$ & 9.115\% &    41.792\% &    47.806\% &     1.216\% &  0.071\% & \textbf{0.038\%}\\
+$jjjj$ & 95.668\% &   3.789\% &  0.531\% & 0.011\%  & 3.00E-4\%& \textbf{2.17$\times 10^{-4}$\%}\\
 \hline
 \end{tabular}
 \end{center}
@@ -191,10 +194,17 @@ $b\bar{b}jj$ &  $2.137 \times 10^4$ pb & 4.779 pb & 0.0224\% \\
 \cline{1-3}
 \end{tabular}
 \end{center}
-\caption{Summary of the $b$-tagging procedure of the UCL analysis. Presented as in Table~\ref{tab:btageff1}. In this case the total cross-sections are presented after a cut requiring four anti-$k_T$ R=0.5 jets with $p_T>40$ GeV in the final state. The percentage selected column is given for the $b$-tagging stage \emph{only} for comparison.}\label{tab:UCLbtag}
+\caption{Summary of the $b$-tagging procedure of the UCL analysis. Presented as in Table~\ref{tab:btageff1}. In this case the total cross-sections are presented after a cut requiring four anti-$k_T$ R=0.5 jets with $p_T>40$ GeV in the final state. The percentage selected column is given for the $b$-tagging stage \emph{only} for comparison. \textbf{Needs to be updated to newer samples}.}\label{tab:UCLbtag}
 \end{table}%
 
 Once again, it is clear that more of the $bbjj$ sample is making it past the $b$-tagging selection than originally expected. It seems unlikely that this background can be neglected in the resolved analysis based upon a simple factor of $\epsilon_b^{2}\epsilon_l^{2}$ as used by the UCL group.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{plots/m4b_ucl_preCut.pdf}
+\caption{Contributions from the various samples to the observed four $b$ invariant mass system after applying the $b$-tagging procedure outlined in Section~\ref{sec:btagtest}.}
+\end{center}
+\end{figure}
 
 \subsection{Boosted Topology}\label{sec:Boosted_FR}
 
@@ -292,6 +302,10 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   PT -5 20 7000
   PseudoRapidity 5 -3.0 3.0
   PseudoRapidity -5 -3.0 3.0
+
+  DeltaR 5 5 0.1 10000
+  DeltaR 5 -5 0.1 10000
+  DeltaR -5 -5 0.1 10000
 }(selector);
 \end{verbatim}
 
@@ -331,10 +345,17 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   PT 5 20 7000
   PT -5 20 7000
   PseudoRapidity 5 -3 3
-  PseudoRapidity 5 -3 3
+  PseudoRapidity -5 -3 3
 
   PT 93 20 7000
   PseudoRapidity 93 -3 3
+
+  DeltaR 93 93 0.1 10000
+  DeltaR 5 93 0.1 10000
+  DeltaR -5 93 0.1 10000
+  DeltaR 5 5 0.1 10000
+  DeltaR -5 5 0.1 10000
+  DeltaR -5 -5 0.1 10000
 }(selector);
 \end{verbatim}
 
@@ -374,6 +395,97 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   PT 93 20 7000
   PseudoRapidity 93 -3 3
 }(selector);
+\end{verbatim}
+
+\subsection {Background: QCD ttbar}
+\begin{verbatim}
+(run){
+  EVENTS 3M;
+  EVENT_GENERATION_MODE U;
+  ME_SIGNAL_GENERATOR Comix;
+
+  EVENT_OUTPUT HepMC_Short[SHERPA_QCD_ttbar];
+
+  BEAM_1 2212; BEAM_ENERGY_1 7000;
+  BEAM_2 2212; BEAM_ENERGY_2 7000;
+
+  FRAGMENTATION=Off # disable hadronisation
+  MI_HANDLER=None # disable multiple parton interactions
+
+  SCF:=1; ### default scale factor
+  SCALES VAR{SCF*H_T2/4};
+
+  PDF_LIBRARY LHAPDFSherpa;
+  PDF_SET NNPDF30_lo_as_0118_nf_4.LHgrid;
+  PDF_SET_VERSION 0;
+
+  MASSIVE[5] 1;
+  MASS[5] 4.75;
+
+  # Stable mode 0 specified that both particle and antiparticle are unstable
+  STABLE[6] = 0;
+  STABLE[24] = 0; 
+
+  # Enable only fully hadronic decay modes
+  HARD_DECAYS=1;   
+  HDH_NO_DECAY={24,12,-11}|{24,14,-13}|{24,16,-15}|{-24,-12,11}|{-24,-14,13}|{-24,-16,15};
+
+}(run);
+
+(processes){
+  Process 93 93 -> 6 -6;
+  Order_EW 0;
+  End process;
+}(processes);
+
+(selector){
+  PT 6 20 7000
+  PT -6 20 7000
+  PseudoRapidity 6 -3 3
+  PseudoRapidity -6 -3 3
+  DeltaR 6 -6 0.1 10000
+}(selector);
+\end{verbatim}
+
+\clearpage
+\section{Decay tables for $t\bar{t}$}
+
+\begin{verbatim}
+Decay table for : W+.
+Total width:                  2.10561 GeV
+Flavour width:                2.06 GeV
+----------------------------------------
+{24,2,-1}         W+ --> u db              0.702203   GeV, BR= 33.3492 %
+{24,4,-3}         W+ --> c sb              0.701546   GeV, BR= 33.318 %
+{24,12,-11}       W+ --> nu_e e+           0.234068   GeV, BR= 11.1164 %
+{24,14,-13}       W+ --> nu_mu mu+         0.234066   GeV, BR= 11.1163 %
+{24,16,-15}       W+ --> nu_tau tau+       0.233725   GeV, BR= 11.1001 %
+----------------------------------------
+
+Decay table for : W-.
+Total width:                  2.10561 GeV
+Flavour width:                2.06 GeV
+----------------------------------------
+{-24,-2,1}        W- --> ub d              0.702203   GeV, BR= 33.3492 %
+{-24,-4,3}        W- --> cb s              0.701546   GeV, BR= 33.318 %
+{-24,-12,11}      W- --> nu_eb e-          0.234068   GeV, BR= 11.1164 %
+{-24,-14,13}      W- --> nu_mub mu-        0.234066   GeV, BR= 11.1163 %
+{-24,-16,15}      W- --> nu_taub tau-      0.233725   GeV, BR= 11.1001 %
+----------------------------------------
+
+Decay table for : t.
+Total width:                  1.59689 GeV
+Flavour width:                1.5 GeV
+----------------------------------------
+{6,24,5}          t --> W+ b               1.59689    GeV, BR= 100   %
+----------------------------------------
+
+Decay table for : tb.
+Total width:                  1.59689 GeV
+Flavour width:                1.5 GeV
+----------------------------------------
+{-6,-24,-5}       tb --> W- bb             1.59689    GeV, BR= 100   %
+
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

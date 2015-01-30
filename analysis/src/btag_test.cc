@@ -91,7 +91,7 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 int bTagTestAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 {
 	// Cuts for the b-jet candidates for b-tagging
-	double const pt_btagging=0;
+	double const pt_btagging=15;
 
 	// Get the jet constituents
 	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
@@ -190,7 +190,7 @@ void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 int bTagTestUCLAnalysis::BTagging( fastjet::PseudoJet const& jet ) const
 {
 	// Cuts for the b-jet candidates for b-tagging
-	double const pt_btagging=0;
+	double const pt_btagging=15;
 
 	// Get the jet constituents
 	const std::vector<fastjet::PseudoJet>& jet_constituents = jet.constituents();
