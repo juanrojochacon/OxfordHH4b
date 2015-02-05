@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
 	getline(datafile,line);
 	linestream.str(line);
 
-	// Dummy
-	for (int i=0; i<3; i++)
+	// Dummy indices
+	for (int i=0; i<4; i++)
 		linestream >> line;
 
 	// Count entries
@@ -62,15 +62,17 @@ int main(int argc, char* argv[])
 	{
 		bool signal;
 		string source;
+		double weight;
+
 		double* kinematics = new double[nKin];
 
 		stringstream datstream(line);
-		datstream >> signal >> source;
+		datstream >> signal >> source >> weight;
 		for (int i=0; i<nKin; i++)
 			datstream >> kinematics[i];
 
 		// Add datapoint to vector
-		trainingData.push_back(new trainingDatum(signal,source,nKin,kinematics));
+		trainingData.push_back(new trainingDatum(signal,source,weight,nKin,kinematics));
 
 		if (signal)
 			sigCount++;
@@ -83,7 +85,7 @@ int main(int argc, char* argv[])
 	cout << trainingData.size() << " datapoints found in training set."<<endl; 
 	cout << sigCount<<" signal points, " <<bkgCount << " background points." <<endl;
 
-	const double sig_wgt = ( (double) bkgCount )/( (double) sigCount );
+	const double sig_wgt = 1;//( (double) bkgCount )/( (double) sigCount );
 	const double bkg_wgt = ( (double) sigCount )/( (double) bkgCount );
 	cout << "Background weight: "<< bkg_wgt << " signal weight: " <<sig_wgt <<endl;
 
@@ -122,7 +124,7 @@ int main(int argc, char* argv[])
 	cout << "******************************************************"<<endl;
 
 	//const int nGen = 500000;
-	const int nGen = 10000;
+	const int nGen = 40000;
 	for (int i=0; i< nGen; i++)
 	{
 		// Mutate
@@ -176,7 +178,7 @@ int main(int argc, char* argv[])
 	{
 		*outProb = 0;
 		mlp.Compute(trainingData[i]->getKinematics(), outProb);
-		mvaout << trainingData[i]->getSource()<<"\t"<<trainingData[i]->getSignal() <<"\t"<<*outProb<<endl;
+		mvaout << trainingData[i]->getSource()<<"\t"<<trainingData[i]->getSignal() <<"\t"<<trainingData[i]->getWeight()<<"\t"<<*outProb<<endl;
 	}
 
 	mvaout.close();

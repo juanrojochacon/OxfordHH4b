@@ -5,9 +5,10 @@ import os
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
 import numpy
+import sys
 
 # Init data
-sourcefile = 'nn_11X5X3X1_10000-Gen_CE.net'
+sourcefile = 'nn_11X5X3X1_40000-Gen_CE.net'
 
 # Verify paths
 if os.path.exists(sourcefile) == False:

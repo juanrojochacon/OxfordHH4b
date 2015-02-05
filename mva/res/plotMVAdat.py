@@ -1,9 +1,12 @@
 #! /usr/bin/python
 from matplotlib import pyplot as plt
 from operator import add, sub
+from math import sqrt
 import sys, os, math
 import numpy
 
+# HL-LHC luminosity
+hl_lhc_lumi=3000
 
 # Setup ROC plot
 roc, rocax = plt.subplots()
@@ -11,6 +14,26 @@ rocax.plot([0,1],[1,0], color='grey')
 
 rocax.set_ylabel("Background rejection")
 rocax.set_xlabel("Signal efficiency")
+
+# Gridlines
+rocax.xaxis.grid(True)
+rocax.yaxis.grid(True)
+
+# Setup s/b plot
+sb, sbax = plt.subplots()
+sbax.set_ylabel("S/B")
+sbax.set_xlabel("NN Discriminant")
+
+# Setup s/sqrt(b) plot
+ssb, ssbax = plt.subplots()
+ssbax.set_ylabel("S/sqrt(B)")
+ssbax.set_xlabel("NN Discriminant")
+
+# Gridlines
+sbax.xaxis.grid(True)
+sbax.yaxis.grid(True)
+ssbax.xaxis.grid(True)
+ssbax.yaxis.grid(True)
 
 for idat in xrange(1,len(sys.argv)):
 
@@ -28,11 +51,16 @@ for idat in xrange(1,len(sys.argv)):
 	bkgprob = []
 	sigprob = []
 
+	events = []
+
 	for line in infile:
+		# Full event for s/b plot purposes
+		events.append(line.split()[1:4])
+
 		if line.split()[1] == '0':
-			bkgprob.append( float(line.split()[2]) )
+			bkgprob.append( float(line.split()[3]) )
 		else:
-			sigprob.append( float(line.split()[2]) )
+			sigprob.append( float(line.split()[3]) )
 
 	bins = numpy.linspace(0, 1, 20)
 	fig, ax = plt.subplots()
@@ -41,8 +69,11 @@ for idat in xrange(1,len(sys.argv)):
 	ax.hist(sigprob, bins, color='r', alpha=0.5, normed=True, label = "Signal events")
 	ax.set_ylim([0,8])
 
-
 	ax.set_xlabel("Neural network response")
+
+	# Legend
+	legend = ax.legend(fontsize=10, loc='best')
+	legend.get_frame().set_alpha(0.7)
 
 	numpoints = str( len(bkgprob) + len(sigprob) ) + " events: " + str(len(sigprob)) + " signal, " + str(len(bkgprob)) + " background."
 	fig.text(0.13,0.92,numpoints, fontsize=12)
@@ -51,36 +82,68 @@ for idat in xrange(1,len(sys.argv)):
 	figname = basename + "_hist.pdf"
 	fig.savefig(figname)
 
-	#### ROC Curve
+	#### ROC Curve and S/B plot
 
 	thresholds = numpy.linspace(0, 1, 200)
 	falsepos = []
 	truepos = []
 
-	for th in thresholds:
-		fp = 0
-		for bkg in bkgprob:
-			if bkg > th:
-				fp = fp+1
-		falsepos.append(1- fp/float(len(bkgprob)))
+	soverb = []
+	soversb = []
 
+	for th in thresholds:
+		# S/B signal and background weights
+		signalwgt = 0
+		backgdwgt = 0
+
+		# ROC true and false positives
 		tp = 0
-		for sig in sigprob:
-			if sig > th:
-				tp = tp+1
+		fp = 0
+
+		for evt in events:
+			signal = bool(int(evt[0]))
+			weight = float(evt[1])
+			discriminant = float(evt[2])
+
+			if discriminant > th:
+				if signal:
+					signalwgt = signalwgt + weight # signal weight
+					tp = tp+1 #ROC true positive
+				else:
+					backgdwgt = backgdwgt + weight # background weight
+					fp = fp+1 # ROC false positive
+
+		falsepos.append(1- fp/float(len(bkgprob)))
 		truepos.append(tp/float(len(sigprob)))
 
+		if backgdwgt == 0:
+			soverb.append(0)
+			soversb.append(0)
+		else:
+			soverb.append(signalwgt/backgdwgt)
+			soversb.append((hl_lhc_lumi*signalwgt)/sqrt(hl_lhc_lumi*backgdwgt))
 
 	rocax.plot(truepos, falsepos, label = basename)
-
-# Gridlines
-rocax.xaxis.grid(True)
-rocax.yaxis.grid(True)
+	sbax.plot(thresholds, soverb, label = basename)
+	ssbax.plot(thresholds, soversb, label = basename)
 
 # Legend
-legend = rocax.legend(loc='best')
-legend.get_frame().set_alpha(0.8)
+rlegend = rocax.legend(loc='best')
+rlegend.get_frame().set_alpha(0.8)
+
+# Legend
+slegend = sbax.legend(loc='best')
+slegend.get_frame().set_alpha(0.8)
+
+# Legend
+sslegend = ssbax.legend(loc='best')
+sslegend.get_frame().set_alpha(0.8)
+
 roc.savefig('roc.pdf')
+sb.savefig('sb.pdf')
+ssb.savefig('ssb.pdf')
+
+
 
 
 

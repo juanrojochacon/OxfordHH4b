@@ -24,9 +24,8 @@ static std::vector<eventSample> samples;
 	// **************** PLEASE MODIFY  ****************
 
 // Global run parameters
-const int nSamples = 3;
+const int nSamples = 4;
 const int max_evt = 1E7;
-//const int max_evt = 1000;
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -69,6 +68,25 @@ eventSample GetSample( int const& isample )
 	  hepmc = true;
 	  nevt_sample = 3E6;
 	  break;
+
+	  case 3: 
+	  eventfile="SHERPA_QCD_4j.hepmc";
+	  samplename="SHERPA_QCD4j";
+	  signal = false;
+	  hepmc = true;
+	  nevt_sample = 3E6;
+	  break;
+
+	  case 4: 
+	  eventfile="SHERPA_QCD_ttbar.hepmc";
+	  samplename="SHERPA_QCDttbar";
+	  signal = false;
+	  hepmc = true;
+	  nevt_sample = 3E6;
+	  break;
+
+
+
 	// **************** DO NOT MODIFY  ****************
 
 	  default:
@@ -95,15 +113,16 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 					std::vector<Analysis*>& backgroundAnalyses)
 {
 	// **************** PLEASE MODIFY  ****************
-  HH4bAnalyses.push_back(new AMCAnalysis("total"));
+  //HH4bAnalyses.push_back(new AMCAnalysis("total"));
 
 
   HH4bAnalyses.push_back(new UCLAnalysis("total")); 
+  
   HH4bAnalyses.push_back(new DurhamAnalysis("total"));
   HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
-//   HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
+  HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
   signalAnalyses.push_back(new UCLAnalysis("signal"));
@@ -111,7 +130,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   signalAnalyses.push_back(new UCLVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
-//   signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
   backgroundAnalyses.push_back(new UCLAnalysis("background"));
@@ -119,7 +138,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResFRAnalysis("background"));
-//   backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
@@ -128,17 +147,20 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
-	// **************** PLEASE MODIFY  ****************
-	sampleAnalyses.push_back(new bTagTestAnalysis(samplename));
 
-	sampleAnalyses.push_back(new AMCAnalysis(samplename));
 	sampleAnalyses.push_back(new UCLAnalysis(samplename));
+	sampleAnalyses.push_back(new bTagTestAnalysis(samplename));
+	sampleAnalyses.push_back(new bTagTestUCLAnalysis(samplename));
+	// **************** PLEASE MODIFY  ****************
+	
+	sampleAnalyses.push_back(new AMCAnalysis(samplename));
 	sampleAnalyses.push_back(new DurhamAnalysis(samplename));
 	sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
-// 	sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
+    sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordResFRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
+	
 	// **************** DO NOT MODIFY  ****************
 
 }

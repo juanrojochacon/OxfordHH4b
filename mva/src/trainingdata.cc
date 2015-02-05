@@ -3,9 +3,10 @@
 #include "trainingdata.h"
 #include <algorithm>
 
-trainingDatum::trainingDatum(int const& _signal, string const& _source, int const& _nKin, const double* _kinematics):
+trainingDatum::trainingDatum(int const& _signal, string const& _source, double const& _weight, int const& _nKin, const double* _kinematics):
 signal(_signal),
 source(_source),
+weight(_weight),
 nKin(_nKin)
 {
 	kinematics = new double[nKin];

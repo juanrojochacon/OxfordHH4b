@@ -16,12 +16,13 @@ using std::vector;
 class trainingDatum
 {
 public:
-	trainingDatum(int const& _signal, string const& _source, int const& _nKin, const double* _kinematics);
+	trainingDatum(int const& _signal, string const& _source, double const& _weight, int const& _nKin, const double* _kinematics);
 	~trainingDatum();
 
 	// Get methods
 	int const& getSignal() const {return signal;};
 	string const& getSource() const {return source;};
+	const double& getWeight() const {return weight;};
 	const int& getNkin() const {return nKin;};
 	const double* getKinematics() const {return kinematics;};
 
@@ -32,6 +33,8 @@ public:
 private:
 	const int signal; 	 //!< Is the datum signal or background
 	const string source; //!< Source sample of the datum
+
+	const double weight; //!< Event weight
 
 	const int nKin;		//!< Number of kinematic points
 	double* kinematics; //!< Input for MVA
