@@ -123,7 +123,7 @@ Analysis("oxford_res_fr", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
-	Cut("Basic: Two dijets", 0);
+	//Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
 	Cut("Jet pT/Eta", 0);
 	Cut("diJet pT", 0);
