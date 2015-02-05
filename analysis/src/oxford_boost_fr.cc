@@ -134,7 +134,7 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	JetCluster_LargeFR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
 	// Fails cuts
-	if(event_weight<1e-30) return Cut("Rounding", event_weight);
+	if(event_weight<1e-30) return;// Cut("Rounding", event_weight);
 	
 	//------------------------------------------------------------------------------
 	// pt ordering and basic cuts now done in the JetCluster_LargeFR(...) function
@@ -409,8 +409,8 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   // discard the event
   if(nTagged!=2) 
   {
-    event_weight = 0;
     Cut("BDRS mass-drop", event_weight);
+    event_weight = 0;
     return;
   }
   

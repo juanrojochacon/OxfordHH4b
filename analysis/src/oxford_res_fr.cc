@@ -424,6 +424,7 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 
 	// cut from btagging
 	Cut("Basic: bTagging", initial_weight - event_weight);
+	return;
 } 
 
 // ----------------------------------------------------------------------------------
