@@ -113,8 +113,8 @@ Analysis("oxford_boost_fr", sampleName)
   Cut("Basic: Fatjet cuts", 0);
   Cut("Basic: 2 subjets for each fat jet",0);
   Cut("Basic: bTagging", 0);
-  Cut("BDRS mass-drop", 0);
-  Cut("fatjet deltaEta", 0);
+  //Cut("BDRS mass-drop", 0);
+  //Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
 }
 
@@ -152,9 +152,9 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 
   // Same as in the UCL analysis
   // require that these two leading fat jets are not too separated in rapidity
-  const double delta_eta_dijet_fatjet=1.5;
-  const double delta_eta_dijet = fabs(fatjets.at(0).eta()- fatjets.at(1).eta());
-  if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("fatjet deltaEta", event_weight);
+  //const double delta_eta_dijet_fatjet=1.5;
+  //const double delta_eta_dijet = fabs(fatjets.at(0).eta()- fatjets.at(1).eta());
+  //if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("fatjet deltaEta", event_weight);
 
   // Higgs mass window condition
   const double mass_diff1 = fabs(fatjets.at(0).m()-m_higgs)/m_higgs;
@@ -382,6 +382,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   }
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
+  /*
   int nTagged = 0;
   for (int i = 0; i < 2; i++) 
   {
@@ -402,6 +403,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   // discard the event
   if(nTagged!=2) 
     return Cut("BDRS mass-drop", event_weight);
+    */
   
   return;
 }
