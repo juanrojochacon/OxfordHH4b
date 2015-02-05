@@ -18,6 +18,14 @@ using namespace fastjet::contrib;
 static double const jetR=1.0; // To avoid overlapping b's as much as possible
 fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 
+// first recluster again with the large-R but with Cambridge-Aachen
+static double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
+static fastjet::JetDefinition CA10(fastjet::cambridge_algorithm, jetR_1p2);
+// Set parameters of the mass drop tagger for jet substructure
+// mu = 0.67 and y = 0.09 are the default choice in FastJet
+static const double mu = 0.67;
+static const double ycut = 0.09;
+
 
 OxfordBoostFRAnalysis::OxfordBoostFRAnalysis(std::string const& sampleName):
 Analysis("oxford_boost_fr", sampleName)
@@ -103,9 +111,12 @@ Analysis("oxford_boost_fr", sampleName)
 
 	// Order cutflow
 	Cut("Basic: Two fatjets ", 0);
-	Cut("Basic: Fatjet kinematic cuts ", 1);
-	Cut("Basic: 2 subjets for each fatjet ", 2);
-	Cut("Basic: bTagging ", 3);
+	Cut("Basic: Fatjet kinematic cuts ", 0);
+	Cut("Basic: 2 subjets for each fatjet ", 0);
+	Cut("Basic: bTagging ", 0);
+  Cut("fatjet deltaEta", 0);
+  Cut("Higgs window", 0);
+  Cut("BDRS mass-drop", 0);
 }
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -123,7 +134,6 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	std::vector<double> tau21_vec;
 	JetCluster_LargeFR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
-
 	// Fails cuts
 	if(event_weight<1e-30) return;
 	
@@ -138,8 +148,47 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	// Histograms for the HH system
 	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
 
+
+// ************************************************************************************
+
+  // Same as in the UCL analysis
+  // require that these two leading fat jets are not too separated in rapidity
+  const double delta_eta_dijet_fatjet=1.5;
+  const double delta_eta_dijet = fabs(fatjets.at(0).eta()- fatjets.at(1).eta());
+  if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("fatjet deltaEta", event_weight);
+
+  // Higgs mass window condition
+  const double mass_diff1 = fabs(fatjets.at(0).m()-m_higgs)/m_higgs;
+  const double mass_diff2 = fabs(fatjets.at(1).m()-m_higgs)/m_higgs;
+  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return  Cut("Higgs window", event_weight);
+
+  // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
+  int nTagged = 0;
+  for (int i = 0; i < 2; i++) 
+  {
+    fastjet::ClusterSequence cs_sub(fatjets[i].constituents(), CA10);
+    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+
+    // now run mass drop tagger
+    // parameters are specified in settings.h
+    fastjet::MassDropTagger md_tagger(mu, ycut);
+    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
+
+    // If tagging succesful - declare as Higgs candidate
+    if (tagged_jet != 0 )  
+      nTagged++;
+  }
+
+  // If we don't have a mass-drop tag in each of the two leading large-R jets
+  // discard the event
+  if(nTagged!=2) 
+    return Cut("BDRS mass-drop", event_weight);
+
+// ************************************************************************************
+
+
 	int nJets = fatjets.size();
-	// Record jet multiplicity before cuts
+	// Record jet multiplicity after cuts
 	FillHistogram("nFatJets_postCut", event_weight, nJets );
 
 	FillHistogram("ptfj1_postCut", event_weight, fatjets.at(0).pt() );
@@ -227,7 +276,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   //------------------------------------------------------------------------------------------------------
   // First of all, after basic selection, require that both jets are above 100 GeV
   double const pt_fatjet_ox = 250.0;
-  // they should also be in central rapodity, |eta| < 2.5
+  // they should also be in central rapidity, |eta| < 2.5
   double const eta_fatjet_ox = 2.5;
   
   //Basic kinematic cuts on the jets

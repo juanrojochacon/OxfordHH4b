@@ -252,21 +252,33 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 // ************* CUTS ************************************************************
 
 	// First of all, after basic selection, require that all four jets are above 25 GeV
-	double const pt_bjet_ox = 25.0;
+	double const pt_bjet_ox = 40.0;
 	// they should also be in central rapidity, |eta| < 2.5
 	double const eta_bjet_ox = 2.5;
 
-	// Perform cuts
+	// bJet pt/eta cuts
 	for(int ijet=0; ijet<njet;ijet++)
-	{
 		if(bjets.at(ijet).pt() < pt_bjet_ox || 
-			fabs( bjets.at(ijet).eta() ) > eta_bjet_ox) 
-			{
-				Cut("Jet pT/Eta", event_weight);	// Kinematics cut on b-jets
-				event_weight=0;
-				return;
-			}
-	}
+			fabs( bjets.at(ijet).eta() ) > eta_bjet_ox)
+				return Cut("Jet pT/Eta", event_weight);	// Kinematics cut on b-jets
+
+	// Dijet pT cut
+	const double pt_dijet_ox=150.0;
+	if( higgs[0].pt() < pt_dijet_ox || higgs[1].pt() < pt_dijet_ox ) 
+		return Cut("diJet pT", event_weight);
+
+	// These two dijets cannot be too far in DeltaEta
+	const double delta_eta_dijet_ox=1.5;
+	const double delta_eta_dijet = fabs(higgs[0].eta()- higgs[1].eta());
+	if(delta_eta_dijet > delta_eta_dijet_ox) 
+		return Cut("diJet DeltaEta", event_weight);
+
+	// Higgs mass window condition
+	const double mass_diff1 = fabs(higgs[0].m()-m_higgs)/m_higgs;
+	const double mass_diff2 = fabs(higgs[1].m()-m_higgs)/m_higgs;
+	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+		return Cut("Higgs window", event_weight);
+
 
 // *************************** Post cut fills **************************************
 
