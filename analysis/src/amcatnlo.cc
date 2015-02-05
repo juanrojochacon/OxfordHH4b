@@ -75,12 +75,17 @@ void AMCAnalysis::Analyse(bool const& signal, double const& weightnorm, finalSta
 	{
 		Nb_Req_80 = 2;
 		Nb_Req_100 = 1;
+	}
+	else if (GetSample().compare("SHERPA_QCD4j") == 0)
+	{
+		Nb_Req_80 = 0;
+		Nb_Req_100 = 0;
 	} else
 	{
 		return Cut("Unrec Sample", event_weight);
 	}
 
-	// Require either 2 or 4 b-Jets at 80GeV
+	// Require either 0, 2 or 4 b-Jets at 80GeV
 	if ( NbJet_80 < Nb_Req_80 )
 		return Cut("NbJets 80", event_weight);
 
