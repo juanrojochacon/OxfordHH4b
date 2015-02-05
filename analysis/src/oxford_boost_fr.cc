@@ -109,11 +109,10 @@ Analysis("oxford_boost_fr", sampleName)
 	const std::string tupleSpec = "# signal source weight m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
 	outputNTuple<<tupleSpec<<std::endl;
 
-	// Order cutflow
-	Cut("Basic: Two fatjets ", 0);
-	Cut("Basic: Fatjet kinematic cuts ", 0);
-	Cut("Basic: 2 subjets for each fatjet ", 0);
-	Cut("Basic: bTagging ", 0);
+  // Order cutflow
+  Cut("Basic: Fatjet cuts", 0);
+  Cut("Basic: 2 subjets for each fat jet",0);
+  Cut("Basic: bTagging", 0);
   Cut("BDRS mass-drop", 0);
   Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
