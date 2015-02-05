@@ -113,7 +113,7 @@ Analysis("oxford_boost_fr", sampleName)
   Cut("Basic: Fatjet cuts", 0);
   Cut("Basic: 2 subjets for each fat jet",0);
   Cut("Basic: bTagging", 0);
-  //Cut("BDRS mass-drop", 0);
+  Cut("BDRS mass-drop", 0);
   //Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
 }
@@ -134,7 +134,7 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	JetCluster_LargeFR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
 	// Fails cuts
-	if(event_weight<1e-30) return;
+	if(event_weight<1e-30) return Cut("Rounding", event_weight);
 	
 	//------------------------------------------------------------------------------
 	// pt ordering and basic cuts now done in the JetCluster_LargeFR(...) function
@@ -159,7 +159,8 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
   // Higgs mass window condition
   const double mass_diff1 = fabs(fatjets.at(0).m()-m_higgs)/m_higgs;
   const double mass_diff2 = fabs(fatjets.at(1).m()-m_higgs)/m_higgs;
-  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return  Cut("Higgs window", event_weight);
+  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+    return  Cut("Higgs window", event_weight);
 
 
 // ************************************************************************************
@@ -340,49 +341,54 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   // By looking at the jet constituents
   // we can simulate the effects of b tagging
+  // Here I am only attempting to b-tag the hardest two jets
   const double initial_weight = event_weight;
-  for(unsigned int ijet=0; ijet<subjets_fj0.size(); ijet++){
+  for(unsigned int ijet=0; ijet<2; ijet++)
+  {
+    bjets_jet0.push_back(subjets_fj0.at(ijet));
+
   	if( BTagging(subjets_fj0[ijet]) )   // Check if at least two of its constituents are b quarks
   	{
-  		bjets_jet0.push_back(subjets_fj0.at(ijet));
+      const double btag_prob = btag_eff( subjets_fj0.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_fj0[ijet]) > 0) {
-		double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
-		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	else if( CTagging(subjets_fj0[ijet]) ) 
+    {
+  		const double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
+  		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{
-  		event_weight *= btag_mistag;
+      const double mistag_prob = mistag_eff( subjets_fj0.at(ijet).pt() );
+  		event_weight *= mistag_prob;
   	}
   }
-  for(unsigned int ijet=0; ijet<subjets_fj1.size(); ijet++){
-  	if( BTagging(subjets_fj1[ijet]) > 0 )   // Check if at least one of its constituents are b quarks
+
+  for(unsigned int ijet=0; ijet<2; ijet++)
+  {
+    bjets_jet1.push_back(subjets_fj1.at(ijet));
+
+  	if( BTagging(subjets_fj1[ijet]) )   // Check if at least one of its constituents are b quarks
   	{
-  		bjets_jet1.push_back(subjets_fj1.at(ijet));
-  		double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
+  		const double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_fj1[ijet]) > 0) {
-		double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
-		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	else if( CTagging(subjets_fj1[ijet]) ) 
+    {
+  		const double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
+  		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{	
-		double mistag_prob = mistag_eff( subjets_fj1.at(ijet).pt() );
+		  const double mistag_prob = mistag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= mistag_prob;
   	}
   }
   
-  if( bjets_jet0.size() < 2 || bjets_jet1.size() < 2 ){
+  Cut("Basic: bTagging", initial_weight - event_weight);
   
-      Cut("Basic: bTagging", initial_weight - event_weight);
-      event_weight=0;
-      return;
-  }
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
-  /*
   int nTagged = 0;
   for (int i = 0; i < 2; i++) 
   {
@@ -402,8 +408,11 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   // If we don't have a mass-drop tag in each of the two leading large-R jets
   // discard the event
   if(nTagged!=2) 
-    return Cut("BDRS mass-drop", event_weight);
-    */
+  {
+    event_weight = 0;
+    Cut("BDRS mass-drop", event_weight);
+    return;
+  }
   
   return;
 }

@@ -143,7 +143,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	JetCluster_SmallFR(fs, bjets_unsort, event_weight);
 
 	// Fails cuts
-	if(event_weight<1e-30) return;
+	if(event_weight<1e-30) return Cut("Rounding", event_weight);
 
 	// Fill the histograms for the pt of the b jets before 
 	// the corresponding kinematical cuts
@@ -400,22 +400,20 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 	  //int cQuarks = 0;
 	  FillHistogram("truth_NbConstituents", 1, bQuarks+0.5 );
 	  FillHistogram("truth_NcConstituents", 1, cQuarks+0.5 );
+
+      bjets.push_back(jets_fr_akt.at(ijet));
 	  
 	  if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
 	    {
-	      bjets.push_back(jets_fr_akt.at(ijet));
 	      event_weight *= btag_prob; // Account for b tagging efficiency
 	      Nbjets++;
 	    }
 	  else if ( cQuarks > 0 ) {
-	    bjets.push_back(jets_fr_akt.at(ijet));
 	    event_weight *= ctag_prob; // Include c-mis tag rate
 	    Ncjets++;
 	  }
-	
 	  else // Else, account for the fake b-tag probabililty
 	    {
-	      bjets.push_back(jets_fr_akt.at(ijet));
 	      event_weight *= btag_mistag;
 	    }
 	  
