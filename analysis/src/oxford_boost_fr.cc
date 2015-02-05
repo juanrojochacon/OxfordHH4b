@@ -114,9 +114,9 @@ Analysis("oxford_boost_fr", sampleName)
 	Cut("Basic: Fatjet kinematic cuts ", 0);
 	Cut("Basic: 2 subjets for each fatjet ", 0);
 	Cut("Basic: bTagging ", 0);
+  Cut("BDRS mass-drop", 0);
   Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
-  Cut("BDRS mass-drop", 0);
 }
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -162,27 +162,6 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
   const double mass_diff2 = fabs(fatjets.at(1).m()-m_higgs)/m_higgs;
   if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) return  Cut("Higgs window", event_weight);
 
-  // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
-  int nTagged = 0;
-  for (int i = 0; i < 2; i++) 
-  {
-    fastjet::ClusterSequence cs_sub(fatjets[i].constituents(), CA10);
-    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
-
-    // now run mass drop tagger
-    // parameters are specified in settings.h
-    fastjet::MassDropTagger md_tagger(mu, ycut);
-    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
-
-    // If tagging succesful - declare as Higgs candidate
-    if (tagged_jet != 0 )  
-      nTagged++;
-  }
-
-  // If we don't have a mass-drop tag in each of the two leading large-R jets
-  // discard the event
-  if(nTagged!=2) 
-    return Cut("BDRS mass-drop", event_weight);
 
 // ************************************************************************************
 
@@ -402,6 +381,28 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
       event_weight=0;
       return;
   }
+
+    // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
+  int nTagged = 0;
+  for (int i = 0; i < 2; i++) 
+  {
+    fastjet::ClusterSequence cs_sub(fatjets[i].constituents(), CA10);
+    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+
+    // now run mass drop tagger
+    // parameters are specified in settings.h
+    fastjet::MassDropTagger md_tagger(mu, ycut);
+    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
+
+    // If tagging succesful - declare as Higgs candidate
+    if (tagged_jet != 0 )  
+      nTagged++; 
+  }
+
+  // If we don't have a mass-drop tag in each of the two leading large-R jets
+  // discard the event
+  if(nTagged!=2) 
+    return Cut("BDRS mass-drop", event_weight);
   
   return;
 }
