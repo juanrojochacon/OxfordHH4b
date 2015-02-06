@@ -84,13 +84,13 @@ Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
 \hline
 $pp \to HH$ &  MG5\_aMC@NLO & 100K & $1.729\times10^{-2}$ pb \\
 \hline
-$pp \to b\bar{b}b\bar{b}$ &  SHERPA 2.1.1 & 3M &$9.298 \times10^2$ pb \\
-$pp \to b\bar{b}jj$ &  SHERPA 2.1.1 & 3M & $2.208 \times 10^5$ pb\\
+$pp \to b\bar{b}b\bar{b}$ &  SHERPA 2.1.1 & 3M &$1.121 \times10^3$ pb \\
+$pp \to b\bar{b}jj$ &  SHERPA 2.1.1 & 3M & $2.659 \times 10^5$ pb \\
 $pp \to jjjj$ &  SHERPA 2.1.1 & 3M  & $9.709\times 10^6$ pb \\
-$pp \to t\bar{t}$ (had) &  SHERPA 2.1.1 & 100K & $2.511\times 10^3$ pb \\
+$pp \to t\bar{t}$ &  SHERPA 2.1.1 & 3M & $2.514\times 10^3$ pb \\
 \hline
 \end{tabular}
-\caption{Summary of generated samples to date} \label{tab:samples}
+\caption{Summary of generated samples to date. All {\tt SHERPA} samples have a MC error of $0.05\%$.} \label{tab:samples}
 \end{center}
 \end{table}%
 
@@ -105,8 +105,8 @@ In Table~\ref{tab:xsecs} this comparison is summarised for the $2b2j$ and $4b$ s
 \hline
 Process & $\sigma$ aMC@NLO & $\sigma$ Oxford (SHERPA) \\
 \hline\hline
-$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $3.492\times10^{-1}$ pb \\ 
-$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$4.209 \times 10^2$ pb \\ 
+$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $4.123\times10^{-1}$ pb \\ 
+$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$4.239 \times 10^2$ pb \\ 
 $jjjj$ & -  & $4.450\times 10^4$ pb \\
 \hline
 \end{tabular}
@@ -149,7 +149,7 @@ $jjjj$ & $9.709\times 10^6$ pb & $20.85$ pb & \textbf{2.147 $\times$ 10$^{-4}$\%
 \cline{1-3}
 \end{tabular}
 \end{center}
-\caption{$b$-tagging analysis performed upon the samples described in Section~\ref{sec:samples}. Cross-sections are given for the samples before and after the application of the b-tagging procedure whereby the four hardest jets in the event are used, and the flat selection efficiency and mis-tag rates applied. The percentage of cross-section surviving the selection is shown, along with the naive expectation ($\epsilon_b^{n_b}\epsilon_l^{n_l}$) for comparison. Finally, the signal-to-background ratio and significance are given both before and after the b-tagging, for $\mathcal{L}=$ 3 ab$^{-1}$.} \label{tab:btageff1}
+\caption{$b$-tagging analysis performed upon the samples described in Section~\ref{sec:samples}. Cross-sections are given for the samples before and after the application of the b-tagging procedure whereby the four hardest jets in the event are used, and the flat selection efficiency and mis-tag rates applied. The percentage of cross-section surviving the selection is shown, along with the naive expectation ($\epsilon_b^{n_b}\epsilon_l^{n_l}$) for comparison. Finally, the signal-to-background ratio and significance are given both before and after the b-tagging, for $\mathcal{L}=$ 3 ab$^{-1}$.} \label{tab:btageff1}. Note, older samples have been used here with different generator cuts.
 \end{table}%
 
 These differences are due to the choices made in the selection procedure. In practice the four hardest jets in the event often do not correspond directly to the four parton level final state particles. In Table~\ref{tab:nbjets} the number of true $b$-jets (that is, prior to the application of selection efficiencies and fake rates) present in the hardest four jets per event is shown. Indeed, for the samples with four $b$-quarks in the parton level final state, the most common scenario has only three $b$-jets in the hardest four jets, significantly affecting the selection efficiency.
@@ -194,12 +194,12 @@ $b\bar{b}jj$ &  $2.137 \times 10^4$ pb & 4.779 pb & 0.0224\% \\
 \cline{1-3}
 \end{tabular}
 \end{center}
-\caption{Summary of the $b$-tagging procedure of the UCL analysis. Presented as in Table~\ref{tab:btageff1}. In this case the total cross-sections are presented after a cut requiring four anti-$k_T$ R=0.5 jets with $p_T>40$ GeV in the final state. The percentage selected column is given for the $b$-tagging stage \emph{only} for comparison. \textbf{Needs to be updated to newer samples}.}\label{tab:UCLbtag}
+\caption{Summary of the $b$-tagging procedure of the UCL analysis. Presented as in Table~\ref{tab:btageff1}. In this case the total cross-sections are presented after a cut requiring four anti-$k_T$ R=0.5 jets with $p_T>40$ GeV in the final state. The percentage selected column is given for the $b$-tagging stage \emph{only} for comparison. Note, older samples have been used here with different generator cuts.}\label{tab:UCLbtag}
 \end{table}%
 
 Once again, it is clear that more of the $bbjj$ sample is making it past the $b$-tagging selection than originally expected. It seems unlikely that this background can be neglected in the resolved analysis based upon a simple factor of $\epsilon_b^{2}\epsilon_l^{2}$ as used by the UCL group.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=\textwidth]{plots/m4b_ucl_preCut.pdf}
 \caption{Contributions from the various samples to the observed four $b$ invariant mass system after applying the $b$-tagging procedure outlined in Section~\ref{sec:btagtest}.}
@@ -230,9 +230,88 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
 
 \section{Multivariate Tools}
 
+\clearpage
 \section{Results}
+\subsection{Example resolved analysis}
+In this section we present the results of a resolved style analysis upon the full set of available samples for the purposes of illustration. The cuts used in this example analysis are as so. \emph{b-tag} cuts those events which fail to tag four anti-$k_T$ $R=0.5$ $b$-jets with $b$ quark $p_T > 15$ GeV. Flat $b$-jet efficiencies and mistag rates of 80\% and 1\% respectively. A $c$ mistag rate of $17\%$ is also applied.  \emph{jet $p_T$,$\eta$} requires that the four jets each have $p_T>40$ GeV and $|\eta|< 2.5$. \emph{di-jet $p_T$} requires that each dijet pair representing a higgs candidate has $p_T>150 $ GeV. \emph{di-jet $\Delta\eta$} requires that the two dijets are separated by no more than 1.5 units in $\eta$. Finally \emph{$m_H$ window} requires that the invariant mass of each dijet is within 15 GeV of $m_H$. The remaining cross-section after each of these cuts, along with $S/B$ and $S/\sqrt{B}$ are given in Table ~\ref{tab:resCutflow}.
+
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{|c||c||c|c|c|c||c|c|}
+\hline
+Cut 					& $HH$ [fb] & $4b$ [fb] & $2b2j$ [fb] & $4j$ [fb] & $t\bar{t}$ [fb] & $S/B$ & $S/\sqrt{B}$ \\
+\hline
+b-tag    	& 1.516 &      102271         & 135255        & 42934  	&	202.9	&5.40E-6	& 0.157\\
+jet $p_T,\eta$         & 0.723 &        3847      & 10676       & 5045 	&	122.7	&3.67E-5	& 0.282\\
+di-jet $p_T$           	& 0.371&      553.7        & 1838	  & 926.0	&	22.45	&1.11E-4	& 0.352\\
+di-jet $\Delta\eta$   & 0.336&       324.8       & 991.4 	  & 312.6		&	16.39	&2.04E-4	& 0.454\\
+\hline
+$m_H$ window   &0.190 &          7.632      & 13.60	  & 0.502	&	2.675	&7.78E-3	& 2.106\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Table demonstrating the cutflow of an example resolved analysis applied to the full sample set.  $S/\sqrt{B}$ is given for HL-LHC luminosities.}
+\label{tab:resCutflow}
+\end{table}%
+
+
+\subsection{Example boosted analysis}
+Here we shall discuss an example boosted analysis. In this case \emph{Fatjet cuts} refers to the requirement of two $R=1$ anti-$k_T$ jets with $p_T>250$ GeV and $|\eta| < 2.5$. \emph{2 Subjets} requires two anti-$k_T$ $R=0.3$ subjects in each fat jet. \emph{b-Tagging} cuts those events in which the two hardest subjets are not successfully $b$-tagged. Here efficiency and mistag factors are applied for $b$ and $c$ jets as a function of subjet $p_T$. \emph{Mass-drop } requires that the two fat jets pass a BDRS mass-drop tagger with parameters $\mu = 0.67$ and $y_{\mathrm{cut}} = 0.09$. Finally \emph{$m_H$ window} only passes events where the two fat jet masses are within $15$ GeV of $m_H$. In Table~\ref{tab:boostedCutflow} we see the results of these cuts.
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{|c||c||c|c|c|c||c|c|}
+\hline
+Cut 					& $HH$ [fb] & $4b$ [fb] & $2b2j$ [fb] & $4j$ [fb] & $t\bar{t}$ [fb] & $S/B$ & $S/\sqrt{B}$ \\
+\hline
+Fatjet cuts 			&2.802           	&3045 	& 1.13E6 &	4.57E7    &       9808  & 5.98E-8 &0.022 \\
+2 Subjets  	&	2.740 	&2694	& 1.01E6	&	4.21E7 	&	9787  &6.35E-8 & 0.023\\
+b-Tagging    			& 0.070		&39.76	& 296.9		&	352.9            &      7.586 & 1.00E-5& 0.145\\
+Mass-drop  		& 0.068 		&36.84	& 256.0    	&	305.1            &	7.514 & 1.12E-4& 0.151 \\
+%\hline
+$m_H$ window       		&   0.045		& 2.134	& 10.83	& 	0.630            & 	0.438 & 3.20E-3& 0.658\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Table demonstrating the cutflow of an example boosted analysis applied to the full sample set. $S/\sqrt{B}$ is given for HL-LHC luminosities.}
+\label{tab:boostedCutflow}
+\end{table}%
+
+
+\subsection{MVA}
+We now apply a basic MVA to the final output of the resolved and boosted analyses. The MVA used is a feedforward artificial neural network with $N_{\mathrm{par}}\times5\times3\times1$ architecture, where $N_{\mathrm{par}}$ is the number of input parameters for the network. The MVA was trained for 50,000 GA generations with a cross-entropy error function. In Figure~\ref{fig:nnresponse} the neural network classification of events is demonstrated for both the resolved and boosted cases. In Figure~\ref{fig:exampleroc} the ROC curves for the two analyses are shown, demonstrating that the neural network is able to
+perform well in both cases. Figure~\ref{fig:nnweights} shows the distribution of NN weights in both cases.
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/resolved_MVA_hist.pdf}
+\includegraphics[width=0.49\textwidth]{plots/boosted_MVA_hist.pdf}
+\caption{Neural network response demonstrated for the case of the resolved (left) and boosted (right) analyses. The frequency of background and signal events is plotted as a function of neural network output.}
+\label{fig:nnresponse}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{plots/example_roc.pdf}
+\caption{ROC curve for the neural network discriminant in the boosted (green) and resolved (blue) cases.}
+\label{fig:exampleroc}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{plots/nnweights_res.pdf}
+\includegraphics[width=1\textwidth]{plots/nnweights_boost.pdf}
+\caption{Distribution of weights per input variable in the final ANN analysis. The above figure shows the weight distribution in the case of the resolved analysis, while the lower plot shows the boosted analysis.}
+\label{fig:nnweights}
+\end{center}
+\end{figure}
+
 
 \section{Conclusion}
+
+
 
 % \Acknowledgements
 
@@ -281,7 +360,7 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   MI_HANDLER=None # disable multiple parton interactions
 
   SCF:=1; ### default scale factor
-  SCALES VAR{SCF*H_T2/2};
+  SCALES VAR{SCF*H_T2/4};
 
   PDF_LIBRARY LHAPDFSherpa;
   PDF_SET NNPDF30_lo_as_0118_nf_4.LHgrid;
@@ -306,6 +385,7 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   DeltaR 5 5 0.1 10000
   DeltaR 5 -5 0.1 10000
   DeltaR -5 -5 0.1 10000
+
 }(selector);
 \end{verbatim}
 
@@ -325,7 +405,7 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   MI_HANDLER=None # disable multiple parton interactions
 
   SCF:=1; ### default scale factor
-  SCALES VAR{SCF*H_T2/2};
+  SCALES VAR{SCF*H_T2/4};
 
   PDF_LIBRARY LHAPDFSherpa;
   PDF_SET NNPDF30_lo_as_0118_nf_4.LHgrid;
@@ -375,7 +455,7 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   MI_HANDLER=None # disable multiple parton interactions
 
   SCF:=1; ### default scale factor
-  SCALES VAR{SCF*H_T2/2};
+  SCALES VAR{SCF*H_T2/4};
 
   PDF_LIBRARY LHAPDFSherpa;
   PDF_SET NNPDF30_lo_as_0118_nf_4.LHgrid;
@@ -385,15 +465,17 @@ $\rho=500$~GeV, $R_{max}=$1.0, $R_{min}=$0.2.
   MASS[5] 4.75;
 
 }(run);
+
 (processes){
   Process 93 93 -> 93 93 93 93;
   Order_EW 0;
   End process;
-
 }(processes);
+
 (selector){
   PT 93 20 7000
   PseudoRapidity 93 -3 3
+  DeltaR 93 93 0.1 10000
 }(selector);
 \end{verbatim}
 
