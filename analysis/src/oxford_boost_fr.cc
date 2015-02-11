@@ -56,11 +56,11 @@ Analysis("oxford_boost_fr", sampleName)
   BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_postFJCut");
   BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_postFJCut");
 
-  BookHistogram(new YODA::Histo1D(20, 0, 300), "leadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 300), "leadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj1_pt_postFJCut");
   
-  BookHistogram(new YODA::Histo1D(20, 0, 300), "subleadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 300), "subleadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj0_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj1_pt_postFJCut");
 
   BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nBQuarks_postFJCut");
   BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nBQuarks_postFJCut");
@@ -179,11 +179,19 @@ This applies for small R jet clustering with the anti-kt algorithm
 
 void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector<fastjet::PseudoJet>& fatjets, std::vector<double>& split12_vec, std::vector<double>& tau21_vec, double& event_weight)
 {
- 
+  
+  finalState fsc;
+  //Select only charged fs particles
+  for(int i=0; i<(int)fs.size(); i++){
+          int userid = fs.at(i).user_index();
+          //std::cout << "userid " << userid << std::endl;
+          if(abs(userid)<6) fsc.push_back(fs.at(i));
+  }
+
   // Get all the jets (no pt cut here)
   fastjet::ClusterSequence cs_akt(fs, akt);
   std::vector<fastjet::PseudoJet> jets_fr_akt = sorted_by_pt( cs_akt.inclusive_jets()  );
-  VerifyFourMomentum(jets_fr_akt);
+  //VerifyFourMomentum(jets_fr_akt);
   
   int nJets = jets_fr_akt.size();
   // We require at least 2 fatjets in the event, else discard event
@@ -238,7 +246,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
 	  if(jets_fr_akt.at(ijet).pt() < pt_fatjet_ox || 
 		  fabs( jets_fr_akt.at(ijet).eta() ) > eta_fatjet_ox) 
 		  {
-			  Cut("Basic: Fatjet cuts", event_weight);
+	                  Cut("Basic: Fatjet kinematic cuts ", event_weight);
 			  event_weight=0;
 			  return;
 		  }
@@ -250,7 +258,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   // Perform small-R jet clustering with anti-kT
   static double const jetR=0.3; // To avoid overlapping b's as much as possible
   fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, jetR);
-  fastjet::ClusterSequence cs_subjets(fs, jd_subjets);
+  fastjet::ClusterSequence cs_subjets(fsc, jd_subjets);
 
   std::vector<fastjet::PseudoJet> jets_akt = sorted_by_pt( cs_subjets.inclusive_jets()  );
   
@@ -272,7 +280,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   int const nsubjet=2;
   if( ((int)subjets_fj0_unsrt.size() < nsubjet ) || ((int)subjets_fj1_unsrt.size() < nsubjet ) ) 
   {
-	  Cut("Basic: 2 subjets for each fat jet",event_weight);
+          Cut("Basic: 2 subjets for each fatjet ", event_weight);
 	  event_weight=0;
 	  return;
   }
@@ -349,7 +357,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   if( bjets_jet0.size() < 2 || bjets_jet1.size() < 2 ){
   
-      Cut("Basic: bTagging", initial_weight - event_weight);
+      Cut("Basic: bTagging ", initial_weight - event_weight);
       event_weight=0;
       return;
   }

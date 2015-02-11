@@ -21,6 +21,8 @@ static const fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 // Choose working point with high purity
 static double const test_btag_prob = 0.80; 		// Probability of correct b tagging
 static double const test_btag_mistag = 0.01; 	// Mistag probability  
+static double const test_bbtag_prob = 0.80; 		// Probability of correct b tagging
+static double const test_bbtag_mistag = 0.01; 	// Mistag probability  
 
 bTagTestAnalysis::bTagTestAnalysis(std::string const& sampleName):
 Analysis("bTagTest_hardest4", sampleName)
@@ -34,6 +36,7 @@ Analysis("bTagTest_hardest4", sampleName)
 	// Order cutflow
 	Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
+	Cut("Basic: bbTagging", 0);
 }
 
 void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -76,6 +79,31 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 	// cut from btagging
 	event_weight*=pow(test_btag_mistag, (double) (4-NbJets))*pow(test_btag_prob, (double)NbJets);
 	Cut("Basic: bTagging", initial_weight - event_weight);
+	
+	
+	// TESTING DOUBLE BTagging
+	int nbbJets = 0;
+	
+	for(int ijet=0; ijet<njet; ijet++)
+	{
+		int bQuarks = BTagging(jets_fr_akt[ijet]);
+
+		const double dice = ((double) rand() / (double)(RAND_MAX));
+		if( bQuarks > 1 )   // Check if at least two of its constituents are b quarks
+		{
+			if (dice < test_bbtag_prob)
+				nbbJets++;				
+		}
+		else if( bQuarks == 1) // Else, account for the fake bb-tag probabililty
+		{
+			if (dice < test_bbtag_mistag)
+				nbbJets++;
+		}
+	}
+
+	// Return if there is a bb-tagged jet
+	if(nbbJets >  0)
+		return 	Cut("Basic: bbTagging", event_weight);
 
 	
 	// ************************************* MVA Output **********************************************************

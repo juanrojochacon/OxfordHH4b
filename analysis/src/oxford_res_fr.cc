@@ -125,6 +125,7 @@ Analysis("oxford_res_fr", sampleName)
 	// Order cutflow
 	Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
+	Cut("Basic: DoublebTagging", 0);
 	Cut("bJet pT/Eta", 0);
 	Cut("diJet pT", 0);
 	Cut("diJet DeltaR", 0);
@@ -414,6 +415,7 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 
 	// cut from btagging
 	Cut("Basic: bTagging", initial_weight - event_weight);
+
 } 
 
 // ----------------------------------------------------------------------------------
