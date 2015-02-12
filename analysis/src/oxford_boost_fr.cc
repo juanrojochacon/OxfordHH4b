@@ -18,6 +18,14 @@ using namespace fastjet::contrib;
 static double const jetR=1.0; // To avoid overlapping b's as much as possible
 fastjet::JetDefinition akt(fastjet::antikt_algorithm, jetR);
 
+// first recluster again with the large-R but with Cambridge-Aachen
+static double const jetR_1p2=1.2; // To try to merge two b quarks into the same jet
+static fastjet::JetDefinition CA10(fastjet::cambridge_algorithm, jetR_1p2);
+// Set parameters of the mass drop tagger for jet substructure
+// mu = 0.67 and y = 0.09 are the default choice in FastJet
+static const double mu = 0.67;
+static const double ycut = 0.09;
+
 
 OxfordBoostFRAnalysis::OxfordBoostFRAnalysis(std::string const& sampleName):
 Analysis("oxford_boost_fr", sampleName)
@@ -101,11 +109,13 @@ Analysis("oxford_boost_fr", sampleName)
 	const std::string tupleSpec = "# signal source weight m2fj pthh y2fj mHiggs1 mHiggs2 split12_Higgs1 split12_Higgs2 tau21_Higgs1 tau21_Higgs2 DeltaR_fj1fj2";
 	outputNTuple<<tupleSpec<<std::endl;
 
-	// Order cutflow
-	Cut("Basic: Two fatjets ", 0);
-	Cut("Basic: Fatjet kinematic cuts ", 1);
-	Cut("Basic: 2 subjets for each fatjet ", 2);
-	Cut("Basic: bTagging ", 3);
+  // Order cutflow
+  Cut("Basic: bTagging", 0);
+  Cut("Basic: Fatjet kinematic cuts ", 0);
+  Cut("Basic: 2 subjets for each fatjet ",0);
+  Cut("BDRS mass-drop", 0);
+  //Cut("fatjet deltaEta", 0);
+  Cut("Higgs window", 0);
 }
 
 void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -123,9 +133,8 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	std::vector<double> tau21_vec;
 	JetCluster_LargeFR(fs, fatjets, split12_vec, tau21_vec, event_weight);
 
-
 	// Fails cuts
-	if(event_weight<1e-30) return;
+	if(event_weight<1e-30) return;// Cut("Rounding", event_weight);
 	
 	//------------------------------------------------------------------------------
 	// pt ordering and basic cuts now done in the JetCluster_LargeFR(...) function
@@ -138,8 +147,27 @@ void OxfordBoostFRAnalysis::Analyse(bool const& signal, double const& weightnorm
 	// Histograms for the HH system
 	const fastjet::PseudoJet dihiggs= higgs1+higgs2;
 
+
+// ************************************************************************************
+
+  // Same as in the UCL analysis
+  // require that these two leading fat jets are not too separated in rapidity
+  //const double delta_eta_dijet_fatjet=1.5;
+  //const double delta_eta_dijet = fabs(fatjets.at(0).eta()- fatjets.at(1).eta());
+  //if(delta_eta_dijet > delta_eta_dijet_fatjet) return Cut("fatjet deltaEta", event_weight);
+
+  // Higgs mass window condition
+  const double mass_diff1 = fabs(fatjets.at(0).m()-m_higgs)/m_higgs;
+  const double mass_diff2 = fabs(fatjets.at(1).m()-m_higgs)/m_higgs;
+  if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+    return  Cut("Higgs window", event_weight);
+
+
+// ************************************************************************************
+
+
 	int nJets = fatjets.size();
-	// Record jet multiplicity before cuts
+	// Record jet multiplicity after cuts
 	FillHistogram("nFatJets_postCut", event_weight, nJets );
 
 	FillHistogram("ptfj1_postCut", event_weight, fatjets.at(0).pt() );
@@ -235,7 +263,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   //------------------------------------------------------------------------------------------------------
   // First of all, after basic selection, require that both jets are above 100 GeV
   double const pt_fatjet_ox = 250.0;
-  // they should also be in central rapodity, |eta| < 2.5
+  // they should also be in central rapidity, |eta| < 2.5
   double const eta_fatjet_ox = 2.5;
   
   //Basic kinematic cuts on the jets
@@ -321,45 +349,77 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   // By looking at the jet constituents
   // we can simulate the effects of b tagging
+  // Here I am only attempting to b-tag the hardest two jets
   const double initial_weight = event_weight;
-  for(unsigned int ijet=0; ijet<subjets_fj0.size(); ijet++){
+  for(unsigned int ijet=0; ijet<2; ijet++)
+  {
+    bjets_jet0.push_back(subjets_fj0.at(ijet));
+
   	if( BTagging(subjets_fj0[ijet]) )   // Check if at least two of its constituents are b quarks
   	{
-  		bjets_jet0.push_back(subjets_fj0.at(ijet));
+      const double btag_prob = btag_eff( subjets_fj0.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_fj0[ijet]) > 0) {
-		double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
-		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	else if( CTagging(subjets_fj0[ijet]) ) 
+    {
+  		const double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
+  		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{
-  		event_weight *= btag_mistag;
+      const double mistag_prob = mistag_eff( subjets_fj0.at(ijet).pt() );
+  		event_weight *= mistag_prob;
   	}
   }
-  for(unsigned int ijet=0; ijet<subjets_fj1.size(); ijet++){
-  	if( BTagging(subjets_fj1[ijet]) > 0 )   // Check if at least one of its constituents are b quarks
+
+  for(unsigned int ijet=0; ijet<2; ijet++)
+  {
+    bjets_jet1.push_back(subjets_fj1.at(ijet));
+
+  	if( BTagging(subjets_fj1[ijet]) )   // Check if at least one of its constituents are b quarks
   	{
-  		bjets_jet1.push_back(subjets_fj1.at(ijet));
-  		double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
+  		const double btag_prob = btag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
-  	else if( CTagging(subjets_fj1[ijet]) > 0) {
-		double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
-		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
+  	else if( CTagging(subjets_fj1[ijet]) ) 
+    {
+  		const double ctag_prob = charm_eff( subjets_fj1.at(ijet).pt() );
+  		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{	
-		double mistag_prob = mistag_eff( subjets_fj1.at(ijet).pt() );
+		  const double mistag_prob = mistag_eff( subjets_fj1.at(ijet).pt() );
   		event_weight *= mistag_prob;
   	}
   }
   
-  if( bjets_jet0.size() < 2 || bjets_jet1.size() < 2 ){
+  Cut("Basic: bTagging", initial_weight - event_weight);
   
-      Cut("Basic: bTagging ", initial_weight - event_weight);
-      event_weight=0;
-      return;
+
+    // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
+  int nTagged = 0;
+  for (int i = 0; i < 2; i++) 
+  {
+    fastjet::ClusterSequence cs_sub(fatjets[i].constituents(), CA10);
+    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+
+    // now run mass drop tagger
+    // parameters are specified in settings.h
+    fastjet::MassDropTagger md_tagger(mu, ycut);
+    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
+
+    // If tagging succesful - declare as Higgs candidate
+    if (tagged_jet != 0 )  
+      nTagged++; 
+  }
+
+  // If we don't have a mass-drop tag in each of the two leading large-R jets
+  // discard the event
+  if(nTagged!=2) 
+  {
+    Cut("BDRS mass-drop", event_weight);
+    event_weight = 0;
+    return;
   }
   
   return;

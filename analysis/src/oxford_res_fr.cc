@@ -123,12 +123,12 @@ Analysis("oxford_res_fr", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
 	// Order cutflow
-	Cut("Basic: Two dijets", 0);
+	//Cut("Basic: Two dijets", 0);
 	Cut("Basic: bTagging", 0);
 	Cut("Basic: DoublebTagging", 0);
-	Cut("bJet pT/Eta", 0);
+	Cut("Jet pT/Eta", 0);
 	Cut("diJet pT", 0);
-	Cut("diJet DeltaR", 0);
+	Cut("diJet DeltaEta", 0);
 	Cut("Higgs window", 0);
 }
 
@@ -144,7 +144,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	JetCluster_SmallFR(fs, bjets_unsort, event_weight);
 
 	// Fails cuts
-	if(event_weight<1e-30) return;
+	if(event_weight<1e-30) return Cut("Rounding", event_weight);
 
 	// Fill the histograms for the pt of the b jets before 
 	// the corresponding kinematical cuts
@@ -253,21 +253,33 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 // ************* CUTS ************************************************************
 
 	// First of all, after basic selection, require that all four jets are above 25 GeV
-	double const pt_bjet_ox = 25.0;
+	double const pt_bjet_ox = 40.0;
 	// they should also be in central rapidity, |eta| < 2.5
 	double const eta_bjet_ox = 2.5;
 
-	// Perform cuts
+	// bJet pt/eta cuts
 	for(int ijet=0; ijet<njet;ijet++)
-	{
 		if(bjets.at(ijet).pt() < pt_bjet_ox || 
-			fabs( bjets.at(ijet).eta() ) > eta_bjet_ox) 
-			{
-				Cut("Jet pT/Eta", event_weight);	// Kinematics cut on b-jets
-				event_weight=0;
-				return;
-			}
-	}
+			fabs( bjets.at(ijet).eta() ) > eta_bjet_ox)
+				return Cut("Jet pT/Eta", event_weight);	// Kinematics cut on b-jets
+
+	// Dijet pT cut
+	const double pt_dijet_ox=150.0;
+	if( higgs[0].pt() < pt_dijet_ox || higgs[1].pt() < pt_dijet_ox ) 
+		return Cut("diJet pT", event_weight);
+
+	// These two dijets cannot be too far in DeltaEta
+	const double delta_eta_dijet_ox=1.5;
+	const double delta_eta_dijet = fabs(higgs[0].eta()- higgs[1].eta());
+	if(delta_eta_dijet > delta_eta_dijet_ox) 
+		return Cut("diJet DeltaEta", event_weight);
+
+	// Higgs mass window condition
+	const double mass_diff1 = fabs(higgs[0].m()-m_higgs)/m_higgs;
+	const double mass_diff2 = fabs(higgs[1].m()-m_higgs)/m_higgs;
+	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+		return Cut("Higgs window", event_weight);
+
 
 // *************************** Post cut fills **************************************
 
@@ -389,22 +401,20 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 	  //int cQuarks = 0;
 	  FillHistogram("truth_NbConstituents", 1, bQuarks+0.5 );
 	  FillHistogram("truth_NcConstituents", 1, cQuarks+0.5 );
+
+      bjets.push_back(jets_fr_akt.at(ijet));
 	  
 	  if( bQuarks > 0 )   // Check if at least one of its constituents is a b quark
 	    {
-	      bjets.push_back(jets_fr_akt.at(ijet));
 	      event_weight *= btag_prob; // Account for b tagging efficiency
 	      Nbjets++;
 	    }
 	  else if ( cQuarks > 0 ) {
-	    bjets.push_back(jets_fr_akt.at(ijet));
 	    event_weight *= ctag_prob; // Include c-mis tag rate
 	    Ncjets++;
 	  }
-	
 	  else // Else, account for the fake b-tag probabililty
 	    {
-	      bjets.push_back(jets_fr_akt.at(ijet));
 	      event_weight *= btag_mistag;
 	    }
 	  
@@ -416,7 +426,8 @@ void OxfordResFRAnalysis::JetCluster_SmallFR(finalState const& particles, std::v
 	// cut from btagging
 	Cut("Basic: bTagging", initial_weight - event_weight);
 
-} 
+	return;
+}
 
 // ----------------------------------------------------------------------------------
 
