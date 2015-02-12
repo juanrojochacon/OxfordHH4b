@@ -32,6 +32,7 @@ Analysis("bTagTest_hardest4", sampleName)
 
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbJets");
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbConstituents");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "truth_NbConstituents_afterBtag");
 
 	// Order cutflow
 	Cut("Basic: Two dijets", 0);
@@ -87,6 +88,7 @@ void bTagTestAnalysis::Analyse(bool const& signal, double const& weightnorm, fin
 	for(int ijet=0; ijet<njet; ijet++)
 	{
 		int bQuarks = BTagging(jets_fr_akt[ijet]);
+		FillHistogram("truth_NbConstituents_afterBtag", 1, bQuarks+0.5 );
 
 		const double dice = ((double) rand() / (double)(RAND_MAX));
 		if( bQuarks > 1 )   // Check if at least two of its constituents are b quarks
@@ -151,10 +153,12 @@ Analysis("bTagTest_UCL", sampleName)
 
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbJets");
 	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbConstituents");
+	BookHistogram(new YODA::Histo1D(5, 0, 5), "UCL_truth_NbConstituents_afterBtag");
 
 	// Order cutflow
 	Cut("Basic: Two dijets pT > 40 GeV", 0);
 	Cut("Basic: bTagging", 0);
+	Cut("Basic: bbTagging", 0);
 }
 
 void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -204,6 +208,32 @@ void bTagTestUCLAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 		return 	Cut("Basic: bTagging", event_weight);
 
 	FillHistogram("UCL_truth_NbJets", 1, NbJets+0.5 );
+	
+	
+	// TESTING DOUBLE BTagging
+	int nbbJets = 0;
+	
+	for(int ijet=0; ijet<njet; ijet++)
+	{
+		int bQuarks = BTagging(jets_fr_akt[ijet]);
+		FillHistogram("UCL_truth_NbConstituents_afterBtag", 1, bQuarks+0.5 );
+
+		const double dice = ((double) rand() / (double)(RAND_MAX));
+		if( bQuarks > 1 )   // Check if at least two of its constituents are b quarks
+		{
+			if (dice < test_bbtag_prob)
+				nbbJets++;				
+		}
+		else if( bQuarks == 1) // Else, account for the fake bb-tag probabililty
+		{
+			if (dice < test_bbtag_mistag)
+				nbbJets++;
+		}
+	}
+
+	// Return if there is a bb-tagged jet
+	if(nbbJets >  0)
+		return 	Cut("Basic: bbTagging", event_weight);
 	
 	// ************************************* MVA Output **********************************************************
 	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t"<<std::endl; 

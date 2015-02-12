@@ -4,7 +4,7 @@ from operator import add, sub
 import sys, os, math
 import numpy as np
 
-colours = ['r', 'b', 'g']
+colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
 icol = 0
 
 # Setup figure
