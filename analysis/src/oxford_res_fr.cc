@@ -47,6 +47,9 @@ Analysis("oxford_res_fr", sampleName)
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_preCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_preCut");
 
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_smear_preCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_smear_preCut");
+
 	// b Jet histograms
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1_preCut");
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb2_preCut");
@@ -93,6 +96,9 @@ Analysis("oxford_res_fr", sampleName)
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet_postCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_postCut");
 	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_postCut");
+
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_smear_postCut");
+	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_smear_postCut");
 
 	// b Jet histograms
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1_postCut");
@@ -225,6 +231,9 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("mDijet1_preCut", event_weight, higgs[0].m() );
 	FillHistogram("mDijet2_preCut", event_weight, higgs[1].m() );
 
+	FillHistogram("mDijet2_smear_preCut", event_weight, SmearMass(higgs[0]) );
+	FillHistogram("mDijet2_smear_preCut", event_weight, SmearMass(higgs[1]) );
+
 	// bJet pT
 	FillHistogram("ptb1_preCut", event_weight, bjets.at(0).pt() );
 	FillHistogram("ptb2_preCut", event_weight, bjets.at(1).pt() );
@@ -277,7 +286,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	// Higgs mass window condition
 	const double mass_diff1 = fabs(higgs[0].m()-m_higgs)/m_higgs;
 	const double mass_diff2 = fabs(higgs[1].m()-m_higgs)/m_higgs;
-	if( mass_diff1 > mass_resolution || mass_diff2 > mass_resolution ) 
+	if( mass_diff1 > 4.0*mass_resolution || mass_diff2 > 4.0*mass_resolution ) 
 		return Cut("Higgs window", event_weight);
 
 
@@ -304,6 +313,9 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("mDijet_postCut", event_weight, higgs[1].m() );
 	FillHistogram("mDijet1_postCut", event_weight, higgs[0].m() );
 	FillHistogram("mDijet2_postCut", event_weight, higgs[1].m() );
+
+	FillHistogram("mDijet2_smear_postCut", event_weight, SmearMass(higgs[0]) );
+	FillHistogram("mDijet2_smear_postCut", event_weight, SmearMass(higgs[1]) );
 
 	// bJet pT
 	FillHistogram("ptb1_postCut", event_weight, bjets.at(0).pt() );
@@ -344,7 +356,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	// and all independent angular distances between the four b jets
 	// totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
 	outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<"\t"<<dihiggs.m()<<"\t"<<dihiggs.pt()<<"\t"<<dihiggs.rapidity()<<"\t"<<
-	higgs[0].m()<<"\t"<<higgs[1].m()<<"\t"<<
+	SmearMass(higgs[0])<<"\t"<<SmearMass(higgs[1])<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(1))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(2))<<"\t"<<
 	bjets.at(0).delta_R(bjets.at(3))<<"\t"<<
@@ -482,3 +494,12 @@ int OxfordResFRAnalysis::CTagging( fastjet::PseudoJet const& jet )
     }
   return countC;
 }
+
+double OxfordResFRAnalysis::SmearMass(fastjet::PseudoJet& jet)
+{
+	const double res = 0;
+	const double newMass = box_muller(jet.m(), res);
+	return newMass;
+}
+
+

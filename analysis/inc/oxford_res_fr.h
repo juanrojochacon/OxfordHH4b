@@ -28,4 +28,6 @@ class OxfordResFRAnalysis : public Analysis
 		int BTagging(fastjet::PseudoJet const& jet); //!< b Tagging method 
 		int CTagging(fastjet::PseudoJet const& jet); //!< c Tagging method 
 
+		double SmearMass(fastjet::PseudoJet& jet);
+
 };

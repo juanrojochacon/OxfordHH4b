@@ -20,3 +20,5 @@ void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJ
 double btag_eff( double jet_pt );
 double mistag_eff( double jet_pt );
 double charm_eff( double jet_pt );
+
+float box_muller(float m, float s);
