@@ -231,7 +231,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("mDijet1_preCut", event_weight, higgs[0].m() );
 	FillHistogram("mDijet2_preCut", event_weight, higgs[1].m() );
 
-	FillHistogram("mDijet2_smear_preCut", event_weight, SmearMass(higgs[0]) );
+	FillHistogram("mDijet1_smear_preCut", event_weight, SmearMass(higgs[0]) );
 	FillHistogram("mDijet2_smear_preCut", event_weight, SmearMass(higgs[1]) );
 
 	// bJet pT
@@ -314,7 +314,7 @@ void OxfordResFRAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 	FillHistogram("mDijet1_postCut", event_weight, higgs[0].m() );
 	FillHistogram("mDijet2_postCut", event_weight, higgs[1].m() );
 
-	FillHistogram("mDijet2_smear_postCut", event_weight, SmearMass(higgs[0]) );
+	FillHistogram("mDijet1_smear_postCut", event_weight, SmearMass(higgs[0]) );
 	FillHistogram("mDijet2_smear_postCut", event_weight, SmearMass(higgs[1]) );
 
 	// bJet pT
