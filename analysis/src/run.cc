@@ -24,7 +24,7 @@ static std::vector<eventSample> samples;
 	// **************** PLEASE MODIFY  ****************
 
 // Global run parameters
-const int nSamples = 4;
+const int nSamples = 5;
 const int max_evt = 1E7;
 
 	// **************** DO NOT MODIFY  ****************
