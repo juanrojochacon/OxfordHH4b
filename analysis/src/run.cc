@@ -26,6 +26,7 @@ static std::vector<eventSample> samples;
 // Global run parameters
 const int nSamples = 5;
 const int max_evt = 1E7;
+// const int max_evt = 100;
 
 	// **************** DO NOT MODIFY  ****************
 
