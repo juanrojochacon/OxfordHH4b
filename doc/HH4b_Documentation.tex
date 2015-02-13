@@ -386,7 +386,39 @@ perform well in both cases. Figure~\ref{fig:nnweights} shows the distribution of
 \label{fig:nnweights}
 \end{center}
 \end{figure}
+\clearpage
 
+Figure~\ref{fig:nnweights} demonstrates that the dijet invariant mass is a crucial variable for the resolved analysis MVA. As no detector effects were modelled in this analysis, it is reasonable to assume that the MVA has greater discriminating power than would be feasible in a real analysis. To investigate this, we now consider a variant of the analysis used in Table~\ref{tab:resCutflow} where the $m_H$ window criterion has been relaxed to $80 < m_H < 170$. Firstly the same analysis is repeated with the larger $m_H$ window. This is then compared to the same analysis but with a Gaussian smearing with $\sigma=10$ GeV applied to the dijet invariant mass used in the MVA. In the left panel of Figure~\ref{fig:invMsmear} the smearing is demonstrated. Despite the smearing, the MVA applied to this analysis still vastly prefers the dijet masses as discriminators, as is demonstrated in the right panel of Figure~\ref{fig:invMsmear}.
+            
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/histo_mass_smear_precut.pdf}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/nnweights.pdf}
+\caption{The left figure demonstrates the gaussian smearing applied to the dijet invariant mass distribution. The right figure demonstrates the ANN weight distribution in the MVA.}
+\label{fig:invMsmear}
+\end{center}
+\end{figure}
+
+While the MVA still derives most of it's discriminating power from the dijet masses, the smearing reduces it's effectiveness considerably. In Figure \ref{fig:smearedROC} the ROC curves of the MVA applied to the smeared and unsmeared distributions are shown, where it is clear that the overall performance of the MVA is significantly hampered by the smeared invariant masses. This is echoed in the resulting significance of the analysis as demonstrated in Figure~\ref{fig:smearedSB}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.89\textwidth]{plots/Msmear/roc.pdf}
+\caption{ROC curves of the MVA applied with the unsmeared (blue) and smeared (green) dijet invariant mass distributions.}
+\label{fig:smearedROC}
+\end{center}
+\end{figure}
+            
+       
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/sb.pdf}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/ssb.pdf}
+\caption{$S/B$ and $S\sqrt{B}$ (HL\-LHC) for the MVA applied to the unsmeared (blue) and smeared (green) dijet invariant mass distributions.}
+\label{fig:smearedSB}
+\end{center}
+\end{figure}
+\clearpage
 
 \section{Conclusion}
 
