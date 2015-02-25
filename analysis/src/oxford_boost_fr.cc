@@ -60,27 +60,52 @@ Analysis("oxford_boost_fr", sampleName)
 
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_fj1fj2_preCut");
   
+  // ************************* before b-tagging ********************************
   // Subjet histograms (after pt, m cuts on both fatjets)
-  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_preBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_preBtag");
 
-  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj0_pt_preBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj1_pt_preBtag");
   
-  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj0_pt_postFJCut");
-  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj1_pt_postFJCut");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj0_pt_preBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj1_pt_preBtag");
 
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nBQuarks_postFJCut");
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nBQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nBQuarks_preBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nBQuarks_preBtag");
 
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nBQuarks_postFJCut");
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nBQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nBQuarks_preBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nBQuarks_preBtag");
   
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nCQuarks_postFJCut");
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nCQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nCQuarks_preBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nCQuarks_preBtag");
   
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nCQuarks_postFJCut");
-  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nCQuarks_postFJCut");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nCQuarks_preBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nCQuarks_preBtag");
+  
+  
+  // ************************* after b-tagging ********************************
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj0_postBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "nSubjets_fj1_postBtag");
+
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj0_pt_postBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "leadSubjet_fj1_pt_postBtag");
+  
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj0_pt_postBtag");
+  BookHistogram(new YODA::Histo1D(20, 0, 500), "subleadSubjet_fj1_pt_postBtag");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nBQuarks_postBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nBQuarks_postBtag");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nBQuarks_postBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nBQuarks_postBtag");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj0_nCQuarks_postBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "leadSubjet_fj1_nCQuarks_postBtag");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj0_nCQuarks_postBtag");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "subleadSubjet_fj1_nCQuarks_postBtag");
+  
   // ************************* postCut ********************************
 
   // Fat Jet histograms
@@ -113,6 +138,7 @@ Analysis("oxford_boost_fr", sampleName)
   Cut("Basic: bTagging", 0);
   Cut("Basic: Fatjet kinematic cuts ", 0);
   Cut("Basic: 2 subjets for each fatjet ",0);
+  Cut("Basic: No double b-tagged subjets ",0);
   Cut("BDRS mass-drop", 0);
   //Cut("fatjet deltaEta", 0);
   Cut("Higgs window", 0);
@@ -301,8 +327,8 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   get_assoc_trkjets( jets_fr_akt.at(1), jets_akt, subjets_fj1_unsrt, false);
   
   // Subjet multiplicity (before any subjet cuts)
-  FillHistogram("nSubjets_fj0_postFJCut", event_weight, (int)subjets_fj0_unsrt.size() );
-  FillHistogram("nSubjets_fj1_postFJCut", event_weight, (int)subjets_fj1_unsrt.size() );
+  FillHistogram("nSubjets_fj0_preBtag", event_weight, (int)subjets_fj0_unsrt.size() );
+  FillHistogram("nSubjets_fj1_preBtag", event_weight, (int)subjets_fj1_unsrt.size() );
   
   // Require at least 2 subjets per fat jet
   int const nsubjet=2;
@@ -316,21 +342,20 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   std::vector<fastjet::PseudoJet> subjets_fj0 = sorted_by_pt( subjets_fj0_unsrt  );
   std::vector<fastjet::PseudoJet> subjets_fj1 = sorted_by_pt( subjets_fj1_unsrt  );
   
-  FillHistogram("leadSubjet_fj0_pt_postFJCut", event_weight, subjets_fj0[0].pt() );
-  FillHistogram("leadSubjet_fj1_pt_postFJCut", event_weight, subjets_fj1[0].pt() );
-  
-  FillHistogram("subleadSubjet_fj0_pt_postFJCut", event_weight, subjets_fj0[1].pt() );
-  FillHistogram("subleadSubjet_fj1_pt_postFJCut", event_weight, subjets_fj1[1].pt() );
+  FillHistogram("leadSubjet_fj0_pt_preBtag", event_weight, subjets_fj0[0].pt() );
+  FillHistogram("leadSubjet_fj1_pt_preBtag", event_weight, subjets_fj1[0].pt() );
+  FillHistogram("subleadSubjet_fj0_pt_preBtag", event_weight, subjets_fj0[1].pt() );
+  FillHistogram("subleadSubjet_fj1_pt_preBtag", event_weight, subjets_fj1[1].pt() );
 
   int nBQuarks_fj0_0 = BTagging(subjets_fj0[0]);
   int nBQuarks_fj0_1 = BTagging(subjets_fj0[1]);
   int nBQuarks_fj1_0 = BTagging(subjets_fj1[0]);
   int nBQuarks_fj1_1 = BTagging(subjets_fj1[1]);
 
-  FillHistogram("leadSubjet_fj0_nBQuarks_postFJCut", event_weight, nBQuarks_fj0_0 );
-  FillHistogram("subleadSubjet_fj0_nBQuarks_postFJCut", event_weight, nBQuarks_fj0_1 );
-  FillHistogram("leadSubjet_fj1_nBQuarks_postFJCut", event_weight, nBQuarks_fj1_0 );
-  FillHistogram("subleadSubjet_fj1_nBQuarks_postFJCut", event_weight, nBQuarks_fj1_1 );
+  FillHistogram("leadSubjet_fj0_nBQuarks_preBtag", event_weight, nBQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nBQuarks_preBtag", event_weight, nBQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nBQuarks_preBtag", event_weight, nBQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nBQuarks_preBtag", event_weight, nBQuarks_fj1_1 );
 
 
   int nCQuarks_fj0_0 = CTagging(subjets_fj0[0]);
@@ -338,10 +363,10 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   int nCQuarks_fj1_0 = CTagging(subjets_fj1[0]);
   int nCQuarks_fj1_1 = CTagging(subjets_fj1[1]);
   
-  FillHistogram("leadSubjet_fj0_nCQuarks_postFJCut", event_weight, nCQuarks_fj0_0 );
-  FillHistogram("subleadSubjet_fj0_nCQuarks_postFJCut", event_weight, nCQuarks_fj0_1 );
-  FillHistogram("leadSubjet_fj1_nCQuarks_postFJCut", event_weight, nCQuarks_fj1_0 );
-  FillHistogram("subleadSubjet_fj1_nCQuarks_postFJCut", event_weight, nCQuarks_fj1_1 );
+  FillHistogram("leadSubjet_fj0_nCQuarks_preBtag", event_weight, nCQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nCQuarks_preBtag", event_weight, nCQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nCQuarks_preBtag", event_weight, nCQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nCQuarks_preBtag", event_weight, nCQuarks_fj1_1 );
   //---------------------------------------------------------------------------------------
   
   std::vector<fastjet::PseudoJet> bjets_jet0;
@@ -357,17 +382,17 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
 
   	if( BTagging(subjets_fj0[ijet]) )   // Check if at least two of its constituents are b quarks
   	{
-      const double btag_prob = btag_eff( subjets_fj0.at(ijet).pt() );
+		const double btag_prob = btag_eff( subjets_fj0.at(ijet).pt() );
   		event_weight *= btag_prob; // Account for b tagging efficiency
   	}
   	else if( CTagging(subjets_fj0[ijet]) ) 
-    {
+	{
   		const double ctag_prob = charm_eff( subjets_fj0.at(ijet).pt() );
   		event_weight *= ctag_prob; // Account for c (mis-)tagging efficiency
   	}
   	else // Else, account for the fake b-tag probability
   	{
-      const double mistag_prob = mistag_eff( subjets_fj0.at(ijet).pt() );
+		const double mistag_prob = mistag_eff( subjets_fj0.at(ijet).pt() );
   		event_weight *= mistag_prob;
   	}
   }
@@ -394,6 +419,65 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   }
   
   Cut("Basic: bTagging", initial_weight - event_weight);
+  
+  
+  //---------------------------------------------------------------------------------------
+  // Fill post-b-tagging histograms
+  FillHistogram("leadSubjet_fj0_pt_postBtag", event_weight, subjets_fj0[0].pt() );
+  FillHistogram("leadSubjet_fj1_pt_postBtag", event_weight, subjets_fj1[0].pt() );
+  FillHistogram("subleadSubjet_fj0_pt_postBtag", event_weight, subjets_fj0[1].pt() );
+  FillHistogram("subleadSubjet_fj1_pt_postBtag", event_weight, subjets_fj1[1].pt() );
+  
+  FillHistogram("leadSubjet_fj0_nBQuarks_postBtag", event_weight, nBQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nBQuarks_postBtag", event_weight, nBQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nBQuarks_postBtag", event_weight, nBQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nBQuarks_postBtag", event_weight, nBQuarks_fj1_1 );
+  
+  FillHistogram("leadSubjet_fj0_nCQuarks_postBtag", event_weight, nCQuarks_fj0_0 );
+  FillHistogram("subleadSubjet_fj0_nCQuarks_postBtag", event_weight, nCQuarks_fj0_1 );
+  FillHistogram("leadSubjet_fj1_nCQuarks_postBtag", event_weight, nCQuarks_fj1_0 );
+  FillHistogram("subleadSubjet_fj1_nCQuarks_postBtag", event_weight, nCQuarks_fj1_1 );
+  //---------------------------------------------------------------------------------------
+  // TESTING DOUBLE BTagging
+  int nbbJets = 0;
+  
+  for(int ijet=0; ijet<2; ijet++)
+  {
+	  int bQuarks = BTagging(subjets_fj0.at(ijet));
+
+	  const double dice = ((double) rand() / (double)(RAND_MAX));
+	  if( bQuarks > 1 )   // Check if at least two of its constituents are b quarks
+	  {
+		  if (dice < bbtag_prob)
+			  nbbJets++;				
+	  }
+	  else if( bQuarks == 1) // Else, account for the fake bb-tag probabililty
+	  {
+		  if (dice < bbtag_mistag)
+			  nbbJets++;
+	  }
+  }
+
+  for(int ijet=0; ijet<2; ijet++)
+  {
+	  int bQuarks = BTagging(subjets_fj1.at(ijet));
+
+	  const double dice = ((double) rand() / (double)(RAND_MAX));
+	  if( bQuarks > 1 )   // Check if at least two of its constituents are b quarks
+	  {
+		  if (dice < bbtag_prob)
+			  nbbJets++;				
+	  }
+	  else if( bQuarks == 1) // Else, account for the fake bb-tag probabililty
+	  {
+		  if (dice < bbtag_mistag)
+			  nbbJets++;
+	  }
+  }
+  
+  // Return if there is a bb-tagged jet
+  if(nbbJets >  0)
+	  return 	Cut("Basic: No double b-tagged subjets", event_weight);
   
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
