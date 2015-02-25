@@ -477,7 +477,7 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   // Return if there is a bb-tagged jet
   if(nbbJets >  0)
-	  return 	Cut("Basic: No double b-tagged subjets", event_weight);
+	  return 	Cut("Basic: No double b-tagged subjets ", event_weight);
   
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
