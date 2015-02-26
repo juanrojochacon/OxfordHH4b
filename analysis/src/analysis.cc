@@ -170,6 +170,10 @@ void Analysis::Pass(double const& weight)
 
 bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 {
+
+	// Smearing breaks four-mom verification
+	if (GetPTSmear() > 1E-8) return true;
+
 	// To check energy-momentum conservation
 	double const Eref=14000; // Samples generated for LHC 14 TeV
 	double const tol_emom=1.0;
