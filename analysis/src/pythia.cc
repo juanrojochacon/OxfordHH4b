@@ -1,5 +1,6 @@
 #include "Pythia8/Pythia.h"
 #include "pythia.h"
+#include "run.h"
 
 /*
 This routine initializes Pythia8
@@ -93,31 +94,32 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
       exit(-1);
     }
 
-  for (int i = 0; i < pythiaRun.event.size(); i++){
-    
-    // Initialization
-    double px = 0;
-    double py = 0;
-    double pz =0;
-    double E = 0;
-    
+  for (int i = 0; i < pythiaRun.event.size(); i++)
+  {
     // Get PDG ID
-    int particle_id = pythiaRun.event[i].id();
+    const int particle_id = pythiaRun.event[i].id();
     
    //Get PDG chargeID (three times the real charge)
 //    int particle_charge = pythiaRun.event[i].chargeType();
     
     // Get particle status: in pythia8, status > 0 means final state particles
-    int particle_status = pythiaRun.event[i].status();
+    const int particle_status = pythiaRun.event[i].status();
     
     // Consider only final state particles
     if( particle_status <= 0 ) continue;
     
     // Get the particle kinematics
-    px= pythiaRun.event[i].px();
-    py= pythiaRun.event[i].py();
-    pz= pythiaRun.event[i].pz();
-    E= pythiaRun.event[i].e();
+    const double E = pythiaRun.event[i].e();
+    const double pz = pythiaRun.event[i].pz();
+
+    double px= pythiaRun.event[i].px();
+    double py= pythiaRun.event[i].py();
+
+    const double pT = std::sqrt(px*px + py*py);
+    const double spT = box_muller(pT,0.01*GetPTSmear()*pT); // Gaussian smear on jet pT
+
+    px *= spT/pT;
+    py *= spT/pT;
     
     // quarks and gluons
     // including b-quarks

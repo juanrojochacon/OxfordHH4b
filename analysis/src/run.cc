@@ -28,8 +28,11 @@ const int nSamples = 5;
 const int max_evt = 1E7;
 // const int max_evt = 100;
 
+const double jetpT_smear = 0; // % smear on jet pT
+
 	// **************** DO NOT MODIFY  ****************
 
+double GetPTSmear() {return jetpT_smear;};
 int GetNSamples() {return nSamples;};
 
 eventSample GetSample( int const& isample )

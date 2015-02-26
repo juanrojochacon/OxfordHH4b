@@ -1,4 +1,5 @@
 #include "hepmc.h"
+#include "run.h"
 
 using namespace std;
 
@@ -70,9 +71,16 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
         HepMC::GenParticle* gp = *p;
 
         const double E = gp->momentum().e();
-        const double px = gp->momentum().px();
-        const double py = gp->momentum().py();
         const double pz = gp->momentum().pz();
+
+        double px = gp->momentum().px();
+        double py = gp->momentum().py();
+
+        const double pT = std::sqrt(px*px + py*py);
+        const double spT = box_muller(pT,0.01*GetPTSmear()*pT); // Gaussian smear on jet pT
+
+        px *= spT/pT;
+        py *= spT/pT;
 
         const int pdg = gp->pdg_id();
 

@@ -21,6 +21,9 @@ struct eventSample
 int GetNSamples();
 eventSample GetSample( int const& isample );
 
+// Global settings
+double GetPTSmear();	// Return the % of Jet pT to smear by
+
 // Analysis initialisation
 void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 					std::vector<Analysis*>& signalAnalyses,
