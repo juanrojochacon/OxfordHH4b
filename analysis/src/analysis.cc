@@ -1,6 +1,7 @@
 // analyis.cc jr/nh 21/10/14
 
 #include "analysis.h"
+#include "run.h"
 
 #include <iostream>
 #include <iomanip>
