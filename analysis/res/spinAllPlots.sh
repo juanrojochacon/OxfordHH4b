@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# takes one argument, the directory "analysis/sample" from which you want to plot the hists
+# takes n arguments, each a directory, the histogram dat files from which are to be passed to plotHist.
 
 export OUTPUTDIRLOC="plots"
 
@@ -9,9 +9,14 @@ then
 mkdir $OUTPUTDIRLOC
 fi
 
-for dat in `ls $1 | grep histo`
+#export FILELIST=`for arg in $@; do echo $arg"/$dat";done`
+#echo "Full list is " $FILELIST
+
+for dat in `ls $1 | grep histo | head -2`
 do {
-python plotHist.py $1/$dat
+export FILELIST=`for arg in $@; do echo $arg"/$dat";done`
+echo "Full list is " $FILELIST
+python plotHist.py $FILELIST
 mv histo.pdf $OUTPUTDIRLOC/`echo $dat | sed 's/.dat/.pdf/'`
 #echo $dat
 } done

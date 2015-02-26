@@ -11,12 +11,12 @@ def mySnazzyPdfMaker(test):
 
 fileType = '.pdf'
 
-plotPath = os.path.join("/home","frostj","OxfordHbb","oxfordcutsSVN","OxfordHH4b","branches","oxfordcuts","analysis","res","boost_normplots")
+plotPath = os.path.join("/home","frostj","OxfordHbb","SVNversion","OxfordHH4b.git","trunk","analysis","res","boostunnormplots")
 paths = []
 for file in os.listdir(plotPath):
     if file.endswith(fileType):
         paths.append(os.path.join(plotPath, file))
 
-Maker = PDFMakerFromEPS(paths, 'boost_norm.pdf', fileType)
+Maker = PDFMakerFromEPS(paths, 'boost_unnorm.pdf', fileType)
 Maker.writePDF()
 
