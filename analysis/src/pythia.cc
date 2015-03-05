@@ -35,10 +35,19 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
   pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
   pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
-  // Initial and final state radiation activated
-  pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
-  pythiaRun.readString("PartonLevel:FSR = on");  // Shower on
-  
+
+
+  // Initial and final state radiation 
+  if (pythiaShower)
+  {
+    pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
+    pythiaRun.readString("PartonLevel:FSR = on");  // Shower on
+  }
+  else
+  {
+    pythiaRun.readString("PartonLevel:ISR = off"); 
+    pythiaRun.readString("PartonLevel:FSR = off");
+  }
   // No hadronization
   pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
  
