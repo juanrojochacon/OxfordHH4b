@@ -135,9 +135,9 @@ Analysis("oxford_boost_fr", sampleName)
 	outputNTuple<<tupleSpec<<std::endl;
 
   // Order cutflow
+  Cut("Basic: bTagging", 0);
   Cut("Basic: Fatjet kinematic cuts ", 0);
   Cut("Basic: 2 subjets for each fatjet ",0);
-  Cut("Basic: bTagging", 0);
   Cut("Basic: No double b-tagged subjets ",0);
   Cut("BDRS mass-drop", 0);
   //Cut("fatjet deltaEta", 0);
@@ -291,9 +291,6 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   double const pt_fatjet_ox = 250.0;
   // they should also be in central rapidity, |eta| < 2.5
   double const eta_fatjet_ox = 2.5;
-  // they should have a mass in a window around m_H
-  double const m_fatjet_ox_upper = 160.;
-  double const m_fatjet_ox_lower = 90.;
   
   //Basic kinematic cuts on the jets
   int const nfatjet=2;
@@ -301,15 +298,11 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   for(int ijet=0; ijet<nfatjet;ijet++)
   {
 	  if(jets_fr_akt.at(ijet).pt() < pt_fatjet_ox || 
-		  fabs( jets_fr_akt.at(ijet).eta() ) > eta_fatjet_ox)
+		  fabs( jets_fr_akt.at(ijet).eta() ) > eta_fatjet_ox) 
 		  {
-		      // Higgs mass window cut
-		      if( jets_fr_akt.at(ijet).m() > m_fatjet_ox_upper || jets_fr_akt.at(ijet).m() < m_fatjet_ox_lower )
-		      {
 	                  Cut("Basic: Fatjet kinematic cuts ", event_weight);
 			  event_weight=0;
 			  return;
-		      }
 		  }
 		  else fatjets.push_back(jets_fr_akt.at(ijet));
   }
@@ -330,7 +323,6 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   std::vector<fastjet::PseudoJet> subjets_fj0_unsrt;
   std::vector<fastjet::PseudoJet> subjets_fj1_unsrt;
   
-  // This function considers only small-R jets with pT > 20 GeV and |eta| < 2.5 for ghost association
   get_assoc_trkjets( jets_fr_akt.at(0), jets_akt, subjets_fj0_unsrt, false);
   get_assoc_trkjets( jets_fr_akt.at(1), jets_akt, subjets_fj1_unsrt, false);
   
@@ -485,12 +477,11 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   // Return if there is a bb-tagged jet
   if(nbbJets >  0)
-  {
-	   Cut("Basic: No double b-tagged subjets ", event_weight);
-     event_weight = 0;
-     return;
-  }
-  
+{
+	Cut("Basic: No double b-tagged subjets ", event_weight);
+	event_weight = 0;
+	return;
+ } 
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger
   int nTagged = 0;
