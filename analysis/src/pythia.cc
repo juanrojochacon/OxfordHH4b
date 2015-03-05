@@ -35,6 +35,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
   pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
   pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
+  pythiaRun.readString("PartonLevel:Remnants = off"); // Disable beam-remnants
 
 
   // Initial and final state radiation 
@@ -107,9 +108,6 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
   {
     // Get PDG ID
     const int particle_id = pythiaRun.event[i].id();
-    
-   //Get PDG chargeID (three times the real charge)
-//    int particle_charge = pythiaRun.event[i].chargeType();
     
     // Get particle status: in pythia8, status > 0 means final state particles
     const int particle_status = pythiaRun.event[i].status();
