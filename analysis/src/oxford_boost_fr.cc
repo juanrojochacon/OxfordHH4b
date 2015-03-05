@@ -42,8 +42,8 @@ Analysis("oxford_boost_fr", sampleName)
   // Fat Jet histograms
   BookHistogram(new YODA::Histo1D(20, 0, 20), "nFatJets_preCut");
   
-  BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj1_preCut");
-  BookHistogram(new YODA::Histo1D(20, ptfj_min, ptfj_max), "ptfj2_preCut");
+  BookHistogram(new YODA::Histo1D(30, ptfj_min, ptfj_max), "ptfj1_preCut");
+  BookHistogram(new YODA::Histo1D(30, ptfj_min, ptfj_max), "ptfj2_preCut");
 
   BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj1_preCut");
   BookHistogram(new YODA::Histo1D(20, 0, 200), "mfj2_preCut");
@@ -485,7 +485,11 @@ void OxfordBoostFRAnalysis::JetCluster_LargeFR(finalState const& fs, std::vector
   
   // Return if there is a bb-tagged jet
   if(nbbJets >  0)
-	  return 	Cut("Basic: No double b-tagged subjets ", event_weight);
+  {
+	   Cut("Basic: No double b-tagged subjets ", event_weight);
+     event_weight = 0;
+     return;
+  }
   
 
     // Now look for substructure in each of these two dijets using the BDRS mass-drop tagger

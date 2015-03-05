@@ -28,7 +28,7 @@ const int nSamples = 5;
 const int max_evt = 1E7;
 // const int max_evt = 100;
 
-const double jetpT_smear = 0; // % smear on jet pT
+const double jetpT_smear = 5; // % smear on jet pT
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -90,7 +90,6 @@ eventSample GetSample( int const& isample )
 	  break;
 
 
-
 	// **************** DO NOT MODIFY  ****************
 
 	  default:
@@ -119,30 +118,13 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 	// **************** PLEASE MODIFY  ****************
   //HH4bAnalyses.push_back(new AMCAnalysis("total"));
 
-
-  HH4bAnalyses.push_back(new UCLAnalysis("total")); 
-  
-  HH4bAnalyses.push_back(new DurhamAnalysis("total"));
-  HH4bAnalyses.push_back(new UCLVRAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordResVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordBoostVRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
-  signalAnalyses.push_back(new UCLAnalysis("signal"));
-  signalAnalyses.push_back(new DurhamAnalysis("signal"));
-  signalAnalyses.push_back(new UCLVRAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordResVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordBoostVRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
 
-  backgroundAnalyses.push_back(new UCLAnalysis("background"));
-  backgroundAnalyses.push_back(new DurhamAnalysis("background"));
-  backgroundAnalyses.push_back(new UCLVRAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordResVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordResFRAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordBoostVRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
@@ -151,18 +133,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
-
-	sampleAnalyses.push_back(new UCLAnalysis(samplename));
-	sampleAnalyses.push_back(new bTagTestAnalysis(samplename));
-	sampleAnalyses.push_back(new bTagTestUCLAnalysis(samplename));
-	// **************** PLEASE MODIFY  ****************
-	
-	sampleAnalyses.push_back(new AMCAnalysis(samplename));
-	sampleAnalyses.push_back(new DurhamAnalysis(samplename));
-	sampleAnalyses.push_back(new UCLVRAnalysis(samplename));
-    sampleAnalyses.push_back(new OxfordResVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordResFRAnalysis(samplename));
-	sampleAnalyses.push_back(new OxfordBoostVRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
 	
 	// **************** DO NOT MODIFY  ****************

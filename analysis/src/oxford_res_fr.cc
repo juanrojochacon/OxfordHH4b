@@ -34,10 +34,10 @@ Analysis("oxford_res_fr", sampleName)
 	// ********************* Histograms before cuts ***************************
 
 	// Higgs histograms
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet_preCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet1_preCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet2_preCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 500), "pt4b_preCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 900), "ptdijet_preCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 900), "ptdijet1_preCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 900), "ptdijet2_preCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 500), "pt4b_preCut");
 
 	// Histograms of dijet systems
 	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_preCut");
