@@ -38,7 +38,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
 
 
   // Initial and final state radiation 
-  if (pythiaShower)
+  if (pythiaShowered())
   {
     pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
     pythiaRun.readString("PartonLevel:FSR = on");  // Shower on

@@ -36,6 +36,7 @@ const bool pythiaShower = true; // Shower events in pythia
 
 double GetPTSmear() {return jetpT_smear;};
 int GetNSamples() {return nSamples;};
+bool pythiaShowered() {return pythiaShower;};
 
 eventSample GetSample( int const& isample )
 {

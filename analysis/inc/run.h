@@ -23,6 +23,8 @@ eventSample GetSample( int const& isample );
 
 // Global settings
 double GetPTSmear();	// Return the % of Jet pT to smear by
+bool pythiaShowered(); // Is pythia showering
+
 
 // Analysis initialisation
 void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
