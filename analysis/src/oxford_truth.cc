@@ -47,6 +47,14 @@ Analysis("oxford_truth", sampleName)
   // Dijet distance
   BookHistogram(new YODA::Histo1D(20, -3, 3), "HH_deltaPhi");
 
+  // DeltaR between the Higgs and each b-quark
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H0b0");
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H0b1");
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b0");
+  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b1");
+
+
+
   // Resolved histograms ************************************************
 
     // Higgs histograms
@@ -120,8 +128,11 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
   const fastjet::PseudoJet diHiggs = higgs[0] + higgs[1];
 
-  const double deltaR_leading_subjet = higgs[0].delta_R(higgs1bb[0])
-  const double deltaR_subleading_subjet = higgs[0].delta_R(higgs1bb[0])
+  const double deltaR_H0b0 = higgs[0].delta_R(higgs1bb[0]);
+  const double deltaR_H0b1 = higgs[0].delta_R(higgs1bb[1]);
+
+  const double deltaR_H1b0 = higgs[1].delta_R(higgs1bb[0]);
+  const double deltaR_H1b1 = higgs[1].delta_R(higgs1bb[1]);
 
   // *******************************************************************************
   // Histograms
@@ -151,6 +162,13 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
   FillHistogram("mHH", event_weight, diHiggs.m() );
   FillHistogram("yHH", event_weight, diHiggs.rapidity() );
+
+  // DeltaR between Higgs and each decay product
+  FillHistogram("DeltaR_H0b0", event_weight, deltaR_H0b0); 
+  FillHistogram("DeltaR_H0b1", event_weight, deltaR_H0b1); 
+  FillHistogram("DeltaR_H1b0", event_weight, deltaR_H1b0); 
+  FillHistogram("DeltaR_H1b1", event_weight, deltaR_H1b1); 
+
 
   // ********************************* Resolved efficiencies ***************************************
 

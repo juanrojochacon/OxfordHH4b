@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # takes n arguments, each a directory, the histogram dat files from which are to be passed to plotHist.
- one argument, the directory "analysis/sample" from which you want to plot the hists
+# one argument, the directory "analysis/sample" from which you want to plot the hists
 
 if [ -z "$OUTPUTDIRLOC" ]; then
     echo "OUTPUTDIRLOC not set, defaulting to directory plots"

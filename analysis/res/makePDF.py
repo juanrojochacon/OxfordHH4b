@@ -11,7 +11,7 @@ def mySnazzyPdfMaker(test):
 
 fileType = '.pdf'
 
-plotPath = os.path.join("/home","frostj","OxfordHbb","SVNversion","OxfordHH4b.git","trunk","analysis","res","boostunnormplots")
+plotPath = os.path.join("/home","behr","Private","OxfordHH4b.git","trunk","analysis","res","plots")
 paths = []
 for file in os.listdir(plotPath):
     if file.endswith(fileType):

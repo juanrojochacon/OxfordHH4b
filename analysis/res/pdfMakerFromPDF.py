@@ -9,7 +9,7 @@ class PDFMakerFromEPS(object):
     #self.imageType = imageType
     self.writeTitlePage = True
     self.title = 'Plot collection'
-    self.author = 'J Frost'
+    self.author = 'K Behr'
 
     self._latexFileName = ''
     self._latexFile = None

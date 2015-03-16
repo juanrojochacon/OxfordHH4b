@@ -302,7 +302,7 @@ void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJ
     
       fastjet::PseudoJet myghost = trkjets.at(trackJetItr);
       
-      if( myghost.pt() <= 20.0 || fabs( myghost.eta() ) >= 2.5 ) continue;
+      if( myghost.pt() <= 20.0 || fabs( myghost.rapidity() ) >= 2.5 ) continue;
       
       myghost.reset_PtYPhiM (1e-12, myghost.rapidity(), myghost.phi(), 0.0);
       if(myghost.E()<0.) continue;
