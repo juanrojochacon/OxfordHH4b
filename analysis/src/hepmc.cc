@@ -34,7 +34,6 @@ void InitHepMC( std::string const& eventfile, int const& nevt_max, double& weigh
     } 
 
   weight_norm = ( gen_xsec / sum_weights );
-  //cout << std::scientific << gen_xsec <<"  "<<sum_weights<<"  "<<gen_xsec / sum_weights <<endl;
 
   // Reset istream
   hepmc_is.close();
@@ -84,17 +83,18 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
 
         const int pdg = gp->pdg_id();
 
+        // Form pseudojet
+        fastjet::PseudoJet jet(px,py,pz,E);
+        jet.set_user_index(pdg);
+
+        // Form user_info - should set charge and event ID here
+        JetInfo* user_info = new JetInfo(0, 0, 0, 0);
+        jet.set_user_info(user_info);
+
         // partons
-        if(abs(pdg)<6 || pdg==21 )
+        if(abs(pdg)<6 || pdg==21 || pdg > 2000 )
         {
-          particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-          particles.at(particles.size()-1).set_user_index(pdg);
-        }
-        // beam remnants
-        else if(pdg > 2000 )
-        {
-          particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-          particles.at(particles.size()-1).set_user_index(pdg);
+          particles.push_back( jet );
         }
         else
         {

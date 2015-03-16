@@ -5,6 +5,7 @@
 #include "analysis.h"
 
 #include "HepMC/GenEvent.h"
+#include "fastjet/PseudoJet.hh"
 
 // Analysis utility functions
 
@@ -21,4 +22,25 @@ double btag_eff( double jet_pt );
 double mistag_eff( double jet_pt );
 double charm_eff( double jet_pt );
 
+// Box-Muller transform for gaussian random numbers
 float box_muller(float m, float s);
+
+
+// ************************** FastJet User info ************************************
+
+// Maninly intended to look at unshowered decay products
+class JetInfo: public fastjet::PseudoJet::UserInfoBase
+{
+public:
+  JetInfo(const int& _eventID, const int& _charge, const int& _motherID, const int& _motherPDG):
+  eventID(_eventID),
+  motherID(_motherID),
+  motherPDG(_motherPDG),
+  charge(_charge)
+  { }
+
+  const int eventID;
+  const int motherID;
+  const int motherPDG;
+  const int charge;
+};

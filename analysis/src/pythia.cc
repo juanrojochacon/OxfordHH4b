@@ -35,8 +35,6 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   pythiaRun.readString("TimeShower:QEDshowerByQ = off");  // QED off on ISR / quarks irradiate photons
   pythiaRun.readString("TimeShower:QEDshowerByL = off");  // QED off on ISR / leptons irradiate photons  
   pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
-  pythiaRun.readString("PartonLevel:Remnants = off"); // Disable beam-remnants
-
 
   // Initial and final state radiation 
   if (pythiaShowered())
@@ -48,7 +46,9 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   {
     pythiaRun.readString("PartonLevel:ISR = off"); 
     pythiaRun.readString("PartonLevel:FSR = off");
+    pythiaRun.readString("PartonLevel:Remnants = off"); // Disable beam-remnants
   }
+
   // No hadronization
   pythiaRun.readString("HadronLevel:all = off"); // Of hadronization
  
@@ -106,14 +106,13 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
 
   for (int i = 0; i < pythiaRun.event.size(); i++)
   {
-    // Get PDG ID
+    // Get PDG ID and mother information
     const int particle_id = pythiaRun.event[i].id();
-    
-    // Get particle status: in pythia8, status > 0 means final state particles
-    const int particle_status = pythiaRun.event[i].status();
-    
+    const int motherID = pythiaRun.event[i].mother1();
+    const int motherPDG = pythiaRun.event[motherID].id();
+
     // Consider only final state particles
-    if( particle_status <= 0 ) continue;
+    if( pythiaRun.event[i].status() <= 0 ) continue;
     
     // Get the particle kinematics
     const double E = pythiaRun.event[i].e();
@@ -122,34 +121,25 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     double px= pythiaRun.event[i].px();
     double py= pythiaRun.event[i].py();
 
+    // Gaussian smear on pT
     const double pT = std::sqrt(px*px + py*py);
     const double spT = box_muller(pT,0.01*GetPTSmear()*pT); // Gaussian smear on jet pT
 
     px *= spT/pT;
     py *= spT/pT;
-    
-    // quarks and gluons
-    // including b-quarks
-    if(abs(particle_id)<6 || particle_id==21 ){
-      // Set kinematics
-      particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-      // Set PDG ID
-      particles.at(particles.size()-1).set_user_index(particle_id);
-      
-//       // Save charged particles for track jets
-//       if( particle_charge != 0 ){
-//           // Set kinematics
-// 	  charged_particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-// 	  // Set PDG ID
-// 	  charged_particles.at(charged_particles.size()-1).set_user_index(particle_id);
-//       }
-    }
-    // beam remnants
-    else if(particle_id > 2000 ){
-      particles.push_back( fastjet::PseudoJet(px,py,pz,E) );
-      particles.at(particles.size()-1).set_user_index(particle_id);
-    }
-    else{
+
+    // Form PseudoJet
+    fastjet::PseudoJet jet(px,py,pz,E);
+    jet.set_user_index(particle_id);
+
+    // Form user_info - should set charge and event ID here
+    JetInfo* user_info = new JetInfo(0, 0, motherID, motherPDG);
+    jet.set_user_info(user_info);
+
+    if(abs(particle_id)<6 || particle_id==21 || particle_id > 2000 )
+    { particles.push_back( jet );}
+    else
+    {
       std::cout<<"Invalid particle ID = "<<particle_id<<std::endl;
       exit(-10);
     }

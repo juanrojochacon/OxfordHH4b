@@ -171,9 +171,11 @@ void Analysis::Pass(double const& weight)
 
 bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 {
-
 	// Smearing breaks four-mom verification
 	if (GetPTSmear() > 1E-8) return true;
+	// No beam-remnants
+	if (!pythiaShowered()) return true; 
+
 
 	// To check energy-momentum conservation
 	double const Eref=14000; // Samples generated for LHC 14 TeV
@@ -187,10 +189,10 @@ bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 	double E_tot=0;
 	for(size_t ij=0;ij<jets.size();ij++)
 	{
-		px_tot+= jets.at(ij).px();
-		py_tot+= jets.at(ij).py();
-		pz_tot+= jets.at(ij).pz();
-		E_tot+= jets.at(ij).E();
+		px_tot+= jets[ij].px();
+		py_tot+= jets[ij].py();
+		pz_tot+= jets[ij].pz();
+		E_tot+= jets[ij].E();
 	}
 
 	// Check energy-momentum conservation
@@ -199,6 +201,7 @@ bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 	{
 		std::cout<<"\n ********************************************************************** \n"<<std::endl;
 		std::cout<<"No conservation of energy after jet reconstruction "<<std::endl;
+		std::cout<<"N_particles = " << jets.size()<<std::endl;
 		std::cout<<"px_tot = "<<px_tot<<std::endl;
 		std::cout<<"py_tot = "<<py_tot<<std::endl;
 		std::cout<<"pz_tot = "<<pz_tot<<std::endl;

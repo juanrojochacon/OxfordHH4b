@@ -81,18 +81,18 @@ Analysis("oxford_res_fr", sampleName)
 	// ********************* Histograms after ***************************
 
 	// Higgs histograms
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet1_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 600), "ptdijet2_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 500), "pt4b_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 600), "ptdijet_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 600), "ptdijet1_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 600), "ptdijet2_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 500), "pt4b_postCut");
 
 	// Histograms of dijet systems
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_dijet_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1_postCut");
-	BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaPhimin, DeltaPhimax), "DeltaPhi_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaEtamin, DeltaEtamax), "DeltaEta_dijet_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 200), "mDijet_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 200), "mDijet1_postCut");
+	BookHistogram(new YODA::Histo1D(30, 0, 200), "mDijet2_postCut");
 
 	// b Jet histograms
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb1_postCut");
@@ -101,20 +101,20 @@ Analysis("oxford_res_fr", sampleName)
 	BookHistogram(new YODA::Histo1D(nbin_ptb, ptb_min, ptb_max), "ptb4_postCut");
 
 	// 4b system histograms
-	BookHistogram(new YODA::Histo1D(20, 200, 1200), "m4b_postCut");
-	BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "y4b_postCut");
+	BookHistogram(new YODA::Histo1D(30, 200, 1200), "m4b_postCut");
+	BookHistogram(new YODA::Histo1D(30, -2.5, 2.5), "y4b_postCut");
 
 	// Dijet distance
-	BookHistogram(new YODA::Histo1D(20, -3, 3), "dijet_dijet_deltaPhi_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "minBJetDeltaR_postCut");
+	BookHistogram(new YODA::Histo1D(30, -3, 3), "dijet_dijet_deltaPhi_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "minBJetDeltaR_postCut");
 
 	// Delta-b histograms
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b2_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b3_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b1b4_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b3_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b2b4_postCut");
-	BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_b3b4_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b1b2_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b1b3_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b1b4_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b2b3_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b2b4_postCut");
+	BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_b3b4_postCut");
 
 	// ********************************************************************
 
