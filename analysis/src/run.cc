@@ -14,6 +14,7 @@
 #include "variableR.h"
 #include "amcatnlo.h"
 #include "btag_test.h"
+#include "oxford_truth.h"
 
 #include <vector>
 #include <cmath>
@@ -123,6 +124,8 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
+
+  signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
 
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
