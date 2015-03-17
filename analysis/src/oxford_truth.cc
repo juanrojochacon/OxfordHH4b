@@ -23,6 +23,9 @@ Analysis("oxford_truth", sampleName)
 
   // ********************* Histograms before cuts ***************************
 
+  // Mass cross check
+  BookHistogram(new YODA::Histo1D(30, -10, 10), "massCrossCheck");
+
   // Higgs histograms
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH1");
@@ -122,9 +125,25 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   higgs2bb = sorted_by_pt(higgs2bb);
 
   std::vector<fastjet::PseudoJet> higgs;
-  higgs.push_back(higgs1bb[0] + higgs1bb[1]);
-  higgs.push_back(higgs2bb[0] + higgs2bb[1]);
-  higgs = sorted_by_pt(higgs);
+  std::vector<fastjet::PseudoJet> higgs_unsrt;
+  higgs_unsrt.push_back(higgs1bb[0] + higgs1bb[1]);
+  higgs_unsrt.push_back(higgs2bb[0] + higgs2bb[1]);
+  
+  // Sort by pt: both Higgses and the corresponding 
+  // vectors of b-quarks
+  if( higgs_unsrt[0].pt() < higgs_unsrt[1].pt() ){
+	higgs.push_back( higgs_unsrt[1] );
+	higgs.push_back( higgs_unsrt[0] );
+        
+        // Swap also the corresponding vectors of b-quarks
+        std::vector<fastjet::PseudoJet> placeholder = higgs1bb;
+        higgs1bb = higgs2bb;
+        higgs2bb = placeholder;
+  }
+  else{	
+	higgs.push_back( higgs_unsrt[0] );
+	higgs.push_back( higgs_unsrt[1] );
+  }
 
   const fastjet::PseudoJet diHiggs = higgs[0] + higgs[1];
 
@@ -134,8 +153,18 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   const double deltaR_H1b0 = higgs[1].delta_R(higgs1bb[0]);
   const double deltaR_H1b1 = higgs[1].delta_R(higgs1bb[1]);
 
+  fastjet::PseudoJet b1 = higgs1bb[0];
+  fastjet::PseudoJet b2 = higgs1bb[1];
+  const double mass_H0_FastJet = higgs[0].m();
+  const double mass_H0_byHand = sqrt( pow( b1.m(),2) + pow( b2.m(),2) + 2 * ( b1.e()*b2.e() - b1.px()*b2.px() - 
+					b1.py()*b2.py() - b1.pz()*b2.pz() ) );
+
+  std::cout << "FastJet mass " << mass_H0_FastJet << " mass by hand " << mass_H0_byHand << std::endl;
+  std::cout << "b1 mass: " << b1.m() << " b2 mass: " << b2.m() << std::endl;
   // *******************************************************************************
   // Histograms
+  
+  FillHistogram("massCrossCheck", event_weight, mass_H0_FastJet - mass_H0_byHand );
 
   FillHistogram("ptH", event_weight, higgs[0].pt() );
   FillHistogram("ptH", event_weight, higgs[1].pt() );

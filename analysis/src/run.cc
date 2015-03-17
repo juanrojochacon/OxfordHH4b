@@ -31,7 +31,7 @@ const int max_evt = 1E7;
 
 const double jetpT_smear = 5; // % smear on jet pT
 
-const bool pythiaShower = true; // Shower events in pythia
+const bool pythiaShower = false; // Shower events in pythia
 
 	// **************** DO NOT MODIFY  ****************
 
