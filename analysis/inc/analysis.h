@@ -17,6 +17,7 @@ namespace fastjet{
 // Fwd YODA
 namespace YODA{
 	class Histo1D;
+	class Histo2D;
 }
 
 // Final state particles
@@ -50,7 +51,10 @@ class Analysis
 
 	protected:
 		void BookHistogram(YODA::Histo1D*, string const& name);
+		void BookHistogram(YODA::Histo2D*, string const& name);
+
 		void FillHistogram(string const& rname, double const& weight, double const& coord );
+		void FillHistogram(string const& rname, double const& weight, double const& coord, double const& coord2 );
 
 		void Cut(string const& cutname, double const& weight);
 		void Pass(double const& weight);
@@ -67,7 +71,9 @@ class Analysis
 		double totalWeight;		//!< Total sample weight
 		double passedWeight; 	//!< Total weight of passed events
 
-		std::map<int,YODA::Histo1D*> bookedHistograms;
+		std::map<int,YODA::Histo1D*> bookedHistograms_1D;
+		std::map<int,YODA::Histo2D*> bookedHistograms_2D;
+
 		std::vector<std::pair< std::string, double> > cutWeight;
 };
 

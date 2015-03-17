@@ -8,7 +8,10 @@
 #include <sys/stat.h>
 
 #include "YODA/Histo1D.h"
+#include "YODA/Histo2D.h"
+
 #include "YODA/WriterFLAT.h"
+#include "YODA/WriterYODA.h"
 
 #include "fastjet/Selector.hh"
 
@@ -64,14 +67,14 @@ Analysis::~Analysis()
 void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 {
 	// Histo path
-	const string path  = analysisRoot +sampleName+"/histo_" + name + ".dat";
+	const string path  = analysisRoot +sampleName+"/histo_" + name;
 
 	// Add to histogram prototypes
 	hist->setTitle(name);
 	hist->setPath(path);
 
-	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.find(IntHash(name));
-	if (iMap != bookedHistograms.end())
+	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms_1D.find(IntHash(name));
+	if (iMap != bookedHistograms_1D.end())
 	{
 		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
 		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
@@ -79,7 +82,32 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 	}
 	else
 	{
-		bookedHistograms.insert(std::make_pair(IntHash(name),hist));
+		bookedHistograms_1D.insert(std::make_pair(IntHash(name),hist));
+	}
+
+//	hist->setAnnotation(std::string("XLabel"), std::string("p_T (GeV)"));
+
+}
+
+void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name)
+{
+	// Histo path
+	const string path  = analysisRoot +sampleName+"/histo_" + name + ".dat";
+
+	// Add to histogram prototypes
+	hist->setTitle(name);
+	hist->setPath(path);
+
+	std::map<int,YODA::Histo2D*>::iterator iMap = bookedHistograms_2D.find(IntHash(name));
+	if (iMap != bookedHistograms_2D.end())
+	{
+		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
+		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
+		exit(-1);
+	}
+	else
+	{
+		bookedHistograms_2D.insert(std::make_pair(IntHash(name),hist));
 	}
 
 //	hist->setAnnotation(std::string("XLabel"), std::string("p_T (GeV)"));
@@ -88,9 +116,21 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 
 void Analysis::FillHistogram(string const& rname, double const& weight, double const& coord )
 {
-	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.find(IntHash(rname));
-	if (iMap != bookedHistograms.end())
+	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms_1D.find(IntHash(rname));
+	if (iMap != bookedHistograms_1D.end())
 	{	(*iMap).second->fill(coord,weight);	}
+	else
+	{
+		std::cerr << "Analysis::FillHistogram error: Cannot find Histogram: "<<rname<<std::endl;
+		exit(-1);
+	}
+}
+
+void Analysis::FillHistogram(string const& rname, double const& weight, double const& coord1, double const& coord2 )
+{
+	std::map<int,YODA::Histo2D*>::iterator iMap = bookedHistograms_2D.find(IntHash(rname));
+	if (iMap != bookedHistograms_2D.end())
+	{	(*iMap).second->fill(coord1,coord2,weight);	}
 	else
 	{
 		std::cerr << "Analysis::FillHistogram error: Cannot find Histogram: "<<rname<<std::endl;
@@ -129,12 +169,23 @@ void Analysis::Export()
 	cutFlow.close();
 
 	// Export histograms
-	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms.begin();
-	while (iMap != bookedHistograms.end())
+	std::map<int,YODA::Histo1D*>::iterator iMap1D = bookedHistograms_1D.begin();
+	while (iMap1D != bookedHistograms_1D.end())
 	{
-		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap).second->path()<<std::endl;
-		YODA::WriterFLAT::write("." + (*iMap).second->path(), *(*iMap).second);
-		iMap++;
+		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap1D).second->path()<<std::endl;
+		YODA::WriterFLAT::write("." + (*iMap1D).second->path() + ".dat", *(*iMap1D).second);
+		YODA::WriterYODA::write("." + (*iMap1D).second->path() + ".yoda", *(*iMap1D).second);
+		iMap1D++;
+	}
+
+	// Export histograms
+	std::map<int,YODA::Histo2D*>::iterator iMap2D = bookedHistograms_2D.begin();
+	while (iMap2D != bookedHistograms_2D.end())
+	{
+		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap2D).second->path()<<std::endl;
+		YODA::WriterFLAT::write("." + (*iMap2D).second->path() + ".dat", *(*iMap2D).second);
+		YODA::WriterYODA::write("." + (*iMap2D).second->path() + ".yoda", *(*iMap2D).second);
+		iMap2D++;
 	}
 }
 
