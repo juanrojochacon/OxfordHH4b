@@ -153,6 +153,8 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   const double deltaR_H1b0 = higgs[1].delta_R(higgs1bb[0]);
   const double deltaR_H1b1 = higgs[1].delta_R(higgs1bb[1]);
 
+
+  // Mass cross check
   fastjet::PseudoJet b1 = higgs1bb[0];
   fastjet::PseudoJet b2 = higgs1bb[1];
   const double mass_H0_FastJet = higgs[0].m();
