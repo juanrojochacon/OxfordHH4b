@@ -35,7 +35,20 @@ Analysis("oxford_truth", sampleName)
   // 2-D pt histogram
   const size_t nbins = 30; const size_t ptmin = 0;  const size_t ptmax = 900;
   BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, ptmin, ptmax), "ptHptH");
+  
+  // 2-D mass histogram
+  const size_t m_min = 0;  const size_t m_max = 200;
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH");
+ 
+  // 2-D deltaR histograms
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_H0");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_H1");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_bothH");
 
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_H0");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_H1");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_bothH");
+ 
   // Histograms of dijet systems
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_Hbb");
   BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_Hbb");
@@ -147,13 +160,16 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
   const fastjet::PseudoJet diHiggs = higgs[0] + higgs[1];
 
+  // Delta R
   const double deltaR_H0b0 = higgs[0].delta_R(higgs1bb[0]);
   const double deltaR_H0b1 = higgs[0].delta_R(higgs1bb[1]);
 
   const double deltaR_H1b0 = higgs[1].delta_R(higgs1bb[0]);
   const double deltaR_H1b1 = higgs[1].delta_R(higgs1bb[1]);
 
-
+  const double deltaR_H0bb = higgs1bb[0].delta_R(higgs1bb[1]);
+  const double deltaR_H1bb = higgs2bb[0].delta_R(higgs2bb[1]);
+  
   // Mass cross check
   fastjet::PseudoJet b1 = higgs1bb[0];
   fastjet::PseudoJet b2 = higgs1bb[1];
@@ -187,7 +203,6 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
   FillHistogram("mH", event_weight, higgs[0].m() );
   FillHistogram("mH", event_weight, higgs[1].m() );
-
   FillHistogram("mH1", event_weight, higgs[0].m() );
   FillHistogram("mH2", event_weight, higgs[1].m() );
 
@@ -202,7 +217,18 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
   // 2-D Histogram
   FillHistogram("ptHptH", event_weight, higgs[0].pt(), higgs[1].pt());
+  FillHistogram("mHmH", event_weight, higgs[0].m(), higgs[1].m());
 
+  FillHistogram("deltaR_pt_H0", event_weight, higgs[0].pt(), deltaR_H0bb);
+  FillHistogram("deltaR_pt_H1", event_weight, higgs[1].pt(), deltaR_H1bb);
+  FillHistogram("deltaR_pt_bothH", event_weight, higgs[0].pt(), deltaR_H0bb);
+  FillHistogram("deltaR_pt_bothH", event_weight, higgs[1].pt(), deltaR_H1bb);
+
+  FillHistogram("deltaR_m_H0", event_weight, higgs[0].m(), deltaR_H0bb);
+  FillHistogram("deltaR_m_H1", event_weight, higgs[1].m(), deltaR_H1bb);
+  FillHistogram("deltaR_m_bothH", event_weight, higgs[0].m(), deltaR_H0bb);
+  FillHistogram("deltaR_m_bothH", event_weight, higgs[1].m(), deltaR_H1bb);
+  
   // ********************************* Resolved efficiencies ***************************************
 
   // Resolved weight
@@ -312,7 +338,7 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   
   // We require 2 fatjets
   int const njet=2;
-  if(fatjets.size() == njet) 
+  if((int)fatjets.size() == njet) 
   {
 
     // Check if it's a truth higgs
