@@ -92,7 +92,7 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name)
 {
 	// Histo path
-	const string path  = analysisRoot +sampleName+"/histo_" + name + ".dat";
+	const string path  = analysisRoot +sampleName+"/histo_" + name;
 
 	// Add to histogram prototypes
 	hist->setTitle(name);
