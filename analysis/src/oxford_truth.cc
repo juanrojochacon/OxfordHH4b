@@ -5,6 +5,7 @@
 #include "settings.h"
 
 #include "YODA/Histo1D.h"
+#include "YODA/Histo2D.h"
 
 OxfordTruthAnalysis::OxfordTruthAnalysis(std::string const& sampleName):
 Analysis("oxford_truth", sampleName)
@@ -20,10 +21,6 @@ Analysis("oxford_truth", sampleName)
   const double DeltaEtamin = -2.5;
   const double DeltaEtamax = 2.5;
 
-  const double ptb_min=0;
-  const double ptb_max=600;
-  const int nbin_ptb=20;
-
   // ********************* Histograms before cuts ***************************
 
   // Higgs histograms
@@ -31,6 +28,10 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH1");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH2");
   BookHistogram(new YODA::Histo1D(30, 0, 500), "ptHH");
+
+  // 2-D pt histogram
+  const size_t nbins = 30; const size_t ptmin = 0;  const size_t ptmax = 900;
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, ptmin, ptmax), "ptHptH");
 
   // Histograms of dijet systems
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_Hbb");
@@ -52,7 +53,6 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H0b1");
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b0");
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b1");
-
 
 
   // Resolved histograms ************************************************
@@ -169,6 +169,8 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   FillHistogram("DeltaR_H1b0", event_weight, deltaR_H1b0); 
   FillHistogram("DeltaR_H1b1", event_weight, deltaR_H1b1); 
 
+  // 2-D Histogram
+  FillHistogram("ptHptH", event_weight, higgs[0].pt(), higgs[1].pt());
 
   // ********************************* Resolved efficiencies ***************************************
 
