@@ -174,10 +174,11 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   fastjet::PseudoJet b1 = higgs1bb[0];
   fastjet::PseudoJet b2 = higgs1bb[1];
   const double mass_H0_FastJet = higgs[0].m();
-  const double mass_H0_byHand = sqrt( pow( b1.m(),2) + pow( b2.m(),2) + 2 * ( b1.e()*b2.e() - b1.px()*b2.px() - 
-					b1.py()*b2.py() - b1.pz()*b2.pz() ) );
 
-  std::cout << "FastJet mass " << mass_H0_FastJet << " mass by hand " << mass_H0_byHand << std::endl;
+  const double mass2_H0_byHand = b1.m2() + b2.m2() + 2 * ( b1.e()*b2.e() - b1.px()*b2.px() - b1.py()*b2.py() - b1.pz()*b2.pz() );
+  const double mass_H0_byHand = (mass2_H0_byHand/abs(mass2_H0_byHand)) * sqrt(abs(mass2_H0_byHand));
+
+  std::cout << "FastJet mass " << mass_H0_FastJet << " mass by hand " << mass_H0_byHand <<std::endl;
   std::cout << "b1 mass: " << b1.m() << " b2 mass: " << b2.m() << std::endl;
   // *******************************************************************************
   // Histograms
