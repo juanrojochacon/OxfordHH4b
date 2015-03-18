@@ -18,7 +18,6 @@ if os.path.exists(infilenm) == False:
 	sys.exit()
 
 infile = open(infilenm, 'rb')
-print "Processing " + infilenm + " ..."
 datafile = open(infilenm, 'rb')
 
 # Histogram bin edges
@@ -65,7 +64,9 @@ yEdges = list(OrderedDict.fromkeys(yEdges))
 # Make numpy Histogram
 H, xEdges, yEdges = np.histogram2d(xVals, yVals, bins=(xEdges, yEdges), normed=True, weights=weights)
 
-# Mask zeros
+# Flip (numpy returns the wrong ordering) and mask
+H = np.rot90(H)
+H = np.flipud(H)
 Hmasked = np.ma.masked_where(H==0,H) # Mask pixels with a value of zero
  
 # Plot 2D histogram using pcolor
