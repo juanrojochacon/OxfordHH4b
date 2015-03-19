@@ -25,11 +25,11 @@ static std::vector<eventSample> samples;
 	// **************** PLEASE MODIFY  ****************
 
 // Global run parameters
-const int nSamples = 5;
+const int nSamples = 1;
 const int max_evt = 1E7;
 // const int max_evt = 100;
 
-const double jetpT_smear = 5; // % smear on jet pT
+const double jetpT_smear = 0; // % smear on jet pT
 
 const bool pythiaShower = false; // Shower events in pythia
 

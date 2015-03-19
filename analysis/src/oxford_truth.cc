@@ -24,7 +24,7 @@ Analysis("oxford_truth", sampleName)
   // ********************* Histograms before cuts ***************************
 
   // Mass cross check
-  BookHistogram(new YODA::Histo1D(30, -10, 10), "massCrossCheck");
+  BookHistogram(new YODA::Histo1D(30, -0.1, 0.1), "massCrossCheck");
 
   // Higgs histograms
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH");
@@ -37,7 +37,7 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, ptmin, ptmax), "ptHptH");
   
   // 2-D mass histogram
-  const size_t m_min = 0;  const size_t m_max = 200;
+  const size_t m_min = 0;  const size_t m_max = 180;
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH");
  
   // 2-D deltaR histograms
@@ -70,6 +70,11 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b0");
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b1");
 
+
+  // Category histograms ************************************************
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted");
 
   // Resolved histograms ************************************************
 
@@ -164,8 +169,8 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   const double deltaR_H0b0 = higgs[0].delta_R(higgs1bb[0]);
   const double deltaR_H0b1 = higgs[0].delta_R(higgs1bb[1]);
 
-  const double deltaR_H1b0 = higgs[1].delta_R(higgs1bb[0]);
-  const double deltaR_H1b1 = higgs[1].delta_R(higgs1bb[1]);
+  const double deltaR_H1b0 = higgs[1].delta_R(higgs2bb[0]);
+  const double deltaR_H1b1 = higgs[1].delta_R(higgs2bb[1]);
 
   const double deltaR_H0bb = higgs1bb[0].delta_R(higgs1bb[1]);
   const double deltaR_H1bb = higgs2bb[0].delta_R(higgs2bb[1]);
@@ -230,6 +235,21 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   FillHistogram("deltaR_m_bothH", event_weight, higgs[0].m(), deltaR_H0bb);
   FillHistogram("deltaR_m_bothH", event_weight, higgs[1].m(), deltaR_H1bb);
   
+  
+
+  // ********************************* Simple categorisation  ***************************************
+
+  double mergingRadius = 0.6;
+
+  if( deltaR_H0bb < mergingRadius && deltaR_H1bb < mergingRadius ){
+  	FillHistogram("ptH0_boosted", event_weight, higgs[0].pt());
+  }
+  else if( deltaR_H0bb >= mergingRadius && deltaR_H1bb >= mergingRadius ){
+  	FillHistogram("ptH0_resolved", event_weight, higgs[0].pt());
+  }
+  else{
+  	FillHistogram("ptH0_intermediate", event_weight, higgs[0].pt());
+  }
   // ********************************* Resolved efficiencies ***************************************
 
   // Resolved weight
@@ -325,60 +345,44 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
 
   // ************************************** Boosted Efficiencies ***********************************************
-
   double boost_weight = weightnorm;
-
   // Perform jet clustering with anti-kT
   // Note that here we use a small R clustering
   double const boostR=1.0; // To avoid overlapping b's as much as possible
   fastjet::JetDefinition boost_akt(fastjet::antikt_algorithm, boostR);
-
   // Get all the jets (no pt cut here)
   fastjet::ClusterSequence boost_cs_akt(fs, boost_akt);
-  std::vector<fastjet::PseudoJet> fatjets = sorted_by_pt( boost_cs_akt.inclusive_jets()  );
-  
+  std::vector<fastjet::PseudoJet> fatjets = sorted_by_pt( boost_cs_akt.inclusive_jets() );
   // We require 2 fatjets
   int const njet=2;
-  if((int)fatjets.size() == njet) 
+  if((int)fatjets.size() == njet)
   {
-
-    // Check if it's a truth higgs
-    if (abs(fatjets[0].m() -120) > 0.1)
-      boost_weight = 0;
-    if (abs(fatjets[1].m() -120) > 0.1)
-      boost_weight = 0;
-
-    const fastjet::PseudoJet dihiggs= fatjets[0]+fatjets[1];
-
-    FillHistogram("ptFatJet", boost_weight, fatjets[0].pt() );
-    FillHistogram("ptFatJet", boost_weight, fatjets[1].pt() );
-
-    FillHistogram("ptFatJet1", boost_weight, fatjets[0].pt() );
-    FillHistogram("ptFatJet2", boost_weight, fatjets[1].pt() );
-
-    FillHistogram("ptFatJetFatJet", boost_weight, fatjets[0].pt() + fatjets[1].pt());
+  // Check if it's a truth higgs
+  if (abs(fatjets[0].m() -120) > 0.1)
+  boost_weight = 0;
+  if (abs(fatjets[1].m() -120) > 0.1)
+  boost_weight = 0;
+  const fastjet::PseudoJet dihiggs= fatjets[0]+fatjets[1];
+  FillHistogram("ptFatJet", boost_weight, fatjets[0].pt() );
+  FillHistogram("ptFatJet", boost_weight, fatjets[1].pt() );
+  FillHistogram("ptFatJet1", boost_weight, fatjets[0].pt() );
+  FillHistogram("ptFatJet2", boost_weight, fatjets[1].pt() );
+  FillHistogram("ptFatJetFatJet", boost_weight, fatjets[0].pt() + fatjets[1].pt());
   }
-  
-
-
   // ************************************* MVA Output **********************************************************
-
   // Now save the ntuples to be used by the TMVA or the ANNs
-  //   In the UCL analysis they use
-  //   
-  //   m, y, pT of the 4b system and masses of the two dijets
-  //   3 decay angles (in resp. rest frames) & 2 angles between decay planes
-
-
+  // In the UCL analysis they use
+  //
+  // m, y, pT of the 4b system and masses of the two dijets
+  // 3 decay angles (in resp. rest frames) & 2 angles between decay planes
   // This is for the UCL-like strategy
   // sabe mass, pt and y of th 4b system
   // the two dijet masses
   // and all independent angular distances between the four b jets
-  // totalNTuple<<"# signal source m4b  pt4b y4b mHiggs1  mHiggs2 DeltaR_b1b2  DeltaR_b1b3  DeltaR_b1b4  DeltaR_b2b3  DeltaR_b2b4  DeltaR_b3b4 "<<std::endl;
-  outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<std::endl; 
+  // totalNTuple<<"# signal source m4b pt4b y4b mHiggs1 mHiggs2 DeltaR_b1b2 DeltaR_b1b3 DeltaR_b1b4 DeltaR_b2b3 DeltaR_b2b4 DeltaR_b3b4 "<<std::endl;
+  outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<std::endl;
   // Other combinations of kinematical variables could also be useful
   // Need to investigate the kinematics of the 4b final state in more detail
-
   // Pass event
   Pass(event_weight);
 
