@@ -41,13 +41,13 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH");
  
   // 2-D deltaR histograms
-  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_H0");
-  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_H1");
-  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "deltaR_pt_bothH");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H0");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H1");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_bothH");
 
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_H0");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_H1");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "deltaR_m_bothH");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "DeltaR_m_H0");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "DeltaR_m_H1");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "DeltaR_m_bothH");
  
   // Histograms of dijet systems
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_Hbb");
@@ -70,12 +70,44 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b0");
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_H1b1");
 
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H0b0");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H0b1");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H1b0");
+  BookHistogram(new YODA::Histo2D(nbins, ptmin, ptmax, nbins, DeltaRmin, DeltaRmax), "DeltaR_pt_H1b1");
 
   // Category histograms ************************************************
-  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved");
-  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate");
-  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_1");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_1");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_1");
+  
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_2");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_2");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_2");
 
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3");
+
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3_C0");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3_C0");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3_C0");
+
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3_C1");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3_C1");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3_C1");
+  
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3_C2");
+  
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3_C3");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3_C3");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3_C3");
+  
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_resolved_3_C3a");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_intermediate_3_C3a");
+  BookHistogram(new YODA::Histo1D(30, 0, 900), "ptH0_boosted_3_C3a");
+  
   // Resolved histograms ************************************************
 
     // Higgs histograms
@@ -221,35 +253,130 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   FillHistogram("DeltaR_H1b0", event_weight, deltaR_H1b0); 
   FillHistogram("DeltaR_H1b1", event_weight, deltaR_H1b1); 
 
+  FillHistogram("DeltaR_pt_H0b0", event_weight, higgs[0].pt(), deltaR_H0b0); 
+  FillHistogram("DeltaR_pt_H0b1", event_weight, higgs[0].pt(), deltaR_H0b1); 
+  FillHistogram("DeltaR_pt_H1b0", event_weight, higgs[1].pt(), deltaR_H1b0); 
+  FillHistogram("DeltaR_pt_H1b1", event_weight, higgs[1].pt(), deltaR_H1b1); 
+  
   // 2-D Histogram
   FillHistogram("ptHptH", event_weight, higgs[0].pt(), higgs[1].pt());
   FillHistogram("mHmH", event_weight, higgs[0].m(), higgs[1].m());
 
-  FillHistogram("deltaR_pt_H0", event_weight, higgs[0].pt(), deltaR_H0bb);
-  FillHistogram("deltaR_pt_H1", event_weight, higgs[1].pt(), deltaR_H1bb);
-  FillHistogram("deltaR_pt_bothH", event_weight, higgs[0].pt(), deltaR_H0bb);
-  FillHistogram("deltaR_pt_bothH", event_weight, higgs[1].pt(), deltaR_H1bb);
+  FillHistogram("DeltaR_pt_H0", event_weight, higgs[0].pt(), deltaR_H0bb);
+  FillHistogram("DeltaR_pt_H1", event_weight, higgs[1].pt(), deltaR_H1bb);
+  FillHistogram("DeltaR_pt_bothH", event_weight, higgs[0].pt(), deltaR_H0bb);
+  FillHistogram("DeltaR_pt_bothH", event_weight, higgs[1].pt(), deltaR_H1bb);
 
-  FillHistogram("deltaR_m_H0", event_weight, higgs[0].m(), deltaR_H0bb);
-  FillHistogram("deltaR_m_H1", event_weight, higgs[1].m(), deltaR_H1bb);
-  FillHistogram("deltaR_m_bothH", event_weight, higgs[0].m(), deltaR_H0bb);
-  FillHistogram("deltaR_m_bothH", event_weight, higgs[1].m(), deltaR_H1bb);
+  FillHistogram("DeltaR_m_H0", event_weight, higgs[0].m(), deltaR_H0bb);
+  FillHistogram("DeltaR_m_H1", event_weight, higgs[1].m(), deltaR_H1bb);
+  FillHistogram("DeltaR_m_bothH", event_weight, higgs[0].m(), deltaR_H0bb);
+  FillHistogram("DeltaR_m_bothH", event_weight, higgs[1].m(), deltaR_H1bb);
   
   
 
-  // ********************************* Simple categorisation  ***************************************
+  // ********************************* Simple categorisation 1  ***************************************
 
   double mergingRadius = 0.6;
 
   if( deltaR_H0bb < mergingRadius && deltaR_H1bb < mergingRadius ){
-  	FillHistogram("ptH0_boosted", event_weight, higgs[0].pt());
+  	FillHistogram("ptH0_boosted_1", event_weight, higgs[0].pt());
   }
   else if( deltaR_H0bb >= mergingRadius && deltaR_H1bb >= mergingRadius ){
-  	FillHistogram("ptH0_resolved", event_weight, higgs[0].pt());
+  	FillHistogram("ptH0_resolved_1", event_weight, higgs[0].pt());
   }
   else{
-  	FillHistogram("ptH0_intermediate", event_weight, higgs[0].pt());
+  	FillHistogram("ptH0_intermediate_1", event_weight, higgs[0].pt());
   }
+ 
+ 
+  // ********************************* Simple categorisation 2  ***************************************
+  
+  // Jets
+  static double const MyJetR=0.6;
+  fastjet::JetDefinition akt_norm(fastjet::antikt_algorithm, MyJetR);
+
+  fastjet::ClusterSequence cs_akt_norm(fs, akt_norm);
+  std::vector<fastjet::PseudoJet> jets = sorted_by_pt( cs_akt_norm.inclusive_jets()  ); // Get all the jets (no pt cut here)
+  
+  int Njets = (int)jets.size();
+  
+  // Boosted
+  if( Njets < 3 ) FillHistogram("ptH0_boosted_2", event_weight, higgs[0].pt());
+  // Resolved
+  else if( Njets >= 4 ) FillHistogram("ptH0_resolved_2", event_weight, higgs[0].pt());
+  // Intermediate
+  else if( Njets == 3 ) FillHistogram("ptH0_intermediate_2", event_weight, higgs[0].pt());
+  
+  
+  // ********************************* Simple categorisation 3  ***************************************
+  
+  // Small-R jets
+  static double const MyResJetR=0.4;
+  fastjet::JetDefinition akt_res(fastjet::antikt_algorithm, MyResJetR);
+
+  fastjet::ClusterSequence cs_akt_res(fs, akt_res);
+  std::vector<fastjet::PseudoJet> Bjets = sorted_by_pt( cs_akt_res.inclusive_jets()  ); // Get all the jets (no pt cut here)
+  
+  int Nbjets = (int)Bjets.size();
+  int Nbjets_C0 = 0;
+  int Nbjets_C1 = 0;
+
+  for( int i = 0; i < Nbjets; i++){
+      if( Bjets[i].pt() > 25.  ) Nbjets_C0++;
+      if( Bjets[i].pt() > 25. && Bjets[i].m() > 40. ) Nbjets_C1++;
+  }
+  
+  
+  // Large-R jets
+  static double const MyBoostJetR=1.0;
+  fastjet::JetDefinition akt_boost(fastjet::antikt_algorithm, MyBoostJetR);
+
+  fastjet::ClusterSequence cs_akt_boost(fs, akt_boost);
+  std::vector<fastjet::PseudoJet> higgsjets = sorted_by_pt( cs_akt_boost.inclusive_jets()  ); // Get all the jets (no pt cut here)
+  
+  int Nhiggsjets = (int)higgsjets.size();
+  int Nhiggsjets_C0 = 0;
+  int Nhiggsjets_C1 = 0;
+  int Nhiggsjets_C2 = 0;
+  int Nhiggsjets_C3 = 0;
+  
+  for( int i = 0; i < Nhiggsjets; i++){
+      if( higgsjets[i].pt() > 25.  ) Nhiggsjets_C0++;
+      if( higgsjets[i].pt() > 250. ) Nhiggsjets_C1++;
+      if( higgsjets[i].m()  > 80.  ) Nhiggsjets_C2++;
+      if( higgsjets[i].pt() > 250. && higgsjets[i].m() > 80. ) Nhiggsjets_C3++;
+  }
+  
+  // Boosted/Resolved/Intermediate
+  if( Nhiggsjets == 2 ) FillHistogram("ptH0_boosted_3", event_weight, higgs[0].pt());
+  else if( Nbjets >= 4 ) FillHistogram("ptH0_resolved_3", event_weight, higgs[0].pt());
+  else if( Nbjets == 3 ) FillHistogram("ptH0_intermediate_3", event_weight, higgs[0].pt());
+
+  // C0
+  if( Nhiggsjets_C0 == 2 ) FillHistogram("ptH0_boosted_3_C0", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 >= 4 ) FillHistogram("ptH0_resolved_3_C0", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 == 3 ) FillHistogram("ptH0_intermediate_3_C0", event_weight, higgs[0].pt());
+  
+  // C1
+  if( Nhiggsjets_C1 == 2 ) FillHistogram("ptH0_boosted_3_C1", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 >= 4 ) FillHistogram("ptH0_resolved_3_C1", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 == 3 ) FillHistogram("ptH0_intermediate_3_C1", event_weight, higgs[0].pt());
+
+  // C2
+  if( Nhiggsjets_C2 == 2 ) FillHistogram("ptH0_boosted_3_C2", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 >= 4 ) FillHistogram("ptH0_resolved_3_C2", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 == 3 ) FillHistogram("ptH0_intermediate_3_C2", event_weight, higgs[0].pt());
+  
+  // C3
+  if( Nhiggsjets_C3 == 2 ) FillHistogram("ptH0_boosted_3_C3", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 >= 4 ) FillHistogram("ptH0_resolved_3_C3", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 == 3 ) FillHistogram("ptH0_intermediate_3_C3", event_weight, higgs[0].pt());
+
+  // C3a
+  if( Nhiggsjets_C3 == 2 ) FillHistogram("ptH0_boosted_3_C3a", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 >= 4 ) FillHistogram("ptH0_resolved_3_C3a", event_weight, higgs[0].pt());
+  else if( Nbjets_C0 == 3 && Nbjets_C1 == 1 ) FillHistogram("ptH0_intermediate_3_C3a", event_weight, higgs[0].pt());
+  
   // ********************************* Resolved efficiencies ***************************************
 
   // Resolved weight
