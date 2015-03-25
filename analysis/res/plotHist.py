@@ -61,7 +61,8 @@ for idat in xrange(1,len(sys.argv)):
     h = xhi[i] - xlo[i]
     norm = norm + h*yval[i]
 
-  norm = np.sum(norm) # Numpy types
+  #norm = np.sum(norm) # Numpy types
+  norm = np.sum(1.0) # Numpy types
 
   # Error bars
   CVup = map(add, yval/norm, errup/norm)
