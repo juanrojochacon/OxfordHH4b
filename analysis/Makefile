@@ -68,7 +68,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = pythia hepmc analysis run utils oxford_truth oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr  
+MODULES = pythia hepmc analysis run utils oxford_truth oxford_boost_vr oxford_boost_fr oxford_res_vr oxford_res_fr  oxford_comb
 
 ############################## do not change ###################################
 
