@@ -216,8 +216,8 @@ void OxfordCombAnalysis::AnalyseResolved(bool const& signal, double const& weigh
   FillHistogram("yDijetDijet", res_weight, res_dihiggs.rapidity() );
 
     // 2-D Histogram
-  FillHistogram("ptDijetptDijet", event_weight, res_higgs[0].pt(), res_higgs[1].pt());
-  FillHistogram("mDijetmDijet", event_weight, res_higgs[0].m(), res_higgs[1].m());
+  FillHistogram("ptDijetptDijet", res_weight, res_higgs[0].pt(), res_higgs[1].pt());
+  FillHistogram("mDijetmDijet", res_weight, res_higgs[0].m(), res_higgs[1].m());
 
 }
 
@@ -264,8 +264,8 @@ void OxfordCombAnalysis::AnalyseBoosted(bool const& signal, double const& weight
     FillHistogram("ptFatJetFatJet", boost_weight, fatbjets[0].pt() + fatbjets[1].pt());
 
     // 2-D Histogram
-    FillHistogram("ptFatjetptFatjet", event_weight, res_higgs[0].pt(), res_higgs[1].pt());
-    FillHistogram("mFatjetmFatjet", event_weight, fatbjets[0].m(), fatbjets[1].m());
+    FillHistogram("ptFatjetptFatjet", boost_weight, fatbjets[0].pt(), fatbjets[1].pt());
+    FillHistogram("mFatjetmFatjet", boost_weight, fatbjets[0].m(), fatbjets[1].m());
   }
 
 }
