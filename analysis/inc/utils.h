@@ -8,6 +8,7 @@
 #include "fastjet/PseudoJet.hh"
 
 // Analysis utility functions
+double getDPhi(double phi1, double phi2);
 
 // Substructure variables
 std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec );

@@ -5,6 +5,17 @@
 
 using namespace std;
 
+
+
+ double getDPhi(double phi1, double phi2){
+   
+   const double PI = 3.14159265359;
+   double deltaPhi = phi1-phi2;
+   if (deltaPhi > PI)  deltaPhi = (deltaPhi-2*PI);
+   if (deltaPhi < -PI) deltaPhi = (deltaPhi+2*PI);
+   return deltaPhi;
+ }
+
 // ----------------------------------------------------------------------------------
 // Recluster with kt algorithm to obtain splitting scales
 std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec )
@@ -300,9 +311,8 @@ void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJ
     // make ghost PseudoJets out of track jet direction
     for(unsigned int trackJetItr = 0; trackJetItr < trkjets.size(); ++trackJetItr){
     
-      fastjet::PseudoJet myghost = trkjets.at(trackJetItr);
-      
-      if( myghost.pt() <= 20.0 || fabs( myghost.rapidity() ) >= 2.5 ) continue;
+      fastjet::PseudoJet myghost = trkjets.at(trackJetItr);  
+      //if( myghost.pt() <= 20.0 || fabs( myghost.rapidity() ) >= 2.5 ) continue;
       
       myghost.reset_PtYPhiM (1e-12, myghost.rapidity(), myghost.phi(), 0.0);
       if(myghost.E()<0.) continue;

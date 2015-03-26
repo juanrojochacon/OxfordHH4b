@@ -15,6 +15,7 @@
 #include "amcatnlo.h"
 #include "btag_test.h"
 #include "oxford_truth.h"
+#include "oxford_combined.h"
 
 #include <vector>
 #include <cmath>
@@ -54,7 +55,8 @@ eventSample GetSample( int const& isample )
 
 	// **************** PLEASE MODIFY  ****************
 	  case 0: 
-	  eventfile="HH_sm_eft_100K.lhe";
+	  //eventfile="HH_sm_eft_100K.lhe";
+	  eventfile="HH_sm_eft_1M.lhe";
 	  samplename="diHiggs";
 	  signal = true;
 	  hepmc = false;
@@ -125,7 +127,8 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
 
-  signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
+  //signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
 
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
