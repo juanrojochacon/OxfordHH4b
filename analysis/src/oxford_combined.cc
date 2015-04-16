@@ -4,6 +4,11 @@
 #include "utils.h"
 #include "settings.h"
 
+#include "fastjet/Selector.hh"
+#include "fastjet/ClusterSequence.hh"
+#include "fastjet/tools/MassDropTagger.hh"
+// #include "fastjet/contrib/VariableRPlugin.hh"
+
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 
@@ -92,6 +97,38 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C1");
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C1");
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C1");
+ 
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C2"); 
+  
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C2"); 
+  
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C2");
+  
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C2");
+  
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C2");
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C2");
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C2");
+  
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C2");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C2");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C2");
   
   // ********************* Ntuple definition **********************
   const std::string tupleSpec = "# signal source weight";
@@ -123,7 +160,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   std::vector<fastjet::PseudoJet> smallRJetsSel;
   for( size_t i = 0; i < smallRJets.size(); i++){
     
-    if( smallRJets.at(i).pt() < 25 ) continue;
+    if( smallRJets.at(i).pt() < 40. ) continue;
     if( abs( smallRJets.at(i).eta() ) > 2.5 ) continue;
     
     smallRJetsSel.push_back( smallRJets.at(i) );
@@ -192,11 +229,31 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   // Basic kinematic cuts
   std::vector<fastjet::PseudoJet> largeRJetsSel;
   for( size_t i = 0; i < largeRJets.size(); i++){
-    
-    if( largeRJets.at(i).pt() < 250. ) continue;
+ 
+    //-----------------------------------------------------
+    // pt acceptance cut
+    if( largeRJets.at(i).pt() < 200. ) continue;
+    //-----------------------------------------------------
+    // Pseudorapidity acceptance cut
     if( abs( largeRJets.at(i).eta() ) > 2.0 ) continue;
-    if( largeRJets.at(i).m() < 90. ) continue;
+
+    //-----------------------------------------------------
+    // Check if jet is mass-drop tagged
+    fastjet::JetDefinition CA10(fastjet::cambridge_algorithm, 1.0);
+    fastjet::ClusterSequence cs_sub( largeRJets.at(i).constituents(), CA10);
+    fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+
+    // parameters are specified in settings.h
+    fastjet::MassDropTagger md_tagger(mu, ycut);
+    fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
     
+    // Skip jet if it fails mass-drop tagging
+    if (tagged_jet == 0 ) continue;
+    //-----------------------------------------------------
+//     // Higgs mass window cut
+//     if (abs(largeRJets.at(i).m() - 125.) > 40.0) continue;
+    //-----------------------------------------------------
+ 
     largeRJetsSel.push_back( largeRJets.at(i) );
   }
   
@@ -306,128 +363,75 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     }
   }
 
-  
-//   // ********************************* Resolved efficiencies ***************************************
-// 
-//   // Resolved weight
-//   double res_weight = event_weight;
-// 
-//   static double const ResJetR=0.4; // To avoid overlapping b's as much as possible
-//   fastjet::JetDefinition akt(fastjet::antikt_algorithm, ResJetR);
-// 
-//   // Cluster all particles
-//   // The cluster sequence has to be saved to be used for jet substructure
-//   fastjet::ClusterSequence cs_akt(fs, akt);
-//   // Get all the jets (no pt cut here)
-//   std::vector<fastjet::PseudoJet> bjets = sorted_by_pt( cs_akt.inclusive_jets()  );
-// 
-//   // We require at least 4 jets in the event, else discard event
-//   if((int)bjets.size() >= 4) 
-//   {
-//     // The next step is to apply the dijet selection
-//     // Get the pairing that minimizes |m_dj1 - m_dj2|
-//     double dijet_mass[4][4];
-//     for(int ijet=0;ijet<4;ijet++)
-//       for(int jjet=0;jjet<4;jjet++)
-//       {
-//         // Compute jet masses
-//         const fastjet::PseudoJet sum = bjets[ijet] + bjets[jjet];
-//         dijet_mass[ijet][jjet] = sum.m();
-//       }
-// 
-//     double mdj_diff_min = 1e20; // Some large number to begin
-//     int jet1_id1=10,jet1_id2=10,jet2_id1=10,jet2_id2=10;
-// 
-//     for(int ijet=0;ijet<4;ijet++)
-//       for(int jjet=ijet+1;jjet<4;jjet++)
-//         for(int ijet2=0;ijet2<4;ijet2++)
-//           for(int jjet2=ijet2+1;jjet2<4;jjet2++)
-//           {
-//             const double mdj1 = dijet_mass[ijet][jjet];
-//             const double mdj2 = dijet_mass[ijet2][jjet2];
-//             const double min_dj = fabs(mdj1 - mdj2);
-// 
-//             if(min_dj <  mdj_diff_min && ijet != ijet2  && jjet != jjet2 && jjet !=ijet2 && ijet != jjet2 )
-//             {
-//               mdj_diff_min = min_dj;
-//               jet1_id1 = ijet;
-//               jet1_id2 = jjet;
-//               jet2_id1 = ijet2;
-//               jet2_id2 = jjet2;
-//             }
-//           }
-// 
-//     // Construct the Higgs candidates
-//     std::vector<fastjet::PseudoJet> res_higgs;
-//     res_higgs.push_back(bjets.at( jet1_id1) + bjets.at( jet1_id2)); 
-//     res_higgs.push_back(bjets.at( jet2_id1) + bjets.at( jet2_id2));
-//     const fastjet::PseudoJet res_dihiggs= res_higgs[0]+res_higgs[1];
-//     // Sort by higgs pt
-//     res_higgs = sorted_by_pt(res_higgs);
-// 
-// 
-//     // Check if it's a truth dijet
-//     if (abs(res_higgs[0].m() -120) > 0.1)
-//       res_weight = 0;
-//     if (abs(res_higgs[1].m() -120) > 0.1)
-//       res_weight = 0;
-// 
-//     FillHistogram("ptDijet", res_weight, res_higgs[0].pt() );
-//     FillHistogram("ptDijet", res_weight, res_higgs[1].pt() );
-// 
-//     FillHistogram("ptDijet1", res_weight, res_higgs[0].pt() );
-//     FillHistogram("ptDijet2", res_weight, res_higgs[1].pt() );
-// 
-//     FillHistogram("ptDijetDijet", res_weight, res_higgs[0].pt() + res_higgs[1].pt());
-// 
-//     FillHistogram("DeltaR_Dijetbb", res_weight, bjets.at(jet1_id1).delta_R(bjets.at(jet1_id2)) );
-//     FillHistogram("DeltaR_Dijetbb", res_weight, bjets.at(jet2_id1).delta_R(bjets.at(jet2_id2)) );
-// 
-//     FillHistogram("DeltaPhi_Dijetbb", res_weight, bjets.at(jet1_id1).delta_phi_to(bjets.at(jet1_id2)) );
-//     FillHistogram("DeltaPhi_Dijetbb", res_weight, bjets.at(jet1_id1).delta_phi_to(bjets.at(jet1_id2)) );
-// 
-//     FillHistogram("DeltaEta_Dijetbb", res_weight, bjets.at(jet1_id1).eta() - bjets.at(jet1_id2).eta() );
-//     FillHistogram("DeltaEta_Dijetbb", res_weight, bjets.at(jet2_id1).eta() - bjets.at(jet2_id2).eta() );
-// 
-//     FillHistogram("mDijet", res_weight, res_higgs[0].m() );
-//     FillHistogram("mDijet", res_weight, res_higgs[1].m() );
-// 
-//     FillHistogram("mDijet1", res_weight, res_higgs[0].m() );
-//     FillHistogram("mDijet2", res_weight, res_higgs[1].m() );
-// 
-//     FillHistogram("mDijetDijet", res_weight, res_dihiggs.m() );
-//     FillHistogram("yDijetDijet", res_weight, res_dihiggs.rapidity() );
-// 
-//   } // /4jets
-// 
-// 
-//   // ************************************** Boosted Efficiencies ***********************************************
-//   double boost_weight = weightnorm;
-//   // Perform jet clustering with anti-kT
-//   // Note that here we use a small R clustering
-//   double const boostR=1.0; // To avoid overlapping b's as much as possible
-//   fastjet::JetDefinition boost_akt(fastjet::antikt_algorithm, boostR);
-//   // Get all the jets (no pt cut here)
-//   fastjet::ClusterSequence boost_cs_akt(fs, boost_akt);
-//   std::vector<fastjet::PseudoJet> fatjets = sorted_by_pt( boost_cs_akt.inclusive_jets() );
-//   // We require 2 fatjets
-//   int const njet=2;
-//   if((int)fatjets.size() == njet)
-//   {
-//   // Check if it's a truth higgs
-//   if (abs(fatjets[0].m() -120) > 0.1)
-//   boost_weight = 0;
-//   if (abs(fatjets[1].m() -120) > 0.1)
-//   boost_weight = 0;
-//   const fastjet::PseudoJet dihiggs= fatjets[0]+fatjets[1];
-//   FillHistogram("ptFatJet", boost_weight, fatjets[0].pt() );
-//   FillHistogram("ptFatJet", boost_weight, fatjets[1].pt() );
-//   FillHistogram("ptFatJet1", boost_weight, fatjets[0].pt() );
-//   FillHistogram("ptFatJet2", boost_weight, fatjets[1].pt() );
-//   FillHistogram("ptFatJetFatJet", boost_weight, fatjets[0].pt() + fatjets[1].pt());
-//   }
-  
-  
+
+  //=============================
+  // C2: Higgs mass window cut
+  //=============================
+  if( nBBTaggedFatJets >= 2 ){
+    
+    const fastjet::PseudoJet dihiggs_boost = bbFatJets[0] + bbFatJets[1];
+    
+    if( abs(bbFatJets[0].m() - 125.) < 40.0 && abs(bbFatJets[1].m() - 125.) < 40.0 ){
+      
+	FillHistogram("pt_HH_boost_C2", event_weight, dihiggs_boost.pt());
+	FillHistogram("dR_HH_boost_C2", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
+	FillHistogram("dPhi_HH_boost_C2", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
+	FillHistogram("dEta_HH_boost_C2", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
+	std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+	
+	FillHistogram("m_H0_boost_C2", event_weight, bbFatJets[0].m());
+	FillHistogram("m_H1_boost_C2", event_weight, bbFatJets[1].m());
+	
+	FillHistogram("ptHptH_boost_C2", event_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
+	FillHistogram("mHmH_boost_C2", event_weight, bbFatJets[0].m(), bbFatJets[1].m());
+    }
+  }
+  if( nBTaggedJets >= 4 ){
+    std::vector<fastjet::PseudoJet> higgs_res;
+    Reco_Resolved( bJets, higgs_res );
+    
+    const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
+    
+    if( abs(higgs_res[0].m() - 125.) < 40.0 && abs(higgs_res[1].m() - 125.) < 40.0 ){
+      
+	FillHistogram("pt_HH_res_C2", event_weight, dihiggs_res.pt());
+	FillHistogram("dR_HH_res_C2", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
+	FillHistogram("dPhi_HH_res_C2", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
+	FillHistogram("dEta_HH_res_C2", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
+	std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
+	  
+	FillHistogram("m_H0_res_C2", event_weight, higgs_res[0].m());
+	FillHistogram("m_H1_res_C2", event_weight, higgs_res[1].m());
+	
+	FillHistogram("ptHptH_res_C2", event_weight, higgs_res[0].pt(), higgs_res[1].pt());
+	FillHistogram("mHmH_res_C2", event_weight, higgs_res[0].m(), higgs_res[1].m());
+    }
+  }
+  if( nBTaggedJets >= 2 &&  nBBTaggedFatJets == 1 ){
+    
+    std::vector<fastjet::PseudoJet> higgs_inter;
+    bool isRecoInter = Reco_Intermediate( bJets, bbFatJets[0], higgs_inter );
+    
+    if( isRecoInter ){
+      const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
+      
+      if( abs(higgs_inter[0].m() - 125.) < 40.0 && abs(higgs_inter[1].m() - 125.) < 40.0 ){
+	
+	  FillHistogram("pt_HH_inter_C2", event_weight, dihiggs_inter.pt());
+	  FillHistogram("dR_HH_inter_C2", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
+	  FillHistogram("dPhi_HH_inter_C2", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
+	  FillHistogram("dEta_HH_inter_C2", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
+	  std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+	  
+	  FillHistogram("m_H0_inter_C2", event_weight, higgs_inter[0].m());
+	  FillHistogram("m_H1_inter_C2", event_weight, higgs_inter[1].m());
+	  
+	  FillHistogram("ptHptH_inter_C2", event_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
+	  FillHistogram("mHmH_inter_C2", event_weight, higgs_inter[0].m(), higgs_inter[1].m());
+      }
+    }
+  }
+ 
   // ************************************* MVA Output **********************************************************
   // Now save the ntuples to be used by the TMVA or the ANNs
   // In the UCL analysis they use

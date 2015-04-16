@@ -19,6 +19,10 @@ double const mass_resolution = 0.12; // 15 GeV
 // Higgs mass
 double const m_higgs = 125.0;
 
+// Mass-drop tagger
+double const mu = 0.67;
+double const ycut = 0.09;
+
 // b tagging
 // Choose working point with high purity
 double const btag_prob = 0.80; // Probability of correct b tagging
