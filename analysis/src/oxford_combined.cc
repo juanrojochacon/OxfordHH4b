@@ -476,14 +476,16 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
                  }
          }
          
+	// b-tagging
 	const double dice = ((double) rand() / (double)(RAND_MAX));
 	if( nBQuarks > 0 ){   // Check if at least one of its constituents is a b quark
 
 	      if (dice < btag_prob) isBTagged = true;
-              else{ // Else, account for the fake b-tag probabililty
-		  if (dice < btag_mistag) isBTagged = true;
-	      }
+	}		    
+	else{ // Else, account for the fake b-tag probabililty
+	      if (dice < btag_mistag) isBTagged = true;
 	}  
+	
         nBQuarks_vec.push_back( nBQuarks );
 	isBTagged_vec.push_back( isBTagged );
 	 
@@ -531,10 +533,11 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
 	      if( nBQuarks > 0 ){   // Check if at least one of its constituents is a b quark
 
 		    if (dice < btag_prob) isBTagged = true;
-		    else{ // Else, account for the fake b-tag probabililty
-			if (dice < btag_mistag) isBTagged = true;
-		    }
+	      }		    
+	      else{ // Else, account for the fake b-tag probabililty
+		    if (dice < btag_mistag) isBTagged = true;
 	      }
+	      
 	      if( nBQuarks > 0 ) 	nBSubjets++;
 	      if( isBTagged ) 		nBTaggedSubjets++;
 	      
