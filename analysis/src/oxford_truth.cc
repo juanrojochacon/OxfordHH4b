@@ -50,15 +50,15 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, DeltaRmin, DeltaRmax), "DeltaR_m_bothH");
  
   // Histograms of dijet systems
-  BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_Hbb");
-  BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_Hbb");
-  BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_Hbb");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mH");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mH1");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mH2");
+  BookHistogram(new YODA::Histo1D(30, DeltaRmin, DeltaRmax), "DeltaR_Hbb");
+  BookHistogram(new YODA::Histo1D(30, DeltaPhimin, DeltaPhimax), "DeltaPhi_Hbb");
+  BookHistogram(new YODA::Histo1D(30, DeltaEtamin, DeltaEtamax), "DeltaEta_Hbb");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mH");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mH1");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mH2");
 
   // 4b system histograms
-  BookHistogram(new YODA::Histo1D(20, 200, 1200), "mHH");
+  BookHistogram(new YODA::Histo1D(20, 0, 600), "mHH");
   BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "yHH");
 
   // Dijet distance
@@ -114,30 +114,30 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptDijet");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptDijet1");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptDijet2");
-  BookHistogram(new YODA::Histo1D(30, 0, 500), "ptDijetDijet");
+  BookHistogram(new YODA::Histo1D(30, 0, 300), "ptDijetDijet");
 
   // Histograms of dijet systems
   BookHistogram(new YODA::Histo1D(20, DeltaRmin, DeltaRmax), "DeltaR_Dijetbb");
   BookHistogram(new YODA::Histo1D(20, DeltaPhimin, DeltaPhimax), "DeltaPhi_Dijetbb");
   BookHistogram(new YODA::Histo1D(20, DeltaEtamin, DeltaEtamax), "DeltaEta_Dijetbb");
 
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet1");
-  BookHistogram(new YODA::Histo1D(20, 0, 200), "mDijet2");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mDijet");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mDijet1");
+  BookHistogram(new YODA::Histo1D(30, 0, 180), "mDijet2");
 
   // 4b system histograms
-  BookHistogram(new YODA::Histo1D(20, 200, 1200), "mDijetDijet");
-  BookHistogram(new YODA::Histo1D(20, -2.5, 2.5), "yDijetDijet");
+  BookHistogram(new YODA::Histo1D(30, 0, 600), "mDijetDijet");
+  BookHistogram(new YODA::Histo1D(30, -2.5, 2.5), "yDijetDijet");
 
   // Dijet distance
-  BookHistogram(new YODA::Histo1D(20, -3, 3), "DijetDijet_deltaPhi");
+  BookHistogram(new YODA::Histo1D(30, -3, 3), "DijetDijet_deltaPhi");
 
   // *********Boosted Histograms ********************************************
 
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptFatJet");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptFatJet1");
   BookHistogram(new YODA::Histo1D(30, 0, 900), "ptFatJet2");
-  BookHistogram(new YODA::Histo1D(30, 0, 500), "ptFatJetFatJet");
+  BookHistogram(new YODA::Histo1D(30, 0, 300), "ptFatJetFatJet");
 
   // ********************************************************************
 

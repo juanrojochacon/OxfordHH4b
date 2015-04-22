@@ -26,34 +26,30 @@ Analysis("oxford_combined", sampleName)
   const double DeltaEtamin = -2.5;
   const double DeltaEtamax = 2.5;
   
-  const double m_min = 80.;
+  const double m_min = 0.;
   const double m_max = 180.; 
  
   const double pt_min = 0.;
-  const double pt_max = 500.;
+  const double pt_max = 900.;
   
   const double m_HH_min = 0.;
   const double m_HH_max = 600.; 
   
   const double pt_HH_min = 0.;
-  const double pt_HH_max = 200.;
+  const double pt_HH_max = 300.;
   
   const int nbins = 30;
   
   // ********************* Histogram definitions ******************
 
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C0");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C0");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C0");
 
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost"); 
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C0");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C0");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C0"); 
   
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost"); 
-
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C0");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C0");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C0");
@@ -65,7 +61,19 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C0");
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C0");
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C0"); 
- 
+
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C0");
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C0");
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C0"); 
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C1");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C1");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C1");
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C1");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C1");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C1"); 
+  
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C1");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C1");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C1");
@@ -77,27 +85,19 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C1");
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C1");
   BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C1"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C1");
 
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C1");
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C1");
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C1");
+  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C1"); 
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C2");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C2");
   
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C1");
-  
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C1");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C1");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C1");
-  
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C1");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C1");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C1");
- 
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C2");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C2");
   BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C2");
@@ -129,6 +129,51 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C2");
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C2");
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C3");
+
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C3"); 
+  
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C3");
+
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C3"); 
+  
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C3"); 
+  
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C3");
+
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C3");
+  
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C3");
+  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C3");
+  
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C3");
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C3");
+  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C3");
+  
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C3");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C3");
+  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C3");
+  
+  // ********************* Cutflow histograms  **********************
+  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_res");
+  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_inter");
+  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_boost");
   
   // ********************* Ntuple definition **********************
   const std::string tupleSpec = "# signal source weight";
@@ -274,73 +319,113 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   }
   
   //=============================
-  // C0: Basic kinematic cuts
+  // C0: Cutflow before cuts
+  // ============================
+  FillHistogram("CF_res", event_weight, 0.1);
+  FillHistogram("CF_inter", event_weight, 0.1);
+  FillHistogram("CF_boost", event_weight, 0.1);
+
+  //=============================
+  // C1: Basic kinematic cuts
   //=============================
   if( nFatJets >= 2 ){
     
+    FillHistogram("CF_boost", event_weight, 1.1);
+    
     const fastjet::PseudoJet dihiggs_boost = largeRJetsSel[0] + largeRJetsSel[1];
-    FillHistogram("pt_HH_boost_C0", event_weight, dihiggs_boost.pt());
-    FillHistogram("m_H0_boost_C0", event_weight, largeRJetsSel[0].m());
-    FillHistogram("m_H1_boost_C0", event_weight, largeRJetsSel[1].m());
+    FillHistogram("pt_HH_boost_C1", event_weight, dihiggs_boost.pt());
+    FillHistogram("m_HH_boost_C1", event_weight, dihiggs_boost.m());
+    
+    FillHistogram("pt_H0_boost_C1", event_weight, largeRJetsSel[0].pt());
+    FillHistogram("pt_H1_boost_C1", event_weight, largeRJetsSel[1].pt());
+    
+    FillHistogram("m_H0_boost_C1", event_weight, largeRJetsSel[0].m());
+    FillHistogram("m_H1_boost_C1", event_weight, largeRJetsSel[1].m());
   }
   if( nJets >= 4 ){
+    
+    FillHistogram("CF_res", event_weight, 1.1);
     
     std::vector<fastjet::PseudoJet> higgs_res;
     Reco_Resolved( smallRJetsSel, higgs_res );
     
     const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
-    FillHistogram("pt_HH_res_C0", event_weight, dihiggs_res.pt());
-    FillHistogram("m_H0_res_C0", event_weight, higgs_res[0].m());
-    FillHistogram("m_H1_res_C0", event_weight, higgs_res[1].m());
+    FillHistogram("pt_HH_res_C1", event_weight, dihiggs_res.pt());
+    FillHistogram("m_HH_res_C1", event_weight, dihiggs_res.m());
+    
+    FillHistogram("pt_H0_res_C1", event_weight, higgs_res[0].pt());
+    FillHistogram("pt_H1_res_C1", event_weight, higgs_res[1].pt());
+    
+    FillHistogram("m_H0_res_C1", event_weight, higgs_res[0].m());
+    FillHistogram("m_H1_res_C1", event_weight, higgs_res[1].m());
   }
   if( nJets >= 2 &&  nFatJets == 1 ){
-
+    
     std::vector<fastjet::PseudoJet> higgs_inter;
 
     bool isRecoInter = Reco_Intermediate( smallRJetsSel, largeRJetsSel[0], higgs_inter );
 
     if( isRecoInter ){
+      
+      FillHistogram("CF_inter", event_weight, 1.1);
+      
       const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
-      FillHistogram("pt_HH_inter_C0", event_weight, dihiggs_inter.pt());
-      FillHistogram("m_H0_inter_C0", event_weight, higgs_inter[0].m());
-      FillHistogram("m_H1_inter_C0", event_weight, higgs_inter[1].m());
+      FillHistogram("pt_HH_inter_C1", event_weight, dihiggs_inter.pt());
+      FillHistogram("m_HH_inter_C1", event_weight, dihiggs_inter.m());
+      
+      FillHistogram("pt_H0_inter_C1", event_weight, higgs_inter[0].pt());
+      FillHistogram("pt_H1_inter_C1", event_weight, higgs_inter[1].pt());
+      
+      FillHistogram("m_H0_inter_C1", event_weight, higgs_inter[0].m());
+      FillHistogram("m_H1_inter_C1", event_weight, higgs_inter[1].m());
     }
   }
 
   //=============================
-  // C1: b-tagging
+  // C2: b-tagging
   //=============================
   if( nBBTaggedFatJets >= 2 ){
     
+    FillHistogram("CF_boost", event_weight, 2.1);
+    
     const fastjet::PseudoJet dihiggs_boost = bbFatJets[0] + bbFatJets[1];
-    FillHistogram("pt_HH_boost_C1", event_weight, dihiggs_boost.pt());
-    FillHistogram("dR_HH_boost_C1", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
-    FillHistogram("dPhi_HH_boost_C1", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
-    FillHistogram("dEta_HH_boost_C1", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
+    FillHistogram("pt_HH_boost_C2", event_weight, dihiggs_boost.pt());
+    FillHistogram("dR_HH_boost_C2", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
+    FillHistogram("dPhi_HH_boost_C2", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
+    FillHistogram("dEta_HH_boost_C2", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
     std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+
+    FillHistogram("pt_H0_boost_C2", event_weight, bbFatJets[0].pt());
+    FillHistogram("pt_H1_boost_C2", event_weight, bbFatJets[1].pt());
     
-    FillHistogram("m_H0_boost_C1", event_weight, bbFatJets[0].m());
-    FillHistogram("m_H1_boost_C1", event_weight, bbFatJets[1].m());
+    FillHistogram("m_H0_boost_C2", event_weight, bbFatJets[0].m());
+    FillHistogram("m_H1_boost_C2", event_weight, bbFatJets[1].m());
     
-    FillHistogram("ptHptH_boost_C1", event_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
-    FillHistogram("mHmH_boost_C1", event_weight, bbFatJets[0].m(), bbFatJets[1].m());
+    FillHistogram("ptHptH_boost_C2", event_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
+    FillHistogram("mHmH_boost_C2", event_weight, bbFatJets[0].m(), bbFatJets[1].m());
   }
   if( nBTaggedJets >= 4 ){
+    
+    FillHistogram("CF_res", event_weight, 2.1);
+    
     std::vector<fastjet::PseudoJet> higgs_res;
     Reco_Resolved( bJets, higgs_res );
     
     const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
-    FillHistogram("pt_HH_res_C1", event_weight, dihiggs_res.pt());
-    FillHistogram("dR_HH_res_C1", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
-    FillHistogram("dPhi_HH_res_C1", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
-    FillHistogram("dEta_HH_res_C1", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
+    FillHistogram("pt_HH_res_C2", event_weight, dihiggs_res.pt());
+    FillHistogram("dR_HH_res_C2", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
+    FillHistogram("dPhi_HH_res_C2", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
+    FillHistogram("dEta_HH_res_C2", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
     std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
-      
-    FillHistogram("m_H0_res_C1", event_weight, higgs_res[0].m());
-    FillHistogram("m_H1_res_C1", event_weight, higgs_res[1].m());
+
+    FillHistogram("pt_H0_res_C2", event_weight, higgs_res[0].pt());
+    FillHistogram("pt_H1_res_C2", event_weight, higgs_res[1].pt());
     
-    FillHistogram("ptHptH_res_C1", event_weight, higgs_res[0].pt(), higgs_res[1].pt());
-    FillHistogram("mHmH_res_C1", event_weight, higgs_res[0].m(), higgs_res[1].m());
+    FillHistogram("m_H0_res_C2", event_weight, higgs_res[0].m());
+    FillHistogram("m_H1_res_C2", event_weight, higgs_res[1].m());
+    
+    FillHistogram("ptHptH_res_C2", event_weight, higgs_res[0].pt(), higgs_res[1].pt());
+    FillHistogram("mHmH_res_C2", event_weight, higgs_res[0].m(), higgs_res[1].m());
   }
   if( nBTaggedJets >= 2 &&  nBBTaggedFatJets == 1 ){
     
@@ -348,24 +433,29 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     bool isRecoInter = Reco_Intermediate( bJets, bbFatJets[0], higgs_inter );
     
     if( isRecoInter ){
+      
+      FillHistogram("CF_inter", event_weight, 2.1);
+      
       const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
-      FillHistogram("pt_HH_inter_C1", event_weight, dihiggs_inter.pt());
-      FillHistogram("dR_HH_inter_C1", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
-      FillHistogram("dPhi_HH_inter_C1", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
-      FillHistogram("dEta_HH_inter_C1", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
+      FillHistogram("pt_HH_inter_C2", event_weight, dihiggs_inter.pt());
+      FillHistogram("dR_HH_inter_C2", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
+      FillHistogram("dPhi_HH_inter_C2", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
+      FillHistogram("dEta_HH_inter_C2", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
       std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+
+      FillHistogram("pt_H0_inter_C2", event_weight, higgs_inter[0].pt());
+      FillHistogram("pt_H1_inter_C2", event_weight, higgs_inter[1].pt());
       
-      FillHistogram("m_H0_inter_C1", event_weight, higgs_inter[0].m());
-      FillHistogram("m_H1_inter_C1", event_weight, higgs_inter[1].m());
+      FillHistogram("m_H0_inter_C2", event_weight, higgs_inter[0].m());
+      FillHistogram("m_H1_inter_C2", event_weight, higgs_inter[1].m());
       
-      FillHistogram("ptHptH_inter_C1", event_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
-      FillHistogram("mHmH_inter_C1", event_weight, higgs_inter[0].m(), higgs_inter[1].m());
+      FillHistogram("ptHptH_inter_C2", event_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
+      FillHistogram("mHmH_inter_C2", event_weight, higgs_inter[0].m(), higgs_inter[1].m());
     }
   }
-
-
+  
   //=============================
-  // C2: Higgs mass window cut
+  // C3: Higgs mass window cut
   //=============================
   if( nBBTaggedFatJets >= 2 ){
     
@@ -373,20 +463,26 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     
     if( abs(bbFatJets[0].m() - 125.) < 40.0 && abs(bbFatJets[1].m() - 125.) < 40.0 ){
       
-	FillHistogram("pt_HH_boost_C2", event_weight, dihiggs_boost.pt());
-	FillHistogram("dR_HH_boost_C2", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
-	FillHistogram("dPhi_HH_boost_C2", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
-	FillHistogram("dEta_HH_boost_C2", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
+	FillHistogram("CF_boost", event_weight, 3.1);
+      
+	FillHistogram("pt_HH_boost_C3", event_weight, dihiggs_boost.pt());
+	FillHistogram("dR_HH_boost_C3", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
+	FillHistogram("dPhi_HH_boost_C3", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
+	FillHistogram("dEta_HH_boost_C3", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
 	std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+
+	FillHistogram("pt_H0_boost_C3", event_weight, bbFatJets[0].pt());
+	FillHistogram("pt_H1_boost_C3", event_weight, bbFatJets[1].pt());
 	
-	FillHistogram("m_H0_boost_C2", event_weight, bbFatJets[0].m());
-	FillHistogram("m_H1_boost_C2", event_weight, bbFatJets[1].m());
+	FillHistogram("m_H0_boost_C3", event_weight, bbFatJets[0].m());
+	FillHistogram("m_H1_boost_C3", event_weight, bbFatJets[1].m());
 	
-	FillHistogram("ptHptH_boost_C2", event_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
-	FillHistogram("mHmH_boost_C2", event_weight, bbFatJets[0].m(), bbFatJets[1].m());
+	FillHistogram("ptHptH_boost_C3", event_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
+	FillHistogram("mHmH_boost_C3", event_weight, bbFatJets[0].m(), bbFatJets[1].m());
     }
   }
   if( nBTaggedJets >= 4 ){
+    
     std::vector<fastjet::PseudoJet> higgs_res;
     Reco_Resolved( bJets, higgs_res );
     
@@ -394,17 +490,22 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     
     if( abs(higgs_res[0].m() - 125.) < 40.0 && abs(higgs_res[1].m() - 125.) < 40.0 ){
       
-	FillHistogram("pt_HH_res_C2", event_weight, dihiggs_res.pt());
-	FillHistogram("dR_HH_res_C2", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
-	FillHistogram("dPhi_HH_res_C2", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
-	FillHistogram("dEta_HH_res_C2", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
+	FillHistogram("CF_res", event_weight, 3.1);
+      
+	FillHistogram("pt_HH_res_C3", event_weight, dihiggs_res.pt());
+	FillHistogram("dR_HH_res_C3", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
+	FillHistogram("dPhi_HH_res_C3", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
+	FillHistogram("dEta_HH_res_C3", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
 	std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
-	  
-	FillHistogram("m_H0_res_C2", event_weight, higgs_res[0].m());
-	FillHistogram("m_H1_res_C2", event_weight, higgs_res[1].m());
+
+	FillHistogram("pt_H0_res_C3", event_weight, higgs_res[0].pt());
+	FillHistogram("pt_H1_res_C3", event_weight, higgs_res[1].pt());
 	
-	FillHistogram("ptHptH_res_C2", event_weight, higgs_res[0].pt(), higgs_res[1].pt());
-	FillHistogram("mHmH_res_C2", event_weight, higgs_res[0].m(), higgs_res[1].m());
+	FillHistogram("m_H0_res_C3", event_weight, higgs_res[0].m());
+	FillHistogram("m_H1_res_C3", event_weight, higgs_res[1].m());
+	
+	FillHistogram("ptHptH_res_C3", event_weight, higgs_res[0].pt(), higgs_res[1].pt());
+	FillHistogram("mHmH_res_C3", event_weight, higgs_res[0].m(), higgs_res[1].m());
     }
   }
   if( nBTaggedJets >= 2 &&  nBBTaggedFatJets == 1 ){
@@ -413,21 +514,27 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     bool isRecoInter = Reco_Intermediate( bJets, bbFatJets[0], higgs_inter );
     
     if( isRecoInter ){
+      
       const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
       
       if( abs(higgs_inter[0].m() - 125.) < 40.0 && abs(higgs_inter[1].m() - 125.) < 40.0 ){
 	
-	  FillHistogram("pt_HH_inter_C2", event_weight, dihiggs_inter.pt());
-	  FillHistogram("dR_HH_inter_C2", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
-	  FillHistogram("dPhi_HH_inter_C2", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
-	  FillHistogram("dEta_HH_inter_C2", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
+	  FillHistogram("CF_inter", event_weight, 3.1);
+	
+	  FillHistogram("pt_HH_inter_C3", event_weight, dihiggs_inter.pt());
+	  FillHistogram("dR_HH_inter_C3", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
+	  FillHistogram("dPhi_HH_inter_C3", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
+	  FillHistogram("dEta_HH_inter_C3", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
 	  std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+
+	  FillHistogram("pt_H0_inter_C3", event_weight, higgs_inter[0].pt());
+	  FillHistogram("pt_H1_inter_C3", event_weight, higgs_inter[1].pt());
+	    
+	  FillHistogram("m_H0_inter_C3", event_weight, higgs_inter[0].m());
+	  FillHistogram("m_H1_inter_C3", event_weight, higgs_inter[1].m());
 	  
-	  FillHistogram("m_H0_inter_C2", event_weight, higgs_inter[0].m());
-	  FillHistogram("m_H1_inter_C2", event_weight, higgs_inter[1].m());
-	  
-	  FillHistogram("ptHptH_inter_C2", event_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
-	  FillHistogram("mHmH_inter_C2", event_weight, higgs_inter[0].m(), higgs_inter[1].m());
+	  FillHistogram("ptHptH_inter_C3", event_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
+	  FillHistogram("mHmH_inter_C3", event_weight, higgs_inter[0].m(), higgs_inter[1].m());
       }
     }
   }
