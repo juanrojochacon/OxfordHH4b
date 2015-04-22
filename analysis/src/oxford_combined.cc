@@ -183,8 +183,8 @@ Analysis("oxford_combined", sampleName)
 void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
   // Only for signal for now
-  if (!signal) return;
-  if (fs.size() == 4) std::cout << "INFO: Apparently these are unshowered samples."<<std::endl; 
+  //if (!signal) return;
+  //if (fs.size() == 4) std::cout << "INFO: Apparently these are unshowered samples."<<std::endl; 
 
   Analysis::Analyse(signal, weightnorm, fs);
 
@@ -393,7 +393,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     FillHistogram("dR_HH_boost_C2", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
     FillHistogram("dPhi_HH_boost_C2", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
     FillHistogram("dEta_HH_boost_C2", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
-    std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+    //std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
 
     FillHistogram("pt_H0_boost_C2", event_weight, bbFatJets[0].pt());
     FillHistogram("pt_H1_boost_C2", event_weight, bbFatJets[1].pt());
@@ -416,7 +416,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     FillHistogram("dR_HH_res_C2", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
     FillHistogram("dPhi_HH_res_C2", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
     FillHistogram("dEta_HH_res_C2", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
-    std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
+    //std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
 
     FillHistogram("pt_H0_res_C2", event_weight, higgs_res[0].pt());
     FillHistogram("pt_H1_res_C2", event_weight, higgs_res[1].pt());
@@ -441,7 +441,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
       FillHistogram("dR_HH_inter_C2", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
       FillHistogram("dPhi_HH_inter_C2", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
       FillHistogram("dEta_HH_inter_C2", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
-      std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+      //std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
 
       FillHistogram("pt_H0_inter_C2", event_weight, higgs_inter[0].pt());
       FillHistogram("pt_H1_inter_C2", event_weight, higgs_inter[1].pt());
@@ -469,7 +469,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	FillHistogram("dR_HH_boost_C3", event_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
 	FillHistogram("dPhi_HH_boost_C3", event_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
 	FillHistogram("dEta_HH_boost_C3", event_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
-	std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+	//std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
 
 	FillHistogram("pt_H0_boost_C3", event_weight, bbFatJets[0].pt());
 	FillHistogram("pt_H1_boost_C3", event_weight, bbFatJets[1].pt());
@@ -496,7 +496,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	FillHistogram("dR_HH_res_C3", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
 	FillHistogram("dPhi_HH_res_C3", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
 	FillHistogram("dEta_HH_res_C3", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
-	std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
+	//std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
 
 	FillHistogram("pt_H0_res_C3", event_weight, higgs_res[0].pt());
 	FillHistogram("pt_H1_res_C3", event_weight, higgs_res[1].pt());
@@ -525,7 +525,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  FillHistogram("dR_HH_inter_C3", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
 	  FillHistogram("dPhi_HH_inter_C3", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
 	  FillHistogram("dEta_HH_inter_C3", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
-	  std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+	  //std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
 
 	  FillHistogram("pt_H0_inter_C3", event_weight, higgs_inter[0].pt());
 	  FillHistogram("pt_H1_inter_C3", event_weight, higgs_inter[1].pt());
