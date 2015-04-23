@@ -1,0 +1,89 @@
+\documentclass[svgnames]{beamer}
+
+%to get rid of font size warnings
+\let\Tiny=\tiny
+
+
+\definecolor{beamer@blendedblue}{rgb}{0.137,0.466,0.741}
+\usetheme{Warsaw}
+\usecolortheme[named=beamer@blendedblue]{structure}
+\setbeamercolor{structure}{fg=beamer@blendedblue}
+
+\usepackage{xcolor}
+
+\graphicspath{{figures/}}
+
+% \usepackage{epstopdf}
+\usepackage{beamerthemesplit,framed,amssymb,amsmath,graphicx,enumerate,array}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{ngerman}  %Umlaute mit ü = "u
+% \usepackage[latin1]{inputenc} 
+% \usepackage{mathrsfs}
+\usepackage{lmodern}
+\usepackage[T1,OT1]{fontenc}
+\usepackage[absolute,overlay]{textpos}
+
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+ \definecolor{lightblue}{rgb}{0.63, 0.79, 0.95}
+
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.markings}
+
+\tikzset{
+    W/.style={decorate, decoration={snake}, draw=black},
+    fermion/.style={draw=black, postaction={decorate}, decoration={markings,mark=at position .55 with {\arrow[draw=black]{>}}}},
+    antifermion/.style={draw=black, postaction={decorate}, decoration={markings,mark=at position .55 with {\arrow[draw=black]{<}}}},
+    gluon/.style={decorate, draw=black, decoration={coil,amplitude=4pt, segment length=5pt}} 
+}
+
+\parindent0pt % Legt die Einrück-Tiefe der ersten Zeile für alle folgenden Absätze fest
+
+\setbeamertemplate{navigation symbols}{}
+% \setbeamertemplate{footline}{
+% \insertpagenumber}
+
+\newcommand{\wipW}[2]{\begin{flushright}\vspace*{-#1cm}\mbox{\begin{scriptsize}\centering{\includegraphics[height=15pt]{/home/k/Katharina.Behr/Talks/DPG_2012/pictures/atlas_small_w.png}}~\color{black}simulation: work-in-progress\color{black}\makebox[#2cm][l]{}\end{scriptsize}}\\
+\vspace*{#1cm}\end{flushright}}
+\newcommand{\wipWs}[2]{\begin{flushright}\vspace*{-#1cm}\mbox{\begin{tiny}\centering{\includegraphics[height=10pt]{/home/k/Katharina.Behr/Talks/DPG_2012/pictures/atlas_small_w.png}}~\color{black}simulation: work-in-progress\color{black}\makebox[#2cm][l]{}\end{tiny}}\\
+\vspace*{#1cm}\end{flushright}}
+\newcommand{\wipWR}{\begin{flushright}\wipW\end{flushright}}
+\newcommand{\wipWRs}{\begin{flushright}\wipWs\end{flushright}}
+
+
+% \renewcommand{\arraystretch}{1.2} %adjust vertical spacing in tables
+    
+\setbeamertemplate{footline}{%
+\begin{beamercolorbox}[wd=0.5\textwidth,ht=3ex,dp=1.5ex,leftskip=.5em,rightskip=.5em]{author
+in head/foot}%
+\usebeamerfont{author in head/foot}%
+\insertframenumber/4\hfill\insertshortauthor%
+\end{beamercolorbox}%
+
+\vspace*{-4.5ex}\hspace*{0.5\textwidth}%
+\begin{beamercolorbox}[wd=0.5\textwidth,ht=3ex,dp=1.5ex,left,leftskip=.5em]{title
+in head/foot}%
+\usebeamerfont{title in head/foot}%
+\insertshorttitle%
+\end{beamercolorbox}% 
+}
+
+
+
+
+
+%\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}} 		% \beamersetuncovermixins{hnot yet listi}{honce more listi}: The hnot yet listi specifies how to render covered items that have not yet been uncovered. The honce more listi specifies how to render covered items that have once more been covered. If you leave one of the specifications empty, the corresponding covered items are completely covered, that is, they are invisible.
+
+
+%define author BEFORE begin{document} to get rid of hyperref warning ``Option `pdfauthor’ has already been used''
+% \author[Katharina Behr]{Katharina Behr}
+\author[Katharina Behr]{\texorpdfstring{\bf Katharina Behr}{Katharina Behr}}
+
+% \author[Katharina Behr (LMU M\"unchen)]{\texorpdfstring{\textbf{Katharina Behr} \newline \scriptsize{supervised by Otmar Biebel}}{Katharina Behr (LMU M\"unchen)}}
+%\author[für unten]{\texorpdfstring wegen Sonderformat --> in HypeRef (Links) dürfen keine Formeln}
+% \institute{LS Schaile, LMU M\"unchen}
+
+\input{talk.tex}

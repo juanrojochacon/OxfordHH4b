@@ -1,0 +1,324 @@
+\begin{document}
+\title[HH4b Study]{\textbf{HH4b Status Update}}
+\date{HH4b Meeting \newline 24.4.2015}
+\institute[University of Oxford]{Sub-department of Particle Physics, University of Oxford}
+
+\begin{frame}
+\titlepage
+\hspace{1.0cm}
+\begin{minipage}{0.45\textwidth}
+  \begin{center}
+  \includegraphics[scale=0.07]{ATLASlogo.png}
+  \end{center}
+\end{minipage}
+\hspace{-1.4cm}
+\begin{minipage}{0.45\textwidth}
+  \begin{center}
+  \includegraphics[scale=0.2]{Oxfordlogo.jpg}
+  \end{center}
+\end{minipage}
+\end{frame}
+
+
+\begin{frame}\frametitle{Combined Oxford Analysis}
+\begin{footnotesize}
+\textbf{Combination of Nathan's and my analysis codes:}
+\begin{itemize}
+ \item Simultaneous selection+reconstruction of three topologies (resolved, intermediate, boosted)
+ \item Allows to evaluate overlap between categories
+ \item Runs on both showered and unshowered events
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Basic design:}
+\begin{itemize}
+ \item Each event clustered with two jet algorithms: AKT4, AKT10 (+AKT3 track jets for boosted $b$-tagging)
+ \item Apply basic kinematic cuts on jets ($p_T$,$\eta$,$m$ - see next slides)
+ \item Store $b$-tagging information for each jet
+ \item Modular approach: Reconstruction can be run and compared at any stage of the object selection
+\end{itemize}
+\end{footnotesize}
+\end{frame}
+
+\begin{frame}\frametitle{Event Categorisation}
+\begin{footnotesize}
+\textbf{Three categories:}
+\begin{itemize}
+ \item \textbf{Boosted}: $\geq 2$ selected AKT10 jets
+ \item \textbf{Resolved}: $\geq 4$ selected AKT4 jets
+ \item \textbf{Intermediate}: $\geq 1$ selected AKT10 jet AND $\geq 2$ selected AKT4 jets
+ \item NOT mutually exclusive!
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Event reconstruction:}
+\begin{itemize}
+ \item \textbf{Boosted}: 2 leading AKT10 jets
+ \item \textbf{Resolved}: Minimise $|$mdj1 - mdj2$|$ for 4 leading jets
+ \item \textbf{Intermediate}: Minimise $|$mfj - mdj$|$ where dijet system is reconstructed from AKT4 jets with $\Delta R(\textrm{AKT4, AKT10}) > 1.0$
+\end{itemize}
+\end{footnotesize}
+\end{frame}
+
+
+\begin{frame}\frametitle{Object Selection}
+\begin{footnotesize}
+\textbf{Basic kinematic cuts (C1):}
+\begin{itemize}
+ \item \textbf{AKT4}: \textcolor{blue}{$p_T > 40$~GeV} (was 25~GeV), $|\eta| < 2.5$
+ \item \textbf{AKT10}: \textcolor{blue}{$p_T > 200$~GeV} (was 250~GeV), $|\eta| < 2.0$ + \textcolor{blue}{mass-drop tagged} (standard FJ settings)
+\end{itemize}
+\vspace{0.5cm}
+\textbf{$b$-tagging (C2):}
+\begin{itemize}
+ \item \textbf{AKT4}: eff: 70\%, mis-id: 0.01 (flat effiency/mis-tag for now)
+ \item \textbf{AKT10}: accepted if two ghost associated $b$-tagged AKT3 jets
+\end{itemize}
+\vspace{0.5cm}
+\textcolor{blue}{\textbf{Higgs mass window (C3):}}
+\begin{itemize}
+ \item Require that both Higgs candidates have $(m - 125)/40 < 1$
+\end{itemize}
+\end{footnotesize}
+\end{frame}
+
+
+% \begin{frame}\frametitle{C0: Basic kinematic cuts (w/o PS)}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $p_T^{hh}$\\
+%   \includegraphics[scale=0.25]{histo_pt_HH_C0_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   leading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H0_C0_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   subleading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H1_C0_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% Thanks to Nathan for the (large!) $m_H = 125$~GeV sample!
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% \begin{frame}\frametitle{C0: Basic kinematic cuts}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $p_T^{hh}$\\
+%   \includegraphics[scale=0.25]{histo_pt_HH_C0.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   leading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H0_C0.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   subleading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H1_C0.pdf}
+%   \end{center}
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging (w/o PS)}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $p_T^{hh}$\\
+%   \includegraphics[scale=0.25]{histo_pt_HH_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   leading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H0_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   subleading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H1_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $p_T^{hh}$\\
+%   \includegraphics[scale=0.25]{histo_pt_HH_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   leading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H0_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   subleading Higgs $m$\\
+%   \includegraphics[scale=0.25]{histo_m_H1_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging (w/o PS)}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   resolved\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_res_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   intermediate\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_inter_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   boosted\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_boost_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% $p_T$ of lead. Higgs vs. $p_T$ of sublead. Higgs
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   resolved\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_res_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   intermediate\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_inter_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   boosted\\
+%   \includegraphics[scale=0.25]{histo_ptHptH_boost_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% $p_T$ of lead. Higgs vs. $p_T$ of sublead. Higgs
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   resolved\\
+%   \includegraphics[scale=0.25]{histo_mHmH_res_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   intermediate\\
+%   \includegraphics[scale=0.25]{histo_mHmH_inter_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   boosted\\
+%   \includegraphics[scale=0.25]{histo_mHmH_boost_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% $m$ of lead. Higgs vs. $m$ of sublead. Higgs
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging (w/o PS)}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta R$\\
+%   \includegraphics[scale=0.25]{histo_dR_HH_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta \eta$\\
+%   \includegraphics[scale=0.25]{histo_dEta_HH_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta \phi$\\
+%   \includegraphics[scale=0.25]{histo_dPhi_HH_C1_unshowered.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% Separation between lead. and sublead. Higgs
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% \begin{frame}\frametitle{C1: C0 + $b$-tagging}
+% \begin{footnotesize}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta R$\\
+%   \includegraphics[scale=0.25]{histo_dR_HH_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta \eta$\\
+%   \includegraphics[scale=0.25]{histo_dEta_HH_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+%   \begin{center}
+%   $\Delta \phi$\\
+%   \includegraphics[scale=0.25]{histo_dPhi_HH_C1.pdf}
+%   \end{center}
+% \end{minipage}
+% \begin{minipage}{0.45\textwidth}
+% Separation between lead. and sublead. Higgs
+% \end{minipage}
+% \end{footnotesize}
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{To Do}
+% \begin{footnotesize}
+% \begin{itemize}
+%  \item Remake plots with new smearing strategy (currently no smearing)
+%  \item Check why boosted $b$-tagging decreases efficiency at high $p_T^{hh}$ (merging of AKT3 $b$-jets?)
+%  \item Study overlap between categories (ranking of categories might e.g. depend MVA discrimination power)
+%  \item Add more sophisticated selection criteria (mass-drop, angular variables)
+%  \item Then add backgrounds
+% \end{itemize}
+% \end{footnotesize}
+% \end{frame}
+\end{document}
