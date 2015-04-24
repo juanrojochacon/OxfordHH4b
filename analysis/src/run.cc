@@ -26,17 +26,20 @@ static std::vector<eventSample> samples;
 	// **************** PLEASE MODIFY  ****************
 
 // Global run parameters
-const int nSamples = 1;
+const int nSamples = 5;
 const int max_evt = 1E7;
 // const int max_evt = 100;
 
-const double jetpT_smear = 5.0; // % smear on jet pT
+const double jetp_smear = 5.0; // % smear on jet momentum
+const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
 
 	// **************** DO NOT MODIFY  ****************
 
-double GetPTSmear() {return jetpT_smear;};
+double GetPSmear() {return jetp_smear;};
+double GetESmear() {return jetE_smear;};
+
 int GetNSamples() {return nSamples;};
 bool pythiaShowered() {return pythiaShower;};
 
@@ -61,6 +64,7 @@ eventSample GetSample( int const& isample )
 	  signal = true;
 	  hepmc = false;
 	  nevt_sample = 1E5;
+	  xsec_norm *= 2.26; // NNLO K-factor
 	  break;
 
 	  case 1: 

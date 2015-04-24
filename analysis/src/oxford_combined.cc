@@ -206,7 +206,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   for( size_t i = 0; i < smallRJets.size(); i++){
     
     if( smallRJets.at(i).pt() < 40. ) continue;
-    if( abs( smallRJets.at(i).eta() ) > 2.5 ) continue;
+    if( fabs( smallRJets.at(i).eta() ) > 2.5 ) continue;
     
     smallRJetsSel.push_back( smallRJets.at(i) );
   }
@@ -254,7 +254,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   for( size_t i = 0; i < trackjets.size(); i++){
     
     if( trackjets.at(i).pt() < 12 ) continue;
-    if( abs( trackjets.at(i).eta() ) > 2.5 ) continue;
+    if( fabs( trackjets.at(i).eta() ) > 2.5 ) continue;
     
     trackjetsSel.push_back( trackjets.at(i) );
   }
@@ -280,7 +280,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     if( largeRJets.at(i).pt() < 200. ) continue;
     //-----------------------------------------------------
     // Pseudorapidity acceptance cut
-    if( abs( largeRJets.at(i).eta() ) > 2.0 ) continue;
+    if( fabs( largeRJets.at(i).eta() ) > 2.0 ) continue;
 
     //-----------------------------------------------------
     // Check if jet is mass-drop tagged
@@ -461,7 +461,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     
     const fastjet::PseudoJet dihiggs_boost = bbFatJets[0] + bbFatJets[1];
     
-    if( abs(bbFatJets[0].m() - 125.) < 40.0 && abs(bbFatJets[1].m() - 125.) < 40.0 ){
+    if( fabs(bbFatJets[0].m() - 125.) < 40.0 && fabs(bbFatJets[1].m() - 125.) < 40.0 ){
       
 	FillHistogram("CF_boost", event_weight, 3.1);
       
@@ -488,7 +488,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     
     const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
     
-    if( abs(higgs_res[0].m() - 125.) < 40.0 && abs(higgs_res[1].m() - 125.) < 40.0 ){
+    if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 ){
       
 	FillHistogram("CF_res", event_weight, 3.1);
       
@@ -517,7 +517,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
       
       const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
       
-      if( abs(higgs_inter[0].m() - 125.) < 40.0 && abs(higgs_inter[1].m() - 125.) < 40.0 ){
+      if( fabs(higgs_inter[0].m() - 125.) < 40.0 && fabs(higgs_inter[1].m() - 125.) < 40.0 ){
 	
 	  FillHistogram("CF_inter", event_weight, 3.1);
 	

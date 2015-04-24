@@ -213,7 +213,7 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   const double mass_H0_FastJet = higgs[0].m();
 
   const double mass2_H0_byHand = b1.m2() + b2.m2() + 2 * ( b1.e()*b2.e() - b1.px()*b2.px() - b1.py()*b2.py() - b1.pz()*b2.pz() );
-  const double mass_H0_byHand = (mass2_H0_byHand/abs(mass2_H0_byHand)) * sqrt(abs(mass2_H0_byHand));
+  const double mass_H0_byHand = (mass2_H0_byHand/fabs(mass2_H0_byHand)) * sqrt(fabs(mass2_H0_byHand));
 
   std::cout << "FastJet mass " << mass_H0_FastJet << " mass by hand " << mass_H0_byHand <<std::endl;
   std::cout << "b1 mass: " << b1.m() << " b2 mass: " << b2.m() << std::endl;
@@ -437,9 +437,9 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
 
 
     // Check if it's a truth dijet
-    if (abs(res_higgs[0].m() -120) > 0.1)
+    if (fabs(res_higgs[0].m() -120) > 0.1)
       res_weight = 0;
-    if (abs(res_higgs[1].m() -120) > 0.1)
+    if (fabs(res_higgs[1].m() -120) > 0.1)
       res_weight = 0;
 
     FillHistogram("ptDijet", res_weight, res_higgs[0].pt() );
@@ -485,9 +485,9 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   if((int)fatjets.size() == njet)
   {
   // Check if it's a truth higgs
-  if (abs(fatjets[0].m() -120) > 0.1)
+  if (fabs(fatjets[0].m() -120) > 0.1)
   boost_weight = 0;
-  if (abs(fatjets[1].m() -120) > 0.1)
+  if (fabs(fatjets[1].m() -120) > 0.1)
   boost_weight = 0;
   const fastjet::PseudoJet dihiggs= fatjets[0]+fatjets[1];
   FillHistogram("ptFatJet", boost_weight, fatjets[0].pt() );

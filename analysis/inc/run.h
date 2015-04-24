@@ -22,7 +22,9 @@ int GetNSamples();
 eventSample GetSample( int const& isample );
 
 // Global settings
-double GetPTSmear();	// Return the % of Jet pT to smear by
+double GetPSmear();	// Return the % of Jet momenta to smear by
+double GetESmear();	// Return the % of Jet energy to smear by
+
 bool pythiaShowered(); // Is pythia showering
 
 

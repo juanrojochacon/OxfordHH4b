@@ -69,17 +69,11 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
      {
         HepMC::GenParticle* gp = *p;
 
-        const double E = gp->momentum().e();
-        const double pz = gp->momentum().pz();
-
-        double px = gp->momentum().px();
-        double py = gp->momentum().py();
-
-        const double pT = std::sqrt(px*px + py*py);
-        const double spT = box_muller(pT,0.01*GetPTSmear()*pT); // Gaussian smear on jet pT
-
-        px *= spT/pT;
-        py *= spT/pT;
+        // Particle kinematics
+        const double E = gp->momentum().e()*box_muller(1.0,0.01*GetESmear());
+        const double px = gp->momentum().px()*box_muller(1.0,0.01*GetPSmear());
+        const double py = gp->momentum().py()*box_muller(1.0,0.01*GetPSmear());
+        const double pz = gp->momentum().pz()*box_muller(1.0,0.01*GetPSmear());
 
         const int pdg = gp->pdg_id();
 
