@@ -576,7 +576,7 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
                  const int userid= jet_constituents.at(j).user_index();
                  const double pt_bcandidate = jet_constituents.at(j).pt();
 		 
-		 double pt_btagging = 0.;
+		 double pt_btagging = 5.0;
  
                  if(abs(userid) == 5 ){     
                          if( pt_bcandidate > pt_btagging) nBQuarks++;
@@ -628,7 +628,7 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
 		      const int userid= subjet_constituents.at(k).user_index();
 		      const double pt_bcandidate = subjet_constituents.at(k).pt();
 
-		      double pt_btagging = 0.;
+		      double pt_btagging = 5.0;
       
 		      if( abs(userid) == 5 ){     
 			      if( pt_bcandidate > pt_btagging) nBQuarks++;
