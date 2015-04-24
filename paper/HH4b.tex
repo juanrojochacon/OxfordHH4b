@@ -1,0 +1,131 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{jheppub}
+\usepackage{graphicx}% Include figure files
+\usepackage{graphics}
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{epstopdf}
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage[pdftex]{hyperref}
+\usepackage{natbib}
+
+\def\bs{\boldsymbol}
+\def\del{\partial}
+
+%\def\p{{\boldsymbol p}_{\perp }}
+%\def\pb{\bar {\boldsymbol p}_{\perp }}
+%\def\pp{{\boldsymbol p}_{\perp }}
+\def\p{{\boldsymbol p}}
+\def\pb{\bar {\boldsymbol p}}
+\def\pp{{\boldsymbol p}}
+%\def\q{{\boldsymbol q}_\perp}
+\def\q{{\boldsymbol q}}
+\def\l{{\boldsymbol l}_\perp}
+%\def\k{{\boldsymbol k}_\perp}
+\def\k{{\boldsymbol k}}
+\def\m{{\boldsymbol m}_\perp}
+%\def\x{{\boldsymbol x}_\perp}
+\def\x{{\boldsymbol x}}
+\def\y{{\boldsymbol y}_\perp}
+\def\X{{\boldsymbol X}_\perp}
+\def\Y{{\boldsymbol Y}_\perp}
+\def\D{{\boldsymbol D}_\perp}
+\def\r{{\boldsymbol r}_\perp}
+\def\z{{\boldsymbol z}_\perp}
+%\def\v{{\boldsymbol v}_\perp}
+\def\v{{\boldsymbol v}}
+\def\w{{\boldsymbol w}_\perp}
+\def\b{{\boldsymbol b}_\perp}
+\def\Q{{\boldsymbol Q}_\perp}
+\def\M{{\boldsymbol M}_\perp}
+%\def\bkappa{{\boldsymbol \kappa}_\perp}
+%\def\bbkappa{\bar{\boldsymbol \kappa}_\perp}
+\def\bkappa{{\boldsymbol \kappa}}
+\def\bbkappa{\bar{\boldsymbol \kappa}}
+\def\bnu{{\boldsymbol \nu}_\perp}
+\def\V{\hat{\boldsymbol v}_{1\perp}}
+\def\K{\hat{\boldsymbol k}_{1\perp}}
+\def\bV{\hat{\boldsymbol v}_{2\perp}}
+\def\bK{\hat{\boldsymbol k}_{2\perp}}
+\def\qqb{{q\bar q}}
+\def\sM{{\scriptscriptstyle M}}
+
+\newcommand{\beq}{\begin{eqnarray}}
+\newcommand{\eeq}{\end{eqnarray}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\nn}{\nonumber\\ }
+\newcommand{\labe}{\label}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+
+
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\lc}{\left[}
+\newcommand{\rc}{\right]}
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+
+\bibliographystyle{JHEP}
+\usepackage{multirow}
+
+\title{Boosting Higgs Pair Production in the $4b$ Channel at the LHC with Multivariate Techniques}
+
+\author[a]{Katharina Behr, Nurfiki Bin Norjoharuddeen, Daniela Bortoletto, James Frost, Nathan P. Hartland, Cigdem Issever and Juan Rojo}
+
+\affiliation[a]{Physics Department, 1 Keble Road, University of Oxford, United Kingdom }
+
+\emailAdd{juan.rojo@physics.ox.ac.uk}
+
+\preprint{OUTP-15-aaa}
+
+\abstract{
+A nice abstract
+}
+
+
+\begin{document} 
+\maketitle
+
+
+\flushbottom
+
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-intro}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Monte Carlo samples
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-mcsamples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% analysis strategy
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Main results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% MVA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-mva}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Conclusions and outlook
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{sec-conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\bibliography{HH4b}
+
+
+
+\end{document}
