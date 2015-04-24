@@ -30,7 +30,7 @@ const int nSamples = 1;
 const int max_evt = 1E7;
 // const int max_evt = 100;
 
-const double jetpT_smear = 0; // % smear on jet pT
+const double jetpT_smear = 5.0; // % smear on jet pT
 
 const bool pythiaShower = true; // Shower events in pythia
 
