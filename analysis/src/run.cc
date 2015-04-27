@@ -57,13 +57,12 @@ eventSample GetSample( int const& isample )
 	{
 
 	// **************** PLEASE MODIFY  ****************
-	  case 0: 
-	  //eventfile="HH_sm_eft_100K.lhe";
+	  case 0:
 	  eventfile="HH_sm_eft_1M.lhe";
 	  samplename="diHiggs";
 	  signal = true;
 	  hepmc = false;
-	  nevt_sample = 1E5;
+	  nevt_sample = 1E6;
 	  xsec_norm *= 2.26; // NNLO K-factor
 	  break;
 
