@@ -12,6 +12,9 @@
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 
+// Only attempt to btag the hardest 4 or 2 jets
+const bool btag_hardestN = false;
+
 OxfordCombinedAnalysis::OxfordCombinedAnalysis(std::string const& sampleName):
 Analysis("oxford_combined", sampleName)
 {
@@ -585,6 +588,7 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
          
 	// b-tagging
 	const double dice = ((double) rand() / (double)(RAND_MAX));
+
 	if( nBQuarks > 0 ){   // Check if at least one of its constituents is a b quark
 
 	      if (dice < btag_prob) isBTagged = true;
@@ -592,9 +596,13 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
 	else{ // Else, account for the fake b-tag probabililty
 	      if (dice < btag_mistag) isBTagged = true;
 	}  
+
+  // Only b-tag hardest-4 jets
+    if (i >= 4 && btag_hardestN)
+      isBTagged = false;
 	
         nBQuarks_vec.push_back( nBQuarks );
-	isBTagged_vec.push_back( isBTagged );
+	      isBTagged_vec.push_back( isBTagged );
 	 
       }//end of loop over jets
 }
@@ -644,6 +652,10 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
 	      else{ // Else, account for the fake b-tag probabililty
 		    if (dice < btag_mistag) isBTagged = true;
 	      }
+
+          // Only b-tag hardest-2 jets
+        if (i >= 2 && btag_hardestN)
+          isBTagged = false;
 	      
 	      if( nBQuarks > 0 ) 	nBSubjets++;
 	      if( isBTagged ) 		nBTaggedSubjets++;
