@@ -707,9 +707,9 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
 	      if (dice < btag_mistag) isBTagged = true;
 	}  
 
-  // Only b-tag hardest-4 jets
-    if (i >= 4 && btag_hardestN)
-      isBTagged = false;
+	// Only b-tag hardest-4 jets
+	if (i >= 4 && btag_hardestN)
+	    isBTagged = false;
 	
         nBQuarks_vec.push_back( nBQuarks );
 	      isBTagged_vec.push_back( isBTagged );
