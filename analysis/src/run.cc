@@ -16,6 +16,7 @@
 #include "btag_test.h"
 #include "oxford_truth.h"
 #include "oxford_combined.h"
+#include "oxford_combined_rw.h"
 
 #include <vector>
 #include <cmath>
@@ -127,20 +128,17 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 	// **************** PLEASE MODIFY  ****************
   //HH4bAnalyses.push_back(new AMCAnalysis("total"));
 
-  HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
+
   HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
+  HH4bAnalyses.push_back(new OxfordCombinedRWAnalysis("total"));
 
 
-  signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
+
   signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
-  //signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordCombinedRWAnalysis("signal"));
 
-  
-  backgroundAnalyses.push_back(new OxfordResFRAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordCombinedAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordCombinedRWAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -148,10 +146,10 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
-	sampleAnalyses.push_back(new OxfordResFRAnalysis(samplename));
-	sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordCombinedAnalysis(samplename));
-	
+	sampleAnalyses.push_back(new OxfordCombinedRWAnalysis(samplename));
+
+
 	// **************** DO NOT MODIFY  ****************
 
 }

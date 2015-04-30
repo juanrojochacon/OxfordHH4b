@@ -1,6 +1,6 @@
 // oxford_res_fr.cc
 
-#include "oxford_combined.h"
+#include "oxford_combined_rw.h"
 #include "utils.h"
 #include "settings.h"
 
@@ -18,8 +18,8 @@ const bool btag_hardestN = false;
 // pT cut for constituent b-quarks (GeV)
 const double pt_btagging = 15;
 
-OxfordCombinedAnalysis::OxfordCombinedAnalysis(std::string const& sampleName):
-Analysis("oxford_combined", sampleName)
+OxfordCombinedRWAnalysis::OxfordCombinedRWAnalysis(std::string const& sampleName):
+Analysis("oxford_combined_rw", sampleName)
 {
   // ********************* Histogram settings******************
 
@@ -222,7 +222,7 @@ Analysis("oxford_combined", sampleName)
   outputNTuple<<tupleSpec<<std::endl;
 }
 
-void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
   // Only for signal for now
   //if (!signal) return;
@@ -675,7 +675,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 }
 
 
-void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec, std::vector<int>& nBQuarks_vec, std::vector<bool>& isBTagged_vec  ){
+void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<int>& nBQuarks_vec, std::vector<bool>& isBTagged_vec  ){
   
       // Loop over all jets
       for( size_t i=0; i<jets_vec.size(); i++){
@@ -691,7 +691,7 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
                  // Flavour of jet constituent
                  const int userid= jet_constituents.at(j).user_index();
                  const double pt_bcandidate = jet_constituents.at(j).pt();
- 
+		  
                  if(abs(userid) == 5 ){     
                          if( pt_bcandidate > pt_btagging) nBQuarks++;
                  }
@@ -718,11 +718,10 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
       }//end of loop over jets
 }
 
-void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec ){
-
-
-      // Loop over all fat jets
-      for( size_t i=0; i<largeRJets.size(); i++){
+void OxfordCombinedRWAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec )
+{
+    // Loop over all fat jets
+    for( size_t i=0; i<largeRJets.size(); i++){
 	
 	  // Get ghost associated track jets
 	  std::vector<fastjet::PseudoJet> subjets;
@@ -778,7 +777,7 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
 }
 
 
-void OxfordCombinedAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet>& bjets, std::vector<fastjet::PseudoJet>& higgs_vec ){
+void OxfordCombinedRWAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet>& bjets, std::vector<fastjet::PseudoJet>& higgs_vec ){
 
     // Get the pairing that minimizes |m_dj1 - m_dj2|
     double dijet_mass[4][4];
@@ -827,7 +826,7 @@ void OxfordCombinedAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet>& bje
 }
 
 
-bool OxfordCombinedAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet>& bjets, fastjet::PseudoJet& fatjet, std::vector<fastjet::PseudoJet>& higgs_vec ){
+bool OxfordCombinedRWAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet>& bjets, fastjet::PseudoJet& fatjet, std::vector<fastjet::PseudoJet>& higgs_vec ){
   
   
     // Identify small-R jets separated from merged Higgs
