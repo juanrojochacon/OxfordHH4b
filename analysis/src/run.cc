@@ -129,15 +129,18 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
   HH4bAnalyses.push_back(new OxfordResFRAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordBoostFRAnalysis("total"));
+  HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
 
-  //signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
 
   signalAnalyses.push_back(new OxfordResFRAnalysis("signal"));
   signalAnalyses.push_back(new OxfordBoostFRAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
+  //signalAnalyses.push_back(new OxfordTruthAnalysis("signal"));
 
+  
   backgroundAnalyses.push_back(new OxfordResFRAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordBoostFRAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordCombinedAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -147,6 +150,7 @@ void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string con
 {
 	sampleAnalyses.push_back(new OxfordResFRAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordBoostFRAnalysis(samplename));
+	sampleAnalyses.push_back(new OxfordCombinedAnalysis(samplename));
 	
 	// **************** DO NOT MODIFY  ****************
 
