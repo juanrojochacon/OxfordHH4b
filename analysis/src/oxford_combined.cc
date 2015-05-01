@@ -13,7 +13,7 @@
 #include "YODA/Histo2D.h"
 
 // Only attempt to btag the hardest 4 or 2 jets
-const bool btag_hardestN = false;
+const bool btag_hardestN = true;
 
 // pT cut for constituent b-quarks (GeV)
 const double pt_btagging = 15;
@@ -261,6 +261,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   
   if( nBQuarks_vec.size() != smallRJetsSel.size() || isBTagged_vec.size() != smallRJetsSel.size() ){
     std::cout << "ERROR: b-tagging vector sizes don't match number of jets" << std::endl;
+    std:: cout << nBQuarks_vec.size()<< "  "<<smallRJetsSel.size()<<std::endl
+               << isBTagged_vec.size()<< "  "<<smallRJetsSel.size()<<std::endl;
   }
   
   int nJets = (int)smallRJetsSel.size();
@@ -347,18 +349,24 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   BTaggingFJ( largeRJetsSel, trackjetsSel, nSubJets_vec, nBSubJets_vec, nBTaggedSubJets_vec);
 
   if( nSubJets_vec.size() != largeRJetsSel.size() || nBSubJets_vec.size() != largeRJetsSel.size() || nBTaggedSubJets_vec.size() != largeRJetsSel.size() ){
-    std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl;
+    {
+      std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl
+                << nSubJets_vec.size() <<"  "<< largeRJetsSel.size() <<std::endl
+                << nBSubJets_vec.size() <<"  "<< largeRJetsSel.size() <<std::endl
+                << nBTaggedSubJets_vec.size() <<"  "<< largeRJetsSel.size() <<std::endl;
+    }
   }
   
   int nFatJets = (int)largeRJetsSel.size();
-  int nBBTaggedFatJets = 0;
+  if (btag_hardestN) nFatJets = std::min(nFatJets, 2);
 
-  for( int i = 0; i < nFatJets; i++){
-      if( nBTaggedSubJets_vec.at(i) >= 2  ){
-	  nBBTaggedFatJets++;
-	  bbFatJets.push_back( largeRJetsSel.at(i) );
-      }
-  }
+  int nBBTaggedFatJets = 0;
+  for( int i = 0; i < nFatJets; i++)
+    if( nBTaggedSubJets_vec.at(i) >= 2  )
+    {
+	   nBBTaggedFatJets++;
+	   bbFatJets.push_back( largeRJetsSel.at(i) );
+    }
   
   //=============================
   // C0: Cutflow before cuts
@@ -718,63 +726,62 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
       }//end of loop over jets
 }
 
-void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec ){
+void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec )
+{
+  // Loop over all fat jets
+  for( size_t i=0; i<largeRJets.size(); i++)
+  {
+    // Get ghost associated track jets
+    std::vector<fastjet::PseudoJet> subjets;
+    get_assoc_trkjets( largeRJets.at(i), trackjets, subjets, false);
 
+    const int nSubjets = std::min((int)subjets.size(),2); // Restrict to leading 2 subjets only
+    int nBSubjets = 0;
+    int nBTaggedSubjets = 0;
 
-      // Loop over all fat jets
-      for( size_t i=0; i<largeRJets.size(); i++){
-	
-	  // Get ghost associated track jets
-	  std::vector<fastjet::PseudoJet> subjets;
-	  get_assoc_trkjets( largeRJets.at(i), trackjets, subjets, false);
-	  
-	  int nSubjets = (int)subjets.size();
-	  int nBSubjets = 0;
-	  int nBTaggedSubjets = 0;
-	
-	  // Loop over subjets
-	  for( size_t j=0; j < subjets.size(); j++){
-	    
-	      // Get the jet constituents
-	      const std::vector<fastjet::PseudoJet>& subjet_constituents = subjets[j].constituents();
-	      int nBQuarks = 0;
-	      bool isBTagged = false;
- 
-	      // Loop over constituents and look for b quarks
-	      // b quarks must be above some minimum pt
-	      for(size_t k=0; k < subjet_constituents.size(); k++){
-		      // Flavour of jet constituent
-		      const int userid= subjet_constituents.at(k).user_index();
-		      const double pt_bcandidate = subjet_constituents.at(k).pt();
-      
-		      if( abs(userid) == 5 ){     
-			      if( pt_bcandidate > pt_btagging) nBQuarks++;
-		      }
-	      }
-         
-	      // b-tagging
-	      const double dice = ((double) rand() / (double)(RAND_MAX));
-	      if( nBQuarks > 0 ){   // Check if at least one of its constituents is a b quark
+    // Loop over subjets
+    for( size_t j=0; j < nSubjets; j++)
+    {
+      // Get the jet constituents
+      int nBQuarks = 0;
+      bool isBTagged = false;
 
-		    if (dice < btag_prob) isBTagged = true;
-	      }		    
-	      else{ // Else, account for the fake b-tag probabililty
-		    if (dice < btag_mistag) isBTagged = true;
-	      }
+      // Loop over constituents and look for b quarks
+      // b quarks must be above some minimum pt
+      const std::vector<fastjet::PseudoJet>& subjet_constituents = subjets[j].constituents();
+      for(size_t k=0; k < subjet_constituents.size(); k++)
+      {
+        const int userid= subjet_constituents.at(k).user_index();
+        const double pt_bcandidate = subjet_constituents.at(k).pt();
 
-          // Only b-tag hardest-2 jets
-        if (i >= 2 && btag_hardestN)
-          isBTagged = false;
-	      
-	      if( nBQuarks > 0 ) 	nBSubjets++;
-	      if( isBTagged ) 		nBTaggedSubjets++;
-	      
-	   }//end of loop over subjets
-	   
-	   nSubJets_vec.push_back( nSubjets );
-	   nBSubJets_vec.push_back( nBSubjets );
-	   nBTaggedSubJets_vec.push_back( nBTaggedSubjets );
-      }//end of loop over jets
+        if( abs(userid) == 5 && pt_bcandidate > pt_btagging)  
+          nBQuarks++;
+      }
+
+      // b-tagging
+      const double dice = ((double) rand() / (double)(RAND_MAX));
+      if( nBQuarks > 0 )
+      {   
+        if (dice < btag_prob) isBTagged = true;
+      }		    
+      else
+      { // Else, account for the fake b-tag probabililty
+        if (dice < btag_mistag) isBTagged = true;
+      }
+
+      // Only b-tag hardest-2 jets
+      if (i >= 2 && btag_hardestN)
+        isBTagged = false;
+
+      if( nBQuarks > 0 ) 	nBSubjets++;
+      if( isBTagged ) 		nBTaggedSubjets++;
+
+    }//end of loop over subjets
+
+    nSubJets_vec.push_back( nSubjets );
+    nBSubJets_vec.push_back( nBSubjets );
+    nBTaggedSubJets_vec.push_back( nBTaggedSubjets );
+  }//end of loop over jets
 }
 
 
