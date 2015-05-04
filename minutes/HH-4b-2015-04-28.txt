@@ -1,0 +1,36 @@
+==============================================================
+From: Juan
+To: Cigdem, Daniela, Nurfikri, James, Katharina, Nathan
+Date: 13/3/2015
+==============================================================
+
+A summary of what we discussed today.
+
+We agreed to concentrate a bit more on the efficiency plots for the signal at
+parton level. Nathan and James will work on polishing the plot, including
+generating more signal events to improve the stats and to use the correct
+definition of the statistical uncertainty. Also we agreed that for the crucial
+plots the style should be publication like, with all labels correct, the
+legends etc, else it is difficult to understand the plots
+
+We also agreed to add also the semi-boosted category, and to provide an extra
+curve for the total efficiency adding the three categories with some
+priorization criterion, for example boosted -> semiboosted -> resolved.
+
+We also agreed to check up to which Higgs pt we expect signal events at the
+HL-LHC, and cut the plots where the number of expected signal events drops
+below one.
+
+Cigdem emphasized the importance of producing a number of crucial plots at
+truth level, she will send an email with the list of these plots, that we
+should produce by the meeting next Friday.
+
+Once we are completely sure that the parton level efficiency plots is fully
+kosher and we are all happy with the result, we will add first parton shower
+and then the background, but at least we will have a well defined and
+controlled procedure.
+
+So in summary, the crucial priority now is to wrap up the truth-level studies,
+including the efficiency plot (at the final level of the analysis, including
+efficiencies, mass-drop-tagger efficiencies etc) and with the complete
+categorization including the semi-boosted category. 

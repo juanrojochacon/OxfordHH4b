@@ -1,0 +1,54 @@
+==================================================================
+From: Juan
+To: Cigdem, Daniela, Nurfikri, James, Jiahang, Katharina, Nathan
+Date: 28/4/2015
+==================================================================
+
+Summary of our meeting today:
+
+* The next meeting is *Monday 4th May 10.00am*
+
+* The cut ptb > 15 GeV for b tagged quarks is really useful to kill the
+background by an order of magnitude, so we decide to use it as baseline
+from now on
+
+* Selecting first the leading jets and performing the b-tagging only on
+those is also very efficient to suppress the backgrounds by a factor 10,
+so we adopt this as baseline: after selecting the leading 4/3/2 jets
+(for each of the cathegories) we throw away the rest of the event
+
+* Agreed to move the Higgs mass window (C3) to C1
+
+* After C1, we will run the MVA on signal and background events: this
+will allow to use all the discriminatory power from the MVA without
+having to deal with the problem of very low statistics
+
+* After the MVA, we will have the b-tagging step as we have now
+
+* In C1 we might want to add some extra loose angular cuts to improve
+the purity of the sample before the MVA training
+
+* Concerning smearing, we agreed to smear all particles before the jet
+clustering (assumed to be massless) and keep constant the angles, and
+smear only the energy by 5%
+
+* For next week, add S/B and S/sqrt(B) for all the tables, and also
+include the numbers with the explicit decomposition of the background
+
+* This new strategy should be very close to the final setup. With the
+current, non-optimized selection we have S/sqrt(B)=0.9, so with the MVA
+etc we should be able to improve substantially
+
+* The most promising channel in terms of S/Sqrt(B) is the intermediate
+regime. This suggests to use it as baseline, and then at the end make
+the boosted and resolved categories exclusive to increase  a bit the
+statistical significance of the resolved category.
+
+* The aim for next Monday is to update the results of today with the
+final strategy, including the MVA before the b-tagging.
+
+* Cigdem will look up what the energy resolution for clusters is as function
+* of their pt or energy.
+
+* Cigdem will also look up what the Higgs mass resolution for future HL-LHC
+* runs is expected to be.

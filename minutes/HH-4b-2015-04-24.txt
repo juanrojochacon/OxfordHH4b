@@ -1,0 +1,44 @@
+===========================================================
+From: Cigdem
+To: Daniela, Juan, Nurfikri, James, Katharina, Nathan
+Date: 24/4/15
+===========================================================
+
+Agreed to move the HH4b meeting to Tuesdays 10am, as usual in the Dalitz
+discussion area
+ 
+Action Items for the Analyzers to be implemented by today such that we can
+look at them on Tuesday:
+
+    1.  Right now our signal/background ratio is tiny, but we should improve  this by
+	1. 	Imposing a cut in the pt of the b quarks/hadrons one is tagging,
+		between 5 and 15 GeV, to remove the soft hadrons from the parton shower (this
+		cut is missing in the results shown today)
+        2.	Doing b-tagging not a la UCL, but first selecting a small subset of
+		jets and then b-tagging (but keep the UCL numbers for comparison). 
+    2.	We should redo the simulation including the smearing, for loose cuts this
+	should have no effect but it is crucial for the MVA 
+
+Things the analyzers should implement in the next week:
+
+    1.	Agreed to compare the results of single vs double b-tagging in the boosted
+	category.
+        1.	leading jet double b-tagged, sub-leading only one b-tagged
+        2.	leanding and subleading single b-tagged
+        3.	leading jet double b-tagged and not b-tagging on the subleading
+    2. 	Using the MVA (these plots we should look at ones we have a better
+		understanding of the baseline selection). 
+    3.	We need to study the S/B and S/sqrtB dependency on b-tagging efficieny,
+	fake-rate reduction efficiency, signal selection efficiency, mass resolution,
+	uncertainty on background. This would be the content of chapter 4 of the
+	paper.
+    4. 	Agreed to produce a set of paper-quality plots for all the kinematic
+   	variables that enter the cut-flow
+
+
+Action item for Cigdem: A paper in latex has been setup in the github
+repository by Juan. We need to stress the crucial points of our study: the
+role of fakes, the combined approach boosted+resolved, the MVA;
+
+    1. Cigdem will move from doc to tex.
+    2. She will have a parts of the introduction or selection section.  

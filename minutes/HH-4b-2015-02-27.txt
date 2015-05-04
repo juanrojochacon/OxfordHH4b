@@ -1,0 +1,54 @@
+=================================================================
+From: Juan
+To: Cigdem, Daniela, Nurfikri, James, Jiahang, Katharina, Nathan
+Date: 27/2/2015
+=================================================================
+
+This is the summary of our DiHiggs meeting this morning.
+
+We agreed that to understand some peculiar features of our current analysis
+(like the lack of mass peak in the subleading Higgs in the boosted analysis)
+we will go back one step and perform the same analysis but at the parton
+level, to minimize the complications from parton shower, hadronization etc,
+this will allow us to have a clearer picture of our situation.
+
+For signal samples nothing needs to be done, for bkg samples Nathan will
+generate them since the ones we have now are at hadron level, and this will
+take some days of running.
+
+Now, we also agreed to have a unified strategy in which we classify each event
+as boosted, semi-boosted or resolved, and use the corresponding analysis
+strategy, instead of focusing only on boosted *or* resolved.
+
+To test that things are in the right direction, we agreed to have a plot of
+the signal tagging efficiency as a function of the Higgs pt decomposed in the
+three categories: boosted, resolved and semi-boosted. The overall sum of this
+categories should be robust wrt for example the choice of jet radius. Since we
+are doing this at parton level, we should be able to spot if there is any
+problem in the analysis strategy. This is exactly what I did in my paper with
+Gavin
+
+http://inspirehep.net/record/1225656?ln=en
+
+See in particular Fig 4, we want to reproduce this for our process at hand.
+First of all we do it for the signal, and then once the samples are available
+we include the background as well.
+
+Of course we should always use the identical analysis strategy, irrespective
+of whether we have partons or hadrons in the final state.
+
+Once the parton level picture is cleaner, we will go back to the hadron level
+and try, among other things, to test how the S/sqrt(B) improves if we can
+improve the smearing of the pt of the jets, which seems to be now one of the
+limiting factors. Cigdem will send a around a parametrization of the smearing
+as a function of pt, and we can play with reducing the normalization of this
+parametrization, to see how optimistic we can be.
+
+We also agreed that Nathan, James and Katharina will add to the documentation
+a short section describing exactly the baseline analysis strategy and the key
+plots, so that discussing the results on the meeting next Friday will be more
+efficient.
+
+Last but not least, Katharina is also studying the impact of double b-tagging,
+but at least in our process at hand this does not seem to be a major
+improvement, but more studies in this point are required. 

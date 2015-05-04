@@ -1,0 +1,30 @@
+========================================================
+From: Juan
+To: Cigdem, Daniela, James, Jiahang, Katharina, Nathan
+Date: 30/1/2015
+========================================================
+
+At this point we are very confident both with the signal sample generation
+(that has been redone from scratch by Nathan with consistent cuts and settings
+for all the processes, and now it includes as well hadronic ttbar) and the
+b-tagging implementation, both in the resolved and in the boosted regime. We
+understand for example why the 2b2j can be comparable to the 4b, and why the
+naive expectation is not a very good estimate.
+
+So now we think that this is the time to run the various analysis, to get the
+global picture of where we are and where do we need to improve. This includes
+both the resolved and the boosted regimes, as well as the ANN-based analysis.
+In the latter case, we agreed to run both a traditional cut-based substructure
+analysis and also the ANN multivariate analysis, so that we can cross-check
+the results of the latter.
+
+In this respect, a paper that appeared this week concerning ANN-tagging for
+boosted tops can be relevant for us
+http://arxiv.org/abs/1501.05968
+
+We also discussed how to combine the various regimes (boosted, resolved,
+intermediate) and here the technique of scale-invariant tagging of my paper
+with Gavin should be useful.
+
+Once we have the full analysis, including the cut-flows, with the different
+strategies, we can discuss how do we want to proceed next. 

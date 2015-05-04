@@ -1,0 +1,39 @@
+=================================================================
+From: Juan
+To: Cigdem, Daniela, Nurfikri, James, Jiahang, Katharina, Nathan
+Date: 13/3/2015
+=================================================================
+
+A summary of what we discussed today.
+
+We have been making very good process, and now the parton level analysis of
+the signal seems to be nicely understood and under control. We need to
+regenerate the signal samples with the correct mH value and with more
+statistics, but this can be done in the background, Nathan is taking care of
+it.
+
+We agreed that the next crucial step is to repeat the analysis of parton level
+signal events and redo all the various kinematic plots and the categorization
+but using the same final analysis strategy that will be used later for hadron
+level events, including b-tagging, mass-drop fat jet tagging, all the various
+analysis cuts etc. This way we will have a very clean and robust baseline for
+the next step, which is adding the parton shower. We need to add the
+intermediate category, but this should be a trivial extension of the boosted
+analysis.
+
+We also agreed to optimize the three categories separately, and not to make
+them exclusive, to mimic what will happen in the ATLAS analysis. So using the
+final analysis chain we aim to optimize the three categories separately (so in
+particular different values of R etc will be used).
+
+So the basic homework is to redo the various plots that were shown today,
+including the categorization and overall efficiency plots, but using the
+complete analysis strategy (so accounting for the various b-tagging and MDT
+efficiencies). This will be done with and without smearing (in the former
+case, agreed to smear the full four-vector).
+
+We also agreed to participate in the CERN's HL-LHC physics workshop
+https://indico.cern.ch/event/360104/
+and hopefully be able to present our results there - the speaker would be
+either Katharina, Nathan or James.
+
