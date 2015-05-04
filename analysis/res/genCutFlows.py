@@ -104,7 +104,7 @@ with open(summary_outfile, 'w') as f:
                     if float(new_data[file_type][j][2]) == 0.0:
                         SoverRootB = 0
                     else:
-                        SoverRootB = float(new_data[file_type][j][1])/math.sqrt(float(new_data[file_type][j][2]))
+                        SoverRootB = 3000*float(new_data[file_type][j][1])/math.sqrt(3000*float(new_data[file_type][j][2]))
                     f.write('%e'% SoverRootB + '\t')
             f.write('\n')
         f.write('\n\n')
