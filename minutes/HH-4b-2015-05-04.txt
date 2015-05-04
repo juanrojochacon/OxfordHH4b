@@ -1,0 +1,61 @@
+=================================================================
+From: Cigdem
+To: Daniela, Juan, James, Katharina, Nathan, Nurfikri
+Date: 04/05/2015
+=================================================================
+
+Minutes of 2H4b meeting on the 04.05.2015
+
+1) Nathan, Katharina and James came to the conclusion that the strategy we had
+agreed at our last meeting to run the MVA before b-tagging is applied is not a
+good route to go, because the MVA would be trained such that it would try to
+get rid of the 4j background and would ignore the lower statistics
+backgrounds: 2j2b and 4b. And when we add b-tagging to the event selection we
+would be left with nearly no 4j background but a large fraction of 2j2b and 4b
+backgrounds. 
+
+--> While writing these minutes I thought we could actually train the MVA on
+signal and only the 4b and 2b2j samples. Leave out the 4j background which
+will be dramatically reduced when adding b-tagging anyway. 
+
+Train the MVA on 2b2j and 4b and signal. 
+
+Run MVA on the full backgrounds and signal. 
+Add b-tagging afterwards. 
+<--- end of suggestion. 
+
+2) They decided instead weight the events according to their b-tagging and
+fake probabilities. 
+In order to do this they had to pt-order the sub-jets and used the two leading
+b-tagged sub-jets. 
+For the case WITH pt-ordering the reweighted and unreweighted analysis agree
+reasonably well (pending addition of uncertainties in James' macro):
+
+reweighted S/sqrt(B) = 0.404
+unreweighted S/sqrt(B) = 0.417
+
+Compared to the case WITHOUT pt-ordering, this is a reduction of roughly 30%
+(The value we calculated during the meeting last week was 0.6 but Nathan
+should correct us here). This needs to be taken with a grain of salt as the
+two results WITHOUT pt-ordering have only been derived using the unreweighted
+case which suffers from very low statistics, especially in the 4j background.
+
+We spent a lot of time discussing this, since the ATLAS boosted 2H4b analysis
+in https://cds.cern.ch/record/1741546/files/ATL-COM-PHYS-2014-785.pdf which
+used the two leading b-tagged subjets sees a better performance in comparison
+to using any b-tagged subjet, see appendix. 
+
+3) We decided that we should look at the different number of background events
+selected in the each background sample for a)when the two leading b-tagged
+sub-jets are used and for b) when any two b-tagged sub-jets are used. For this
+comparison the weight calculation needs to change and we discussed this and
+the team has an idea how to compute the combinatoric. 
+
+4) We also agreed that the tables with numbers should have errors included for
+the S/B and S/sqrtB. 
+
+5) Daniela would like to meet Wednesday's at 10:00 and all of us who were
+present are ok with this. We need feedback from Juan on this. 
+
+6) We also agreed that we will put the minutes also into the GitHub
+repository. Katharina has agreed to take of this. 
