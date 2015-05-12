@@ -47,7 +47,19 @@ Analysis("oxford_combined", sampleName)
   const int nbins = 30;
   
   // ********************* Histogram definitions ******************
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_res_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_res_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_res_C0");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_inter_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_inter_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_inter_C0");
 
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_boost_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_boost_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_boost_C0");
+  
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C0");
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C0");
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C0");
@@ -71,6 +83,32 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C0");
   BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C0");
   BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C0"); 
+
+  // C1: Small-R jets and b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_res_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_res_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_res_C1");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_inter_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_inter_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_inter_C1");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_boost_C1");
+
+  // C1: Large-R jets and subjet b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_inter_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_inter_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_inter_C1");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_boost_C1");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_SubleadFJ_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_SubleadFJ_boost_C1");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_SubleadFJ_boost_C1");
 
   // C1: Higgs histograms
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C1");
@@ -110,6 +148,31 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C1");
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C1");
 
+  // C2: Small-R jets and b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_res_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_res_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_res_C2");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_inter_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_inter_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_inter_C2");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_boost_C2");
+  
+  // C2: Large-R jets and subjet b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_inter_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_inter_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_inter_C2");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_SubleadFJ_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_SubleadFJ_boost_C2");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_SubleadFJ_boost_C2");
   
   // C2: Higgs histograms
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C2");
@@ -149,8 +212,7 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C2");
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C2");
   
-  
-  // C3: Higgs histograms
+  // C2: 2D histograms
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C2");
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C2");
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C2");
@@ -159,6 +221,33 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C2");
   BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C2");
 
+  // C3: Large-R jets and subjet b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_inter_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_inter_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_inter_C3");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_LeadFJ_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_LeadFJ_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_LeadFJ_boost_C3");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_Subjets_SubleadFJ_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BSubjets_SubleadFJ_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_BtaggedSubjets_SubleadFJ_boost_C3");
+  
+  // C3: Small-R jets and b-tagging
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_res_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_res_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_res_C3");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_inter_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_inter_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_inter_C3");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_boost_C3");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_boost_C3");
+  
+  // C3: Higgs histograms
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C3");
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C3");
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C3");
@@ -196,7 +285,7 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C3");
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C3");
   
-  // 2D histograms
+  // C3: 2D histograms
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C3");
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C3");
   BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C3");
@@ -378,6 +467,21 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   FillHistogram("CFN_res", 1., 0.1);
   FillHistogram("CFN_inter", 1., 0.1);
   FillHistogram("CFN_boost", 1., 0.1);
+
+  
+  // Jet multiplicity histograms before cuts
+  FillHistogram("N_SmallRJets_res_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_res_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_res_C0", event_weight, nBTaggedJets);
+  
+  FillHistogram("N_SmallRJets_inter_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_inter_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_inter_C0", event_weight, nBTaggedJets);
+
+  FillHistogram("N_SmallRJets_boost_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_boost_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_boost_C0", event_weight, nBTaggedJets);  
+  
   
   //===================================================
   // C1: Basic kinematic cuts + Higgs mass window cut
@@ -390,6 +494,20 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	    // Record cutflow
 	    FillHistogram("CF_boost", event_weight, 1.1);
 	    FillHistogram("CFN_boost", 1., 1.1);
+	    
+	    // Jet multiplicity histograms
+	    FillHistogram("N_SmallRJets_boost_C1", event_weight, nJets);
+	    FillHistogram("N_SmallRJets_BJets_boost_C1", event_weight, nBJets);
+	    FillHistogram("N_SmallRJets_BTagged_boost_C1", event_weight, nBTaggedJets);
+	    
+	    FillHistogram("N_Subjets_LeadFJ_boost_C1", event_weight, nSubJets_vec.at(0));
+	    FillHistogram("N_BSubjets_LeadFJ_boost_C1", event_weight, nBSubJets_vec.at(0));
+	    FillHistogram("N_BtaggedSubjets_LeadFJ_boost_C1", event_weight, nBTaggedSubJets_vec.at(0));
+
+	    FillHistogram("N_Subjets_SubleadFJ_boost_C1", event_weight, nSubJets_vec.at(1));
+	    FillHistogram("N_BSubjets_SubleadFJ_boost_C1", event_weight, nBSubJets_vec.at(1));
+	    FillHistogram("N_BtaggedSubjets_SubleadFJ_boost_C1", event_weight, nBTaggedSubJets_vec.at(1));
+	
 	    
 	    // Histograms for reconstructed Higgs candidates
 	    FillHistogram("pt_H0_boost_C1", event_weight, largeRJetsSel[0].pt());
@@ -424,6 +542,11 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  FillHistogram("CF_res", event_weight, 1.1);
 	  FillHistogram("CFN_res", 1., 1.1);
 	  
+	  // Jet multiplicity histograms
+	  FillHistogram("N_SmallRJets_res_C1", event_weight, nJets);
+	  FillHistogram("N_SmallRJets_BJets_res_C1", event_weight, nBJets);
+	  FillHistogram("N_SmallRJets_BTagged_res_C1", event_weight, nBTaggedJets);
+	  
 	  // Histograms for reconstructed Higgs candidates
 	  FillHistogram("pt_H0_res_C1", event_weight, higgs_res[0].pt());
 	  FillHistogram("pt_H1_res_C1", event_weight, higgs_res[1].pt());
@@ -457,6 +580,15 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  // Record cutflow
 	  FillHistogram("CF_inter", event_weight, 1.1);
 	  FillHistogram("CFN_inter", 1., 1.1);
+	  
+	  // Jet multiplicity histograms
+	  FillHistogram("N_SmallRJets_inter_C1", event_weight, nJets);
+	  FillHistogram("N_SmallRJets_BJets_inter_C1", event_weight, nBJets);
+	  FillHistogram("N_SmallRJets_BTagged_inter_C1", event_weight, nBTaggedJets);
+	  
+	  FillHistogram("N_Subjets_LeadFJ_inter_C1", event_weight, nSubJets_vec.at(0));
+	  FillHistogram("N_BSubjets_LeadFJ_inter_C1", event_weight, nBSubJets_vec.at(0));
+	  FillHistogram("N_BtaggedSubjets_LeadFJ_inter_C1", event_weight, nBTaggedSubJets_vec.at(0));
 	  
 	  // Histograms for reconstructed Higgs candidates
 	  FillHistogram("pt_H0_inter_C1", event_weight, higgs_inter[0].pt());
@@ -565,7 +697,20 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	// Record cutflow
 	FillHistogram("CF_boost", event_weight, 2.1);
 	FillHistogram("CFN_boost", 1., 2.1);
+	
+	// Jet multiplicity histograms
+	FillHistogram("N_SmallRJets_boost_C2", event_weight, nJets);
+	FillHistogram("N_SmallRJets_BJets_boost_C2", event_weight, nBJets);
+	FillHistogram("N_SmallRJets_BTagged_boost_C2", event_weight, nBTaggedJets); 
+	
+	FillHistogram("N_Subjets_LeadFJ_boost_C2", event_weight, nSubJets_vec.at(0));
+	FillHistogram("N_BSubjets_LeadFJ_boost_C2", event_weight, nBSubJets_vec.at(0));
+	FillHistogram("N_BtaggedSubjets_LeadFJ_boost_C2", event_weight, nBTaggedSubJets_vec.at(0));
 
+	FillHistogram("N_Subjets_SubleadFJ_boost_C2", event_weight, nSubJets_vec.at(1));
+	FillHistogram("N_BSubjets_SubleadFJ_boost_C2", event_weight, nBSubJets_vec.at(1));
+	FillHistogram("N_BtaggedSubjets_SubleadFJ_boost_C2", event_weight, nBTaggedSubJets_vec.at(1));
+	
 	// Histograms for reconstructed Higgs candidates
 	FillHistogram("pt_H0_boost_C2", event_weight, bbFatJets[0].pt());
 	FillHistogram("pt_H1_boost_C2", event_weight, bbFatJets[1].pt());
@@ -600,6 +745,11 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	// Record cutflow
 	FillHistogram("CF_res", event_weight, 2.1);
 	FillHistogram("CFN_res", 1., 2.1);
+	
+	// Jet multiplicity histograms
+	FillHistogram("N_SmallRJets_res_C2", event_weight, nJets);
+	FillHistogram("N_SmallRJets_BJets_res_C2", event_weight, nBJets);
+	FillHistogram("N_SmallRJets_BTagged_res_C2", event_weight, nBTaggedJets);
       
 	// Histograms for reconstructed Higgs candidates
 	FillHistogram("pt_H0_res_C2", event_weight, higgs_res[0].pt());
@@ -638,6 +788,15 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  // Record cutflow
 	  FillHistogram("CF_inter", event_weight, 2.1);
 	  FillHistogram("CFN_inter", 1., 2.1);
+	  
+	  // Jet multiplicity histograms
+	  FillHistogram("N_SmallRJets_inter_C2", event_weight, nJets);
+	  FillHistogram("N_SmallRJets_BJets_inter_C2", event_weight, nBJets);
+	  FillHistogram("N_SmallRJets_BTagged_inter_C2", event_weight, nBTaggedJets);
+	  
+	  FillHistogram("N_Subjets_LeadFJ_inter_C2", event_weight, nSubJets_vec.at(0));
+	  FillHistogram("N_BSubjets_LeadFJ_inter_C2", event_weight, nBSubJets_vec.at(0));
+	  FillHistogram("N_BtaggedSubjets_LeadFJ_inter_C2", event_weight, nBTaggedSubJets_vec.at(0));
 	
 	  // Histograms for reconstructed Higgs candidates
 	  FillHistogram("pt_H0_inter_C2", event_weight, higgs_inter[0].pt());
@@ -740,7 +899,7 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
     int nBTaggedSubjets = 0;
 
     // Loop over subjets
-    for( size_t j=0; j < nSubjets; j++)
+    for( int j=0; j < nSubjets; j++)
     {
       // Get the jet constituents
       int nBQuarks = 0;
