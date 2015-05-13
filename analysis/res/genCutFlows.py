@@ -12,6 +12,7 @@ recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', '
 file_types = ['res', 'inter', 'boost']
 
 new_data = {}
+luminosity = 3000.0 # used for S/sqrt(B) only.
 
 for type in file_types:
     new_data[type] = []
@@ -104,7 +105,7 @@ with open(summary_outfile, 'w') as f:
                     if float(new_data[file_type][j][2]) == 0.0:
                         SoverRootB = 0
                     else:
-                        SoverRootB = 3000*float(new_data[file_type][j][1])/math.sqrt(3000*float(new_data[file_type][j][2]))
+                        SoverRootB = math.sqrt(luminosity)*float(new_data[file_type][j][1])/math.sqrt(float(new_data[file_type][j][2]))
                     f.write('%e'% SoverRootB + '\t')
             f.write('\n')
         f.write('\n\n')
