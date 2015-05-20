@@ -1,0 +1,105 @@
+*********************************************
+*********************************************
+
+Minutes
+
+HH->4b meeting 2015/05/20
+
+*********************************************
+*********************************************
+
+- Understood effect of cut in pt_jet > 40 GeV,
+reducing jet multiplicity, but this is perfectly fine,
+the b-tagging is working fine.
+
+- Why there are selected fat jets without selected subjets?
+This is now understood, since track jets were defined for
+charged particles at the level of quarks and gluons, which
+is unphysical: charged and neutral particles are only
+defined after hadronization
+
+- Default strategy is look only at the two hardest subjets
+of each fat jet and try to b-tag them, but we will also try
+to see what happens if we try to b tag all the subjets
+in a fat jet (conjecture is that discrimination will decrease)
+
+- Current best option is boosted case, we get S/sqrt(B) = 1.1,
+before the MVA
+
+- Agreed to run in the background the samples with
+hadronization.
+Most likely we need to do this only for the backgrounds
+that are relevant after selection cuts and MVA.
+Nathan will take care of this.
+
+- Investigate subjet pt distribution, see which is the optimal value of
+the pt cut (some preference for largish value)
+
+- Add also stat errors to the S/sqrt(B) macro
+
+- All numbers shown from Katherina are with unweighted events,
+We need to check the statistics, and cross-check
+using Nathan's reweighted code
+
+- Add also number of signal events, and background events
+So the tables should contain: S, B, S/B, S/sqrt(B), and
+with the corresponding statistical uncertainties.
+
+- Nathan has run MVA on a combined event sample
+-> boosted+resolved+intermediate
+Input as MVA -> Reconstructed Higgs quantities only
+We find that signal and background are not incredibly well separated,
+and thus the discrimination power of the MVA is reduced (30%
+improvement)
+
+- It is interesting to see what we can get out of the di-Higgs system,
+even without looking at the substructure details.
+
+- Probably better to train separately for the three independent categories
+
+- Point out the crucial important on the jet mass resolution,
+as well as in the jet pt resolution, to improve significance
+
+- Angular variables do help a bit
+
+- Add plot of correlations between different variables
+Perhaps even include correlations between variables
+
+- Add distributions for all variables in the backup
+for the signal and background, for everything that enters
+the MVA
+
+- MVA does better in the purely resolved case.
+We end up with S/sqrt(B) = 1.1, a factor 2 in improvement
+as compared to no MVA
+
+- Training of the MVA on all samples degrades the discrimination
+
+- Writing of the paper
+We need first of all to finalize the analysis strategy, hopefully
+by next week
+
+
+* Action plan
+-------------
+
+1) With the current analysis set-up, run the analysis non-exclusively.
+This generated three categories: boosted, resolved and
+intermediate, which are non-exclusive (so they overlap)
+
+2) Train the MVA separately in each of these three categories
+
+3) Check which category has larger S/sqrt(B)
+
+4) This defines our final categorization
+
+5) Now run again the analysis, this time exclusively, using the
+categorization as determine above
+
+6) Combine the results to obtain the final value of the signal
+significance.
+
+------------
+
+*********************************************
+*********************************************
