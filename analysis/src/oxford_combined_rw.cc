@@ -217,8 +217,19 @@ Analysis("oxford_combined_rw", sampleName)
   BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_boost");
   
   // ********************* Ntuple definition **********************
-  const std::string tupleSpec = "# signal source weight";
+  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH";
   outputNTuple<<tupleSpec<<std::endl;
+
+  std::string root = "." + GetRoot() + GetSample() + "/";
+
+  resNTuple.open(root+"resNTuple.dat");
+  intNTuple.open(root+"intNTuple.dat");
+  bstNTuple.open(root+"bstNTuple.dat");
+
+  resNTuple << tupleSpec <<std::endl;
+  intNTuple << tupleSpec <<std::endl;
+  bstNTuple << tupleSpec <<std::endl;
+
 }
 
 void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -494,6 +505,19 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
     	FillHistogram("dPhi_HH_boost_C2", boost_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
     	FillHistogram("dEta_HH_boost_C2", boost_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
     	//std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+
+      // Fill tuple
+      bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
+                << bbFatJets[0].pt() << "\t"
+                << bbFatJets[1].pt() << "\t"
+                << dihiggs_boost.pt() << "\t"
+                << bbFatJets[0].m() << "\t"
+                << bbFatJets[1].m() << "\t"
+                << dihiggs_boost.m() << "\t"
+                << bbFatJets[0].delta_R(bbFatJets[1])  << "\t"
+                << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi())  << "\t"
+                << fabs( bbFatJets[0].eta() - bbFatJets[1].eta())  << "\t"
+                <<std::endl;
       }
   }
   if( nBTaggedJets >= 4 ){
@@ -540,6 +564,19 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
     	FillHistogram("dPhi_HH_res_C2", res_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
     	FillHistogram("dEta_HH_res_C2", res_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
     	//std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
+
+      // Fill tuple
+      resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
+                << higgs_res[0].pt() << "\t"
+                << higgs_res[1].pt() << "\t"
+                << dihiggs_res.pt() << "\t"
+                << higgs_res[0].m() << "\t"
+                << higgs_res[1].m() << "\t"
+                << dihiggs_res.m() << "\t"
+                << higgs_res[0].delta_R(higgs_res[1]) << "\t"
+                << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << "\t"
+                << fabs( higgs_res[0].eta() - higgs_res[1].eta())  << "\t"
+                <<std::endl;
     }
   }
   if( nBTaggedJets >= 2 &&  nBBTaggedFatJets == 1 )
@@ -588,7 +625,21 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         FillHistogram("dPhi_HH_inter_C2", inter_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
         FillHistogram("dEta_HH_inter_C2", inter_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
         //std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
-      }
+
+              // Fill tuple
+        intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
+                  << higgs_inter[0].pt() << "\t"
+                  << higgs_inter[1].pt() << "\t"
+                  << dihiggs_inter.pt() << "\t"
+                  << higgs_inter[0].m() << "\t"
+                  << higgs_inter[1].m() << "\t"
+                  << dihiggs_inter.m() << "\t"
+                  << higgs_inter[0].delta_R(higgs_inter[1]) << "\t"
+                  << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << "\t"
+                  << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
+                  <<std::endl;
+
+     }
   }
  
   // ************************************* MVA Output **********************************************************

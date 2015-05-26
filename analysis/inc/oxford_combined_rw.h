@@ -23,4 +23,8 @@ class OxfordCombinedRWAnalysis : public Analysis
 
 		void Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets_vec, std::vector<fastjet::PseudoJet>& higgs_vec );
 		bool Reco_Intermediate( std::vector<fastjet::PseudoJet> const& bjets, std::vector<bool> const& isFakeSR_vec, fastjet::PseudoJet const& fatjet, int& nBjets, std::vector<fastjet::PseudoJet>& higgs_vec );
+
+		std::ofstream resNTuple;
+		std::ofstream intNTuple;
+		std::ofstream bstNTuple;
 };
