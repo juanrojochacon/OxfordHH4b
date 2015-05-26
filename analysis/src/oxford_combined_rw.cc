@@ -220,11 +220,15 @@ Analysis("oxford_combined_rw", sampleName)
   const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH";
   outputNTuple<<tupleSpec<<std::endl;
 
-  std::string root = "." + GetRoot() + GetSample() + "/";
+  const std::string root = "." + GetRoot() + GetSample() + "/";
 
-  resNTuple.open(root+"resNTuple.dat");
-  intNTuple.open(root+"intNTuple.dat");
-  bstNTuple.open(root+"bstNTuple.dat");
+  const std::string resDir = root+"resNTuple.dat";
+  const std::string intDir = root+"intNTuple.dat";
+  const std::string bstDir = root+"bstNTuple.dat";
+
+  resNTuple.open(resDir.c_str());
+  intNTuple.open(intDir.c_str());
+  bstNTuple.open(bstDir.c_str());
 
   resNTuple << tupleSpec <<std::endl;
   intNTuple << tupleSpec <<std::endl;
