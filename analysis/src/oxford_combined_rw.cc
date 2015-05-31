@@ -285,23 +285,23 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   //=======================================================
   // Small-R track jets from charged final state particles
   //=======================================================
-  finalState fsc;
-  //Select only charged fs particles
-  for(int i=0; i<(int)fs.size(); i++){
-      int userid = fs.at(i).user_index();
-      if(abs(userid)<6) fsc.push_back(fs.at(i));
-  }
+//  finalState fsc;
+//  //Select only charged fs particles
+//  for(int i=0; i<(int)fs.size(); i++){
+//      int userid = fs.at(i).user_index();
+//      if(abs(userid)<6) fsc.push_back(fs.at(i));
+//  }
   
   double jetR = 0.3;
   fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, jetR);
-  fastjet::ClusterSequence cs_subjets(fsc, jd_subjets);
+  fastjet::ClusterSequence cs_subjets(fs, jd_subjets);
   std::vector<fastjet::PseudoJet> trackjets = sorted_by_pt( cs_subjets.inclusive_jets()  );
   
   // Basic kinematic cuts
   std::vector<fastjet::PseudoJet> trackjetsSel;
   for( size_t i = 0; i < trackjets.size(); i++){
     
-    if( trackjets.at(i).pt() < 12 ) continue;
+    if( trackjets.at(i).pt() < 50 ) continue;
     if( fabs( trackjets.at(i).eta() ) > 2.5 ) continue;
     
     trackjetsSel.push_back( trackjets.at(i) );

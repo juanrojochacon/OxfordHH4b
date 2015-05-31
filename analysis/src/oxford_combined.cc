@@ -1046,7 +1046,7 @@ void OxfordCombinedAnalysis::BTaggingFJ( double event_weight, std::vector<fastje
       if( j == 1 ) FillHistogram("pt_SubleadSubjet_SelFJ", event_weight, subjets[j].pt() );
 	      
       // Select subjets after filling pt histogram
-      if( subjets[j].pt() < 60. ) continue;
+      if( subjets[j].pt() < 50. ) continue;
       if( fabs( subjets[j].eta() ) > 2.5 ) continue;
       
       // Get the jet constituents
