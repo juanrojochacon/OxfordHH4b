@@ -115,15 +115,48 @@ $jjjj$ & -  & $4.450\times 10^4$ pb \\
 \end{table}%
 \section{Object and Event Selection}
 
+
+
+\subsection{Object Definition and Selection}
+
+All jets are clustered using all final state particles after the parton shower (but before hadronisation) as input. 
+
+Small-$R$ jets are anti-$k_T$ $R=0.4$ jets. They are required to have $p_T > 40$~GeV and $|\eta|<2.5$.
+
+Small-$R$ subjets are anti-$k_T$ $R=0.3$ jets. They are required to have $p_T > 50$~GeV and $|\eta|<2.5$.
+
+Large-$R$ jets are anti-$k_T$ $R = 1.0$ jets with $p_T > 200$~GeV and $|\eta|<2.0$ (the smaller pseudorapidity is an experimental requirement related to the trackjet-based calibration). They are also required to be mass-drop tagged using the FastJet default parameters: $\mu = 0.67$ and $y_{\textrm{cut}}= 0.09$.
+
+Small-$R$ jets are $b$-tagged as follows: True $b$-jets, which have at least one $b$-quark among their constituents, have a 80\% $b$-tagging probability. For all other jets, a mistag rate of 0.01 is used.
+
+Large-$R$ jets are $b$-tagged by ghost-associating anti-$k_T$ $R=0.3$ (selected as above) to the large-$R$ jets. A large-$R$ jets is considered $bb$-tagged if the leading and subleading $p_T$ associated subjets are $b$-tagged.
+
+
 \subsection{Resolved Topology}
 
-The resolved selection requires the presence of at least four b-tagged anti-$k_T$ $R=0.4$ jets with $p_T >$25~GeV and $|\eta|>2.5$.
-\textit{Pre-cut} histograms are written out for various kinematic distributions for all events with at least four b-tagged jets but before applying
-further kinematic cuts. \textit{Post-cut} histograms contain only events where the four jets also pass the above kinematic cuts.
+The resolved selection requires the presence of at least four $b$-tagged, selected anti-$k_T$ $R=0.4$ jets.
 
 The di-Higgs system is reconstructed by considering all possibilities of forming two pairs of jets with invariant masses $m_{j1j2}$ and 
 $m_{j3j4}$, respectively, and choosing the configuration that minimises their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
 are considered here.
+
+\subsection{Boosted Topology}
+
+The boosted selection requires the presence of at least two $bb$-tagged, selected anti-$k_T$ $R=1.0$ jets which are taken as the two Higgs boson candidates.
+
+\subsection{Intermediate Topology}
+
+The intermediate topology requires the presence of at least one $bb$-tagged, selected anti-$k_T$ $R = 1.0$ jet. If there is more than one, the leading one is taken as the first Higgs boson candidate. In addition, there must be at least two anti-$k_T$ $R=0.4$ jets with a separation $\Delta R > 1.0$ with respect to the large-$R$ jet
+that is selected as a Higgs boson candidate. The second Higgs boson candidate is reconstructed from the two small-$R$ jets that minimise the difference $|m_{fj} - m_{j1j2}|$.
+
+\subsection{Higgs Mass Window Cut}
+
+All Higgs candidates are required to meet the following Higgs mass window cut: $|m_{H} - 125| < 40$~GeV
+
+[THE INFORMATION BELOW HAS NOT BEEN UPDATED YET]
+
+
+
 
 \subsubsection{Resolved $b$-jet tagging efficiencies} \label{sec:btagtest}
 In order to perform an initial validation of the $b$-tagging procedure used in our resolved analysis we consider first a simple flat $b$-jet tagging efficiency of $\epsilon_b=0.8$ and a light jet mis-tag rate of $\epsilon_l=0.01$. In the UCL diHiggs analysis~\cite{Wardrope:2014kya} the 2$b$2$j$ background was discarded by applying a naive selection factor of $\epsilon^2_b\epsilon^2_l$ to a similar $2b2j$ cross-section as in Table~\ref{tab:xsecs} and finding the resulting cross-section to be considerably smaller than the equivalent selection factor applied to the 4$b$ sample.
