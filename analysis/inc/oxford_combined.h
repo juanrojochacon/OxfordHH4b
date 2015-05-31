@@ -18,7 +18,7 @@ class OxfordCombinedAnalysis : public Analysis
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:
 		void BTagging( std::vector<fastjet::PseudoJet>& jets_vec, std::vector<int>& nBQuarks_vec, std::vector<bool>& isBTagged_vec  );
-		void BTaggingFJ( std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, 
+		void BTaggingFJ( double event_weight, std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, 
 				 std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec );
 		void Reco_Resolved( std::vector<fastjet::PseudoJet>& bjets_vec, std::vector<fastjet::PseudoJet>& higgs_vec );
 		bool Reco_Intermediate( std::vector<fastjet::PseudoJet>& bjets, fastjet::PseudoJet& fatjet, std::vector<fastjet::PseudoJet>& higgs_vec );

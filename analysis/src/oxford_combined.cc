@@ -48,6 +48,25 @@ Analysis("oxford_combined", sampleName)
   
   // ********************* Histogram definitions ******************
   
+  // b-quark pt
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_bQuarks_C0");
+  
+  // Subjet pt (all selected FJs)
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_LeadSubjet_SelFJ");
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_SubleadSubjet_SelFJ");
+  
+  // Subjet pt (all selected and bb-tagged FJs)
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_LeadSubjet_SelFJ_BBTag");
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_SubleadSubjet_SelFJ_BBTag");
+  
+  // Subjet pt (all selected FJs)
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_SmallRBJets_AllB_C0");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "N_Constit_SmallRBJets_AllB_C0");
+  
+  BookHistogram(new YODA::Histo1D(50, pt_min, 100), "pt_SmallRBJets_SelB_C0");
+  BookHistogram(new YODA::Histo1D(20, 0, 20), "N_Constit_SmallRBJets_SelB_C0");
+  
+  // Small-R jets (AKT4)
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_res_C0");
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_res_C0");
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_res_C0");
@@ -59,6 +78,15 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_boost_C0");
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets_boost_C0");
   BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged_boost_C0");
+
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_res_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_res_C0");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_inter_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_inter_C0");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_boost_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_boost_C0");
   
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C0");
   BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C0");
@@ -306,6 +334,10 @@ Analysis("oxford_combined", sampleName)
   BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_inter");
   BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_boost");
   
+  // Category overlap
+  BookHistogram(new YODA::Histo1D( 7, 0, 7 ), "Categories_C1");
+  BookHistogram(new YODA::Histo1D( 7, 0, 7 ), "Categories_C2");
+  
   // ********************* Ntuple definition **********************
   const std::string tupleSpec = "# signal source weight";
   outputNTuple<<tupleSpec<<std::endl;
@@ -373,23 +405,61 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   //Select only charged fs particles
   for(int i=0; i<(int)fs.size(); i++){
       int userid = fs.at(i).user_index();
-      //std::cout << "userid " << userid << std::endl;
+//       std::cout << "userid " << userid << std::endl;
+      if(abs(userid) == 5 ) FillHistogram("pt_bQuarks_C0", event_weight, fs.at(i).pt() );
       if(abs(userid)<6) fsc.push_back(fs.at(i));
   }
   
   double jetR = 0.3;
   fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, jetR);
-  fastjet::ClusterSequence cs_subjets(fsc, jd_subjets);
+//   fastjet::ClusterSequence cs_subjets(fsc, jd_subjets);
+  fastjet::ClusterSequence cs_subjets(fs, jd_subjets);
   std::vector<fastjet::PseudoJet> trackjets = sorted_by_pt( cs_subjets.inclusive_jets()  );
   
   // Basic kinematic cuts
   std::vector<fastjet::PseudoJet> trackjetsSel;
   for( size_t i = 0; i < trackjets.size(); i++){
     
-    if( trackjets.at(i).pt() < 12 ) continue;
-    if( fabs( trackjets.at(i).eta() ) > 2.5 ) continue;
-    
-    trackjetsSel.push_back( trackjets.at(i) );
+      //======================================
+      // Analyse constituents
+      const std::vector<fastjet::PseudoJet>& jet_constituents = trackjets[i].constituents();
+      int nConstit = (int) jet_constituents.size();
+      int nBConstit = 0;
+      int nBConstitSel = 0;
+     
+//       std::cout << "=======================================" << std::endl;
+//       std::cout << "Jet " << i << " with pt " << trackjets[i].pt() << std::endl;
+
+      for( int j = 0; j < nConstit; j++ ){
+	
+	  // Flavour of jet constituent
+	  const int userid= jet_constituents.at(j).user_index();
+	  const double pt_bcandidate = jet_constituents.at(j).pt();
+          
+//           std::cout << "pt constit " << pt_bcandidate << std::endl;	  
+//           std::cout << "id constit " << userid << std::endl;
+	  
+	  if(abs(userid) == 5 ){     
+		  nBConstit++;
+		  if( pt_bcandidate > pt_btagging) nBConstitSel++;
+	  }
+      }
+      
+      if( nBConstit > 0 ){
+	      FillHistogram("pt_SmallRBJets_AllB_C0", event_weight, trackjets.at(i).pt() );
+	      FillHistogram("N_Constit_SmallRBJets_AllB_C0", event_weight, nConstit );
+      }
+      if( nBConstitSel > 0 ){
+	      FillHistogram("pt_SmallRBJets_SelB_C0", event_weight, trackjets.at(i).pt() );
+	      FillHistogram("N_Constit_SmallRBJets_SelB_C0", event_weight, nConstit );
+      }
+      //======================================
+ 
+      // Move kinematic track jet selection to subjet level
+//       if( trackjets.at(i).pt() < 7 ) continue;
+//       if( fabs( trackjets.at(i).eta() ) > 2.5 ) continue;
+      
+      trackjetsSel.push_back( trackjets.at(i) );
   }
       
   //===============
@@ -435,7 +505,7 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
     largeRJetsSel.push_back( largeRJets.at(i) );
   }
   
-  BTaggingFJ( largeRJetsSel, trackjetsSel, nSubJets_vec, nBSubJets_vec, nBTaggedSubJets_vec);
+  BTaggingFJ( event_weight, largeRJetsSel, trackjetsSel, nSubJets_vec, nBSubJets_vec, nBTaggedSubJets_vec);
 
   if( nSubJets_vec.size() != largeRJetsSel.size() || nBSubJets_vec.size() != largeRJetsSel.size() || nBTaggedSubJets_vec.size() != largeRJetsSel.size() ){
     {
@@ -482,10 +552,43 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   FillHistogram("N_SmallRJets_BJets_boost_C0", event_weight, nBJets);
   FillHistogram("N_SmallRJets_BTagged_boost_C0", event_weight, nBTaggedJets);  
   
+  // Track jet multiplicity histograms before cuts
+  FillHistogram("N_SmallRTrackJets_res_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_res_C0", event_weight, trackjetsSel.size());
   
+  FillHistogram("N_SmallRTrackJets_inter_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_inter_C0", event_weight, trackjetsSel.size());
+  
+  FillHistogram("N_SmallRTrackJets_boost_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_boost_C0", event_weight, trackjetsSel.size());
+  
+  
+  // Debugging information
+  if( nSubJets_vec.size() > 0 && nSubJets_vec.at(0) == 0 ){
+  		 
+		 std::cout << "============================================" << std::endl;
+		 std::cout << "Number of selected FJs " << nSubJets_vec.size() << std::endl; 
+		 std::cout << "Number of subjets in leading FJ " << nSubJets_vec.at(0) << std::endl; 
+		 std::cout << "Transverse momentum of leading FJ " << largeRJetsSel[0].pt() << std::endl; 
+		 
+		 std::cout << "Number of R=0.3 trackjets in the event " << trackjets.size() << std::endl; 
+		 std::cout << "Number of selected R=0.3 trackjets in the event " << trackjetsSel.size() << std::endl; 
+		 
+		 for( int i = 0; i < (int) trackjets.size(); i++){
+		   
+		    double dR = largeRJetsSel[0].delta_R( trackjets[i] );
+		    std::cout << "dR between leading FJ and any trackjet " << i << " = " << dR << std::endl;
+		 }
+  }
+
   //===================================================
   // C1: Basic kinematic cuts + Higgs mass window cut
   //===================================================
+  
+  bool isRes_C1 = false;
+  bool isInter_C1 = false; 
+  bool isBoost_C1 = false;
+  
   if( nFatJets >= 2 ){
     
       // Higgs mass window cut
@@ -494,6 +597,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	    // Record cutflow
 	    FillHistogram("CF_boost", event_weight, 1.1);
 	    FillHistogram("CFN_boost", 1., 1.1);
+	    
+	    isBoost_C1 = true;
 	    
 	    // Jet multiplicity histograms
 	    FillHistogram("N_SmallRJets_boost_C1", event_weight, nJets);
@@ -542,6 +647,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  FillHistogram("CF_res", event_weight, 1.1);
 	  FillHistogram("CFN_res", 1., 1.1);
 	  
+	  isRes_C1 = true;
+	  
 	  // Jet multiplicity histograms
 	  FillHistogram("N_SmallRJets_res_C1", event_weight, nJets);
 	  FillHistogram("N_SmallRJets_BJets_res_C1", event_weight, nBJets);
@@ -581,6 +688,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  FillHistogram("CF_inter", event_weight, 1.1);
 	  FillHistogram("CFN_inter", 1., 1.1);
 	  
+	  isInter_C1 = true;
+	  
 	  // Jet multiplicity histograms
 	  FillHistogram("N_SmallRJets_inter_C1", event_weight, nJets);
 	  FillHistogram("N_SmallRJets_BJets_inter_C1", event_weight, nBJets);
@@ -609,6 +718,14 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
       }
     }
   }
+  
+  if( isRes_C1 && !isInter_C1 && !isBoost_C1 )		FillHistogram("Categories_C1", 1.0, 0.1);
+  else if( !isRes_C1 && isInter_C1 && !isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 1.1);
+  else if( !isRes_C1 && !isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 2.1);
+  else if( isRes_C1 && isInter_C1 && !isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 3.1);
+  else if( isRes_C1 && !isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 4.1);
+  else if( !isRes_C1 && isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 5.1);
+  else if( isRes_C1 && isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 6.1);
 
 //   //=============================
 //   // C2: b-tagging
@@ -689,6 +806,11 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
   //=============================
   // C2: b-tagging
   //=============================
+  
+  bool isRes_C2 = false;
+  bool isInter_C2 = false; 
+  bool isBoost_C2 = false;
+  
   if( nBBTaggedFatJets >= 2 ){
     
     // Higgs mass window cut
@@ -697,6 +819,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	// Record cutflow
 	FillHistogram("CF_boost", event_weight, 2.1);
 	FillHistogram("CFN_boost", 1., 2.1);
+	
+	isBoost_C2 = true;
 	
 	// Jet multiplicity histograms
 	FillHistogram("N_SmallRJets_boost_C2", event_weight, nJets);
@@ -746,6 +870,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	FillHistogram("CF_res", event_weight, 2.1);
 	FillHistogram("CFN_res", 1., 2.1);
 	
+	isRes_C2 = true;
+	
 	// Jet multiplicity histograms
 	FillHistogram("N_SmallRJets_res_C2", event_weight, nJets);
 	FillHistogram("N_SmallRJets_BJets_res_C2", event_weight, nBJets);
@@ -789,6 +915,8 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
 	  FillHistogram("CF_inter", event_weight, 2.1);
 	  FillHistogram("CFN_inter", 1., 2.1);
 	  
+	  isInter_C2 = true;
+	  
 	  // Jet multiplicity histograms
 	  FillHistogram("N_SmallRJets_inter_C2", event_weight, nJets);
 	  FillHistogram("N_SmallRJets_BJets_inter_C2", event_weight, nBJets);
@@ -821,6 +949,16 @@ void OxfordCombinedAnalysis::Analyse(bool const& signal, double const& weightnor
       }
     }
   }
+  
+  if( isRes_C2 && !isInter_C2 && !isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 0.1);
+  else if( !isRes_C2 && isInter_C2 && !isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 1.1);
+  else if( !isRes_C2 && !isInter_C2 && isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 2.1);
+  else if( isRes_C2 && isInter_C2 && !isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 3.1);
+  else if( isRes_C2 && !isInter_C2 && isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 4.1);
+  else if( !isRes_C2 && isInter_C2 && isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 5.1);
+  else if( isRes_C2 && isInter_C2 && isBoost_C2 )	FillHistogram("Categories_C2", 1.0, 6.1);
+
+  if( isInter_C2 && isBoost_C2 ) std::cout << "Warning: both intermediate and boosted selection passed! " << std::endl;
  
   // ************************************* MVA Output **********************************************************
   // Now save the ntuples to be used by the TMVA or the ANNs
@@ -885,7 +1023,8 @@ void OxfordCombinedAnalysis::BTagging( std::vector<fastjet::PseudoJet>& jets_vec
       }//end of loop over jets
 }
 
-void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec )
+
+void OxfordCombinedAnalysis::BTaggingFJ( double event_weight, std::vector<fastjet::PseudoJet>& largeRJets, std::vector<fastjet::PseudoJet>& trackjets, std::vector<int>& nSubJets_vec,  std::vector<int>& nBSubJets_vec,  std::vector<int>& nBTaggedSubJets_vec )
 {
   // Loop over all fat jets
   for( size_t i=0; i<largeRJets.size(); i++)
@@ -895,12 +1034,21 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
     get_assoc_trkjets( largeRJets.at(i), trackjets, subjets, false);
 
     const int nSubjets = std::min((int)subjets.size(),2); // Restrict to leading 2 subjets only
+//     const int nSubjets = (int)subjets.size();
     int nBSubjets = 0;
     int nBTaggedSubjets = 0;
 
     // Loop over subjets
     for( int j=0; j < nSubjets; j++)
     {
+      
+      if( j == 0 ) FillHistogram("pt_LeadSubjet_SelFJ", event_weight, subjets[j].pt() );
+      if( j == 1 ) FillHistogram("pt_SubleadSubjet_SelFJ", event_weight, subjets[j].pt() );
+	      
+      // Select subjets after filling pt histogram
+      if( subjets[j].pt() < 60. ) continue;
+      if( fabs( subjets[j].eta() ) > 2.5 ) continue;
+      
       // Get the jet constituents
       int nBQuarks = 0;
       bool isBTagged = false;
@@ -937,6 +1085,10 @@ void OxfordCombinedAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet>& largeR
 
     }//end of loop over subjets
 
+    if( nBTaggedSubjets >= 2 ){
+      	FillHistogram("pt_LeadSubjet_SelFJ_BBTag", event_weight, subjets[0].pt() );
+      	FillHistogram("pt_SubleadSubjet_SelFJ_BBTag", event_weight, subjets[1].pt() );
+    }
     nSubJets_vec.push_back( nSubjets );
     nBSubJets_vec.push_back( nBSubjets );
     nBTaggedSubJets_vec.push_back( nBTaggedSubjets );
