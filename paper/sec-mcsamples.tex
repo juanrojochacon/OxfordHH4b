@@ -1,4 +1,5 @@
 \section{Monte Carlo samples}
+\label{mcgeneration}
 
 \subsection{Signal}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9,6 +10,7 @@ All background samples are generated with the {\tt SHERPA} event generator, vers
 The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. All final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
 
 
+%%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
@@ -27,6 +29,7 @@ $pp \to t\bar{t}$ &  SHERPA 2.1.1 & 3M & $2.514\times 10^3$ pb \\
 \caption{Summary of generated samples to date. All {\tt SHERPA} samples have a MC error of $0.05\%$.} \label{tab:samples}
 \end{center}
 \end{table}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Although suffering from a large theory uncertainty, we can compare the result of our background samples against those presented in the MG5\_aMC@NLO paper~\cite{Alwall:2014hca}.
 Here for comparison we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV. All jets must be within an acceptance of $|\eta| \le 2.5 $. In the case of the samples with $b$ quarks in the final state, these requirements are extended to the appropriate number of $b$-jets. For example, in the 2$b$2$j$ sample there must be at least two $b$-jets that pass the cuts outlined above.
