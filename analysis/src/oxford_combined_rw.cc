@@ -147,6 +147,15 @@ Analysis("oxford_combined_rw", sampleName)
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C2");
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C2");
   BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C2");
+
+  // C2: Substructure histograms
+  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj1_boost_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj2_boost_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj1_boost_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj2_boost_C2");
+
+  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj_inter_C2");
+  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj_inter_C2");
   
   
   // C3: Higgs histograms
@@ -231,8 +240,8 @@ Analysis("oxford_combined_rw", sampleName)
   bstNTuple.open(bstDir.c_str());
 
   resNTuple << tupleSpec <<std::endl;
-  intNTuple << tupleSpec <<std::endl;
-  bstNTuple << tupleSpec <<std::endl;
+  intNTuple << tupleSpec <<" split12_fj tau21_fj"<<std::endl;
+  bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2"<<std::endl;
 
 }
 
@@ -378,30 +387,28 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   if( nFatJets >= 2 ){      
     
       // Higgs mass window cut
-      if( fabs(largeRJetsSel[0].m() - 125.) < 40.0 && fabs(largeRJetsSel[1].m() - 125.) < 40.0 ){
-	
-	    // Record cutflow
-	    FillHistogram("CF_boost", event_weight, 1.1);
-	    FillHistogram("CFN_boost", 1., 1.1);
-	    
-	    // Histograms for reconstructed Higgs candidates
-	    FillHistogram("pt_H0_boost_C1", event_weight, largeRJetsSel[0].pt());
-	    FillHistogram("pt_H1_boost_C1", event_weight, largeRJetsSel[1].pt());
-	    
-	    FillHistogram("m_H0_boost_C1", event_weight, largeRJetsSel[0].m());
-	    FillHistogram("m_H1_boost_C1", event_weight, largeRJetsSel[1].m());
-	    
-	    // Reconstruct di-Higgs system
-	    const fastjet::PseudoJet dihiggs_boost = largeRJetsSel[0] + largeRJetsSel[1];
-	    
-	    // Histograms for reconstructed di-Higgs system
-	    FillHistogram("m_HH_boost_C1", event_weight, dihiggs_boost.m());
-	    FillHistogram("pt_HH_boost_C1", event_weight, dihiggs_boost.pt());
-	    FillHistogram("dR_HH_boost_C1", event_weight, largeRJetsSel[0].delta_R(largeRJetsSel[1]) );
-	    FillHistogram("dPhi_HH_boost_C1", event_weight, getDPhi(largeRJetsSel[0].phi(), largeRJetsSel[1].phi()) );
-	    FillHistogram("dEta_HH_boost_C1", event_weight, fabs( largeRJetsSel[0].eta() - largeRJetsSel[1].eta()) );
-	    
-
+      if( fabs(largeRJetsSel[0].m() - 125.) < 40.0 && fabs(largeRJetsSel[1].m() - 125.) < 40.0 )
+      {
+  	    // Record cutflow
+  	    FillHistogram("CF_boost", event_weight, 1.1);
+  	    FillHistogram("CFN_boost", 1., 1.1);
+  	    
+  	    // Histograms for reconstructed Higgs candidates
+  	    FillHistogram("pt_H0_boost_C1", event_weight, largeRJetsSel[0].pt());
+  	    FillHistogram("pt_H1_boost_C1", event_weight, largeRJetsSel[1].pt());
+  	    
+  	    FillHistogram("m_H0_boost_C1", event_weight, largeRJetsSel[0].m());
+  	    FillHistogram("m_H1_boost_C1", event_weight, largeRJetsSel[1].m());
+  	    
+  	    // Reconstruct di-Higgs system
+  	    const fastjet::PseudoJet dihiggs_boost = largeRJetsSel[0] + largeRJetsSel[1];
+  	    
+  	    // Histograms for reconstructed di-Higgs system
+  	    FillHistogram("m_HH_boost_C1", event_weight, dihiggs_boost.m());
+  	    FillHistogram("pt_HH_boost_C1", event_weight, dihiggs_boost.pt());
+  	    FillHistogram("dR_HH_boost_C1", event_weight, largeRJetsSel[0].delta_R(largeRJetsSel[1]) );
+  	    FillHistogram("dPhi_HH_boost_C1", event_weight, getDPhi(largeRJetsSel[0].phi(), largeRJetsSel[1].phi()) );
+  	    FillHistogram("dEta_HH_boost_C1", event_weight, fabs( largeRJetsSel[0].eta() - largeRJetsSel[1].eta()) );
       }
   }
   if( nJets >= 4 ){
@@ -510,6 +517,19 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
     	FillHistogram("dEta_HH_boost_C2", boost_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
     	//std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
 
+      // Calculate some substructure variables
+      std::vector<double> split12_vec;
+      split12_vec = SplittingScales( bbFatJets );
+
+      std::vector<double> tau21_vec;
+      tau21_vec = NSubjettiness( bbFatJets, BoostJetR );
+
+      FillHistogram("split12_fj1_boost_C2", boost_weight, split12_vec[0]);
+      FillHistogram("tau21_fj1_boost_C2", boost_weight, tau21_vec[0]);
+
+      FillHistogram("split12_fj2_boost_C2", boost_weight, split12_vec[1]);
+      FillHistogram("tau21_fj2_boost_C2", boost_weight, tau21_vec[1]);
+
       // Fill tuple
       bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
                 << bbFatJets[0].pt() << "\t"
@@ -521,6 +541,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 << bbFatJets[0].delta_R(bbFatJets[1])  << "\t"
                 << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi())  << "\t"
                 << fabs( bbFatJets[0].eta() - bbFatJets[1].eta())  << "\t"
+                << split12_vec[0] << "\t"
+                << split12_vec[1] << "\t"
+                << tau21_vec[0] << "\t"
+                << tau21_vec[1] << "\t"
                 <<std::endl;
       }
   }
@@ -630,6 +654,17 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         FillHistogram("dEta_HH_inter_C2", inter_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
         //std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
 
+        // Calculate some substructure variables
+        std::vector<double> split12_vec;
+        split12_vec = SplittingScales( largeRJetsSel );
+
+        std::vector<double> tau21_vec;
+        tau21_vec = NSubjettiness( largeRJetsSel, BoostJetR );
+
+        FillHistogram("split12_fj_inter_C2", inter_weight, split12_vec[0]);
+        FillHistogram("tau21_fj_inter_C2", inter_weight, tau21_vec[0]);
+
+
               // Fill tuple
         intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
                   << higgs_inter[0].pt() << "\t"
@@ -641,6 +676,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                   << higgs_inter[0].delta_R(higgs_inter[1]) << "\t"
                   << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << "\t"
                   << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
+                  << split12_vec[0] << "\t"
+                  << tau21_vec[0] << "\t"
                   <<std::endl;
 
      }
