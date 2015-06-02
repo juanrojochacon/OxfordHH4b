@@ -13,12 +13,12 @@ ntup = sys.argv[1]
 datafile = open(ntup, 'rb')
 
 line = datafile.readline()
-nKin = len(line.split()) - 3
+nKin = len(line.split()) - 4
 print nKin, "Variables Read"
 
 # Read kinematics labels
 kinLabels = []
-for i in xrange(3,nKin+3):
+for i in xrange(4,nKin+4):
 	kinLabels.append(line.split()[i])
 
 # Read kinematics
@@ -30,7 +30,7 @@ for line in datafile:
 	linesplit = line.split()
 
 	for i in xrange(0,nKin):
-		kinPoint = float(linesplit[i+2])
+		kinPoint = float(linesplit[i+3])
 		kinematics[i].append(kinPoint)
 
 # Calculate covariance matrix
@@ -42,7 +42,7 @@ fig, ax = plt.subplots()
 cax = ax.pcolor(covMat, vmin=-1, vmax=1)
 
 # Adjustments
-ax.axis([0,11,0,11])
+ax.axis([0,9,0,9])
 fig.subplots_adjust(bottom=0.15, left=0.15, right=1.02)
 
 # Colorbar
