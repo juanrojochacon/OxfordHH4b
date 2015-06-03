@@ -1,0 +1,72 @@
+*********************************************
+*********************************************
+
+Minutes
+
+HH->4b meeting 2015/06/03
+
+*********************************************
+*********************************************
+
+* JR working in the various sections of the paper
+
+* For the paper plots, produce the various kinematical distributions
+before b-tagging to avoid losing too much statistics
+
+* JF checked that we don't really gain signal significance if we try
+to b-tag the three hardest subjets instead of only the two hardest
+subjets, which is our baseline
+
+* KB to check that the reweighted vs no reweighted analysis give
+identical results - to avoid problems with statistics, suggested
+to run a special analysis with much looser kinematical cuts
+
+* JF to check why if the b-tagging efficiency is increased
+the signal significance drops - might be related to statistics,
+so perhaps we need to recheck using the reweighting analysis
+
+* One can try to check reweighted vs no reweighted in the signal
+and in the dominant backgrounds only - 2b2j should be fine, and if
+there is any problem, we should be able to spot it from there.
+
+* The MVA for the boosted case shows a really nice improvement
+in the discrimination power where substructure variables, including
+splitting scales and subjetiness, are included in the analysis.
+
+* In the boosted case only, after including substructure variables in
+the MVA, we can achieve a signal significance S/sqrt(B) of almost 2
+
+* Agreed to check that is the signal significance of only the 4b background
+is used (as all other groups do). Also agree to check the numbers
+for 300 1/fb
+
+* We can still gain a bit by increasing the pt cut in the subjets
+in the boosted case
+
+* Now that our settings are final, we agreed to run an exclusive
+analysis with the following categorization
+
+Boosted -> Intemediate -> Resolved
+
+so that we can combine the significance of the three channels
+into a single figure of merit
+
+* NH will take care of running this exclusive analysis and then
+feeding the results into the MVA
+
+* Try also this with the increase in the cut of the subjets
+from 15 GeV to 40 GeV
+
+* KB will investigate the effect of using the variable R jets
+in the analysis
+
+* Consensus that for the final results we are fine with parton
+level results before hadronization, since this will not have any impact
+on the physics conclusions and would require to change completely
+all the b-tagging strategy, with unpredictable consequences.
+
+* In any case NH will launch the generation of the samples
+with hadronization, that CI needs to a related project
+
+*************************************************************
+*************************************************************
