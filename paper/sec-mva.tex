@@ -17,9 +17,81 @@ The motivation for this is that the $n$-tuples of signal and background
 events, after our basic selection, are processed though a multivariate
 analysis with the motivation to increase the signal over background
 significance.
+%
+Multivariate techniques are by now a common tool to enhance signal
+significance in HEP analysis.
+
+\subsection{MVA strategy}
+
+The final step of our analysis is to process our three exclusive
+categories of events (boosted, intermediate and resolved) though
+a Multivariate Analysis.
+%
+The particular tool that we adopt is
+a feed-forward artificial neural network.\footnote{This is the
+  same type of neural networks as those used in the
+  NNPDF analysis of parton distributions~\cite{Ball:2010de}.}
+%
+The architecture of the neural network is
+\be
+N_{\mathrm{var}}\times5\times3\times1 \, ,
+\ee
+with $N_{\mathrm{par}}$ the number of input variables for the MVA.
+%
+Therefore, we have two hidden layers and a single output variable, which
+is the value of the discriminant to separate signal and background.\footnote{Note that in the MVA literature artificial neural networks with several hidden
+  layers are known as {\it deep neural networks}.}
+%
+Below we list the variables that are given as input to the MVA in each
+different category.
+%
+The MVA has trained using a Genetic Algorithm during 50K iterations,
+and the figure of merit to be minimized is the cross-entropy function.
+%
+This figure of merit is defined as
+\be
+\bf DEF
+\ee
+
+For both signal and background events, the variables that we input
+to the MVA are the following.
+%
+For the boosted category we have
+\begin{itemize}
+\item The invariant mass of the two mass-drop-tagged jets, $m_{\rm jet}$
+\item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$
+\item The rapidity of the two mass-drop-tagged jets, $y_{\rm jet}$
+\item The invariant mass of the leading Higgs candidate, $m_{h,1}$
+\item The invariant mass of the sub-leading Higgs candidate, $m_{h,2}$
+\item The splitting scale of the first Higgs
+\item The splitting scale of the second Higgs
+\item The subjetiness variable $\tau_{21,h1}$ of the leading Higgs candidate
+\item The subjetiness variable $\tau_{21,h2}$
+  of the sub-leading Higgs candidate
+ \item The angular separation between the two tagged jets, $\Delta R_{1,2}$ 
+\end{itemize}
+For completeness, we give here the definition of the various substructure variables.
+%
+The splitting scale is defined as
+\be
+\bf DEF
+\ee
+while the $\tau_{1,2}$ subjetiness variable is defined as
+\be
+\bf DEF
+\ee
+The other variables are more conventional.
+
+For the resolved analysis instead, the $N_{\rm var}$ kinematic variables
+that are given as input to the MVA are the following
+\begin{itemize}
+
+  \end{itemize}
+
+\subsection{Enhancing signal discrimination with the MVA}
 
 
-We now apply a basic MVA to the final output of the resolved and boosted analyses. The MVA used is a feed-forward artificial neural network with $N_{\mathrm{par}}\times5\times3\times1$ architecture, where $N_{\mathrm{par}}$ is the number of input parameters for the network. The MVA was trained for 50,000 GA generations with a cross-entropy error function. In Figure~\ref{fig:nnresponse} the neural network classification of events is demonstrated for both the resolved and boosted cases. In Figure~\ref{fig:exampleroc} the ROC curves for the two analyses are shown, demonstrating that the neural network is able to
+In Figure~\ref{fig:nnresponse} the neural network classification of events is demonstrated for both the resolved and boosted cases. In Figure~\ref{fig:exampleroc} the ROC curves for the two analyses are shown, demonstrating that the neural network is able to
 perform well in both cases. Figure~\ref{fig:nnweights} shows the distribution of NN weights in both cases.
 
 
