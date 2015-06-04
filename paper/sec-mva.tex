@@ -197,6 +197,7 @@ separating signal from the background.
 In Fig.~\ref{fig:nnweights} we show
 the distribution of NN weights for the resolved and boosted categories.
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=0.48\textwidth]{plots/nnweights_res.pdf}
@@ -205,9 +206,116 @@ the distribution of NN weights for the resolved and boosted categories.
 \label{fig:nnweights}
 \end{center}
 \end{figure}
-\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%
 
-Figure~\ref{fig:nnweights} demonstrates that the dijet invariant mass is a crucial variable for the resolved analysis MVA. As no detector effects were modeled in this analysis, it is reasonable to assume that the MVA has greater discriminating power than would be feasible in a real analysis. To investigate this, we now consider a variant of the analysis used in Table~\ref{tab:resCutflow} where the $m_H$ window criterion has been relaxed to $80 < m_H < 170$. Firstly the same analysis is repeated with the larger $m_H$ window. This is then compared to the same analysis but with a Gaussian smearing with $\sigma=10$ GeV applied to the dijet invariant mass used in the MVA. In the left panel of Figure~\ref{fig:invMsmear} the smearing is demonstrated. Despite the smearing, the MVA applied to this analysis still vastly prefers the dijet masses as discriminators, as is demonstrated in the right panel of Figure~\ref{fig:invMsmear}.
+The results of Fig.~\ref{fig:nnweights} clearly illustrate which variables
+are more discriminative between the signal and the background.
+%
+For instance, in the case of the resolved analysis, the variables that show
+a higher discrimination power is the invariant mass of the Higgs candidate dijets.
+%
+Note that as explained in Sect.~\ref{sec:analysis}, we have applied a realistic
+smearing of the four-momentum of all reconstructed jets, but still is clear that the
+distribution of invariant mass of the Higgs candidates will be very different
+in the signal and in the backgrounds.
+%
+We discussed below the impact of smearing has.
+%
+Other variables do not seem to have a dramatic effect, although of course one of the
+advantages of the MVA technique is that it does not hurt to add redundant
+information.
+%
+In particular the angular distances between the four leading $b$-jets does not
+provide additional information.
+
+
+The corresponding analysis for the boosted category is also
+shown in Fig.~\ref{fig:nnweights}.
+%
+Here we see that there is a more even distributions of weights, in that many
+variables help in a similar amount in the discrimination.
+%
+The invariant mass of the Higgs candidate of course still carries a lot of weight,
+but now we see that the substructure variables really carry  a lot of information,
+in particular the splitting scales and the subjetiness $\tau_{12}$.
+%
+We have verified that signal significance in the boosted category is substantially
+degraded if substructure variables are not used.
+
+
+
+
+
+
+\subsection{Impact of smearing in the MVA discrimination}
+
+Accounting for a suitable smearing of the final-state momenta of the reconstructed
+jets is essential to be able to draw any realistic conclusions in analysis like
+this one that are based on a large number of jets.
+%
+It is therefore interesting how the MVA discrimination changes if one did not account
+for smearing - of course in this case differences between signal and background distributions
+would be enhanced.
+
+To investigate this, we now consider a variant of the analysis used in
+Table~\ref{tab:resCutflow} where the $m_H$ window criterion has been relaxed to $80 < m_H < 170$.
+%
+Firstly the same analysis is repeated with the larger $m_H$ window, with no smearing at all.
+%
+This is then compared to the same analysis but with a Gaussian smearing with $\sigma=10$ GeV applied to the dijet invariant mass used in the MVA.
+%
+In the left panel of Fig.~\ref{fig:invMsmear} the smearing is demonstrated.
+%
+Both with and without smearing, the  invariant mass distribution of the
+Higgs candidates is still the most discriminative variable.
+%
+This can be seen by comparing with   with the corresponding distribution with smearing in
+  Fig.~\ref{fig:nnweights}.
+
+
+
+
+%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/histo_mass_smear_precut.pdf}
+\includegraphics[width=0.49\textwidth]{plots/Msmear/nnweights.pdf}
+\caption{\small Left plot: the invariant mass distribution of the
+  Higgs candidates without (red) and with (blue) smearing.
+  %
+  Right plot: the strength of the NN weights in the resolved case when no smearing
+  is applied.
+  %
+  It should be compared with the corresponding distribution with smearing in
+  Fig.~\ref{fig:nnweights}.
+  %
+  As expected, the discrimination power of the invariant mass distribution is
+  enhanced if there is no smearing.}
+\label{fig:invMsmear}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%
   
 
-While the MVA still derives most of it's discriminating power from the dijet masses, the smearing reduces it's effectiveness considerably. In Figure \ref{fig:smearedROC} the ROC curves of the MVA applied to the smeared and unsmeared distributions are shown, where it is clear that the overall performance of the MVA is significantly hampered by the smeared invariant masses. This is echoed in the resulting significance of the analysis as demonstrated in Figure~\ref{fig:smearedSB}
+While the MVA still derives most of it's discriminating power from the dijet masses, the smearing reduces it's effectiveness considerably.
+%
+In Fig.~\ref{fig:smearedROC} the ROC curves of the MVA applied to the smeared and unsmeared distributions are shown, where it is clear that the overall performance of the MVA is significantly hampered by the smeared invariant masses.
+%
+For example, if we require the same signal efficiency as before, 0.8, the background rejection
+is degraded from 80\% down to 60\%.
+%
+Therefore, we can conclude that it is important to include smearing to draw realistic
+conclusions, though the qualitative information of which are the most relevant
+discriminative variables is not changed by this conclusion.
+
+
+%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.50\textwidth]{plots/Msmear/roc.pdf}
+\caption{\small ROC curves of the MVA applied with the unsmeared (blue) and smeared (green) dijet invariant mass distributions.}
+\label{fig:smearedROC}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%
+            
