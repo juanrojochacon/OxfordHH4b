@@ -155,8 +155,24 @@ cost of dropping signal efficiency.
 The usefulness of ROC curves is that they allow to determine the
 optimal cut value that removes enough background without degrading too much the signal efficiency.
 
-In Figure~\ref{fig:exampleroc} the ROC curves for the two analyses are shown, demonstrating that the neural network is able to
-perform well in both cases. Figure~\ref{fig:nnweights} shows the distribution of NN weights in both cases.
+In Fig.~\ref{fig:exampleroc} the ROC curves for the
+boosted, intermediate and resolved categories are found.
+%
+As could already be inferred from the distribution of neural
+networks output in Fig.~\ref{fig:nnresponse}, we find
+that the neural network MVA is reasonably efficient
+in discriminating signal over background.
+%
+The performance is slightly better in the case of the boosted
+topology, in particular thanks to the information provided
+by the substructure variables.
+%
+In both cases we see that with a moderate reduction of signal
+efficiency of $\sim 0.8$, one can reduce the background by 80\%,
+which translates into an improvement factor of the pre-MVA $S/\sqrt{B}$
+of almost $\sim 1.8$.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -168,11 +184,24 @@ perform well in both cases. Figure~\ref{fig:nnweights} shows the distribution of
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[h]
+In order to gain physical insight of which are the variables that
+contribute the most to the MVA discrimination it is useful
+to show the distribution of NN weights for each of the
+input variables.
+%
+This distributions is a measure of the correlation between
+each input variable and the Neural Network output: the higher
+the value, the stronger the impact of this variable in
+separating signal from the background.
+%
+In Fig.~\ref{fig:nnweights} we show
+the distribution of NN weights for the resolved and boosted categories.
+
+\begin{figure}[t]
 \begin{center}
-\includegraphics[width=1\textwidth]{plots/nnweights_res.pdf}
-\includegraphics[width=1\textwidth]{plots/nnweights_boost.pdf}
-\caption{Distribution of weights per input variable in the final ANN analysis. The above figure shows the weight distribution in the case of the resolved analysis, while the lower plot shows the boosted analysis.}
+\includegraphics[width=0.48\textwidth]{plots/nnweights_res.pdf}
+\includegraphics[width=0.48\textwidth]{plots/nnweights_boost.pdf}
+\caption{\small Distribution of weights per input variable in the final ANN analysis. The above figure shows the weight distribution in the case of the resolved analysis, while the lower plot shows the boosted analysis.}
 \label{fig:nnweights}
 \end{center}
 \end{figure}
