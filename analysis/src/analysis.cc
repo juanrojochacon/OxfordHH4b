@@ -173,8 +173,8 @@ void Analysis::Export()
 	while (iMap1D != bookedHistograms_1D.end())
 	{
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap1D).second->path()<<std::endl;
-		YODA::WriterFLAT::write("." + (*iMap1D).second->path() + ".dat", *(*iMap1D).second);
-		YODA::WriterYODA::write("." + (*iMap1D).second->path() + ".yoda", *(*iMap1D).second);
+		if ((*iMap1D).second->numEntries() > 0)
+			YODA::WriterFLAT::write("." + (*iMap1D).second->path() + ".dat", *(*iMap1D).second);
 		iMap1D++;
 	}
 
@@ -183,8 +183,8 @@ void Analysis::Export()
 	while (iMap2D != bookedHistograms_2D.end())
 	{
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap2D).second->path()<<std::endl;
-		YODA::WriterFLAT::write("." + (*iMap2D).second->path() + ".dat", *(*iMap2D).second);
-		YODA::WriterYODA::write("." + (*iMap2D).second->path() + ".yoda", *(*iMap2D).second);
+		if ((*iMap1D).second->numEntries() > 0)
+			YODA::WriterFLAT::write("." + (*iMap2D).second->path() + ".dat", *(*iMap2D).second);
 		iMap2D++;
 	}
 }
