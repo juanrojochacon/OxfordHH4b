@@ -97,7 +97,11 @@ Analysis("oxford_combined_rw", sampleName)
 
       BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj1" + suffix);  
       BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj2" + suffix);
-      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj" + suffix);        
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj" + suffix);   
+
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj1" + suffix);  
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj" + suffix);       
     }
   }
 
@@ -117,8 +121,8 @@ Analysis("oxford_combined_rw", sampleName)
   bstNTuple.open(bstDir.c_str());
 
   resNTuple << tupleSpec <<std::endl;
-  intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj"<<std::endl;
-  bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2"<<std::endl;
+  intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
+  bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
 
 }
 
@@ -321,6 +325,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
       const double C2_fj1 = LST_C2(LST_beta, bbFatJets[0]);
       const double C2_fj2 = LST_C2(LST_beta, bbFatJets[1]);
 
+      // D2 energy correlation double-ratio
+      const double D2_fj1 = LMN_D2(LST_beta, bbFatJets[0]);
+      const double D2_fj2 = LMN_D2(LST_beta, bbFatJets[1]);
+
       // Fill tuple
       bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
                 << bbFatJets[0].pt() << "\t"
@@ -338,6 +346,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 << tau21_vec[1] << "\t"
                 << C2_fj1 << "\t"
                 << C2_fj2 << "\t"
+                << D2_fj1 << "\t"
+                << D2_fj2 << "\t"
                 <<std::endl;
 
       Pass(boost_weight);
@@ -379,6 +389,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         const double split12 = SplittingScales( largeRJetsSel[0] );
         const double tau21 = NSubjettiness( largeRJetsSel[0], BoostJetR );
         const double C2 = LST_C2(LST_beta, largeRJetsSel[0]);
+        const double D2 = LMN_D2(LST_beta, largeRJetsSel[0]);
 
         // Fill tuple
         intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
@@ -394,6 +405,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                   << split12 << "\t"
                   << tau21 << "\t"
                   << C2 << "\t"
+                  << D2 << "\t"
                   <<std::endl;
 
 
@@ -681,12 +693,14 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H,
   // 2-subjettiness / 1-subjettiness
   const double tau21 = NSubjettiness( H, BoostJetR );
 
-  // C2 energy correlation double-ratio
+  // C2/D2 energy correlation double-ratio
   const double C2 = LST_C2(LST_beta, H);
+  const double D2 = LMN_D2(LST_beta, H);
 
   FillHistogram("split12_fj" + suffix, weight, split12);
   FillHistogram("tau21_fj" + suffix, weight, tau21);
   FillHistogram("C2_fj" + suffix, weight, C2);
+  FillHistogram("D2_fj" + suffix, weight, D2);
 }
 
 void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
@@ -713,6 +727,10 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
   const double C2_fj1 = LST_C2(LST_beta, H0);
   const double C2_fj2 = LST_C2(LST_beta, H1);
 
+  // D2 energy correlation double-ratio
+  const double D2_fj1 = LMN_D2(LST_beta, H0);
+  const double D2_fj2 = LMN_D2(LST_beta, H1);
+
   FillHistogram("split12_fj1" + suffix, weight, split12_fj1);
   FillHistogram("split12_fj1" + suffix, weight, split12_fj2);
 
@@ -721,4 +739,7 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
 
   FillHistogram("C2_fj1" + suffix, weight, C2_fj1);
   FillHistogram("C2_fj2" + suffix, weight, C2_fj2);
+
+  FillHistogram("D2_fj1" + suffix, weight, D2_fj1);
+  FillHistogram("D2_fj2" + suffix, weight, D2_fj2);
 }

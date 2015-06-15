@@ -183,6 +183,7 @@ double ECF(size_t const& N, double const& beta, fastjet::PseudoJet const& jet)
   return ECF;
 }
 
+// arXiv:1305.0007
 double LST_C2(double const& beta, fastjet::PseudoJet const& jet)
 {
   const double ECF1 = ECF(1, beta, jet);
@@ -192,6 +193,14 @@ double LST_C2(double const& beta, fastjet::PseudoJet const& jet)
   return (ECF1*ECF3)/(ECF2*ECF2);
 }
 
+// http://arxiv.org/pdf/1409.6298.pdf
+double LMN_D2(double const& beta, fastjet::PseudoJet const& jet)
+{
+  const double ECF2 = ECF(2, beta, jet);
+  const double ECF3 = ECF(3, beta, jet);
+
+  return ECF3/(ECF2*ECF2*ECF2);
+}
 
 // ----------------------------------------------------------------------------------
 // Recluster with kt algorithm to obtain nsubjettiness
