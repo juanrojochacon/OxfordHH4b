@@ -318,8 +318,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
       tau21_vec = NSubjettiness( bbFatJets, BoostJetR );
 
       // C2 energy correlation double-ratio
-      const double C2_fj1 = LST_C2(LST_beta, bbFatJets[0]);
-      const double C2_fj2 = LST_C2(LST_beta, bbFatJets[1]);
+     // const double C2_fj1 = LST_C2(LST_beta, bbFatJets[0]);
+     // const double C2_fj2 = LST_C2(LST_beta, bbFatJets[1]);
 
       // Fill tuple
       bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
@@ -336,8 +336,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 << split12_vec[1] << "\t"
                 << tau21_vec[0] << "\t"
                 << tau21_vec[1] << "\t"
-                << C2_fj1 << "\t"
-                << C2_fj2 << "\t"
+             //   << C2_fj1 << "\t"
+             //   << C2_fj2 << "\t"
                 <<std::endl;
 
       Pass(boost_weight);
@@ -378,7 +378,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         // Calculate some substructure variables
         const double split12 = SplittingScales( largeRJetsSel[0] );
         const double tau21 = NSubjettiness( largeRJetsSel[0], BoostJetR );
-        const double C2 = LST_C2(LST_beta, largeRJetsSel[0]);
+        //const double C2 = LST_C2(LST_beta, largeRJetsSel[0]);
 
         // Fill tuple
         intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
@@ -393,7 +393,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                   << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
                   << split12 << "\t"
                   << tau21 << "\t"
-                  << C2 << "\t"
+             //     << C2 << "\t"
                   <<std::endl;
 
 
