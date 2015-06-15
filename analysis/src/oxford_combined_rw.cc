@@ -47,183 +47,47 @@ Analysis("oxford_combined_rw", sampleName)
   
   // ********************* Histogram definitions ******************
 
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C0");
+  const int nAnalysis = 3;  const int nCuts = 3;
+  const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
+  const std::string cString[nCuts] = {"_C0", "_C1", "_C2"};
 
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C0"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C0");
+  for (int i=0; i< nAnalysis; i++)
+  {
+    BookHistogram(new YODA::Histo1D( nCuts+1, 0, nCuts+1 ), "CF" + aString[i]);
+    BookHistogram(new YODA::Histo1D( nCuts+1, 0, nCuts+1 ), "CFN" + aString[i]);
 
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C0"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C0"); 
+    for (int j=0; j< nCuts; j++)
+    {
+      const std::string suffix = aString[i] + cString[j];
 
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C0");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C0"); 
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1" + suffix);
 
-  // C1: Higgs histograms
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C1");
+      BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1" + suffix);
 
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C1"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C1");
+      BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH" + suffix);
 
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C1"); 
-  
-  // C1: Di-Higgs histograms
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C1"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C1"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C1");
+      BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH" + suffix);
 
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C1");
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C1");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C1");
+      BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH" + suffix);
+      BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH" + suffix);
 
-  
-  // C2: Higgs histograms
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C2");
+      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj1" + suffix); // Splitting scales
+      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj1" + suffix);     // Subjettiness
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj1" + suffix);        // Energy-correlations
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj" + suffix);  // Splitting scales
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj" + suffix);      // Subjettiness
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj" + suffix);         // Energy-correlations
+    }
+  }
 
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C2");
-  
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C2");
-
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C2"); 
-
-  // C2: Di-Higgs histograms
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C2");
-  
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C2"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C2");
-
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C2");
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C2");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C2");
-
-  // C2: Substructure histograms
-  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj1_boost_C2");
-  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj2_boost_C2");
-  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj1_boost_C2");
-  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj2_boost_C2");
-
-  BookHistogram(new YODA::Histo1D(30, 0, 200), "split12_fj_inter_C2");
-  BookHistogram(new YODA::Histo1D(30, 0, 1), "tau21_fj_inter_C2");
-  
-  
-  // C3: Higgs histograms
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C2");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C2");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C2");
-  
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C2");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C2");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C2");
-
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H0_boost_C3");
-
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_H1_boost_C3"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0_boost_C3");
-
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1_boost_C3"); 
-  
-  // C3: Di-Higgs histograms
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH_boost_C3");
-  
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH_boost_C3"); 
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH_boost_C3");
-
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH_boost_C3");
-  
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_res_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_inter_C3");
-  BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH_boost_C3");
-  
-  // 2D histograms
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_res_C3");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_inter_C3");
-  BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH_boost_C3");
-  
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_res_C3");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_inter_C3");
-  BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH_boost_C3");
-  
-  // ********************* Cutflow histograms  **********************
-  
-  // Cross-section
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_res");
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_inter");
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CF_boost");
-
-  // Number of events
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_res");
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_inter");
-  BookHistogram(new YODA::Histo1D( 4, 0, 4 ), "CFN_boost");
   
   // ********************* Ntuple definition **********************
   const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH";
@@ -240,8 +104,8 @@ Analysis("oxford_combined_rw", sampleName)
   bstNTuple.open(bstDir.c_str());
 
   resNTuple << tupleSpec <<std::endl;
-  intNTuple << tupleSpec <<" split12_fj tau21_fj"<<std::endl;
-  bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2"<<std::endl;
+  intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj"<<std::endl;
+  bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2"<<std::endl;
 
 }
 
@@ -683,21 +547,6 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
      }
   }
  
-  // ************************************* MVA Output **********************************************************
-  // Now save the ntuples to be used by the TMVA or the ANNs
-  // In the UCL analysis they use
-  //
-  // m, y, pT of the 4b system and masses of the two dijets
-  // 3 decay angles (in resp. rest frames) & 2 angles between decay planes
-  // This is for the UCL-like strategy
-  // sabe mass, pt and y of th 4b system
-  // the two dijet masses
-  // and all independent angular distances between the four b jets
-  // totalNTuple<<"# signal source m4b pt4b y4b mHiggs1 mHiggs2 DeltaR_b1b2 DeltaR_b1b3 DeltaR_b1b4 DeltaR_b2b3 DeltaR_b2b4 DeltaR_b3b4 "<<std::endl;
-  outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<std::endl;
-  // Other combinations of kinematical variables could also be useful
-  // Need to investigate the kinematics of the 4b final state in more detail
-  // Pass event
   Pass(event_weight);
 
 }

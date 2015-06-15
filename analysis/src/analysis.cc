@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <functional>
 #include <sys/stat.h>
 
 #include "YODA/Histo1D.h"
@@ -27,6 +28,9 @@ static inline void createPath(std::string path)
   // General string hasher
 static int IntHash(const std::string& _str)
 {
+	std::hash<std::string> str_hash;
+	return str_hash(_str);
+/*
 	const char* s = _str.c_str();
 	unsigned h = 31;
 	while (*s) {
@@ -34,6 +38,7 @@ static int IntHash(const std::string& _str)
 		s++;
 	}
 	return h % 86969;
+	*/
 };
 
 Analysis::Analysis(string const& name, string const& sample):
