@@ -132,8 +132,6 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordCombinedRWAnalysis("total"));
 
-
-
   signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
   signalAnalyses.push_back(new OxfordCombinedRWAnalysis("signal"));
 
