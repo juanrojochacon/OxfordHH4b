@@ -610,7 +610,7 @@ void OxfordCombinedRWAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
                                          size_t const& cut, 
                                          double const& weight)
 {
-  if (H0.pt() > H1.pt())
+  if (H0.pt() < H1.pt())
     std::cerr << "HiggsFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
 
   const std::string cutStr = "_C"+std::to_string(cut);
@@ -668,7 +668,7 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
                                           size_t const& cut, 
                                           double const& weight )
 {
-  if (H0.pt() > H1.pt())
+  if (H0.pt() < H1.pt())
     std::cerr << "BoostFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
 
   const std::string cutStr = "_C"+std::to_string(cut);
