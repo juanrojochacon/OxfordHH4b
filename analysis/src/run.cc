@@ -115,7 +115,7 @@ eventSample GetSample( int const& isample )
   	xsec_norm,
   	signal,
   	hepmc,
-  	fmin(nevt_sample, max_evt)
+  	static_cast<int>(fmin(nevt_sample, max_evt))
   };
 
   return newsamp;

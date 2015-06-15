@@ -88,7 +88,7 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 	}
 	else
 	{
-		bookedHistograms_1D.insert(std::make_pair(IntHash(name),hist));
+		bookedHistograms_1D.insert(std::pair<int,YODA::Histo1D*>(IntHash(name),hist));
 	}
 
 //	hist->setAnnotation(std::string("XLabel"), std::string("p_T (GeV)"));
@@ -114,7 +114,7 @@ void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name)
 	}
 	else
 	{
-		bookedHistograms_2D.insert(std::make_pair(IntHash(name),hist));
+		bookedHistograms_2D.insert(std::pair<int,YODA::Histo2D*>(IntHash(name),hist));
 	}
 
 //	hist->setAnnotation(std::string("XLabel"), std::string("p_T (GeV)"));
@@ -207,7 +207,7 @@ void Analysis::Cut(std::string const& cutStr, double const& weight)
 		}
 
 	// No cut found, book a new one
-	cutWeight.push_back(std::make_pair<std::string, double>(cutStr, weight));
+	cutWeight.push_back(std::pair<std::string, double>(cutStr, weight));
 	return;
 }
 
