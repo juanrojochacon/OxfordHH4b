@@ -77,7 +77,8 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 	if (iMap != bookedHistograms_1D.end())
 	{
 		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
-		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
+		std::cerr << "Attempted to insert: " << name <<", hash: "<<IntHash(name)<<std::endl;
+		std::cerr << "Collided with: " << (*iMap).second->title() <<", hash: "<<IntHash((*iMap).second->title())<<std::endl;
 		exit(-1);
 	}
 	else
@@ -102,7 +103,8 @@ void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name)
 	if (iMap != bookedHistograms_2D.end())
 	{
 		std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: "<<name<<std::endl;
-		std::cerr << "Either histogram is duplicated, or we need a better hash function!"<<std::endl;
+		std::cerr << "Attempted to insert: " << name <<", hash: "<<IntHash(name)<<std::endl;
+		std::cerr << "Collided with: " << (*iMap).second->title() <<", hash: "<<IntHash((*iMap).second->title())<<std::endl;
 		exit(-1);
 	}
 	else
