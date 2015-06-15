@@ -190,7 +190,7 @@ void Analysis::Export()
 	while (iMap2D != bookedHistograms_2D.end())
 	{
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap2D).second->path()<<std::endl;
-		if ((*iMap1D).second->numEntries() > 0)
+		if ((*iMap2D).second->numEntries() > 0)
 			YODA::WriterFLAT::write("." + (*iMap2D).second->path() + ".dat", *(*iMap2D).second);
 		iMap2D++;
 	}
