@@ -95,9 +95,9 @@ Analysis("oxford_combined_rw", sampleName)
       BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj2" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj" + suffix);      
 
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj1" + suffix);  
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj2" + suffix);
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj" + suffix);        
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj1" + suffix);  
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "C2_fj" + suffix);        
     }
   }
 
