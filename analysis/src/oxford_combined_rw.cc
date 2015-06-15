@@ -17,6 +17,14 @@
 // pT cut for constituent b-quarks (GeV)
 const double pt_btagging = 15;
 
+// Boosted jet radius
+const double BoostJetR=1.0;
+const double jetR = 0.3; // Boosted subjet radius for ghost-association
+
+// Resolved jet radius
+const double ResJetR=0.4;
+
+
 OxfordCombinedRWAnalysis::OxfordCombinedRWAnalysis(std::string const& sampleName):
 Analysis("oxford_combined_rw", sampleName)
 {
@@ -76,15 +84,17 @@ Analysis("oxford_combined_rw", sampleName)
       BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH" + suffix);
       BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH" + suffix);
 
-      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj1" + suffix); // Splitting scales
+      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj1" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj2" + suffix);
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj1" + suffix);     // Subjettiness
+      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj" + suffix);  
+
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj1" + suffix); 
       BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj2" + suffix);
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj1" + suffix);        // Energy-correlations
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj" + suffix);      
+
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj1" + suffix);  
       BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj2" + suffix);
-      BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj" + suffix);  // Splitting scales
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "tau21_fj" + suffix);      // Subjettiness
-      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj" + suffix);         // Energy-correlations
+      BookHistogram(new YODA::Histo1D(nbins, 0, 1), "C2_fj" + suffix);        
     }
   }
 
@@ -111,10 +121,6 @@ Analysis("oxford_combined_rw", sampleName)
 
 void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
-  // Only for signal for now
-  //if (!signal) return;
-  //if (fs.size() == 4) std::cout << "INFO: Apparently these are unshowered samples."<<std::endl; 
-
   Analysis::Analyse(signal, weightnorm, fs);
 
   // Set initial weight
@@ -122,10 +128,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
   
   // ********************************* Simple event categorisation  ***************************************
-  //===============
-  // Small-R jets
-  //===============
-  static double const ResJetR=0.4;
+
   fastjet::JetDefinition akt_res(fastjet::antikt_algorithm, ResJetR);
   fastjet::ClusterSequence cs_akt_res(fs, akt_res);
   std::vector<fastjet::PseudoJet> smallRJets = sorted_by_pt( cs_akt_res.inclusive_jets()  ); // Get all the jets (no pt cut here)
@@ -165,7 +168,6 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 //      if(abs(userid)<6) fsc.push_back(fs.at(i));
 //  }
   
-  double jetR = 0.3;
   fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, jetR);
   fastjet::ClusterSequence cs_subjets(fs, jd_subjets);
   std::vector<fastjet::PseudoJet> trackjets = sorted_by_pt( cs_subjets.inclusive_jets()  );
@@ -183,7 +185,6 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   //===============
   // Large-R jets
   //===============
-  static double const BoostJetR=1.0;
   fastjet::JetDefinition akt_boost(fastjet::antikt_algorithm, BoostJetR);
   fastjet::ClusterSequence cs_akt_boost(fs, akt_boost);
   std::vector<fastjet::PseudoJet> largeRJets = sorted_by_pt( cs_akt_boost.inclusive_jets()  ); // Get all the jets (no pt cut here)
@@ -220,7 +221,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
   largeRJetsSel = sorted_by_pt(largeRJetsSel);  // Resort
   std::vector<int> nBSubjetsLR_vec; // Vector specifying how many real b subjets there are
-  BTaggingFJ( largeRJetsSel, trackjetsSel, nBSubjetsLR_vec);
+  BTagging( largeRJetsSel, trackjetsSel, nBSubjetsLR_vec);
 
   if( largeRJetsSel.size() != nBSubjetsLR_vec.size() )
     std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl;
@@ -248,95 +249,41 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   //===================================================
   // C1: Basic kinematic cuts + Higgs mass window cut
   //===================================================
-  if( nFatJets >= 2 ){      
-    
-      // Higgs mass window cut
+
+  // Boosted
+  if( nFatJets >= 2 )    
       if( fabs(largeRJetsSel[0].m() - 125.) < 40.0 && fabs(largeRJetsSel[1].m() - 125.) < 40.0 )
       {
-  	    // Record cutflow
-  	    FillHistogram("CF_boost", event_weight, 1.1);
-  	    FillHistogram("CFN_boost", 1., 1.1);
-  	    
-  	    // Histograms for reconstructed Higgs candidates
-  	    FillHistogram("pt_H0_boost_C1", event_weight, largeRJetsSel[0].pt());
-  	    FillHistogram("pt_H1_boost_C1", event_weight, largeRJetsSel[1].pt());
-  	    
-  	    FillHistogram("m_H0_boost_C1", event_weight, largeRJetsSel[0].m());
-  	    FillHistogram("m_H1_boost_C1", event_weight, largeRJetsSel[1].m());
-  	    
-  	    // Reconstruct di-Higgs system
-  	    const fastjet::PseudoJet dihiggs_boost = largeRJetsSel[0] + largeRJetsSel[1];
-  	    
-  	    // Histograms for reconstructed di-Higgs system
-  	    FillHistogram("m_HH_boost_C1", event_weight, dihiggs_boost.m());
-  	    FillHistogram("pt_HH_boost_C1", event_weight, dihiggs_boost.pt());
-  	    FillHistogram("dR_HH_boost_C1", event_weight, largeRJetsSel[0].delta_R(largeRJetsSel[1]) );
-  	    FillHistogram("dPhi_HH_boost_C1", event_weight, getDPhi(largeRJetsSel[0].phi(), largeRJetsSel[1].phi()) );
-  	    FillHistogram("dEta_HH_boost_C1", event_weight, fabs( largeRJetsSel[0].eta() - largeRJetsSel[1].eta()) );
+        HiggsFill(largeRJetsSel[0], largeRJetsSel[1], "boost", 1, event_weight);
+        BoostFill(largeRJetsSel[0], largeRJetsSel[1], "boost", 1, event_weight);
       }
-  }
-  if( nJets >= 4 ){
-    
+  
+  // Resolved
+  if( nJets >= 4 )
+  {
       // Reconstruct Higgs candidates from small-R jets
       std::vector<fastjet::PseudoJet> higgs_res;
       Reco_Resolved( smallRJetsSel, higgs_res );
     
       // Higgs mass window cut
-      if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 ){
-	
-	  // Record cutflow
-	  FillHistogram("CF_res", event_weight, 1.1);
-	  FillHistogram("CFN_res", 1., 1.1);
-	  
-	  // Histograms for reconstructed Higgs candidates
-	  FillHistogram("pt_H0_res_C1", event_weight, higgs_res[0].pt());
-	  FillHistogram("pt_H1_res_C1", event_weight, higgs_res[1].pt());
-	  
-	  FillHistogram("m_H0_res_C1", event_weight, higgs_res[0].m());
-	  FillHistogram("m_H1_res_C1", event_weight, higgs_res[1].m());
-      
-	  // Reconstruct di-Higgs system
-	  const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
-	  
-	  // Histograms for reconstructed di-Higgs system
-	  FillHistogram("m_HH_res_C1", event_weight, dihiggs_res.m());
-	  FillHistogram("pt_HH_res_C1", event_weight, dihiggs_res.pt());
-	  FillHistogram("dR_HH_res_C1", event_weight, higgs_res[0].delta_R(higgs_res[1]) );
-	  FillHistogram("dPhi_HH_res_C1", event_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
-	  FillHistogram("dEta_HH_res_C1", event_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
-      }
+      if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 )
+        HiggsFill(higgs_res[0], higgs_res[1], "res", 1, event_weight);
   }
+
+  // Intermediate
   if( nJets >= 2 &&  nFatJets == 1 ){
     
     // Reconstruct Higgs candidates from large-R and small-R jets
     std::vector<fastjet::PseudoJet> higgs_inter;
     int nBJets_SR = 0;
-    bool isRecoInter = Reco_Intermediate( smallRJetsSel, isFakeSR_vec, largeRJetsSel[0], nBJets_SR, higgs_inter );
+    const bool isRecoInter = Reco_Intermediate( smallRJetsSel, isFakeSR_vec, largeRJetsSel[0], nBJets_SR, higgs_inter );
 
     // Check if reconstruction was successful
     if( isRecoInter )
       if( fabs(higgs_inter[0].m() - 125.) < 40.0 && fabs(higgs_inter[1].m() - 125.) < 40.0 )
       {
-        // Record cutflow
-        FillHistogram("CF_inter", event_weight, 1.1);
-        FillHistogram("CFN_inter", 1., 1.1);
-
-        // Histograms for reconstructed Higgs candidates
-        FillHistogram("pt_H0_inter_C1", event_weight, higgs_inter[0].pt());
-        FillHistogram("pt_H1_inter_C1", event_weight, higgs_inter[1].pt());
-
-        FillHistogram("m_H0_inter_C1", event_weight, higgs_inter[0].m());
-        FillHistogram("m_H1_inter_C1", event_weight, higgs_inter[1].m());
-
-        // Reconstruct di-Higgs system
-        const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
-
-        // Histograms for reconstructed di-Higgs system
-        FillHistogram("m_HH_inter_C1", event_weight, dihiggs_inter.m());
-        FillHistogram("pt_HH_inter_C1", event_weight, dihiggs_inter.pt());
-        FillHistogram("dR_HH_inter_C1", event_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
-        FillHistogram("dPhi_HH_inter_C1", event_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
-        FillHistogram("dEta_HH_inter_C1", event_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
+        HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 1, event_weight);
+        BoostFill(largeRJetsSel[0], "inter", 1, event_weight);
       }
   }
   
@@ -344,42 +291,18 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   // C2: b-tagging
   //=============================
   if( nBBTaggedFatJets >= 2 )
-  {
-    // Higgs mass window cut
     if( fabs(bbFatJets[0].m() - 125.) < 40.0 && fabs(bbFatJets[1].m() - 125.) < 40.0 )
     {
-      
       // b-tagging weights
       const double nB = nBSubjetsLR_vec[0] + nBSubjetsLR_vec[1];      // Number of true b-subjets
       const double nF = 4 - nB;  // Number of fake b-subjets
 
       // Reweighted event weight
       const double boost_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
+      const fastjet::PseudoJet dihiggs_boost = bbFatJets[0] + bbFatJets[1];
 
-    	// Record cutflow
-    	FillHistogram("CF_boost", boost_weight, 2.1);
-    	FillHistogram("CFN_boost", 1., 2.1);
-
-    	// Histograms for reconstructed Higgs candidates
-    	FillHistogram("pt_H0_boost_C2", boost_weight, bbFatJets[0].pt());
-    	FillHistogram("pt_H1_boost_C2", boost_weight, bbFatJets[1].pt());
-    	
-    	FillHistogram("m_H0_boost_C2", boost_weight, bbFatJets[0].m());
-    	FillHistogram("m_H1_boost_C2", boost_weight, bbFatJets[1].m());
-    	
-    	FillHistogram("ptHptH_boost_C2", boost_weight, bbFatJets[0].pt(), bbFatJets[1].pt());
-    	FillHistogram("mHmH_boost_C2", boost_weight, bbFatJets[0].m(), bbFatJets[1].m());
-    	
-    	// Reconstruct di-Higgs system
-    	const fastjet::PseudoJet dihiggs_boost = bbFatJets[0] + bbFatJets[1];
-    	
-    	// Histograms for reconstructed di-Higgs system
-    	FillHistogram("m_HH_boost_C2", boost_weight, dihiggs_boost.m());
-    	FillHistogram("pt_HH_boost_C2", boost_weight, dihiggs_boost.pt());
-    	FillHistogram("dR_HH_boost_C2", boost_weight, bbFatJets[0].delta_R(bbFatJets[1]) );
-    	FillHistogram("dPhi_HH_boost_C2", boost_weight, getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) );
-    	FillHistogram("dEta_HH_boost_C2", boost_weight, fabs( bbFatJets[0].eta() - bbFatJets[1].eta()) );
-    	//std::cout << "dPhi " << getDPhi(bbFatJets[0].phi(), bbFatJets[1].phi()) << std::endl;
+      HiggsFill(bbFatJets[0], bbFatJets[1], "boost", 2, boost_weight);
+      BoostFill(bbFatJets[0], bbFatJets[1], "boost", 2, boost_weight);
 
       // Calculate some substructure variables
       std::vector<double> split12_vec;
@@ -387,12 +310,6 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
       std::vector<double> tau21_vec;
       tau21_vec = NSubjettiness( bbFatJets, BoostJetR );
-
-      FillHistogram("split12_fj1_boost_C2", boost_weight, split12_vec[0]);
-      FillHistogram("tau21_fj1_boost_C2", boost_weight, tau21_vec[0]);
-
-      FillHistogram("split12_fj2_boost_C2", boost_weight, split12_vec[1]);
-      FillHistogram("tau21_fj2_boost_C2", boost_weight, tau21_vec[1]);
 
       // Fill tuple
       bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
@@ -410,17 +327,19 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 << tau21_vec[0] << "\t"
                 << tau21_vec[1] << "\t"
                 <<std::endl;
-      }
-  }
-  if( nBTaggedJets >= 4 ){
-    
+    }
+
+  // Resolved
+  if( nBTaggedJets >= 4 )
+  {
     // Reconstruct Higgs candidates from b-tagged small-R jets
     std::vector<fastjet::PseudoJet> higgs_res;
     Reco_Resolved( bJets, higgs_res );
     
     // Higgs mass window cut
-    if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 ){
-        
+    if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 )
+    {
+      // Determine number of real and fake b-jets
       int nB = 0;
       for (int i=0; i<nBTaggedJets; i++)
         if (!isFakeSR_vec[i])
@@ -428,34 +347,11 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
       const int nF = 4 - nB;
 
-
       // Reweighted event weight
       const double res_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
+      const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
 
-    	// Record cutflow
-    	FillHistogram("CF_res", res_weight, 2.1);
-    	FillHistogram("CFN_res", 1., 2.1);
-          
-    	// Histograms for reconstructed Higgs candidates
-    	FillHistogram("pt_H0_res_C2", res_weight, higgs_res[0].pt());
-    	FillHistogram("pt_H1_res_C2", res_weight, higgs_res[1].pt());
-    	
-    	FillHistogram("m_H0_res_C2", res_weight, higgs_res[0].m());
-    	FillHistogram("m_H1_res_C2", res_weight, higgs_res[1].m());
-    	
-    	FillHistogram("ptHptH_res_C2", res_weight, higgs_res[0].pt(), higgs_res[1].pt());
-    	FillHistogram("mHmH_res_C2", res_weight, higgs_res[0].m(), higgs_res[1].m());
-    	
-    	// Reconstruct di-Higgs system
-    	const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
-    	
-    	// Histograms for reconstructed di-Higgs system
-    	FillHistogram("m_HH_res_C2", res_weight, dihiggs_res.m());
-    	FillHistogram("pt_HH_res_C2", res_weight, dihiggs_res.pt());
-    	FillHistogram("dR_HH_res_C2", res_weight, higgs_res[0].delta_R(higgs_res[1]) );
-    	FillHistogram("dPhi_HH_res_C2", res_weight, getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) );
-    	FillHistogram("dEta_HH_res_C2", res_weight, fabs( higgs_res[0].eta() - higgs_res[1].eta()) );
-    	//std::cout << "dPhi " << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << std::endl;
+      HiggsFill(higgs_res[0], higgs_res[1], "res", 2, res_weight);
 
       // Fill tuple
       resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
@@ -471,52 +367,36 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 <<std::endl;
     }
   }
+
+  // Intermediate
   if( nBTaggedJets >= 2 &&  nBBTaggedFatJets == 1 )
   {
     // Reconstruct Higgs candidates from bb-tagged large-R and b-tagged small-R jets
     std::vector<fastjet::PseudoJet> higgs_inter;
     int nBJets_SR;
-    bool isRecoInter = Reco_Intermediate( smallRJetsSel, isFakeSR_vec, largeRJetsSel[0], nBJets_SR, higgs_inter );
+    const bool isRecoInter = Reco_Intermediate( smallRJetsSel, isFakeSR_vec, largeRJetsSel[0], nBJets_SR, higgs_inter );
     
     // Check if reconstruction was successful
     if( isRecoInter )
       if( fabs(higgs_inter[0].m() - 125.) < 40.0 && fabs(higgs_inter[1].m() - 125.) < 40.0 )
       {
+        // Determine number of fake bJets
         const int nB = nBJets_SR + nBSubjetsLR_vec[0];
         const int nF = 4 - nB;
 
+        // Error checking
         if (nB > 4)
         {
           std::cerr << "ERROR: number of reconstructed b quarks > 4!"<<std::endl;
           exit(-1);
         }
+
         // Reweighted event weight
         const double inter_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
-
-        // Record cutflow
-        FillHistogram("CF_inter", inter_weight, 2.1);
-        FillHistogram("CFN_inter", 1., 2.1);
-
-        // Histograms for reconstructed Higgs candidates
-        FillHistogram("pt_H0_inter_C2", inter_weight, higgs_inter[0].pt());
-        FillHistogram("pt_H1_inter_C2", inter_weight, higgs_inter[1].pt());
-
-        FillHistogram("m_H0_inter_C2", inter_weight, higgs_inter[0].m());
-        FillHistogram("m_H1_inter_C2", inter_weight, higgs_inter[1].m());
-
-        FillHistogram("ptHptH_inter_C2", inter_weight, higgs_inter[0].pt(), higgs_inter[1].pt());
-        FillHistogram("mHmH_inter_C2", inter_weight, higgs_inter[0].m(), higgs_inter[1].m());
-
-        // Reconstruct di-Higgs system
         const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
 
-        // Histograms for reconstructed di-Higgs system
-        FillHistogram("m_HH_inter_C2", inter_weight, dihiggs_inter.m());
-        FillHistogram("pt_HH_inter_C2", inter_weight, dihiggs_inter.pt());
-        FillHistogram("dR_HH_inter_C2", inter_weight, higgs_inter[0].delta_R(higgs_inter[1]) );
-        FillHistogram("dPhi_HH_inter_C2", inter_weight, getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) );
-        FillHistogram("dEta_HH_inter_C2", inter_weight, fabs( higgs_inter[0].eta() - higgs_inter[1].eta()) );
-        //std::cout << "dPhi " << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << std::endl;
+        HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 2, inter_weight);
+        BoostFill(largeRJetsSel[0], "inter", 2, inter_weight);
 
         // Calculate some substructure variables
         std::vector<double> split12_vec;
@@ -525,11 +405,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         std::vector<double> tau21_vec;
         tau21_vec = NSubjettiness( largeRJetsSel, BoostJetR );
 
-        FillHistogram("split12_fj_inter_C2", inter_weight, split12_vec[0]);
-        FillHistogram("tau21_fj_inter_C2", inter_weight, tau21_vec[0]);
-
-
-              // Fill tuple
+        // Fill tuple
         intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
                   << higgs_inter[0].pt() << "\t"
                   << higgs_inter[1].pt() << "\t"
@@ -580,7 +456,7 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
          
 }
 
-void OxfordCombinedRWAnalysis::BTaggingFJ( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet> const& trackjets, std::vector<int>& nBSubJets_vec )
+void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet> const& trackjets, std::vector<int>& nBSubJets_vec )
 {
     // Loop over all fat jets
     for( size_t i=0; i<largeRJets.size(); i++)
@@ -725,4 +601,94 @@ bool OxfordCombinedRWAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet
     }
     
     return true;
+}
+
+// General fill for reconstructed higgs quantities
+void OxfordCombinedRWAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
+                                         fastjet::PseudoJet const& H1,
+                                         std::string const& analysis, 
+                                         size_t const& cut, 
+                                         double const& weight)
+{
+  if (H0.pt() > H1.pt())
+  {
+    std::cerr << "HiggsFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<std::endl;
+  }
+
+  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string suffix = "_" + analysis + cutStr;
+
+  // Record cutflow
+  FillHistogram("CF_" +analysis, weight, cut + 0.1);
+  FillHistogram("CFN_"+analysis, 1., cut + 0.1);
+
+  // Histograms for reconstructed Higgs candidates
+  FillHistogram("pt_H0" + suffix, weight, H0.pt());
+  FillHistogram("pt_H1" + suffix, weight, H1.pt());
+
+  FillHistogram("m_H0" + suffix, weight, H0.m());
+  FillHistogram("m_H1" + suffix, weight, H1.m());
+
+  FillHistogram("ptHptH" + suffix, weight, H0.pt(), H1.pt());
+  FillHistogram("mHmH" + suffix, weight, H0.m(), H1.m());
+
+  FillHistogram("dR_HH" + suffix, weight, H0.delta_R(H1) );
+  FillHistogram("dPhi_HH" + suffix, weight, getDPhi(H0.phi(), H1.phi()) );
+  FillHistogram("dEta_HH" + suffix, weight, fabs( H0.eta() - H1.eta()) );
+
+  // Reconstruct di-Higgs system
+  const fastjet::PseudoJet dihiggs = H0 + H1;
+
+  // Histograms for reconstructed di-Higgs system
+  FillHistogram("m_HH" + suffix, weight, dihiggs.m());
+  FillHistogram("pt_HH" + suffix, weight, dihiggs.pt());
+
+}
+
+
+void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string suffix = "_" + analysis + cutStr;
+
+  // Splitting scales
+  const double split12 = SplittingScales( H );
+
+  // 2-subjettiness / 1-subjettiness
+  const double tau21 = NSubjettiness( H, BoostJetR );
+
+  FillHistogram("split12_fj" + suffix, weight, split12);
+  FillHistogram("tau21_fj" + suffix, weight, tau21);
+}
+
+void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
+                                          fastjet::PseudoJet const& H1,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+  if (H0.pt() > H1.pt())
+  {
+    std::cerr << "HiggsFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<std::endl;
+  }
+
+  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string suffix = "_" + analysis + cutStr;
+
+  // Splitting scales
+  const double split12_fj1 = SplittingScales( H0 );
+  const double split12_fj2 = SplittingScales( H1 );
+
+  // 2-subjettiness / 1-subjettiness
+  const double tau21_fj1 = NSubjettiness( H0, BoostJetR );
+  const double tau21_fj2 = NSubjettiness( H1, BoostJetR );
+
+  FillHistogram("split12_fj1" + suffix, weight, split12_fj1);
+  FillHistogram("split12_fj1" + suffix, weight, split12_fj2);
+
+  FillHistogram("tau21_fj1" + suffix, weight, tau21_fj1);
+  FillHistogram("tau21_fj2" + suffix, weight, tau21_fj2);
 }

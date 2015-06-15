@@ -15,6 +15,9 @@ std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& je
 std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_rad );
 std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_Rmax, double const& jet_Rmin, double const& jet_Rho );
 
+double SplittingScales( fastjet::PseudoJet const& jet );
+double NSubjettiness(   fastjet::PseudoJet const& jet, double const& jet_rad );
+
 // Ghost association for large-R double b-tagging
 void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJet> trkjets, std::vector<fastjet::PseudoJet> &matched_trkjets, bool debug);
 

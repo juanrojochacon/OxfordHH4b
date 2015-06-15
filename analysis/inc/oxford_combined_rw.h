@@ -17,12 +17,37 @@ class OxfordCombinedRWAnalysis : public Analysis
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:
-		void BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<bool>& isFake_vec  );
- 		void BTaggingFJ( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet> const& trackjets, std::vector<int>& nBSubJets_vec );
+		// B-tagging
+		void BTagging( 	std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<bool>& isFake_vec  );
+ 		void BTagging( 	std::vector<fastjet::PseudoJet> const& largeRJets, 
+ 						std::vector<fastjet::PseudoJet> const& trackjets, 
+ 						std::vector<int>& nBSubJets_vec );
 
-
+ 		// Small-R reconstruction
 		void Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets_vec, std::vector<fastjet::PseudoJet>& higgs_vec );
-		bool Reco_Intermediate( std::vector<fastjet::PseudoJet> const& bjets, std::vector<bool> const& isFakeSR_vec, fastjet::PseudoJet const& fatjet, int& nBjets, std::vector<fastjet::PseudoJet>& higgs_vec );
+
+		bool Reco_Intermediate( std::vector<fastjet::PseudoJet> const& bjets, 
+								std::vector<bool> const& isFakeSR_vec, 
+								fastjet::PseudoJet const& fatjet, int& nBjets, 
+								std::vector<fastjet::PseudoJet>& higgs_vec );
+
+		// Fill common reconstructed higgs quantities
+		void HiggsFill(	fastjet::PseudoJet const& H0,
+	                    fastjet::PseudoJet const& H1,
+	                    std::string const& analysis, 
+	                    size_t const& cut, 
+	                    double const& weight);
+
+		void BoostFill( fastjet::PseudoJet const& H,
+						std::string const& analysis, 
+	                    size_t const& cut, 
+	                    double const& weight );
+
+		void BoostFill( fastjet::PseudoJet const& H0,
+						fastjet::PseudoJet const& H1,
+						std::string const& analysis, 
+	                    size_t const& cut, 
+	                    double const& weight );	
 
 		std::ofstream resNTuple;
 		std::ofstream intNTuple;
