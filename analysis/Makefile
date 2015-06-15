@@ -36,7 +36,7 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 # Compiler options
 ##################
 
-GCC = g++
+GCC = g++ -std=c++0x
 
 # hepmc2 
 HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/lib
