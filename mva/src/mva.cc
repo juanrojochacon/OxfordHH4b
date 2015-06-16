@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 	double fitness = std::numeric_limits<double>::infinity();
 
 	//const int nGen = 500000;
-	const int nGen = 500000;
+	const int nGen = 50000;
 	for (int i=0; i< nGen; i++)
 	{
 		if (interrupt) break;
