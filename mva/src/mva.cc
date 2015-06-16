@@ -8,6 +8,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
+
 
 #include "parametrisation.h"
 #include "trainingdata.h"
