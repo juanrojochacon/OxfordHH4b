@@ -13,13 +13,25 @@
 #include "trainingdata.h"
 #include "random.h"
 
+#include <signal.h>
+
 using std::cout;
 using std::endl;
+
+bool interrupt = false;
+
+void catch_int( int signum )
+{
+	interrupt = true;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[])
 {  
+
+  	signal(SIGINT, catch_int);
+
 	// Initialise RNG
 	rng_init(235243356345);
 
@@ -58,6 +70,10 @@ int main(int argc, char* argv[])
 	vector<trainingDatum*> trainingData;
 	int sigCount = 0;
 	int bkgCount = 0;
+
+	double sigWeight = 0;
+	double bkgWeight = 0;
+
 	while (getline(datafile, line))
 	{
 		bool signal;
@@ -75,19 +91,22 @@ int main(int argc, char* argv[])
 		trainingData.push_back(new trainingDatum(signal,source,weight,nKin,kinematics));
 
 		if (signal)
+		{
 			sigCount++;
+			sigWeight+=weight;
+		}
 		else
+		{
 			bkgCount++;
+			bkgWeight+=weight;
+		}
 
 		delete[] kinematics;
 	}
 
 	cout << trainingData.size() << " datapoints found in training set."<<endl; 
 	cout << sigCount<<" signal points, " <<bkgCount << " background points." <<endl;
-
-	const double sig_wgt = 1;//( (double) bkgCount )/( (double) sigCount );
-	const double bkg_wgt = ( (double) sigCount )/( (double) bkgCount );
-	cout << "Background weight: "<< bkg_wgt << " signal weight: " <<sig_wgt <<endl;
+	cout << sigWeight<<" signal weight, " <<bkgWeight << " background weight." <<endl;
 
 	norm_trainingData(trainingData);
 	norm_trainingData(trainingData);
@@ -105,28 +124,14 @@ int main(int argc, char* argv[])
 	// Compute initial probabilities
 	cout << "******************************************************"<<endl;
 	double* outProb = new double[1];
-	double fitness = 0;
-	for (size_t i=0; i<trainingData.size(); i++)
-	{
-		*outProb = 0;
-		mlp.Compute(trainingData[i]->getKinematics(), outProb);
-
-		// Compute cross-entropy
-		const double t = trainingData[i]->getSignal();
-		const double tpr = *outProb;
-		const double wgt = trainingData[i]->getSignal() ? sig_wgt:bkg_wgt;
-
-		fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
-		//fitness += wgt*pow((t-tpr),2.0);	// MSE
-	}
-
-	cout << "Init Fitness: " << fitness<<endl;
-	cout << "******************************************************"<<endl;
+	double fitness = std::numeric_limits<double>::infinity();
 
 	//const int nGen = 500000;
-	const int nGen = 40000;
+	const int nGen = 500000;
 	for (int i=0; i< nGen; i++)
 	{
+		if (interrupt) break;
+
 		// Mutate
 		MultiLayerPerceptron mutant(mlp);
 		const int NParam =  mutant.GetNParameters();
@@ -142,10 +147,12 @@ int main(int argc, char* argv[])
 			// Compute cross-entropy
 			const double t = trainingData[j]->getSignal();
 			const double tpr = *outProb;
-			const double wgt = trainingData[j]->getSignal() ? sig_wgt:bkg_wgt;
+			const double wgt = trainingData[j]->getWeight() / (trainingData[j]->getSignal() ? (sigWeight/sigCount):(bkgWeight/bkgCount));
 
 			mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
 			//mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
+
+			if (mut_fitness > fitness) break;
 		}
 
 		// Selection
@@ -156,7 +163,7 @@ int main(int argc, char* argv[])
 		}
 
 		// Write progress to screen
-		if (i% 5000 == 0)
+		if (i% 50 == 0)
 			cout << i<<"\t"<<fitness<<endl;
 	}
 

@@ -84,7 +84,7 @@ for idat in xrange(1,len(sys.argv)):
 
 	#### ROC Curve and S/B plot
 
-	thresholds = numpy.linspace(0, 1, 200)
+	thresholds = numpy.linspace(0, 1, 50)
 	falsepos = []
 	truepos = []
 
@@ -92,6 +92,8 @@ for idat in xrange(1,len(sys.argv)):
 	soversb = []
 
 	for th in thresholds:
+		print "Calculating threshold: ", th
+		
 		# S/B signal and background weights
 		signalwgt = 0
 		backgdwgt = 0
@@ -138,6 +140,9 @@ slegend.get_frame().set_alpha(0.8)
 # Legend
 sslegend = ssbax.legend(loc='best')
 sslegend.get_frame().set_alpha(0.8)
+
+x1,x2,y1,y2 = sbax.axis()
+sbax.axis((x1,x2,0,1E-2))
 
 roc.savefig('roc.pdf')
 sb.savefig('sb.pdf')

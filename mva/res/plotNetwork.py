@@ -8,7 +8,7 @@ import numpy
 import sys
 
 # Init data
-sourcefile = 'nn_11X5X3X1_40000-Gen_CE.net'
+sourcefile = 'nn_9X5X3X1_500000-Gen_CE.net'
 
 # Verify paths
 if os.path.exists(sourcefile) == False:
