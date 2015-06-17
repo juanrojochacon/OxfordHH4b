@@ -1,0 +1,34 @@
+*********************************
+Minutes HH->4b meeting 2015/06/17
+*********************************
+
+- Agreed to keep symmetric cut in pt_subjet, and to add to the MVA the pt of the subjets
+for the boosted and resolved categories
+
+- Nathan's results indicate that adding the ECF in the MVA helps quite a bit
+in improving the signal significance
+
+- Need to compute how many signal events we are left with as a function of the
+cut in the MVA output, for the three categories
+
+- Try to add separately C2 and D2 in the MVA, on top of their ratio C2/D2
+
+- Thanks to the new substructure variables, the signal significance is
+now S/sqrt(B) \sim 2.5 already in the boosted case, adding up to almost 3 if we add
+the significance of the other categories
+
+- Nathan will recompute the numbers including only the 4b background
+
+- Agreed to implement the mistag rate for c jets
+
+- Create in the repo a folder with the data files for the final analysis
+and the corresponding python scripts, to be able to create the plots
+we need easily for the paper
+
+- Check what happens if the b-tagging is varied from 70% to 90%. Same
+for the fake rejection rate and the mass resolution
+
+- Include effects of the systematic uncertainty in the number of background
+events expected, and see how signifiance changes when varying this assumption
+
+**********************************************************************
