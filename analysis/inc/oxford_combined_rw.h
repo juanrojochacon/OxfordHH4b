@@ -24,7 +24,10 @@ class OxfordCombinedRWAnalysis : public Analysis
  						std::vector<int>& nBSubJets_vec );
 
  		// Small-R reconstruction
-		void Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets_vec, std::vector<fastjet::PseudoJet>& higgs_vec );
+		void Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets_vec, 
+							std::vector<fastjet::PseudoJet>& higgs_vec,
+							std::vector<fastjet::PseudoJet>& higgs0_vec,  	// Leading higgs subjets
+                            std::vector<fastjet::PseudoJet>& higgs1_vec  ); // Subleading higgs subjets
 
 		bool Reco_Intermediate( std::vector<fastjet::PseudoJet> const& bjets, 
 								std::vector<bool> const& isFakeSR_vec, 
