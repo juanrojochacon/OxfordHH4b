@@ -120,7 +120,7 @@ Analysis("oxford_combined_rw", sampleName)
   intNTuple.open(intDir.c_str());
   bstNTuple.open(bstDir.c_str());
 
-  resNTuple << tupleSpec <<std::endl;
+  resNTuple << tupleSpec <<" pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1"<<std::endl;
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
   bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
 
@@ -270,7 +270,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   {
       // Reconstruct Higgs candidates from small-R jets
       std::vector<fastjet::PseudoJet> higgs_res;
-      Reco_Resolved( smallRJetsSel, higgs_res );
+      std::vector<fastjet::PseudoJet> higgs0_res;
+      std::vector<fastjet::PseudoJet> higgs1_res;
+
+      Reco_Resolved( smallRJetsSel, higgs_res, higgs0_res, higgs1_res );
     
       // Higgs mass window cut
       if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 )
@@ -421,7 +424,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   {
     // Reconstruct Higgs candidates from b-tagged small-R jets
     std::vector<fastjet::PseudoJet> higgs_res;
-    Reco_Resolved( bJets, higgs_res );
+    std::vector<fastjet::PseudoJet> higgs0_res;
+    std::vector<fastjet::PseudoJet> higgs1_res;
+
+    Reco_Resolved( smallRJetsSel, higgs_res, higgs0_res, higgs1_res );
     
     // Higgs mass window cut
     if( fabs(higgs_res[0].m() - 125.) < 40.0 && fabs(higgs_res[1].m() - 125.) < 40.0 )
@@ -451,6 +457,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
                 << higgs_res[0].delta_R(higgs_res[1]) << "\t"
                 << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << "\t"
                 << fabs( higgs_res[0].eta() - higgs_res[1].eta())  << "\t"
+                << higgs0_res[0].pt() << "\t"
+                << higgs0_res[1].pt() << "\t"
+                << higgs1_res[0].pt() << "\t"
+                << higgs1_res[1].pt() << "\t"
                 <<std::endl;
 
       Pass(res_weight);
@@ -531,7 +541,11 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
 }
 
 
-void OxfordCombinedRWAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets, std::vector<fastjet::PseudoJet>& higgs_vec ){
+void OxfordCombinedRWAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets, // Input b-jets
+                                              std::vector<fastjet::PseudoJet>& higgs_vec,   // Returned Higgs candidates
+                                              std::vector<fastjet::PseudoJet>& higgs0_vec,  // Leading higgs subjets
+                                              std::vector<fastjet::PseudoJet>& higgs1_vec ) // Subleading higgs subjets
+{
 
     // Get the pairing that minimizes |m_dj1 - m_dj2|
     double dijet_mass[4][4];
@@ -572,11 +586,29 @@ void OxfordCombinedRWAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> co
     if( higgs1.pt() > higgs2.pt()){
       higgs_vec.push_back(higgs1);
       higgs_vec.push_back(higgs2);
+
+      higgs0_vec.push_back(bjets.at( jet1_id1));
+      higgs0_vec.push_back(bjets.at( jet1_id2));
+
+      higgs1_vec.push_back(bjets.at( jet2_id1));
+      higgs1_vec.push_back(bjets.at( jet2_id2));
+
     }
     else{
       higgs_vec.push_back(higgs2);
-      higgs_vec.push_back(higgs1);    
+      higgs_vec.push_back(higgs1);  
+
+      higgs1_vec.push_back(bjets.at( jet1_id1));
+      higgs1_vec.push_back(bjets.at( jet1_id2));
+
+      higgs0_vec.push_back(bjets.at( jet2_id1));
+      higgs0_vec.push_back(bjets.at( jet2_id2));  
     }
+
+    // Sort vectors
+    higgs0_vec = sorted_by_pt(higgs0_vec);
+    higgs1_vec = sorted_by_pt(higgs1_vec);
+
 }
 
 
