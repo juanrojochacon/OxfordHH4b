@@ -680,7 +680,7 @@ void OxfordCombinedRWAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
   if (H0.pt() < H1.pt())
     std::cerr << "HiggsFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
 
-  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string cutStr = "_C"+std::to_string(static_cast<long long int>(cut));
   const std::string suffix = "_" + analysis + cutStr;
 
   // Record cutflow
@@ -716,7 +716,7 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H,
                                           size_t const& cut, 
                                           double const& weight )
 {
-  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string cutStr = "_C"+std::to_string(static_cast<long long int>(cut));
   const std::string suffix = "_" + analysis + cutStr;
 
   // Splitting scales
@@ -744,7 +744,7 @@ void OxfordCombinedRWAnalysis::BoostFill( fastjet::PseudoJet const& H0,
   if (H0.pt() < H1.pt())
     std::cerr << "BoostFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
 
-  const std::string cutStr = "_C"+std::to_string(cut);
+  const std::string cutStr = "_C"+std::to_string(static_cast<long long int>(cut));
   const std::string suffix = "_" + analysis + cutStr;
 
   // Splitting scales
