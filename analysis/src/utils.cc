@@ -383,6 +383,9 @@ void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJ
 	  matched_trkjets.push_back(trkjets.at(iter));
       }
     }
+    
+    // Sort matched jets by pt
+    matched_trkjets = sorted_by_pt( matched_trkjets );
 
     return;
 }

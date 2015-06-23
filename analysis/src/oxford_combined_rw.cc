@@ -9,10 +9,12 @@
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/tools/MassDropTagger.hh"
-// #include "fastjet/contrib/VariableRPlugin.hh"
+#include "fastjet/contrib/VariableRPlugin.hh"
 
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
+
+using namespace fastjet::contrib;
 
 // pT cut for constituent b-quarks (GeV)
 const double pt_btagging = 15;
@@ -26,6 +28,18 @@ const double ResJetR=0.4;
 
 // beta-exponent for LST energy correlations
 const double LST_beta = 2;
+
+// Switch to run with Variable-R jets
+const bool doVR = true;
+ 
+// Set VR parameters
+static double const jet_Rmax    =1.0;
+static double const jet_Rmin    =0.2;
+static double const jet_Rho     =500.;
+
+//Instantiate VR plugin
+static const VariableRPlugin lvjet_pluginAKT(jet_Rho, jet_Rmin, jet_Rmax, VariableRPlugin::AKTLIKE);
+static const fastjet::JetDefinition VR_AKT(&lvjet_pluginAKT);
 
 
 OxfordCombinedRWAnalysis::OxfordCombinedRWAnalysis(std::string const& sampleName):
@@ -190,9 +204,20 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   //===============
   // Large-R jets
   //===============
+  std::vector<fastjet::PseudoJet> largeRJets;
+
   fastjet::JetDefinition akt_boost(fastjet::antikt_algorithm, BoostJetR);
-  fastjet::ClusterSequence cs_akt_boost(fs, akt_boost);
-  std::vector<fastjet::PseudoJet> largeRJets = sorted_by_pt( cs_akt_boost.inclusive_jets()  ); // Get all the jets (no pt cut here)
+  fastjet::ClusterSequence cs_akt_fr(fs, akt_boost);
+  fastjet::ClusterSequence cs_akt_vr(fs, VR_AKT);
+
+  if( !doVR ){
+        largeRJets = sorted_by_pt( cs_akt_fr.inclusive_jets()  ); // Get all the jets (no pt cut here)
+  }
+  else{
+        largeRJets = sorted_by_pt( cs_akt_vr.inclusive_jets()  ); // Get all the jets (no pt cut here)
+        //std::cout << "Running Variable-R jets " << std::endl;
+  }
+
   std::vector<fastjet::PseudoJet> bbFatJets;
   
   // Basic kinematic cuts
@@ -514,7 +539,7 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
       int nBSubJets = 0;
 
       // Loop over subjets
-      for( size_t j=0; j < nSubjets; j++)
+      for( int j=0; j < nSubjets; j++)
       {
         bool isBJet = false;
         // Loop over constituents and look for b quarks
