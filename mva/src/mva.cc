@@ -45,8 +45,9 @@ int main(int argc, char* argv[])
 	}
 
 	// Read datafile
-	string dataPath = argv[1];
-	cout << "Reading data from "<< dataPath<<endl;
+	const string dataPath = argv[1];
+	const string dataName = dataPath.substr(2,dataPath.length()-6);
+	cout << "Reading data from "<< dataPath<< "  Named: " << dataName<< endl;
 
 	ifstream datafile(dataPath.c_str());
 	string line; stringstream linestream;
@@ -128,7 +129,6 @@ int main(int argc, char* argv[])
 	double* outProb = new double[1];
 	double fitness = std::numeric_limits<double>::infinity();
 
-	//const int nGen = 500000;
 	const int nGen = 50000;
 	for (int i=0; i< nGen; i++)
 	{
@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
 	}
 	arch << "_"<<nGen<<"-Gen";
 
-	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_CE.dat";
+	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_"+ dataName+ ".dat";
 	ofstream mvaout(mvafile.c_str());
 
 	cout << "******************************************************"<<endl;
@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
 	mvaout.close();
 	cout << "******************************************************"<<endl;
 
-	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_CE.net";
+	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".net";
 	mlp.Export(netfile, kinstream.str());
 
 	// End of the main progream
