@@ -535,10 +535,10 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
       std::vector<fastjet::PseudoJet> subjets;
       get_assoc_trkjets( largeRJets.at(i), trackjets, subjets, false);
 
-      const int nSubjets = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
       int nBSubJets = 0;
 
       // Loop over subjets
+      const int nSubjets = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
       for( int j=0; j < nSubjets; j++)
       {
         bool isBJet = false;
@@ -552,7 +552,10 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
           const double pt_bcandidate = subjet_constituents.at(k).pt();
 
           if( abs(userid) == 5 && pt_bcandidate > pt_btagging )
+          {
             isBJet = true;
+            break;
+          }
         }
 
         if (isBJet)
@@ -648,8 +651,8 @@ bool OxfordCombinedRWAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet
     std::vector<fastjet::PseudoJet> bjets_separated;
     std::vector<bool> bjets_separated_isFake;
     
-    for( size_t i = 0; i < bjets.size(); i++ ){
-      
+    for( size_t i = 0; i < bjets.size(); i++ )
+    {  
       double dR = bjets.at(i).delta_R(fatjet);
       if( dR < 1.0 ) continue;
       

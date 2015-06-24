@@ -29,11 +29,20 @@ ssb, ssbax = plt.subplots()
 ssbax.set_ylabel("S/sqrt(B)")
 ssbax.set_xlabel("NN Discriminant")
 
+# Setup N_evt plots
+nev, nevax = plt.subplots()
+nevax2 = nevax.twinx()
+nevax.set_ylabel("Number of signal events")
+nevax2.set_ylabel("Number of background events")
+nevax.set_xlabel("NN Discriminant")
+
 # Gridlines
 sbax.xaxis.grid(True)
 sbax.yaxis.grid(True)
 ssbax.xaxis.grid(True)
 ssbax.yaxis.grid(True)
+nevax.xaxis.grid(True)
+nevax.yaxis.grid(True)
 
 for idat in xrange(1,len(sys.argv)):
 
@@ -51,7 +60,7 @@ for idat in xrange(1,len(sys.argv)):
 	bkgprob = []
 	sigprob = []
 
-	events = []
+	events = []	
 
 	for line in infile:
 		# Full event for s/b plot purposes
@@ -91,6 +100,9 @@ for idat in xrange(1,len(sys.argv)):
 	soverb = []
 	soversb = []
 
+	nbkg = []
+	nsig = []
+
 	for th in thresholds:
 		print "Calculating threshold: ", th
 		
@@ -118,6 +130,9 @@ for idat in xrange(1,len(sys.argv)):
 		falsepos.append(1- fp/float(len(bkgprob)))
 		truepos.append(tp/float(len(sigprob)))
 
+		nsig.append(hl_lhc_lumi*signalwgt)
+		nbkg.append(hl_lhc_lumi*backgdwgt)
+
 		if backgdwgt == 0:
 			soverb.append(0)
 			soversb.append(0)
@@ -128,6 +143,9 @@ for idat in xrange(1,len(sys.argv)):
 	rocax.plot(truepos, falsepos, label = basename)
 	sbax.plot(thresholds, soverb, label = basename)
 	ssbax.plot(thresholds, soversb, label = basename)
+
+	nevax.plot(thresholds, nsig, color='r', label=basename+"_signal")
+	nevax2.plot(thresholds, nbkg, color='b', label=basename+"_background")
 
 # Legend
 rlegend = rocax.legend(loc='best')
@@ -141,12 +159,19 @@ slegend.get_frame().set_alpha(0.8)
 sslegend = ssbax.legend(loc='best')
 sslegend.get_frame().set_alpha(0.8)
 
-x1,x2,y1,y2 = sbax.axis()
-sbax.axis((x1,x2,0,1E-2))
+#NeV colors
+for tl in nevax.get_yticklabels():
+    tl.set_color('r')
+for tl in nevax2.get_yticklabels():
+    tl.set_color('b')
+
+x1,x2,y1,y2 = ssbax.axis()
+ssbax.axis((x1,x2,0,4))
 
 roc.savefig('roc.pdf')
 sb.savefig('sb.pdf')
 ssb.savefig('ssb.pdf')
+nev.savefig('nev.pdf')
 
 
 
