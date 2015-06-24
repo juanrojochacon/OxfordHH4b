@@ -26,7 +26,7 @@ double GetPSmear();	// Return the % of Jet momenta to smear by
 double GetESmear();	// Return the % of Jet energy to smear by
 
 bool pythiaShowered(); // Is pythia showering
-
+double pythiaSeed();
 
 // Analysis initialisation
 void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,

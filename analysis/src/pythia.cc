@@ -8,19 +8,10 @@ with all the settings for the shower and underlying event
  */
 void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const& nevt_max, double& weight_norm )
 {
-  // Initialize random seed
-  srand (time(NULL));
-  std::cout<<"time = "<<time(NULL)<<std::endl;
-  double random = double(rand())/RAND_MAX;
-  std::cout<<"\n\n Random number I = "<<random<<"\n\n"<<std::endl;
-  random = double(rand())/RAND_MAX;
-  std::cout<<"\n\n Random number II = "<<random<<"\n\n"<<std::endl;
-  
   // Random seed
   pythiaRun.readString("Random:setSeed = on");
-  double random_seed_pythia = 100000 * double(rand())/RAND_MAX;
   ostringstream o;
-  o<<"Random:seed = "<<int(random_seed_pythia);
+  o<<"Random:seed = "<<int(pythiaSeed());
   cout<<o.str()<<endl;
   pythiaRun.readString(o.str());
 

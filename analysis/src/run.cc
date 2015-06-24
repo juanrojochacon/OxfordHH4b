@@ -35,6 +35,7 @@ const double jetp_smear = 5.0; // % smear on jet momentum
 const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
+const double random_seed_pythia = 40487;	//!< Random seed for pythia
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -43,6 +44,7 @@ double GetESmear() {return jetE_smear;};
 
 int GetNSamples() {return nSamples;};
 bool pythiaShowered() {return pythiaShower;};
+double pythiaSeed() {return random_seed_pythia;};
 
 eventSample GetSample( int const& isample )
 {
