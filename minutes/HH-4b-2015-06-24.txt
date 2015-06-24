@@ -1,0 +1,46 @@
+*********************************
+Minutes HH->4b meeting 2015/06/24
+*********************************
+
+- NH produced plots of Nev for S and B as a function of
+NN discriminant
+
+- We agree that we can cut relatively hard in the discriminant
+to maximize significance and still get a large enough number
+of events. if we cut around 0.9 the significance is above 3 and the
+number of S events is around 100, which looks very good
+
+- These plots will go into the paper, since it shows how
+smooth the response of the MVA is
+
+- Agreed to cross-check some of NH plots with the numbers
+in the analysis cut-flow
+
+- If we only have the 4b background, the resolved and intermediate
+cases improve a lot, but the boosted stays more or less the same.
+This is good news, since it implies that the most important
+channel is not dramatically affected by the modeling of the fakes
+
+- JF's checks show that moving fb from 80% to 90% has the expected
+results except for 2b2j and 4j backgrounds in the boosted case,
+where the number of events increases much more than it should.
+We know that
+
+S/sqrt(B)
+
+should scale as fb^2, and this is more or less what we see except
+in this case.
+
+- Need to understand this problem with highest priority, since
+it could indicate a bug in the analysis code
+
+- Variable R are not really helpful, since the Higgs bosons are produced
+in a relatively narrow range of pt. So they will not be
+included in the final strategy
+
+- Agreed to produce a repository of plots to be able
+to write the paper, together data files and plotting scripts
+to be able to change the labels etc. This should be done before
+we can manage to begin to write the paper.
+
+**********************************************************************
