@@ -1,6 +1,7 @@
 // oxford_res_fr.cc
 
-#include <algorithm>
+#include "YODA/Histo1D.h"
+#include "YODA/Histo2D.h"
 
 #include "oxford_combined_rw.h"
 #include "utils.h"
@@ -11,8 +12,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/contrib/VariableRPlugin.hh"
 
-#include "YODA/Histo1D.h"
-#include "YODA/Histo2D.h"
+#include <algorithm>
 
 using namespace fastjet::contrib;
 
