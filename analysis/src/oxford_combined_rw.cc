@@ -123,6 +123,15 @@ Analysis("oxford_combined_rw", sampleName)
       BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged" + suffix);
     }
   }
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_res_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_res_C0");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_inter_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_inter_C0");
+  
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRTrackJets_boost_C0");
+  BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRSelTrackJets_boost_C0");
 
   
   // ********************* Ntuple definition **********************
