@@ -92,7 +92,6 @@ for idat in xrange(0,len(datafiles)):
     sys.exit()
   
   infile = open(infilenm, 'rb')
-  print "Processing " + infilenm + " ..."
   datafile = open(infilenm, 'rb')
 
   yval = []
