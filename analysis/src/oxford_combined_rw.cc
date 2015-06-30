@@ -116,6 +116,11 @@ Analysis("oxford_combined_rw", sampleName)
       BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj1" + suffix);  
       BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj2" + suffix);
       BookHistogram(new YODA::Histo1D(nbins*2, 0, 1), "D2_fj" + suffix);       
+      
+      // Additional histograms from unreweighted analysis
+      BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets" + suffix);
+      BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets" + suffix);
+      BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged" + suffix);
     }
   }
 
@@ -137,6 +142,13 @@ Analysis("oxford_combined_rw", sampleName)
   resNTuple << tupleSpec <<" pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1"<<std::endl;
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
   bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
+
+
+  // ********************* Cutflow histograms  **********************
+
+  // Category overlap
+  BookHistogram(new YODA::Histo1D( 7, 0, 7 ), "Categories_C1");
+//   BookHistogram(new YODA::Histo1D( 7, 0, 7 ), "Categories_C2");
 
 }
 
@@ -176,6 +188,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   const int nJets = std::min(smallRJetsSel.size(), (size_t)4);          // Both for now
   for( int i = 0; i < nBTaggedJets; i++)
     bJets.push_back(smallRJetsSel[i]);
+  
+  int nBJets = bJets.size();
   
   //=======================================================
   // Small-R track jets from charged final state particles
@@ -274,12 +288,39 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   FillHistogram("CFN_inter", 1., 0.1);
   FillHistogram("CFN_boost", 1., 0.1);
   
+  // Jet multiplicity histograms before cuts
+  FillHistogram("N_SmallRJets_res_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_res_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_res_C0", event_weight, nBTaggedJets);
+  
+  FillHistogram("N_SmallRJets_inter_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_inter_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_inter_C0", event_weight, nBTaggedJets);
+
+  FillHistogram("N_SmallRJets_boost_C0", event_weight, nJets);
+  FillHistogram("N_SmallRJets_BJets_boost_C0", event_weight, nBJets);
+  FillHistogram("N_SmallRJets_BTagged_boost_C0", event_weight, nBTaggedJets);  
+  
+  // Track jet multiplicity histograms before cuts
+  FillHistogram("N_SmallRTrackJets_res_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_res_C0", event_weight, trackjetsSel.size());
+  
+  FillHistogram("N_SmallRTrackJets_inter_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_inter_C0", event_weight, trackjetsSel.size());
+  
+  FillHistogram("N_SmallRTrackJets_boost_C0", event_weight, trackjets.size());
+  FillHistogram("N_SmallRSelTrackJets_boost_C0", event_weight, trackjetsSel.size());
+  
   //===================================================
   // C1: Basic kinematic cuts + Higgs mass window cut
   //===================================================
 
   // Event categorised
   bool selected = false;
+  
+  bool isRes_C1 = false;
+  bool isInter_C1 = false; 
+  bool isBoost_C1 = false;
 
   // Boosted
   if( nFatJets >= 2 )    
@@ -288,6 +329,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
         HiggsFill(largeRJetsSel[0], largeRJetsSel[1], "boost", 1, event_weight);
         BoostFill(largeRJetsSel[0], largeRJetsSel[1], "boost", 1, event_weight);
         selected = true;
+	isBoost_C1 = true;
       }
   
   // Resolved
@@ -305,6 +347,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
       {
         HiggsFill(higgs_res[0], higgs_res[1], "res", 1, event_weight);
         selected = true;
+	isRes_C1 = true;
       }
   }
 
@@ -322,12 +365,22 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
       {
         HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 1, event_weight);
         BoostFill(largeRJetsSel[0], "inter", 1, event_weight);
+	isInter_C1 = true;
       }
   }
+  
+  if( isRes_C1 && !isInter_C1 && !isBoost_C1 )		FillHistogram("Categories_C1", 1.0, 0.1);
+  else if( !isRes_C1 && isInter_C1 && !isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 1.1);
+  else if( !isRes_C1 && !isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 2.1);
+  else if( isRes_C1 && isInter_C1 && !isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 3.1);
+  else if( isRes_C1 && !isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 4.1);
+  else if( !isRes_C1 && isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 5.1);
+  else if( isRes_C1 && isInter_C1 && isBoost_C1 )	FillHistogram("Categories_C1", 1.0, 6.1);
 
   //=============================
   // C2: b-tagging
   //=============================
+  
   if( nBBTaggedFatJets >= 2 )
     if( fabs(bbFatJets[0].m() - 125.) < 40.0 && fabs(bbFatJets[1].m() - 125.) < 40.0 )
     {
