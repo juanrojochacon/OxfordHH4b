@@ -1,0 +1,10 @@
+# BEGIN HISTOGRAM /res/oxford_combined_rw/SHERPA_QCDttbar/histo_CF_inter
+Path=/res/oxford_combined_rw/SHERPA_QCDttbar/histo_CF_inter
+Title=CF_inter
+# xlow	 xhigh	 val	 errminus	 errplus
+0.000000e+00	1.000000e+00	2.514334e+05	1.451809e+02	1.451809e+02
+1.000000e+00	2.000000e+00	5.052802e+03	2.057240e+01	2.057240e+01
+2.000000e+00	3.000000e+00	2.216282e+00	1.309925e-01	1.309925e-01
+3.000000e+00	4.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00
+# END HISTOGRAM
+

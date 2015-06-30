@@ -1,0 +1,10 @@
+# BEGIN HISTOGRAM /res/oxford_combined_rw/total/histo_CFN_res
+Path=/res/oxford_combined_rw/total/histo_CFN_res
+Title=CFN_res
+# xlow	 xhigh	 val	 errminus	 errplus
+0.000000e+00	1.000000e+00	1.300000e+07	3.605551e+03	3.605551e+03
+1.000000e+00	2.000000e+00	7.638860e+05	8.740057e+02	8.740057e+02
+2.000000e+00	3.000000e+00	7.316460e+05	8.553631e+02	8.553631e+02
+3.000000e+00	4.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00
+# END HISTOGRAM
+

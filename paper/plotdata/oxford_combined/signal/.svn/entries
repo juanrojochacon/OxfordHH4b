@@ -1,0 +1,938 @@
+10
+
+dir
+0
+https://github.com/juanrojochacon/OxfordHH4b.git/trunk/plots/oxford_combined/signal
+https://github.com/juanrojochacon/OxfordHH4b.git
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+354823f0-d507-bead-5be6-ce57b7db7bff
+
+histo_pt_H0_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_Subjets_SubleadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_pt_H1_res_C1.dat
+file
+
+
+
+add
+
+histo_m_H0_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_res_C0.dat
+file
+
+
+
+add
+
+histo_m_H1_res_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_res_C2.dat
+file
+
+
+
+add
+
+histo_dR_HH_res_C2.dat
+file
+
+
+
+add
+
+histo_N_Subjets_LeadFJ_inter_C1.dat
+file
+
+
+
+add
+
+histo_dEta_HH_res_C2.dat
+file
+
+
+
+add
+
+histo_pt_HH_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_bQuarks_C0.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_res_C1.dat
+file
+
+
+
+add
+
+histo_m_HH_inter_C2.dat
+file
+
+
+
+add
+
+histo_CF_res.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_LeadFJ_inter_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_boost_C1.dat
+file
+
+
+
+add
+
+histo_pt_H1_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_SubleadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_pt_H0_res_C2.dat
+file
+
+
+
+add
+
+histo_dR_HH_inter_C1.dat
+file
+
+
+
+add
+
+histo_m_H1_inter_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_inter_C1.dat
+file
+
+
+
+add
+
+cutFlow.dat
+file
+
+
+
+add
+
+histo_m_H0_res_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_inter_C0.dat
+file
+
+
+
+add
+
+histo_dEta_HH_inter_C1.dat
+file
+
+
+
+add
+
+histo_pt_SubleadSubjet_SelFJ_BBTag.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_LeadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_boost_C1.dat
+file
+
+
+
+add
+
+histo_pt_HH_res_C2.dat
+file
+
+
+
+add
+
+histo_pt_H0_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_res_C1.dat
+file
+
+
+
+add
+
+histo_m_HH_res_C1.dat
+file
+
+
+
+add
+
+histo_CFN_boost.dat
+file
+
+
+
+add
+
+histo_m_H0_boost_C1.dat
+file
+
+
+
+add
+
+histo_CFN_res.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_SubleadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_pt_HH_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_res_C0.dat
+file
+
+
+
+add
+
+histo_N_Constit_SmallRBJets_SelB_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_res_C2.dat
+file
+
+
+
+add
+
+histo_N_Subjets_LeadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_inter_C1.dat
+file
+
+
+
+add
+
+histo_pt_H1_inter_C1.dat
+file
+
+
+
+add
+
+histo_m_HH_boost_C1.dat
+file
+
+
+
+add
+
+histo_CFN_inter.dat
+file
+
+
+
+add
+
+histo_Categories_C1.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_LeadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_SmallRBJets_SelB_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_boost_C0.dat
+file
+
+
+
+add
+
+histo_dR_HH_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRSelTrackJets_boost_C0.dat
+file
+
+
+
+add
+
+histo_m_H1_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_boost_C2.dat
+file
+
+
+
+add
+
+histo_dEta_HH_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_LeadFJ_inter_C1.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_inter_C1.dat
+file
+
+
+
+add
+
+ntuple.dat
+file
+
+
+
+add
+
+histo_pt_H0_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_Subjets_SubleadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_m_H0_inter_C1.dat
+file
+
+
+
+add
+
+histo_pt_H1_res_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_res_C1.dat
+file
+
+
+
+add
+
+histo_m_H1_res_C1.dat
+file
+
+
+
+add
+
+histo_dR_HH_res_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRSelTrackJets_res_C0.dat
+file
+
+
+
+add
+
+histo_mHmH_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_Subjets_LeadFJ_inter_C2.dat
+file
+
+
+
+add
+
+histo_dEta_HH_res_C1.dat
+file
+
+
+
+add
+
+histo_pt_HH_boost_C1.dat
+file
+
+
+
+add
+
+histo_CF_boost.dat
+file
+
+
+
+add
+
+histo_m_HH_inter_C1.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_res_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_boost_C0.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_LeadFJ_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_boost_C2.dat
+file
+
+
+
+add
+
+histo_ptHptH_res_C2.dat
+file
+
+
+
+add
+
+histo_pt_H1_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_H0_res_C1.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_SubleadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_LeadSubjet_SelFJ_BBTag.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_inter_C0.dat
+file
+
+
+
+add
+
+histo_pt_LeadSubjet_SelFJ.dat
+file
+
+
+
+add
+
+histo_m_H1_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRSelTrackJets_inter_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_inter_C2.dat
+file
+
+
+
+add
+
+histo_dR_HH_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRTrackJets_boost_C0.dat
+file
+
+
+
+add
+
+histo_N_Constit_SmallRBJets_AllB_C0.dat
+file
+
+
+
+add
+
+histo_m_H0_res_C2.dat
+file
+
+
+
+add
+
+histo_dEta_HH_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_inter_C1.dat
+file
+
+
+
+add
+
+histo_pt_SubleadSubjet_SelFJ.dat
+file
+
+
+
+add
+
+histo_CF_inter.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_LeadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_HH_res_C1.dat
+file
+
+
+
+add
+
+histo_pt_H0_inter_C1.dat
+file
+
+
+
+add
+
+histo_ptHptH_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_SmallRBJets_AllB_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_res_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_res_C2.dat
+file
+
+
+
+add
+
+histo_m_HH_res_C2.dat
+file
+
+
+
+add
+
+histo_m_H0_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRTrackJets_res_C0.dat
+file
+
+
+
+add
+
+histo_mHmH_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_SubleadFJ_boost_C2.dat
+file
+
+
+
+add
+
+histo_pt_HH_inter_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_res_C1.dat
+file
+
+
+
+add
+
+histo_N_Subjets_LeadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_inter_C0.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BTagged_inter_C2.dat
+file
+
+
+
+add
+
+histo_pt_H1_inter_C2.dat
+file
+
+
+
+add
+
+histo_m_HH_boost_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRTrackJets_inter_C0.dat
+file
+
+
+
+add
+
+histo_N_BtaggedSubjets_LeadFJ_boost_C1.dat
+file
+
+
+
+add
+
+histo_Categories_C2.dat
+file
+
+
+
+add
+
+histo_dR_HH_boost_C1.dat
+file
+
+
+
+add
+
+histo_m_H1_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_BJets_boost_C1.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_boost_C0.dat
+file
+
+
+
+add
+
+histo_dEta_HH_boost_C1.dat
+file
+
+
+
+add
+
+histo_mHmH_res_C2.dat
+file
+
+
+
+add
+
+histo_N_SmallRJets_boost_C2.dat
+file
+
+
+
+add
+
+histo_dPhi_HH_inter_C2.dat
+file
+
+
+
+add
+
+histo_N_BSubjets_LeadFJ_inter_C2.dat
+file
+
+
+
+add
+
+histo_ptHptH_inter_C2.dat
+file
+
+
+
+add
+

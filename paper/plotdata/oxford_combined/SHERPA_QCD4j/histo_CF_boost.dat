@@ -1,0 +1,10 @@
+# BEGIN HISTOGRAM /res/oxford_combined/SHERPA_QCD4j/histo_CF_boost
+Path=/res/oxford_combined/SHERPA_QCD4j/histo_CF_boost
+Title=CF_boost
+# xlow	 xhigh	 val	 errminus	 errplus
+0.000000e+00	1.000000e+00	9.709467e+09	5.887105e+06	5.887105e+06
+1.000000e+00	2.000000e+00	1.287808e+06	6.391283e+04	6.391283e+04
+2.000000e+00	3.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00
+3.000000e+00	4.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00
+# END HISTOGRAM
+
