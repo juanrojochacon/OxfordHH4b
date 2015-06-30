@@ -8,7 +8,7 @@ import sys, math, os
 ############################## Settings ###############################
 
 # Output filename
-outfile = "ptHptH_res_C1"
+outfile = "ptHptH_res_C1_EXAMPLE"
 
 # Datafiles
 datafile = "../plotdata/oxford_combined_rw/signal/histo_ptHptH_res_C1.dat"

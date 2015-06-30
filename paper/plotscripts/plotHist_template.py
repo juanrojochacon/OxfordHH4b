@@ -10,7 +10,7 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_H0_res_C1"
+outfile = "pt_H0_res_C1_EXAMPLE"
 
 # Datafiles
 datafiles.append("../plotdata/oxford_combined_rw/signal/histo_pt_H0_res_C1.dat")
