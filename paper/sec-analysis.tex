@@ -7,8 +7,6 @@ In section we describe our analysis strategy, and in particular
 the classification of each individual event into
 different categories according to the event topology.
 
-{\bf needs flow chart}
-
 First of all we discuss the settings and nomenclature that
 we will use for jet clustering in this work.
 %
@@ -76,6 +74,10 @@ that we will use in this work:
   %
   For the BDRS mass-drop tagger, we use the {\tt FastJet} default
   parameters of  $\mu = 0.67$ and $y_{\textrm{cut}}= 0.09$.
+  %
+  Before the mass-drop tagger is applied, the large-$R$ jet
+  constituents are reclustered with the Cambridge/Aachen
+  algorithm.
 
 
   
@@ -175,25 +177,98 @@ the experiments, for example by varying the momentum smearing.
 
 \subsection{Event categorisation and cut flow}
 
+After having introduced the types of jet reconstruction
+that we will use, as well as the $b$-tagging strategy,
+we need to discuss the analysis strategy, including
+the event categorization and the cut flow.
+
+The basic idea of this work is the same as in Ref.~\cite{Gouzevitch:2013qca}:
+rather than selecting only a specific event topology, such as boosted
+or resolved, we aim to consistently combine the information from
+the three possible event topologies: boosted, intermediate and
+resolved, which we define now.
+%
+An important difference as compared to~\cite{Gouzevitch:2013qca}
+is that here each category is optimised separately, and then
+a exclusive categorisation is defined starting from the topology
+where the signal significance is the largest.
+
+
+Let us therefore define the three event categories that
+we use in this work:
+\begin{itemize}
+\item {\it Boosted category}.
+
+  A given event is assigned to the boosted category if it
+  contains at least two large-$R$ jets, defined as above,
+  and of the tow leading large-$R$ jets have been double-$b$-tagged.
+  %
+ Therefore, each of these two large-$R$ $b$-tagged jets correspond to the
+ decay products of one Higgs boson candidate.
+
+\item {\it Intermediate category}.
+
+  An event is assigned to the intermediate category if
+  at least one large $R$ $b$-tagged jet is present.
+  %
+  If more than one is found, then the leading large-$R$ jet
+  is assigned to be the first Higgs candidate.
+  %
+  In addition, we require at least two small-$R$ jets,
+  which must be separated with respect to the large-$R$
+  jet by at least an angular separation of $\Delta R\ge 1.0$.
+  %
+  The small-$R$ jets must be $b$-tagged as well.
+  %
+  Then, the second Higgs boson candidate is reconstructed
+  by selecting the two small-$R$ jets that minimize the difference
+  between the invariant mass of the large-$R$ jet, $m_{lR}$,
+  with the invariant mass of the sum of the two small-$R$ jets,
+  $m_{sR_1+sR_2}$, that is, ${\rm min}\lp m_{lR} -
+  m_{sR_1+sR_2}\rp$.
+
+\item {\it Resolved category}.
+
+  Finally, let us define the resolved category.
+  %
+  An event is assigned to this category
+  if at least
+  four $b$-tagged small-$R$ jets are present.
+  %
+  The two Higgs candidates are then reconstructed out of the
+  leading four small-$R$ jets in the event
+  by considering all possibilities of forming two pairs of jets
+  with invariant masses $m_{sR_1+sR_2}$ and 
+$m_{sR_3+sR_4}$, respectively, and choosing the configuration that minimizes their difference $|m_{sR_1+sR_2} - m_{sR_3+sR_4}|$. 
+  %
+  The requirement of restricting this selection to only the four
+  leading small-$R$ jets arises from the need to reducing the
+  combinatorics from the fakes.
+\end{itemize}
+
+In addition, events from each category need to satisfy the usual
+Higgs mass window cut, defined by
+the following condition
+\be
+|m_{h,j} - 125| < 40~{\rm GeV} \, , j=1,2 \, ,
+\ee
+where $m_{h,j}$ is the invariant mass of the two Higgs candidates
+reconstructed as explained above.
+%
+We note that this cut is substantially looser as the corresponding
+cut used in the ATLAS and CMS $h\to b\bar{b}$ analysis: the motivation
+for this is that the MVA will take care of the optimisation of each cut.
+
+
+
 In Table~\ref{sec:categorisation} we summarize the definitions of each
-category
+category.
+%
+We emphasize that each category is not exclusive of the others,
+and in general there can be a substantial overlap
+between the different categories.
 
 
-The di-Higgs system is reconstructed by considering all possibilities of forming two pairs of jets with invariant masses $m_{j1j2}$ and 
-$m_{j3j4}$, respectively, and choosing the configuration that minimizes their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
-are considered here.
-
-
-The boosted selection requires the presence of at least two $bb$-tagged, selected anti-$k_T$ $R=1.0$ jets which are taken as the two Higgs boson candidates.
-
-
-The intermediate topology requires the presence of at least one $bb$-tagged, selected anti-$k_T$ $R = 1.0$ jet. If there is more than one, the leading one is taken as the first Higgs boson candidate. In addition, there must be at least two anti-$k_T$ $R=0.4$ jets with a separation $\Delta R > 1.0$ with respect to the large-$R$ jet
-that is selected as a Higgs boson candidate. The second Higgs boson candidate is reconstructed from the two small-$R$ jets that minimize the difference $|m_{fj} - m_{j1j2}|$.
-
-
-The resolved selection requires the presence of at least four $b$-tagged, selected anti-$k_T$ $R=0.4$ jets.
-
-All Higgs candidates are required to meet the following Higgs mass window cut: $|m_{H} - 125| < 40$~GeV
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,13 +280,17 @@ All Higgs candidates are required to meet the following Higgs mass window cut: $
     &  Boosted  &  Intermediate  &  Resolved  \\
     \hline
     \hline 
-    Jets  &  $\ge 2$ large-$R$ jets  & 1 large-$R$ jet, $\ge 2$ small-$R$
+    Jet selection  &  $\ge 2$ large-$R$ jets  & 1 large-$R$ jet, $\ge 2$ small-$R$
     jets  &  $\ge$ 4 small-$R$ jets \\
-    Cuts on jets  & $p_T \ge 200$ GeV   &  $p_T \ge 200$ GeV (large-$R$ jet)
+    \hline
+    Jet cuts  & $p_T \ge 200$ GeV   &  $p_T \ge 200$ GeV (large-$R$ jet)
     &  $p_T \ge 40$ GeV \\
     &  & $p_T \ge 40$ GeV (small-$R$ jets)   &    \\
     &   $|\eta|<2.0$  & $|\eta|<2.0$ (large-$R$ jet) & $|\eta|<2.5$ \\
     &        & $|\eta|<2.5$ (small-$R$ jet)  &  \\
+    \hline
+    $b$-tagging  & 2 double-$b$-tags  & 1 double-$b$-tag & 4 single-$b$-tags \\
+      &  & and 2 single-$b$-tags  &  \\
     \hline
     \end{tabular}
   \caption{\small Definition of the three event categories used in this
@@ -221,22 +300,34 @@ All Higgs candidates are required to meet the following Higgs mass window cut: $
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Describe the 3 different kinematic regimes: resolved, semi-boosted and boosted and selection cuts. Show table with numbers. How often do events end up in these categories.
 
-Table 1: how many events we see from Signal and background in each category. Indicate also the overlap between the categories. This table should have also the S/B and S/sqrtB numbers. We need also the S/B and S/sqrtB numbers without the 2b2j and 4j backgrounds in order to compare with the UCL paper in this table.
+We now justify some of the cuts that we are using.
+%
+As mentioned before, the cuts in each category are separately
+optimised in an inclusive analysis: it is only we have determined
+which is the dominant category that the analysis is made exclusive.
+%
+We begin with the boosted category.
+%
+In Fig.~\ref{fig:cutplots1} we show
+the $p_T$ distribution of the
+  leading large-$R$ jet in the boosted category, comparing
+  the shapes of the distribution in signal and background events.
+  %
+  All distributions have been normalized to their total integral.
 
-Figure 1: Higgs pt, eta distributions
 
-Figure 2: b-jet pt distributions
-
-Figure 3: delta R distributions
-
-Figure 4: mass distributions
-
-Table 2: S/B and S/sqrtB table with
-All these figures should have the backgrounds overlaid.
-
-This section would show that the 2b2j and 4j backgrounds are important and that control of the fakes is necessary.
-
-This section should also identify which of the different regimes is the most important for the measurement.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.48\textwidth]{plots/pt_H0_res_C1_boost.pdf}
+\caption{\small Left plot: the $p_T$ distribution of the
+  leading large-$R$ jet in the boosted category, comparing
+  the shapes of the distribution in signal and background events.
+  %
+  All distributions have been normalized to their total integral.
+}
+\label{fig:cutplots1}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
