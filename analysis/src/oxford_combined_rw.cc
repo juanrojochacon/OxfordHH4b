@@ -30,7 +30,7 @@ const double ResJetR=0.4;
 const double LST_beta = 2;
 
 // Switch to run with Variable-R jets
-const bool doVR = true;
+const bool doVR = false;
  
 // Set VR parameters
 static double const jet_Rmax    =1.0;
