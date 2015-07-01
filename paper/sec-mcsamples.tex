@@ -1,13 +1,70 @@
 \section{Monte Carlo samples}
 \label{mcgeneration}
 
+First of all in this section we discuss the details of the
+Monte Carlo generation of the signal and background
+events used in this work.
+
 \subsection{Signal}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Background}
-All background samples are generated with the {\tt SHERPA} event generator, version 2.1.1. For the explicit runcards used in the generation, see Appendix~\ref{app:runcards}.
+Higgs pair production is simulated at leading order using
+{\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}, with finite $m_t$ effects taken into
+account.\footnote{We thank Eleni Vrodynou for assistance here.}
+%
+We use the NNPDF 3.0 $n_f = 4$ LO set~\cite{Ball:2014uwa} with
+$\alpha_S(m_Z^2)=0.118$
+as interfaced via {\tt LHAPDF6}~\cite{Buckley:2014ana}.
+%
+We use the default settings of the renormalization and factorization
+scale of the model.
+%
+The Higgs boson parameters are also the same in the default model,
+in particular we use $m_H=125$ GeV, consistent with the latest
+measurements from ATLAS and CMS.
 
-The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples. At the generator level the following basic cuts are applied. Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. All final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$. Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$. Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
+%
+Parton level events are then showered with the {\tt Pythia8} Monte
+Carlo~\cite{Sjostrand:2007gs,Sjostrand:2014zea}, in particular with {\tt v8.201}.
+%
+We use the default settings in the parton shower, in particular
+we use the Monash 2013 tune~\cite{Skands:2014pea}, based on the NNPDF2.3LO PDF set~\cite{Ball:2012cx}.
+%
+We have switched off hadronisation, since this allows a more transparent modeling of
+$b$-tagging.
+%
+A complete simulation of $b$-tagging at the hadron level is difficult to achieve without a full
+detector simulator, which is beyond the scope of this paper.
+%
+For a similar reason, we don't consider underlying event, multiple parton interactions and
+pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp}.
+
+
+The signal samples are rescaled so that the integrated cross-section matches that of the
+NNLO calculation~\cite{deFlorian:2013jea}: this corresponds to using a $K$-factor $\sigma_{NNLO}/sigma_{LO}=2.3$.
+%
+Let us note that resummed NNLO+NNLL calculations for Higgs pair production have also become available recently~\cite{deFlorian:2015moa},
+leading to a moderate enhancement as compared to the fixed-order NNLO calculation.
+
+\subsection{Background}
+
+Now we turn to discuss the Monte Carlo generation of the relevant background processes.
+%
+All background samples are generated with the {\tt SHERPA} event generator~\cite{Gleisberg:2008ta}, v2.1.1.
+%
+As in the case of the signal generation, the NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples.
+Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$.
+
+Samples!!!!
+
+At the generation level the following basic cuts are applied.
+%
+Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. All final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
+%
+We have checked that the generator-level cuts are loose enough as compared to the actual
+analysis cuts.
+%
+Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -18,35 +75,32 @@ The NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for
 Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
 \hline
 \hline
-$pp \to HH$ &  MG5\_aMC@NLO & 100K & $1.729\times10^{-2}$ pb \\
+$pp \to HH$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $1.729\times10^{-2}$ pb \\
 \hline
-$pp \to b\bar{b}b\bar{b}$ &  SHERPA 2.1.1 & 3M &$1.121 \times10^3$ pb \\
-$pp \to b\bar{b}jj$ &  SHERPA 2.1.1 & 3M & $2.659 \times 10^5$ pb \\
-$pp \to jjjj$ &  SHERPA 2.1.1 & 3M  & $9.709\times 10^6$ pb \\
-$pp \to t\bar{t}$ &  SHERPA 2.1.1 & 3M & $2.514\times 10^3$ pb \\
+\hline
+$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.121 \times10^3$ pb \\
+$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.659 \times 10^5$ pb \\
+$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.709\times 10^6$ pb \\
+$pp \to t\bar{t}$ &  {\tt SHERPA}v2.1.1 & 3M & $2.514\times 10^3$ pb \\
 \hline
 \end{tabular}
-\caption{Summary of generated samples to date. All {\tt SHERPA} samples have a MC error of $0.05\%$.} \label{tab:samples}
+\caption{\small Summary of signal and background samples generated in this work,
+together with the corresponding generator-level cross-section.} \label{tab:samples}
 \end{center}
 \end{table}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Although suffering from a large theory uncertainty, we can compare the result of our background samples against those presented in the MG5\_aMC@NLO paper~\cite{Alwall:2014hca}.
-Here for comparison we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV. All jets must be within an acceptance of $|\eta| \le 2.5 $. In the case of the samples with $b$ quarks in the final state, these requirements are extended to the appropriate number of $b$-jets. For example, in the 2$b$2$j$ sample there must be at least two $b$-jets that pass the cuts outlined above.
+As a cross-check of the background cross-sections reported in Table~\ref{tab:samples}, we have produced multi-jet samples
+using the {\tt MadGraph5\_aMC@NLO} program, and compared with the results for the same processes reported in
+Ref.~\cite{Alwall:2014hca}.
+%
+For comparison with the latter numbers, 
+we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV.
+%
+All jets must be within an acceptance of $|\eta| \le 2.5 $.
+%
+In the case of the samples with $b$ quarks in the final state, these requirements are extended to the appropriate number of $b$-jets. For example, in the 2$b$2$j$ sample there must be at least two $b$-jets that pass the cuts outlined above.
+%
+We find agreement, within the scale uncertainties, between the {\tt MadGraph5\_aMC@NLO} and {\tt SHERPA} calculations of the multi-jet
+backgrounds, so we can be confident that the set-up that we will use in this analysis is robust enough.
 
-In Table~\ref{tab:xsecs} this comparison is summarised for the $2b2j$ and $4b$ samples. Considering the large theory errors, agreement is reasonable in both instances.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|}
-\hline
-Process & $\sigma$ aMC@NLO & $\sigma$ Oxford (SHERPA) \\
-\hline\hline
-$b\bar{b}b\bar{b}$ & $5.050 \times  10^{-1}$ pb & $4.123\times10^{-1}$ pb \\ 
-$b\bar{b}jj$ & $1.852 \times 10^2$ pb &$4.239 \times 10^2$ pb \\ 
-$jjjj$ & -  & $4.450\times 10^4$ pb \\
-\hline
-\end{tabular}
-\caption{Comparison of LO Oxford SHERPA cross-sections with those of the aMC@NLO paper. The aMC@NLO cross-sections come with a quoted $~50\%$ theory uncertainty.} \label{tab:xsecs}
-\end{center}
-\end{table}%

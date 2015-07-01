@@ -2,52 +2,182 @@
 \section{Analysis strategy}
 \label{sec:analysis}
 
-In this section we describe our analysis strategy, and in particular
+
+In section we describe our analysis strategy, and in particular
 the classification of each individual event into
 different categories according to the event topology.
 
-The starting point is clustering all final state particles in each
-event,  after the parton shower (but before hadronization).
+{\bf needs flow chart}
+
+First of all we discuss the settings and nomenclature that
+we will use for jet clustering in this work.
+%
+Then we move to discuss how $b$-tagging is simulated,
+following closely the ATLAS techniques.
+%
+Then we discuss the categorisation of events between different
+topologies, and how we can prioritise among them.
+
+
+\subsection{Jet reconstruction}
+
+In our analysis we will use different types of jet definitions,
+depending of the type of analysis that needs to be performed.
+%
+Therefore, we being by enumerating the choices that we make.
+%
+The starting point after the parton shower is the clustering
+of all final state particles.
+%
+In this work all the jet reconstruction algorithms
+are obtained from the {\tt FastJet} program~\cite{Cacciari:2011ma},
+v3.1.0.
 %
 We adopt the following terminology for the different types of jets
-that we will use in this work
-\begin{itemize}
-\item {\it Small-$R$ jets} are jets constructed with the
-  anti-$k_T$ clustering algorithm with $R=0.4$ radius.
-  %
-  Only jets with transverse momentum $p_T > 40$~GeV within
-  the central acceptance $|\eta|<2.5$ can be considered.
+that we will use in this work:
 
-\item {\it Small-$R$ subjets} are anti-$k_T$ $R=0.3$ jets.
-%
+\begin{itemize}
+\item {\it Small-$R$ jets}.
+
+  These are jets  reconstructed with the
+  anti-$k_T$ clustering algorithm~\cite{Cacciari:2008gp} with $R=0.4$ radius.
+  %
+  When reconstructing small-$R$ jets, we will keep only
+  those with transverse momentum $p_T \ge 40$~GeV
+  and pseudo-rapidity $|\eta|<2.5$ within the central
+  acceptance of ATLAS and CMS, jets that fail to satisfy these
+  conditions are discarded
+
   They are required to have $p_T > 50$~GeV and $|\eta|<2.5$.
 
-\item {\it Large-$R$ jets}  are jets constructed with the
-  anti-$k_T$ clustering algorithm with $R=1.0$ radius.
+\item {\it Large-$R$ jets}.
+
+  These jets are also constructed with the
+  anti-$k_T$ clustering algorithm, now using a $R=1.0$ radius.
   %
-  We require that these large-$R$ jets satisfy  $p_T > 200$~GeV and
+  In order to be accepted, these large-$R$ jets should
+  satisfy  $p_T \ge 200$~GeV and lie in a pseudo-rapidity range by
   $|\eta|<2.0$.
   %
-  The smaller range in pseudo-rapidity, as compared to the small-$R$ jets,
-  is motivated by mimicking the  experimental requirements
-  related to the track-jet-based calibration).
+  If these conditions are not satisfied, the jet is discarded.
   %
-  On top of the basic $p_T$ and $\eta$ cuts, only large-$R$ jets
-  that satisfy the BDRS mass-drop tagger condition will be kept, else
-  the jet is discarded.
+  The more restrictive range  in pseudo-rapidity
+  as compared to the small-$R$ jets,
+  is motivated by mimicking the  experimental requirements
+  in ATLAS and CMS
+  related to the track-jet-based calibration.
+
+  In addition to the basic $p_T$ and $\eta$
+  selection requirements, large-$R$ jets should also
+  satisfy the  BDRS mass-drop tagger~\cite{Butterworth:2008iy}
+  conditions, in order
+  to enhance the discrimination of the signal over the background
+  events.
   %
   For the BDRS mass-drop tagger, we use the {\tt FastJet} default
   parameters of  $\mu = 0.67$ and $y_{\textrm{cut}}= 0.09$.
+
+
+  
+\item {\it Small-$R$ subjets}.
+
+  Once we have reconstructed a suitable large-$R$ jet, important
+  information can be obtained by looking at the kinematics of
+  the small-$R$ subjets.
+  %
+  These subjets will be obtained by reclustering the constituents
+  of the large-$R$ jet, always with the  anti-$k_T$ algorithm,
+  but this time with a smaller radius parameter $R=0.3$.
+  %
+  As we will discuss below, these small-$R$ subjets are the key of
+  the $b$-tagging in the boosted category.
+%
   \end{itemize}
 
 
-Small-$R$ jets are $b$-tagged as follows: True $b$-jets, which have at least one $b$-quark among their constituents, have a 80\% $b$-tagging probability. For all other jets, a mistag rate of 0.01 is used.
+\subsection{$b$-tagging}
 
-Large-$R$ jets are $b$-tagged by ghost-associating anti-$k_T$ $R=0.3$ (selected as above) to the large-$R$ jets. A large-$R$ jets is considered $bb$-tagged if the leading and subleading $p_T$ associated subjets are $b$-tagged.
+Given the final state that needs to be reconstructed, the
+optimisation of the $b$-tagging capabilities of the
+LHC experiments is an essential requirement.
+%
+The $b$-tagging used in this feasibility study is inspired
+in the current and projected ATLAS settings, and below
+we also comment on the differences and similarities with the
+corresponding CMS strategy.
+%
+For each type of jet defined above, a different
+$b$-tagging strategy is used, as we discuss now.
+
+\begin{itemize}
+
+\item {\it Small-$R$ jets}.
+
+  These are $b$-tagged as follows.
+  %
+  If a small-$R$ jet has at least one $b$-quark among their constituents,
+  it will be tagged as a $b$-jet with probability $f_b$.
+  %
+  If no $b$-quarks are found among the constituents
+  of this jet, it can be still be tagged as a $b$-jet with
+  a mistag rate of $f_l$.
+  %
+  Note that the probability of tagging a jet is not increased
+  if more than one $b$-quark is found among the jet constituents.
+
+  \item {\it Large-$R$ jets}.
+
+    Large-$R$ jets are $b$-tagged by ghost-associating anti-$k_T$ $R=0.3$
+    subjets (defined as above) to the original large-$R$ jets.
+    %
+    In particular,
+    a large-$R$ jet is considered  double-$b$-tagged if both
+    the leading and subleading subjets (where the ordering
+    is done in the subjet $p_T$) are both individually $b$-tagged.
+    %
+    Note that we only attempt to $b$-tag the two leading subjets:
+    trying to $b$-tag all subjets above the $p_T$ cut degrades
+    the signal significance due to the increase in combinatorics.
+
+    Therefore, in this work we will exploit the capabilities of
+    the LHC experiment of double-$b$-tagging inside large-$R$ jets.
+    %
+    Below we comment on the dependence of our results if single-$b$-tagging
+    would be performed also for the large-$R$ jets, as done
+    for the small-$R$ jets.
+
+    Concerning the $b$-tagging probabilities and the
+    light jet mistag probabilities, there are taken
+    the same as for small-$R$ jets.
+    %
+    Therefore, a large-$R$ jet where the two leading
+    subjets have at least one $b$-quark will be tagged
+    with probability $f_b^2$, if only one of the two leading
+    subjets has a $b$-quark then the tagging probability is
+    $2f_bf_l$, and if none of the two have $b$-quarks
+    as constituents, the mistag rate will be
+    $f_l^2$.
 
 
+\end{itemize}
 
-The resolved selection requires the presence of at least four $b$-tagged, selected anti-$k_T$ $R=0.4$ jets.
+Concerning the actual values of the $b$-tag probability $f_b$ and
+the $b$-mistag probability of light jets $f_l$, in this work
+we adopt as baseline the values $f_b=0.8$ and $f_l=0.01$.
+%
+In Sect.~\ref{sec:optimisation} we study the dependence of
+our results against variations of $f_b$ and $f_l$ both
+using more conservative and more aggressive values.
+%
+There we also study the dependence of the results
+on other analysis settings related to the performance of
+the experiments, for example by varying the momentum smearing.
+
+\subsection{Event categorisation and cut flow}
+
+In Table~\ref{sec:categorisation} we summarize the definitions of each
+category
+
 
 The di-Higgs system is reconstructed by considering all possibilities of forming two pairs of jets with invariant masses $m_{j1j2}$ and 
 $m_{j3j4}$, respectively, and choosing the configuration that minimizes their difference $|m_{j1j2} - m_{j3j4}|$. Only the four leading-$p_T$ jets
@@ -61,10 +191,35 @@ The intermediate topology requires the presence of at least one $bb$-tagged, sel
 that is selected as a Higgs boson candidate. The second Higgs boson candidate is reconstructed from the two small-$R$ jets that minimize the difference $|m_{fj} - m_{j1j2}|$.
 
 
+The resolved selection requires the presence of at least four $b$-tagged, selected anti-$k_T$ $R=0.4$ jets.
+
 All Higgs candidates are required to meet the following Higgs mass window cut: $|m_{H} - 125| < 40$~GeV
 
-{\bf BELOW: outline of the section}\\
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+  \centering
+  \small
+  \begin{tabular}{c|c|c|c}
+    \hline
+    &  Boosted  &  Intermediate  &  Resolved  \\
+    \hline
+    \hline 
+    Jets  &  $\ge 2$ large-$R$ jets  & 1 large-$R$ jet, $\ge 2$ small-$R$
+    jets  &  $\ge$ 4 small-$R$ jets \\
+    Cuts on jets  & $p_T \ge 200$ GeV   &  $p_T \ge 200$ GeV (large-$R$ jet)
+    &  $p_T \ge 40$ GeV \\
+    &  & $p_T \ge 40$ GeV (small-$R$ jets)   &    \\
+    &   $|\eta|<2.0$  & $|\eta|<2.0$ (large-$R$ jet) & $|\eta|<2.5$ \\
+    &        & $|\eta|<2.5$ (small-$R$ jet)  &  \\
+    \hline
+    \end{tabular}
+  \caption{\small Definition of the three event categories used in this
+    work, together with the corresponding basic kinematical cuts.
+\label{sec:categorisation}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Describe the 3 different kinematic regimes: resolved, semi-boosted and boosted and selection cuts. Show table with numbers. How often do events end up in these categories.
 
