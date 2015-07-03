@@ -1,0 +1,10 @@
+***********************************************
+
+To generate cut-flow analysis
+
+tposxlap16:res rojo$ pwd
+/Users/rojo/physics14/HH4b/OxfordHH4b/analysis/res
+tposxlap16:res rojo$ python2.7 genCutFlows_JR.py 
+
+
+***********************************************

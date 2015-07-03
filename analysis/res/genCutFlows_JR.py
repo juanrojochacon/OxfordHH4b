@@ -71,15 +71,21 @@ for file_type in file_types:
 
 summary_outfile = 'cutflow_' + '_summary.dat'
 with open(summary_outfile, 'w') as f:
-    for i in range(0,4):
+    for i in range(0,8):
         #print i
         # header line
-        if i == 0 or i == 1:
+        if i == 0 or i == 1 or i == 2:
             f.write(recursive_folders[i]+'\t')
-        elif i == 2:
-            f.write('S/B'+'\t')
         elif i == 3:
+            f.write('S/B'+'\t')
+        elif i == 4:
             f.write('S/sqrt(B)'+'\t')
+        elif i == 5:
+            f.write('Nev_signal'+'\t')
+        elif i == 6:
+            f.write('Nev_back'+'\t')
+        elif i == 7:
+            f.write('Nev_back_4b'+'\t')
         for file_type in file_types:
             f.write(file_type+'\t')
         f.write('\n')
@@ -89,22 +95,32 @@ with open(summary_outfile, 'w') as f:
                 if k == 0:
                     f.write('C%d' % (new_data[file_type][j][0])+'\t')
                 # switch for tables, first sig+bkg, then S/B and sqrt.
-                if i == 0 or i==1:
+                if i == 0 or i==1 or i==2:
                     f.write(new_data[file_type][j][i+1]+'\t')
-                elif i == 2:
+                elif i == 3:
                     if float(new_data[file_type][j][2]) == 0.0:
                         SoverB = 0
                     else:
                         SoverB = float(new_data[file_type][j][1])/float(new_data[file_type][j][2])
                     f.write('%e'% SoverB + '\t')
-                elif i == 3:
+                elif i == 4:
                     if float(new_data[file_type][j][2]) == 0.0:
                         SoverRootB = 0
                     else:
                         SoverRootB = math.sqrt(luminosity)*float(new_data[file_type][j][1])/math.sqrt(float(new_data[file_type][j][2]))
                     f.write('%e'% SoverRootB + '\t')
+                elif i == 5:
+                    Nev = luminosity*float(new_data[file_type][j][1])
+                    f.write('%e'% Nev + '\t')
+                elif i == 6:
+                    Nev_back = luminosity*float(new_data[file_type][j][2])
+                    f.write('%e'% Nev_back + '\t')
+                elif i == 7:
+                    Nev_back_4b = luminosity*float(new_data[file_type][j][3])
+                    f.write('%e'% Nev_back_4b + '\t')
             f.write('\n')
         f.write('\n\n')
 
-    
+
+         #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  # 
     
