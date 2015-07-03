@@ -1,9 +1,170 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Results}
+\section{Cut-based analysis results}
 
 \label{sec:results}
 
-Study S/B, S/sqrt B vs b-tagging efficiency, background rejection and signal efficiency
+In this section we discuss the results of the traditional
+cut-based analysis, using the strategy presented in the previous
+section.
+%
+We compare our results with other recent related studies,
+and in particular we study how the signal significance
+is modified if only the $4b$ QCD background is taken into account,
+but the $2b2j$ and $jjjj$ backgrounds are neglected, as done
+in previous work.
+%
+Then in the next section we show how using multivariate techniques
+one can substantially improve the signal significance as compared
+to the cut-based analysis.
 
-This section would show how S/B is correlated with the different efficiencies. It would give the reader a feel for which of these sources the analysers would need to attack to make the 4b channel a competitive channel with regard to other channels.
+
+
+\subsection{Signal significance}
+
+We now study the basic results of our cut based analysis, with
+all backgrounds properly taken into account.
+
+We begin by showing the cut-flow at various levels of the analysis.
+%
+Here we consider all backgrounds at the same time, and below
+we comment on the role of the individual backgrounds.
+
+We consider the following levels of the cut-flow
+\begin{itemize}
+\item {\bf C0}: these are the cross-sections at the generator
+  level, before any analysis cuts
+\item {\bf C1}: results after the basic jet selection
+  and related cuts, but before $b$-tagging.
+\item {\bf C2}: results after the $b$-tagging, but
+  before applying the invariant mass window cut
+\item {\bf C3}: final results of the cut-based
+  analysis
+  \end{itemize}
+We consider the results for the individual categories, using the
+exclusive priorisation discussed in the previous section.
+%
+In Appendix.~\ref{sec:overlap} we comment
+interplay of the overlap between the various categories.
+%
+At each stage of the cut flow, we also provide the number
+of events that would be expected at the HL-LHC with
+an integrated luminosity of $\mathcal{L}=3000$ fb$^{-1}$,
+the signal significance $S/\sqrt{B}$ and the signal
+over background ratio $S/B$.
+%
+Results are shown both for the signal and for all backgrounds
+combined.
+
+Let's begin with the discussion of the boosted category,
+Table~\ref{table:cutflowboosted}, that as we have explained
+is the one that benefits from a higher signal significance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Boosted category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
+        {\bf C1}  &       &     &     &      &      &   \\
+        {\bf C2}  &       &     &     &      &      &   \\
+        {\bf C3}  &       &     &     &      &      &   \\
+        \hline
+  \end{tabular}
+  \caption{\small Cut-flow for the analysis of the boosted
+    category.
+    %
+    At each level we indicate the cross-sections and the number of
+    expected events at the HL-LHC both for
+    signal and for all the backgrounds combined,
+    as well as the signal significance $S/\sqrt{B}$ and the signal
+    over background ratio $S/B$.
+    \label{table:cutflowboosted}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Intermediate category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
+        {\bf C1}  &       &     &     &      &      &   \\
+        {\bf C2}  &       &     &     &      &      &   \\
+        {\bf C3}  &       &     &     &      &      &   \\
+        \hline
+  \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflowboosted} now for
+    the intermediate category.
+    \label{table:cutflowintermediate}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Intermediate category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
+        {\bf C1}  &       &     &     &      &      &   \\
+        {\bf C2}  &       &     &     &      &      &   \\
+        {\bf C3}  &       &     &     &      &      &   \\
+        \hline
+  \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflowboosted} now for
+    the boosted category.
+    \label{table:cutflowresolved}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+From the results of Tables~\label{table:cutflowboosted}--\ref{table:cutflowresolved}
+we see that after the cut-based analysis, the significance of the Higgs pair production
+observation in the $4b$ channel using the boosted topology is ... and that the combination
+of the boosted, intermediate and resolved categories gives ....
+%
+We discuss in the next section of this significance can be enhanced by means
+of multivariate analysis.
+
+\subsection{Comparison with previous work}
+
+We now compare with two recent studies that have also studied the
+feasibility of SM Higgs pair production in the $4b$ final state,
+those of the UCL group~\cite{Wardrope:2014kya} and of the
+Durham group~\cite{deLima:2014dta}.
+%
+In order to perform a meaningful comparison, we will only consider
+here the $4b$ QCD and $t\bar{t}$ backgrounds, as was done
+in these two studies.
+
+{\bf paragraph about UCL strategy}
+
+
+{\bf paragraph about Durham strategy}
