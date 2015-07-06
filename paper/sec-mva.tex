@@ -9,7 +9,7 @@ we end up with a $S/\sqrt{B}$ value of AAA.
 Taking into account our more realistic simulation of the QCD background as
 compared to previous studies, this is not too bad.
 %
-However, the attentive reader might have noticed that we have used
+however, the attentive reader might have noticed that we have used
 relatively 
 loose kinematics cuts, for example in the Higgs mass window.
 %
@@ -26,58 +26,103 @@ significance in HEP analysis.
 The classification of events as arising from either signal or
 background processes via the use of a multivariate analysis is a common
 technique in high energy physics.
-
-In order to investigate the potential efficacy of an MVA in an $HH\to 4b$
+%
+In order to investigate the potential efficacy of an MVA in an $hh\to 4b$
 measurement, we process the events remaining after the cut-based analysis 
-through a standard feed-forward artificial neural network with architecture
-
+through a feed-forward artificial neural network with architecture
 \be
 \label{eq:nn1}
 N_{\mathrm{var}}\times5\times3\times1 \, ,
 \ee
-where $N_{\mathrm{par}}$ represents the number of input variables for the MVA.
-All neural-network layers use a sigmoid activation function, allowing for a probabilistic
+where $N_{\mathrm{var}}$ represents the number of input variables for the MVA.
+All neural-network layers use a sigmoid activation function, allowing
+for a probabilistic
 interpretation of the neural-network output.
 
-The input variables for the MVA differ between our three categories, based upon
-the availability in each analysis of substructure information on fat jets. For all
-three analyses, the following common variables are used:
 
-\begin{itemize}
-\item The transverse momenta of the leading and subleading Higgs candidates, $p_{T,H_0}$, $p_{T,H_1}$.
-\item The transverse momentum of the reconstructed Higgs pair, $p_{T,HH}$
-\item The invariant masses of the leading and sub-leading Higgs candidates, $m_{H,1}$, $m_{H,2}$.
-\item The invariant mass of the reconstructed Higgs pair, $m_{HH}$.
-\item The separation in $R$ of the two Higgs candidates, $\Delta R_{HH}$.
-\item The separation in $\phi$ of the two Higgs candidates, $\Delta \phi_{HH}$.
-\item The separation in $\eta$ of the two Higgs candidates, $\Delta \eta_{HH}$.
-\item The transverse momenta of the leading Higgs candidate subjets, $p_{T,H_{0,0}}$, $p_{T,H_{0,1}}$
-\item The transverse momenta of the sub-leading Higgs candidate subjets, $p_{T,H_{1,0}}$, $p_{T,H_{1,1}}$
-\end{itemize}
 
-For analyses including the reconstruction of fat jets, the following variables are included for
-every fat jet Higgs candidate present in the analysis.
-
-\begin{itemize}
-\item The $k_T$ splitting scale of the fat-jet (Reference).
-\item The ratio of 2-to-1-Subjetiness $\tau_{2}/\tau_{1}$ of the fat-jet (Reference).
-\item The fat-jet energy correlation function double-ratio $C_2$ (Reference).
-\item The fat-jet energy correlation function double-ratio $D_2$ (Reference).
-\end{itemize}
-
-Therefore there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis, 17 for the semi-resolved, and 21 for the boosted category.
-
-Given the above set of kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ as the probability that the event $i$ originates from the signal process,
+Given a set of $N_{\mathrm{var}}$  kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ as the probability that the event $i$ originates from the signal process,
 \be y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} ), \ee
 where $y_i^\prime$ represents the true classification of the event $i$, i.e $y^\prime_{\text{signal}} = 1$ and $y^\prime_{\text{background}} = 0$. With this interpretation, our general classification probability including background events is given by
 \be
 P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
 \ee
- Correspondingly the negative log-likelihood cost function to be used in the neural network training is the cross-entropy error
-\be E(\{\omega\}) = -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right) = \sum_i^{N_{\text{evt}}} y^\prime_i\log{y_i} + (1-y^\prime_i)\log{(1-y_i)}. \ee
+ Correspondingly the negative log-likelihood cost function to be used in the neural network training is the cross-entropy error, defined as
+ \bea
+ E(\{\omega\}) &=& -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right)\nonumber\\
+ &=&
+ \sum_i^{N_{\text{evt}}} y^\prime_i\log{y_i} + (1-y^\prime_i)\log{(1-y_i)} \, ,
+ \label{cross-entropy}
+ \eea
+ where $N_{\text{evt}}$ is the number of
+ Monte Carlo events that we have generated.
+ 
+ The training of the neural networks consist on the
+ minimization of the cross-entropy error,
+ Eq.~\ref{cross-entropy}, which is achieved using a
+ Genetic Algorithm.
+ %
+ Since given the large number of events the probability of
+ over-fitting is tiny, we just train the MVA for a very long
+ number of generations, in this case $N_{\rm gen}=50k$.
+ %
+ We have verified that if a larger number of generations
+ are used the results are unchanged.
 
-Using the cross-entropy cost function, the neural networks are trained with a basic genetic algorithm (GA) over 50,000 generations.
-(Do we need to specify GA params etc?).
+ 
+
+ \subsection{MVA input}
+
+ To identify the most discriminatory variables, we have to train
+ the MVA using a large number of kinematic distributions for
+ signal and background events.
+%
+In our $hh\to 4b$ case,
+the input variables for the MVA differ between our three categories,
+since in the case of large-$R$ jet reconstruction we want to exploit
+the richness of substructure information.
+
+For the three categories, boosted, intermediate and resolved,
+the following common variables are used as input to the MVA
+\begin{itemize}
+\item The transverse momenta of the leading and subleading Higgs candidates, $p_{T,h_1}$, $p_{T,h_2}$.
+\item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$
+\item The invariant masses of the leading and sub-leading Higgs candidates, $m_{h,1}$, $m_{h,2}$.
+\item The invariant mass of the reconstructed Higgs pair, $m_{hh}$.
+\item The separation in $R$ of the two Higgs candidates, $\Delta R_{hh}$.
+\item The separation in $\phi$ of the two Higgs candidates, $\Delta \phi_{hh}$.
+\item The separation in $\eta$ of the two Higgs candidates, $\Delta \eta_{hh}$.
+\item The transverse momenta of the leading Higgs candidate subjets, $p_{T,h_{1,1}}$, $p_{T,h_{1,2}}$
+\item The transverse momenta of the sub-leading Higgs candidate subjets, $p_{T,h_{2,1}}$, $p_{T,h_{2,1}}$
+\end{itemize}
+Note that in the case of a large-$R$ jet, the subjets are defined
+with the anti-$k_t$ algorithm with $R=0.3$.
+%
+In the resolved case, the subjets are instead replaced by the two
+small-$R$ jets that constitute each Higgs candidate.
+
+For analyses involving the use of large-$R$ jets,
+namely for the boosted and intermediate categories,
+the following variables are included for
+every large-$R$ jet,
+we use in addition a number of substructure variables~\cite{Aad:2013gja},
+in particular:
+\begin{itemize}
+\item The $k_T$ splitting scale~\cite{Butterworth:2008iy}
+\item The ratio of 2-to-1-Subjetiness $\tau_{2}/\tau_{1}$~\cite{Thaler:2010tr}
+\item The energy correlation function double-ratio $C_2$~\cite{Larkoski:2013eya}
+\item The energy correlation function double-ratio $D_2$~\cite{Larkoski:2013eya}
+\end{itemize}
+The implementation of all these substructure variables follows
+closely the original ATLAS implementation summarized in Ref.~\cite{Aad:2013gja}.
+
+
+Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis, 17 for the semi-resolved, and 21 for the boosted category.
+%
+Given that the MVA is able to identify the most discriminatory variables
+and to ignore those that have smaller effect, it is advantageous to
+include as many substructure variables as possible.
+
 \subsection{Enhancing signal discrimination with the MVA}
 
 Now we show the results of the MVA training on the signal and
@@ -204,7 +249,7 @@ provide additional information.
 The corresponding analysis for the boosted category is also
 shown in Fig.~\ref{fig:nnweights}.
 %
-Here we see that there is a more even distributions of weights, in that many
+here we see that there is a more even distributions of weights, in that many
 variables help in a similar amount in the discrimination.
 %
 The invariant mass of the Higgs candidate of course still carries a lot of weight,
@@ -245,8 +290,8 @@ between QCD jets and jets originated from the Higgs decays.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.48\textwidth]{plots/tau21_H0_res_C1_boost.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_H0_res_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_h0_res_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_res_C1_boost.pdf}
   \caption{\small Left plot: subjetiness.
     Right plot: energy correlations.
 }
@@ -268,9 +313,9 @@ for smearing - of course in this case differences between signal and background 
 would be enhanced.
 
 To investigate this, we now consider a variant of the analysis used in
-Table  where the $m_H$ window criterion has been relaxed to $80 < m_H < 170$.
+Table  where the $m_h$ window criterion has been relaxed to $80 < m_h < 170$.
 %
-Firstly the same analysis is repeated with the larger $m_H$ window, with no smearing at all.
+Firstly the same analysis is repeated with the larger $m_h$ window, with no smearing at all.
 %
 This is then compared to the same analysis but with a Gaussian smearing with $\sigma=10$ GeV applied to the dijet invariant mass used in the MVA.
 %
