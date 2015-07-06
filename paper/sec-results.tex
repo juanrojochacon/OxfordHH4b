@@ -55,17 +55,57 @@ over background ratio $S/B$.
 %
 Results are shown both for the signal and for all backgrounds
 combined.
+%
+The results for the three categories have been collected in
+Table~\ref{table:cutflowboosted}.
 
-Let's begin with the discussion of the boosted category,
-Table~\ref{table:cutflowboosted}, that as we have explained
+We emphasize that it is important not only to achieve a good signal
+significance, $S/sqrt{B}$, but also a good signal over background ratio $S/B$:
+if the latter is too small, a measurement of the background with an unfeasibly small
+systematic uncertainty would be required.
+
+Let's begin with the discussion of the boosted category, that as we have explained
 is the one that benefits from a higher signal significance.
+%
+We see that after all the cuts, including $b$-tagging,
+we end up with almost 200 signal events at the HL-LHC, and
+still a substantial background of around $40k$ events.
+%
+The signal significance is around one at the end of the
+cut-based analysis.
+%
+Note that it is easy to compute the corresponding numbers
+for the end of Run II at the LHC with
+$\mathcal{L}_{\rm int}=300$ fb$^{-1}$: we have only
+19 signal events, and the signal significance drops down to
+$S/\sqrt{B}\sim 0.3$.
+%
+We will discuss in the next section what are the Run II prospects
+once we include the effects of the MVA in the analysis.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
   \centering
-  \begin{tabular}{c|c|c|c|c|c|c}
+  \begin{tabular}{c|c|c||c|c||c|c}
     \hline
     \multicolumn{7}{c}{Boosted category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c||}{$\sigma$ (fb)}   &  \multicolumn{2}{c||}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+        {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
+        {\bf C1}  &  0.46    & $1.3\,10^6$    &  $1.4\,10^3$   & $3.9\,10^9$     & 0.022     &  $3.5\,10^{-7}$ \\
+        {\bf C2}  &  0.064     &  12.6     &  193   &  $3.8\,10^4$    &  0.99    &  $5.1\,10^{-3}$ \\
+        \hline
+  \end{tabular}
+  $\,$\\
+  \vspace{0.4cm}
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Intermediate category}\\
     \hline
     \hline
     &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
@@ -73,79 +113,64 @@ is the one that benefits from a higher signal significance.
       &    Signal & Back   &  Signal  & Back
     &   & \\
     \hline
-        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
-        {\bf C1}  &       &     &     &      &      &   \\
-        {\bf C2}  &       &     &     &      &      &   \\
-        {\bf C3}  &       &     &     &      &      &   \\
+         {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
+        {\bf C1}  &   1.44    &   $1.1\,10^{7}$  &  $4.3\,10^3$   &  $3.3\,10^{10}$    &  0.024    &  $1.3\,10^{-7}$ \\
+        {\bf C2}  &   0.22    &  722   &  660   &   $2.2\,10^6$   &   0.45   &  $3.1\,10^{-4}$ \\
         \hline
   \end{tabular}
-  \caption{\small Cut-flow for the analysis of the boosted
-    category.
+  $\,$\\
+  \vspace{0.4cm}
+  \noindent
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Resolved category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+       {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
+        {\bf C1}  &   3.34    & $7.5\,10^{7}$    & $1.1\,10^4$    & $3.3\,10^{10}$     & 0.021     & $4.5\,10^{-8}$  \\
+        {\bf C2}  &   0.54    &  $3.5\,10^{3}$   &  $1.6\,10^{3}$   &   $1.1\,10^{7}$   & 0.50     &  $1.5\,10^{-4}$ \\
+        \hline
+  \end{tabular}
+  \caption{\small Cut-flow for the analysis of the boosted (top),
+    intermediate (middle) and resolved (bottom)
+    categories.
     %
-    At each level we indicate the cross-sections and the number of
-    expected events at the HL-LHC both for
-    signal and for all the backgrounds combined,
-    as well as the signal significance $S/\sqrt{B}$ and the signal
+    At each level of the cut-flow, we indicate the cross-sections and the number of
+    expected events at the HL-LHC for $\mathcal{L}_{\rm int}=3$ ab$^{-1}$, both for
+    signal events and for all the backgrounds combined.
+    %
+    We also provide in each case the
+    signal significance $S/\sqrt{B}$ and the signal
     over background ratio $S/B$.
+    %
+    The first row {\bf C0} is the generator-level result and thus is common
+    to all three categories.
+    %
+    See text for more details.
     \label{table:cutflowboosted}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-  \centering
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Intermediate category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
-        {\bf C1}  &       &     &     &      &      &   \\
-        {\bf C2}  &       &     &     &      &      &   \\
-        {\bf C3}  &       &     &     &      &      &   \\
-        \hline
-  \end{tabular}
-  \caption{\small Same as Table~\ref{table:cutflowboosted} now for
-    the intermediate category.
-    \label{table:cutflowintermediate}
-  }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Both the intermediate and resolved categories benefit from higher signal yields,
+specially in the resolved category, but this enhancement is cancellend by the stronger
+increase in the QCD multijet background.
+%
+We see that in both cases the signal significance is around half of that in the boosted category,
+with in addition $S/B$ being an order of magnitude smaller.
+%
+Therefore, the boosted category is clearly determined to be the most useful category,
+specially due to the significant suppression of the QCD multijet background.
+%
+And we still have not exploited all the rich information contained on the jet
+substructure, as we will do in the next section.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-  \centering
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Intermediate category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-        {\bf C0}  &  AAA  & AAA & AAA & AAA  &  AAA & AAA\\
-        {\bf C1}  &       &     &     &      &      &   \\
-        {\bf C2}  &       &     &     &      &      &   \\
-        {\bf C3}  &       &     &     &      &      &   \\
-        \hline
-  \end{tabular}
-  \caption{\small Same as Table~\ref{table:cutflowboosted} now for
-    the boosted category.
-    \label{table:cutflowresolved}
-  }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-From the results of Tables~\label{table:cutflowboosted}--\ref{table:cutflowresolved}
+From the results of Table~\label{table:cutflowboosted}
 we see that after the cut-based analysis, the significance of the Higgs pair production
 observation in the $4b$ channel using the boosted topology is ... and that the combination
 of the boosted, intermediate and resolved categories gives ....
@@ -168,3 +193,50 @@ in these two studies.
 
 
 {\bf paragraph about Durham strategy}
+
+
+In order to compare with previous results, it is interesting to
+study how our results change if we consider only the QCD $4b$
+multi-jet background, but ignore the $2b2j$ and $4j$ backgrounds,
+that is, we ignore the contribution from the fakes.
+%
+For the boosted category, the results are shown in
+Table~\ref{table:cutflowboosted4B}, which is the analog of
+Table~\ref{table:cutflowboosted} but with only the QCD
+$4b$ background taken into account.
+%
+As we can see, these results indicate that given the similarity of the final states
+in signal and background events in these cases, the signal significance is
+relatively stable at various stages of the cut-flow.
+%
+As compared to the case in which all backgrounds are taken into account, we
+now get a factor two smaller backgrounds: we conclude that in the boosted category
+the effect of the fakes is non-negligible, with their contribution being
+comparable to that of the irreducible $4b$ QCD multi-jet background.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c||c|c||c|c}
+    \hline
+    \multicolumn{7}{c}{Boosted category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c||}{$\sigma$ (fb)}   &  \multicolumn{2}{c||}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+        {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
+        {\bf C1}  &  0.46    & $1.0\,10^2$    &  $1.4\,10^3$   & $3.1\,10^5$     & 2.48     &  $4.4\,10^{-3}$ \\
+        {\bf C2}  &  0.064     &  7.1     &  193   &  $2.1\,10^4$    &  1.30    &  $9.1\,10^{-3}$ \\
+        \hline
+  \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflowboosted}, but now
+    only with the QCD $4b$ multi-jet background taken into account.
+    %
+    \label{table:cutflowboosted4B}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

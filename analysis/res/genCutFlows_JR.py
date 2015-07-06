@@ -71,7 +71,7 @@ for file_type in file_types:
 
 summary_outfile = 'cutflow_' + '_summary.dat'
 with open(summary_outfile, 'w') as f:
-    for i in range(0,8):
+    for i in range(0,10):
         #print i
         # header line
         if i == 0 or i == 1 or i == 2:
@@ -86,6 +86,10 @@ with open(summary_outfile, 'w') as f:
             f.write('Nev_back'+'\t')
         elif i == 7:
             f.write('Nev_back_4b'+'\t')
+        elif i == 8:
+            f.write('S/B_4b'+'\t')
+        elif i == 9:
+            f.write('S/sqrt(B)_4b'+'\t')
         for file_type in file_types:
             f.write(file_type+'\t')
         f.write('\n')
@@ -118,6 +122,18 @@ with open(summary_outfile, 'w') as f:
                 elif i == 7:
                     Nev_back_4b = luminosity*float(new_data[file_type][j][3])
                     f.write('%e'% Nev_back_4b + '\t')
+                elif i == 8:
+                    if float(new_data[file_type][j][3]) == 0.0:
+                        SoverB = 0
+                    else:
+                        SoverB = float(new_data[file_type][j][1])/float(new_data[file_type][j][3])
+                    f.write('%e'% SoverB + '\t')
+                elif i == 9:
+                    if float(new_data[file_type][j][3]) == 0.0:
+                        SoverRootB = 0
+                    else:
+                        SoverRootB = math.sqrt(luminosity)*float(new_data[file_type][j][1])/math.sqrt(float(new_data[file_type][j][3]))
+                    f.write('%e'% SoverRootB + '\t')
             f.write('\n')
         f.write('\n\n')
 
