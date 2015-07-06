@@ -23,89 +23,61 @@ significance in HEP analysis.
 
 \subsection{MVA strategy}
 
-The final step of our analysis is to process our three exclusive
-categories of events (boosted, intermediate and resolved) though
-a Multivariate Analysis.
-%
-The particular tool that we adopt is
-a feed-forward artificial neural network.\footnote{This is the
-  same type of neural networks as those used in the
-  NNPDF analysis of parton distributions~\cite{Ball:2010de}.}
-%
-The architecture of the neural network is
+The classification of events as arising from either signal or
+background processess via the use of a multivariate analysis is a common
+technique in high energy physics.
+
+In order to investigate the potential efficacy of an MVA in an $HH\to 4b$
+measurement, we process the events remaining after the cut-based analysis 
+through a standard feed-forward artificial neural network with architecture
+
 \be
 \label{eq:nn1}
 N_{\mathrm{var}}\times5\times3\times1 \, ,
 \ee
-with $N_{\mathrm{par}}$ the number of input variables for the MVA.
-%
-Therefore, we have two hidden layers and a single output variable, which
-is the value of the discriminant to separate signal and background.\footnote{Note that in the MVA literature artificial neural networks with several hidden
-  layers are known as {\it deep neural networks}.}
-%
-Below we list the variables that are given as input to the MVA in each
-different category.
-%
-The MVA has trained using a Genetic Algorithm during 50K iterations,
-and the figure of merit to be minimized is the cross-entropy function.
-%
-This figure of merit is defined as
-\be
-\bf DEF
-\ee
+where $N_{\mathrm{par}}$ represents the number of input variables for the MVA.
+All neural-network layers use a sigmoid activation function, allowing for a probabilistic
+interpretation of the neural-network output.
 
-For both signal and background events, the variables that we input
-to the MVA are the following.
-%
-For the boosted category we have
+The input variables for the MVA differ between our three categories, based upon
+the availability in each analysis of substructure information on fat jets. For all
+three analyses, the following common variables are used:
+
 \begin{itemize}
-\item The invariant mass of the two mass-drop-tagged jets, $m_{\rm jet}$
-\item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$
-\item The rapidity of the two mass-drop-tagged jets, $y_{\rm jet}$
-\item The invariant mass of the leading Higgs candidate, $m_{h,1}$
-\item The invariant mass of the sub-leading Higgs candidate, $m_{h,2}$
-\item The splitting scale of the first Higgs
-\item The splitting scale of the second Higgs
-\item The subjetiness variable $\tau_{21,h1}$ of the leading Higgs candidate
-\item The subjetiness variable $\tau_{21,h2}$
-  of the sub-leading Higgs candidate
- \item The angular separation between the two tagged jets, $\Delta R_{1,2}$ 
+\item The transverse momenta of the leading and subleading Higgs candidates, $p_{T,H_0}$, $p_{T,H_1}$.
+\item The transverse momentum of the reconstructed Higgs pair, $p_{T,HH}$
+\item The invariant masses of the leading and sub-leading Higgs candidates, $m_{H,1}$, $m_{H,2}$.
+\item The invariant mass of the reconstructed Higgs pair, $m_{HH}$.
+\item The separation in $R$ of the two Higgs candidates, $\Delta R_{HH}$.
+\item The separation in $\phi$ of the two Higgs candidates, $\Delta \phi_{HH}$.
+\item The separation in $\eta$ of the two Higgs candidates, $\Delta \eta_{HH}$.
+\item The transverse momenta of the leading Higgs candidate subjets, $p_{T,H_{0,0}}$, $p_{T,H_{0,1}}$
+\item The transverse momenta of the sub-leading Higgs candidate subjets, $p_{T,H_{1,0}}$, $p_{T,H_{1,1}}$
 \end{itemize}
-For completeness, we give here the definition of the various substructure variables.
-%
-The splitting scale is defined as
-\be
-\bf DEF
-\ee
-while the $\tau_{1,2}$ subjetiness variable is defined as
-\be
-\bf DEF
-\ee
-The other variables are more conventional.
-%
-As will be shown below, the addition of the jet substructure variables,
-the splitting scales and the subjetiness,
-enhances substantially the signal significance, as compared
-to using only jet variables without substructure information.
 
-For the resolved analysis instead, the $N_{\rm var}$ kinematic variables
-that are given as input to the MVA are the following
+For analyses including the reconstruction of fat jets, the following variables are included for
+every fat jet Higgs candidate present in the analysis.
+
 \begin{itemize}
-\item The invariant mass of the four $b$-tagged leading jets (that
-  is, of the di-Higgs system), $m_{4b}$
-\item The transverse momentum of the di-Higgs system, $p_{4b}$
-\item The rapidity of the di-Higgs system $y_{4b}$
-\item The invariant mass of the leading Higgs candidate $m_{h,1}$
-\item The invariant mass of the subleading Higgs candidate $m_{h,1}$
-\item The angular separation between each of the four
-  $b$-tagged leading jets in the event: $\Delta R_{b1,b2}$,
-  $\Delta R_{b1,b3}$, $\Delta R_{b1,b4}$, $\Delta R_{b2,b3}$,
-  $\Delta R_{b2,b4}$, $\Delta R_{b3,b4}$
+\item The $k_T$ splitting scale of the fat-jet (Reference).
+\item The ratio of 2-to-1-Subjettiness $\tau_{2}/\tau_{1}$ of the fat-jet (Reference).
+\item The fat-jet energy correlation function double-ratio $C_2$ (Reference).
+\item The fat-jet energy correlation function double-ratio $D_2$ (Reference).
 \end{itemize}
-As will be shown below, of all these variables, the invariant mass of the
-Higgs candidates is the one that carries as higher discrimination
-power.
 
+Therefore there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis, 17 for the semi-resolved, and 21 for the boosted category.
+
+Given the above set of kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ as the probability that the event $i$ originates from the signal process,
+\be y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} ), \ee
+where $y_i^\prime$ represents the true classification of the event $i$, i.e $y^\prime_{\text{signal}} = 1$ and $y^\prime_{\text{background}} = 0$. With this interpretation, our general classification probability including background events is given by
+\be
+P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
+\ee
+ Correspondingly the negative log-liklihood cost function to be used in the neural network training is the cross-entropy error
+\be E(\{\omega\}) = -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right) = \sum_i^{N_{\text{evt}}} y^\prime_i\log{y_i} + (1-y^\prime_i)\log{(1-y_i)}. \ee
+
+Using the cross-entropy cost function, the neural networks are trained with a basic genetic algorithm (GA) over 50,000 generations.
+(Do we need to specifiy GA params etc?).
 \subsection{Enhancing signal discrimination with the MVA}
 
 Now we show the results of the MVA training on the signal and
