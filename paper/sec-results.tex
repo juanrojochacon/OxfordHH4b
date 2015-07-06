@@ -57,11 +57,11 @@ Results are shown both for the signal and for all backgrounds
 combined.
 %
 The results for the three categories have been collected in
-Table~\ref{table:cutflowboosted}.
+Table~\ref{table:cutflow}.
 
 We emphasize that it is important not only to achieve a good signal
 significance, $S/sqrt{B}$, but also a good signal over background ratio $S/B$:
-if the latter is too small, a measurement of the background with an unfeasibly small
+if the latter is too small, a measurement of the background with an infeasible small
 systematic uncertainty would be required.
 
 Let's begin with the discussion of the boosted category, that as we have explained
@@ -152,20 +152,20 @@ once we include the effects of the MVA in the analysis.
     to all three categories.
     %
     See text for more details.
-    \label{table:cutflowboosted}
+    \label{table:cutflow}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Both the intermediate and resolved categories benefit from higher signal yields,
-specially in the resolved category, but this enhancement is cancellend by the stronger
-increase in the QCD multijet background.
+specially in the resolved category, but this enhancement is canceled by the stronger
+increase in the QCD multi-jet background.
 %
 We see that in both cases the signal significance is around half of that in the boosted category,
 with in addition $S/B$ being an order of magnitude smaller.
 %
 Therefore, the boosted category is clearly determined to be the most useful category,
-specially due to the significant suppression of the QCD multijet background.
+specially due to the significant suppression of the QCD multi-jet background.
 %
 And we still have not exploited all the rich information contained on the jet
 substructure, as we will do in the next section.
@@ -214,6 +214,18 @@ now get a factor two smaller backgrounds: we conclude that in the boosted catego
 the effect of the fakes is non-negligible, with their contribution being
 comparable to that of the irreducible $4b$ QCD multi-jet background.
 
+Concerning the other categories, we see that that ignoring the fakes can lead to a substantial
+distortion of the results.
+%
+In the intermediate category, the signal significance is now much better, with $S/sqrt{B}$ increasing from
+0.5 with all the backgrounds to $1.57$ if only $4b$ are accounted for, a factor 3 improvement.
+%
+Also the resolved category improves substantially, with signal significance increasing by a factor 2.
+%
+Therefore, we conclude that a careful modeling of the fakes is very important to truly quantify
+the feasibility of Higgs pair production in the $4b$ channel, though for the most
+important category, the boosted category, the results are relatively stable.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
@@ -233,10 +245,45 @@ comparable to that of the irreducible $4b$ QCD multi-jet background.
         {\bf C2}  &  0.064     &  7.1     &  193   &  $2.1\,10^4$    &  1.30    &  $9.1\,10^{-3}$ \\
         \hline
   \end{tabular}
-  \caption{\small Same as Table~\ref{table:cutflowboosted}, but now
+   $\,$\\
+  \vspace{0.4cm}
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Intermediate category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+ {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
+        {\bf C1}  &  0.46    & $7.2\,10^2$    &  $1.4\,10^3$   & $2.2\,10^6$     & 2.91     &  $1.9\,10^{-3}$ \\
+        {\bf C2}  &  0.064     &  58.8     &  193   &  $1.8\,10^5$    &  1.57    &  $3.7\,10^{-3}$ \\
+        \hline
+  \end{tabular}
+  $\,$\\
+  \vspace{0.4cm}
+  \noindent
+  \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+    \multicolumn{7}{c}{Resolved category}\\
+    \hline
+    \hline
+    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
+    &   $S/\sqrt{B}$  & $S/B$\\
+      &    Signal & Back   &  Signal  & Back
+    &   & \\
+    \hline
+ {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
+        {\bf C1}  &  0.46    & $9.0\,10^3$    &  $1.4\,10^3$   & $2.7\,10^7$     & 1.92     &  $3.7\,10^{-4}$ \\
+        {\bf C2}  &  0.064     &  986     &  193   &  $2.9\,10^6$    &  0.95  &  $5.5\,10^{-4}$ \\
+        \hline
+  \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflow}, but now
     only with the QCD $4b$ multi-jet background taken into account.
     %
-    \label{table:cutflowboosted4B}
+    \label{table:cutflow4B}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

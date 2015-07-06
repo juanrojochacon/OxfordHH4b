@@ -24,7 +24,7 @@ significance in HEP analysis.
 \subsection{MVA strategy}
 
 The classification of events as arising from either signal or
-background processess via the use of a multivariate analysis is a common
+background processes via the use of a multivariate analysis is a common
 technique in high energy physics.
 
 In order to investigate the potential efficacy of an MVA in an $HH\to 4b$
@@ -60,7 +60,7 @@ every fat jet Higgs candidate present in the analysis.
 
 \begin{itemize}
 \item The $k_T$ splitting scale of the fat-jet (Reference).
-\item The ratio of 2-to-1-Subjettiness $\tau_{2}/\tau_{1}$ of the fat-jet (Reference).
+\item The ratio of 2-to-1-Subjetiness $\tau_{2}/\tau_{1}$ of the fat-jet (Reference).
 \item The fat-jet energy correlation function double-ratio $C_2$ (Reference).
 \item The fat-jet energy correlation function double-ratio $D_2$ (Reference).
 \end{itemize}
@@ -73,11 +73,11 @@ where $y_i^\prime$ represents the true classification of the event $i$, i.e $y^\
 \be
 P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
 \ee
- Correspondingly the negative log-liklihood cost function to be used in the neural network training is the cross-entropy error
+ Correspondingly the negative log-likelihood cost function to be used in the neural network training is the cross-entropy error
 \be E(\{\omega\}) = -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right) = \sum_i^{N_{\text{evt}}} y^\prime_i\log{y_i} + (1-y^\prime_i)\log{(1-y_i)}. \ee
 
 Using the cross-entropy cost function, the neural networks are trained with a basic genetic algorithm (GA) over 50,000 generations.
-(Do we need to specifiy GA params etc?).
+(Do we need to specify GA params etc?).
 \subsection{Enhancing signal discrimination with the MVA}
 
 Now we show the results of the MVA training on the signal and
@@ -216,6 +216,44 @@ degraded if substructure variables are not used.
 
 
 
+
+\subsection{Another look at jet substructure variables}
+
+It is now worth trying to understand where does the increase in signal significance
+achieved after the MVA comes from.
+%
+As we will show now, the MVA has correctly identified which of the substructure
+variables are more discriminant between signal and background distributions,
+and combined this information to determine an optimal cut to maximize signal
+significance.
+
+For instance, in the boosted category, the analyses of the
+size of the neural network weights clearly indicates that the subjetiness
+$\tau_{12}$ and the energy correlations $C_2$ are two of the most useful
+variables.
+%
+To verify that indeed these two variables are quite different between signal
+and background events, in Fig.~\ref{fig:mva_substructure_1}
+we show the subjetiness $\tau_{12}$ and the energy correlation between
+signal and background.
+%
+We indeed verify that the two shapes are quite different,
+reflecting the differences in the internal structure of jets
+between QCD jets and jets originated from the Higgs decays.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_H0_res_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_H0_res_C1_boost.pdf}
+  \caption{\small Left plot: subjetiness.
+    Right plot: energy correlations.
+}
+\label{fig:mva_substructure_1}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
