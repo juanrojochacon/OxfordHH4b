@@ -1,11 +1,15 @@
 \section{Monte Carlo samples}
 \label{mcgeneration}
 
-First of all in this section we discuss the details of the
+First of all in this section we discuss the settings of the
 Monte Carlo generation of the signal and background
 events used in this work.
+%
+We also discuss how we study the effects of finite detector
+resolution by means of an smearing of the final-state
+particles four-momentum.
 
-\subsection{Signal}
+\subsection{Higgs pair production}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Higgs pair production is simulated at leading order using
@@ -21,7 +25,22 @@ scale of the model.
 %
 The Higgs boson parameters are also the same in the default model,
 in particular we use $m_H=125$ GeV, consistent with the latest
-measurements from ATLAS and CMS.
+measurements from ATLAS and CMS~\cite{Aad:2014aba,Khachatryan:2014jba}.
+%
+The value of the Higgs trilinear coupling $\lambda$ is set to its
+Standard Model value.
+%
+The calculation is performed in the
+$N_f$=4 scheme and thus
+takes into account the finite mass of the $b$-quarks.
+
+The signal samples are rescaled so that the integrated cross-section matches that of the
+NNLO calculation of the inclusive cross-section from Ref.~\cite{deFlorian:2013jea}:
+this corresponds to using a $K$-factor $\sigma_{\rm NNLO}/\sigma_{\rm LO}=2.3$.
+%
+Let us note that resummed NNLO+NNLL calculations for Higgs pair production have also become available recently~\cite{deFlorian:2015moa},
+leading to a moderate enhancement as compared to the fixed-order NNLO calculation.
+
 
 %
 Parton level events are then showered with the {\tt Pythia8} Monte
@@ -38,45 +57,81 @@ detector simulator, which is beyond the scope of this paper.
 %
 For a similar reason, we don't consider underlying event, multiple parton interactions and
 pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp}.
-
-
-The signal samples are rescaled so that the integrated cross-section matches that of the
-NNLO calculation~\cite{deFlorian:2013jea}: this corresponds to using a $K$-factor $\sigma_{NNLO}/sigma_{LO}=2.3$.
 %
-Let us note that resummed NNLO+NNLL calculations for Higgs pair production have also become available recently~\cite{deFlorian:2015moa},
-leading to a moderate enhancement as compared to the fixed-order NNLO calculation.
+The same applies to the background samples, which we discuss now
 
-\subsection{Background}
+\subsection{Backgrounds: QCD multijet and $t\bar{t}$ production}
 
 Now we turn to discuss the Monte Carlo generation of the relevant background processes.
 %
-All background samples are generated with the {\tt SHERPA} event generator~\cite{Gleisberg:2008ta}, v2.1.1.
+All background samples are generated at leading-order
+with the {\tt SHERPA} event generator~\cite{Gleisberg:2008ta}, v2.1.1.
 %
-As in the case of the signal generation, the NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S=0.118$ is used for all samples.
-Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$.
+As in the case of the signal generation, the NNPDF 3.0 $n_f = 4$ LO set with strong coupling $\alpha_S(m_Z^2)=0.118$ is used for all samples.
+%
+Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$ for all
+the samples.
 
-We consider all the relevant samples that can lead to the event
+We have considered all the relevant samples that can lead to the event
 being tagged as a $HH\to 4b$ candidate.
 %
-First of all QCD $4b$ multi-jet production of course.
+First of all QCD we have $4b$ multi-jet production of course.
 %
 But also we generate QCD $2b2j$ and $4j$ multi-jet samples,
-that can lead to the even being tagged in the case of multiple light
+that can lead to the event being tagged in the case of multiple light
 jets being mistagged as $b$-quarks.
 %
 While the light jet mistag probability is small, we find that
 in general the $2b2j$ and $4j$ backgrounds cannot be neglected because
 of their large cross-sections and enhancement from combinatorics, that
-increase their contribution as compared to the naive estimate.
-
-At the generation level the following basic cuts are applied.
+increase their contribution as compared to a naive estimate.
 %
-Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located within $| \eta | \le 3.0$. All final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
+Neglecting the  $2b2j$ and $4j$ backgrounds is particularly
+important for the resolved and intermediate categories, but less
+so for the boosted one.
+%
+We don't include the NLO $K$-factor for the backgrounds but instead assume
+a given experimental overall systematic uncertainties common to all backgrounds.
+
+In addition to the QCD multijet, we also generate $t\bar{t}$ samples
+in the fully hadronic final state, which lead to a $2b4j$ signature that can
+contribute to the fake rates, and that has a similar topology that
+the corresponding QCD sample.
+%
+We have used a value of the top quark mass of $m_t=173.2$ GeV.
+%
+Semileptonic decays of top quarks can be easily removed by requiring
+a lepton veto.
+
+
+At the generation level the following basic cuts are applied to
+background events.
+%
+Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located
+in the central region with
+$| \eta | \le 3.0$.
+%
+In addition, at the matrix element level
+all final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
 %
 We have checked that the generator-level cuts are loose enough as compared to the actual
 analysis cuts.
 %
-Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}. 
+
+
+Total cross-sections and details of the samples generated are shown in Table~\ref{tab:samples}.
+%
+First of all we see that the $t\bar{t}$ and QCD $4b$ samples are of
+the same order of magnitude.
+%
+The $bbjj$ cross-section is more than a factor 200 as compared to the
+$4b$ result, so in principle it should be subleading taking into
+account the mistag rate, but as we will show below,
+this is not true due to combinatoric.
+%
+ For top quark production, only the hadronic final state is generated.
+  %
+The $hh$ cross-section includes the NNLO $K$-factor.
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -84,46 +139,58 @@ Total cross-sections and details of the samples generated are shown in Table~\re
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ \\
+Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{tot}}$ (pb) \\
 \hline
 \hline
-$pp \to HH$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $1.729\times10^{-2}$ pb \\
+$pp \to HH$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $3.87\times10^{-2}$  \\
 \hline
 \hline
-$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.121 \times10^3$ pb \\
-$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.659 \times 10^5$ pb \\
-$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.709\times 10^6$ pb \\
-$pp \to t\bar{t}$ &  {\tt SHERPA}v2.1.1 & 3M & $2.514\times 10^3$ pb \\
+$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.121 \times10^3$  \\
+$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.659 \times 10^5$  \\
+$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.709\times 10^6$  \\
+$pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.514\times 10^3$ \\
 \hline
 \end{tabular}
 \caption{\small Summary of signal and background samples generated in this work,
-together with the corresponding generator-level cross-section.} \label{tab:samples}
+  together with the corresponding generator-level cross-section.
+  %
+  For top quark production, only the hadronic final state is generated.
+  %
+The $hh$ cross-section includes the NNLO $K$-factor.  
+} \label{tab:samples}
 \end{center}
 \end{table}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As a cross-check of the background cross-sections reported in Table~\ref{tab:samples}, we have produced multi-jet samples
+As a cross-check of the background cross-sections reported in Table~\ref{tab:samples}, we have produced leading order
+multi-jet samples
 using the {\tt MadGraph5\_aMC@NLO} program, and compared with the results for the same processes reported in
 Ref.~\cite{Alwall:2014hca}.
 %
 For comparison with the latter numbers, 
-we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV.
-%
-All jets must be within an acceptance of $|\eta| \le 2.5 $.
-%
-In the case of the samples with $b$ quarks in the final state, these requirements are extended to the appropriate number of $b$-jets. For example, in the 2$b$2$j$ sample there must be at least two $b$-jets that pass the cuts outlined above.
+we require in all samples four anti-$k_T$ $R=0.5$ jets with $p_T \ge 80 $ GeV, and the leading jet must have $p_T \ge 100$ GeV, and
+also that all jets must be within an acceptance of $|\eta| \le 2.5 $.
 %
 We find agreement, within the scale uncertainties, between the {\tt MadGraph5\_aMC@NLO} and {\tt SHERPA} calculations of the multi-jet
 backgrounds, so we can be confident that the set-up that we will use in this analysis is robust enough.
 
 
-\subsection{Smearing}
 
-It is beyong the scope of this work to perform a complete study of the impact of
+Finally, let us discuss the smearing applied to signal
+and background samples.
+%
+It is beyond the scope of this work to perform a complete study of the impact of
 detector effects in this process.
 %
 However, it is still important to include some form of rough estimate of detector
-effects in the analysis.
+effects in the analysis, to properly estimate for example the impact
+of the Higgs mass window cuts.
 %
 In this work we simulate the finite momentum resolution of the ATLAS and CMS
-hadronic calorimenters by ....
+hadronic calorimeters by applying a Gaussian smearing to the four components
+of the four-momentum $p$, with mean zero and standard deviation $\Delta p$.
+%
+We take as baseline value a smearing of $\Delta p=5\%$, and in
+Sect.~\ref{sec:optimisation} we explore how our results change
+if a more optimistic or pessimistic value is assumed for the momentum
+resolution in the LHC detectors.

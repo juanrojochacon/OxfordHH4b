@@ -2,7 +2,6 @@
 \section{Analysis strategy}
 \label{sec:analysis}
 
-
 In section we describe our analysis strategy, and in particular
 the classification of each individual event into
 different categories according to the event topology.
@@ -301,6 +300,8 @@ between the different categories.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\subsection{Kinematic distributions}
+
 We now justify some of the cuts that we are using.
 %
 As mentioned before, the cuts in each category are separately
@@ -358,4 +359,65 @@ As explained above, in the boosted category we also require the two
 leasing subjets of the large-$R$ jet to be relatively
 hard.
 %
-In Fig ...
+In Fig ... we show the distribution in $p_T$ of the leading
+and subleading jets.
+%
+It is clear from the comparison that
+
+
+
+
+Let's now consider the resolved category.
+%
+To begin with, here it is important to understand the $p_T$ distribution
+of the four leading small-$R$ jets of the event.
+%
+Given that in general the boost from the Higgs decays is moderate,
+the two subleading jets might be not too hard, and thus it
+should be important to ensure that our $p_T^{\rm min}$ cut
+is not too strong.
+%
+In Fig. we show ....
+
+Also, it is useful to show the distribution in rapidity of the
+individual jets
+
+
+
+
+Finally, we show in
+Fig.~\ref{fig:mhh} the invariant mass distribution of the Higgs pairs,
+comparing the resolved category (left) with the boosted category (right)
+%
+This is interesting since it determines the degree of boost that the two
+Higgs candidates will have after non-resonant production.
+%
+In the resolved case, we see that the distribution
+in $m_{hh}$ is rather harder for the signal as for the background,
+and thus one expects that cutting in $m_{hh}$ would help signal
+discrimination: we will verify this with the MVA in the next section.
+%
+For the boosted category the trend of the $m_{hh}$ distribution
+is very different because of the selection, with the
+distribution now peaking at much higher values.
+%
+In this case signal and background distributions
+look reasonably similar.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+  \includegraphics[width=0.48\textwidth]{plots/m_HH_res_C1.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/m_HH_boost_C1.pdf}
+  \caption{\small Left plot: the invariant mass distribution of the Higgs
+    pair candidates, $m_{hh}$, comparing signal and background events,
+    in the resolved category.
+    %
+    Right plot: same for the boosted category.
+}
+\label{fig:mhh}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
