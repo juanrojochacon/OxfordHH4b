@@ -4,10 +4,14 @@ import os
 import sys
 import math
 regimes = ['res', 'inter','boost']
-folder = "../../paper/plotdata/oxford_combined_rw/"
+folder = sys.argv[1]
+#folder = "oxford_combined/signal"
 print folder
 
-recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j']
+#recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j']
+recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j', 'SHERPA_QCDttbar']
+#recursive_folders = ['SHERPA_QCD4j']
+#recursive_folders = ['signal']
 file_types = ['res', 'inter', 'boost']
 
 new_data = {}
@@ -40,7 +44,7 @@ for k, recursive_folder in enumerate(recursive_folders):
 for file_type in file_types:
     list_of_rows = new_data[file_type]
     #print list_of_rows[0][0]
-    outfile = 'cutflow_' + '_' + file_type + '.dat'
+    outfile = 'cutflow_' + folder + '_' + file_type + '.dat'
     with open(outfile, 'w') as f:
         # generate header line
         f.write(file_type+'\t')
@@ -54,11 +58,14 @@ for file_type in file_types:
                 else:
                     f.write(str(item))
                     if h>0:
+                        #f.write(' ')
+                        #f.write(str(list_of_rows[h-1][i]))
                         if float(list_of_rows[h-1][i]) != 0:
                             cuteff = 100*float(item)/float(list_of_rows[h-1][i])
                         else:
                             cuteff = 0
                         f.write(' ')
+                        #f.write(str(cuteff))
                         f.write('(%.2f' % cuteff)
                         f.write('%)')
                         #cuteff = float(item)/float(list_of_rows[h-1][i])
@@ -69,9 +76,9 @@ for file_type in file_types:
                     f.write('\t')
 
 
-summary_outfile = 'cutflow_' + '_summary.dat'
+summary_outfile = 'cutflow_' + folder + '_summary.dat'
 with open(summary_outfile, 'w') as f:
-    for i in range(0,4):
+    for i in range(0,4): ## not robust
         #print i
         # header line
         if i == 0 or i == 1:
