@@ -29,7 +29,7 @@ Analysis("test", sampleName)
   outputNTuple<<tupleSpec<<std::endl;
 }
 
-void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+void TestAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
   Analysis::Analyse(signal, weightnorm, fs);
 
