@@ -176,15 +176,16 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   
   // Basic kinematic cuts
   std::vector<fastjet::PseudoJet> smallRJetsSel;
+  std::vector<fastjet::PseudoJet> smallRJetsSel_unsrt;
   for( size_t i = 0; i < smallRJets.size(); i++){
     
     if( smallRJets.at(i).pt() < 40. ) continue;
     if( fabs( smallRJets.at(i).eta() ) > 2.5 ) continue;
     
-    smallRJetsSel.push_back( smallRJets.at(i) );
+    smallRJetsSel_unsrt.push_back( smallRJets.at(i) );
   }
   
-  smallRJetsSel = sorted_by_pt( smallRJetsSel  ); // Resort
+  smallRJetsSel = sorted_by_pt( smallRJetsSel_unsrt  ); // Resort
   std::vector<bool> isFakeSR_vec;         // Vector specifying if each jet is fake or not
   BTagging( smallRJetsSel, isFakeSR_vec );
 
@@ -245,6 +246,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   
   // Basic kinematic cuts
   std::vector<fastjet::PseudoJet> largeRJetsSel;
+  std::vector<fastjet::PseudoJet> largeRJetsSel_unsrt;
+  
   for( size_t i = 0; i < largeRJets.size(); i++){
  
     //-----------------------------------------------------
@@ -269,10 +272,10 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
     //-----------------------------------------------------
  
-    largeRJetsSel.push_back( largeRJets.at(i) );
+    largeRJetsSel_unsrt.push_back( largeRJets.at(i) );
   }
 
-  largeRJetsSel = sorted_by_pt(largeRJetsSel);  // Resort
+  largeRJetsSel = sorted_by_pt(largeRJetsSel_unsrt);  // Resort
   std::vector<int> nBSubjetsLR_vec; // Vector specifying how many real b subjets there are
   BTagging( largeRJetsSel, trackjetsSel, nBSubjetsLR_vec);
 

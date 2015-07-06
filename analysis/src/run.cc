@@ -28,7 +28,8 @@ static std::vector<eventSample> samples;
 
 // Global run parameters
 const int nSamples = 5;
-const int max_evt = 1E7;
+//const int max_evt = 1E7;
+const int max_evt = 1E4;
 // const int max_evt = 100;
 
 const double jetp_smear = 5.0; // % smear on jet momentum
@@ -130,15 +131,14 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 	// **************** PLEASE MODIFY  ****************
   //HH4bAnalyses.push_back(new AMCAnalysis("total"));
 
-
-  HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
   HH4bAnalyses.push_back(new OxfordCombinedRWAnalysis("total"));
+  HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
 
-  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
   signalAnalyses.push_back(new OxfordCombinedRWAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
 
-  backgroundAnalyses.push_back(new OxfordCombinedAnalysis("background"));
   backgroundAnalyses.push_back(new OxfordCombinedRWAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordCombinedAnalysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -146,8 +146,8 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
-	sampleAnalyses.push_back(new OxfordCombinedAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordCombinedRWAnalysis(samplename));
+	sampleAnalyses.push_back(new OxfordCombinedAnalysis(samplename));
 
 
 	// **************** DO NOT MODIFY  ****************
