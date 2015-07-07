@@ -358,17 +358,44 @@ This allows us to combine the significance of the dominant topology
 (boosted) with that of the sub-leading categories, intermediate
 and resolved.
 
-\subsection{Kinematic distributions}
+\subsection{Cut optimisation}
 
-We now justify some of the cuts that we are using.
+In this section we motivate the various
+kinematical cuts for the various categories.
 %
-As mentioned before, the cuts in each category are separately
-optimised in an inclusive analysis: it is only we have determined
+As mentioned before, the cuts in each category have been separately
+optimised in an inclusive analysis: it is only once we have determined
 which is the dominant category that the analysis is made exclusive.
 %
-We begin with the boosted category.
+In this work, the results for each category have been derived
+from the inclusive analysis,
+and we show the various kinematic distributions immediately
+below the corresponding cut has been applied.
+
+In this section we only show a representative subset of
+all available kinematic distributions, the complete
+set of comparison plots can be found in the following
+webpage:
+\begin{center}
+\url{http://www2.physics.ox.ac.uk/HH4b}
+  \end{center}
+In this webpage we also show the distribution of all
+kinematic variables, including jet substructure variables,
+which we don't cut explicitly but that are provided as
+input to the multivariate analysis.
 %
-In Fig.~\ref{fig:cutplots1} we show
+Also, we show here results for the boosted and resolved categories,
+a comparison which allows to understand the cuts used for the
+intermediate category as well.
+
+\subsubsection{Boosted category}
+
+
+We begin with the boosted category, which is the one that leads
+to a higher signal significance.
+%
+First of all,
+in Fig.~\ref{fig:cutplots1} we show
 the $p_T$ distribution of the
   leading large-$R$ jet in the boosted category, comparing
   the shapes of the distribution in signal and background events.
@@ -414,15 +441,20 @@ However, the information of the different shape of the $m_{h}$
 distribution will still be exploited by the MVA.
 
 As explained above, in the boosted category we also require the two
-leasing subjets of the large-$R$ jet to be relatively
-hard.
+leading subjets of the large-$R$ jet to be relatively
+hard, in particular that should satisfy $p_T \ge $ 50 GeV.
 %
-In Fig ... we show the distribution in $p_T$ of the leading
-and subleading jets.
+To motivate this cut, in Fig ... we show the distribution in $p_T$ of the leading
+and subleading sub-jets in the leading large-$R$ jet in events
+of the boosted category.
 %
-It is clear from the comparison that
+It is clear from the comparison that the subjet $p_T$ spectrum is
+relatively harder in the signal with respect to the background,
+motivating our cut.
 
+{\bf missing plots: pt subjet distribution}
 
+\subsubsection{Resolved category}
 
 
 Let's now consider the resolved category.
@@ -435,15 +467,17 @@ the two subleading jets might be not too hard, and thus it
 should be important to ensure that our $p_T^{\rm min}$ cut
 is not too strong.
 %
-In Fig. we show ....
-
+In Fig. we show the distribution in $p_T$ of the four leading
+small-$R$ jets in signal and background events.
+%
+We see that the third and four leading jets are relatively soft.
+%
 Also, it is useful to show the distribution in rapidity of the
 individual jets
 
+{\bf missing plots: pt jet distribution, rapidity distribution}
 
-
-
-Finally, we show in
+Next, we show in
 Fig.~\ref{fig:mhh} the invariant mass distribution of the Higgs pairs,
 comparing the resolved category (left) with the boosted category (right)
 %
@@ -479,3 +513,10 @@ look reasonably similar.
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
