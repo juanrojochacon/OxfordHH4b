@@ -67,14 +67,22 @@ in the first layer.}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-
-Given a set of $N_{\mathrm{var}}$  kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ as the probability that the event $i$ originates from the signal process,
-\be y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} ), \ee
+The training of the ANN for the signal/background classification task
+proceeds as follows.
+%
+Given a set of $N_{\mathrm{var}}$  kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ (that is, the activation state of the
+neuron in the last layer)
+as the probability that the event $i$ originates from the signal process,
+\be
+y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} )\, ,
+\ee
 where $y_i^\prime$ represents the true classification of the event $i$, i.e $y^\prime_{\text{signal}} = 1$ and $y^\prime_{\text{background}} = 0$. With this interpretation, our general classification probability including background events is given by
 \be
-P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
+P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i} \, ,
 \ee
- Correspondingly the negative log-likelihood cost function to be used in the neural network training is the cross-entropy error, defined as
+which implies that the  negative log-likelihood cost function
+that needs to be minimized during the ANN training is 
+the cross-entropy error, defined as
  \bea
  E(\{\omega\}) &=& -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right)\nonumber\\
  &=&
@@ -83,10 +91,18 @@ P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
  \eea
  where $N_{\text{evt}}$ is the number of
  Monte Carlo events that we have generated.
+ %
+ The ANN is trained both on the signal and background MC events,
+ in each case using the information $y_i'$ of the true nature
+ of the event.
+ %
+ To be stable against statistical fluctuations, it is important to use
+ a large enough MC sample both of signal and of background events
+ for the MVA training.
  
- The training of the neural networks consist on the
+ Therefore, the training of the neural networks consist on the
  minimization of the cross-entropy error,
- Eq.~\ref{cross-entropy}, which is achieved using a
+ Eq.~\ref{cross-entropy}, which in this work is achieved using a
  Genetic Algorithm.
  %
  Since given the large number of events the probability of
@@ -95,10 +111,13 @@ P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i}.
  %
  We have verified that if a larger number of generations
  are used the results are unchanged.
+ %
+ We have also verified that using a cross-validation stopping
+ criterion as in the NNPDF3.0 fits does not affect the results.
 
  
 
- \subsection{MVA input}
+ \subsection{Input kinematical variables for the MVA}
 
  To identify the most discriminatory variables, we have to train
  the MVA using a large number of kinematic distributions for
@@ -110,123 +129,242 @@ since in the case of large-$R$ jet reconstruction we want to exploit
 the richness of substructure information.
 
 For the three categories, boosted, intermediate and resolved,
-the following common variables are used as input to the MVA
+the following common variables are used as input to the MVA:
 \begin{itemize}
-\item The transverse momenta of the leading and subleading Higgs candidates, $p_{T,h_1}$, $p_{T,h_2}$.
+\item The transverse momenta of the leading and subleading Higgs, $p_{T,h_1}$ and $p_{T,h_2}$.
 \item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$
-\item The invariant masses of the leading and sub-leading Higgs candidates, $m_{h,1}$, $m_{h,2}$.
+\item The invariant masses of the leading and sub-leading Higgs candidates, $m_{h,1}$ and $m_{h,2}$.
 \item The invariant mass of the reconstructed Higgs pair, $m_{hh}$.
-\item The separation in $R$ of the two Higgs candidates, $\Delta R_{hh}$.
-\item The separation in $\phi$ of the two Higgs candidates, $\Delta \phi_{hh}$.
-\item The separation in $\eta$ of the two Higgs candidates, $\Delta \eta_{hh}$.
-\item The transverse momenta of the leading Higgs candidate subjets, $p_{T,h_{1,1}}$, $p_{T,h_{1,2}}$
-\item The transverse momenta of the sub-leading Higgs candidate subjets, $p_{T,h_{2,1}}$, $p_{T,h_{2,1}}$
+\item The separation in $R$ between the two Higgs candidates, $\Delta R_{hh}$.
+\item The separation in $\phi$  between the two Higgs candidates, $\Delta \phi_{hh}$.
+\item The separation in $\eta$  between the two Higgs candidates, $\Delta \eta_{hh}$.
+\item In the boosted category,
+  the transverse momenta of the leading, $p_{T,h_{1,1}}$ and $p_{T,h_{1,2}}$ and
+  sub-leading, $p_{T,h_{2,1}}$ and $p_{T,h_{2,1}}$, Higgs candidate subjets.
+  %
+  In the resolved category instead, we use the transverse momenta $p_{T,i}$ of the four leading 
+   $b$-tagged small-$R$ jets in the event. 
 \end{itemize}
-Note that in the case of a large-$R$ jet, the subjets are defined
-with the anti-$k_t$ algorithm with $R=0.3$.
-%
-In the resolved case, the subjets are instead replaced by the two
-small-$R$ jets that constitute each Higgs candidate.
+Therefore, we have a total of 13 variables which are common to the three categories.
+
 
 For analyses involving the use of large-$R$ jets,
 namely for the boosted and intermediate categories,
-the following variables are included for
-every large-$R$ jet,
-we use in addition a number of substructure variables~\cite{Aad:2013gja},
-in particular:
+a number of jet substructure variables~\cite{Aad:2013gja} is used
+for every large-$R$ jet that is used for the Higgs reconstruction.
+%
+In particular we include in the MVA training for each large-$R$ jet
 \begin{itemize}
-\item The $k_T$ splitting scale~\cite{Butterworth:2008iy}
-\item The ratio of 2-to-1-Subjetiness $\tau_{2}/\tau_{1}$~\cite{Thaler:2010tr}
-\item The energy correlation function double-ratio $C_2$~\cite{Larkoski:2013eya}
-\item The energy correlation function double-ratio $D_2$~\cite{Larkoski:2013eya}
+\item The $k_T$ splitting scale~\cite{Butterworth:2002tt,Butterworth:2008iy}.
+
+  This variable is defined by reclustering the constituents of a jet with the
+  $k_t$ algorithm, which usually clusters last the harder constituents, and then
+  taking the $k_t$ distance measure between the two subjets at the final stage of the recombination
+  \be
+\sqrt{d_{12}} \equiv {\rm min}\lp p_{T,1},p_{T,2}\rp \cdot \Delta R_{12} \, ,
+\ee
+where one can also define related variables like $\sqrt{d_{23}}$ that corresponds to the
+splitting scale in the second-to-last clustering.
+  
+\item The ratio of 2-to-1-Subjetiness $\tau_{12}$~\cite{Thaler:2010tr,Thaler:2011gf}.
+
+  The $N$-subjettiness variables $\tau_N$ are defined by clustering the constituents
+  of a jet with the exclusive $k_t$ algorithm and requiring that $N$ subjets are found,
+  \be
+  \tau_N \equiv \frac{1}{d_0} \sum_k p_{T,k}\cdot {\rm min}\lp \delta R_{1k}, \ldots,
+  \delta R_{Nk}\rp \, , \qquad d_0\equiv \sum_k p_{T,k}\cdot R \, ,
+  \ee
+  with $ p_{T,k}$ the $p_T$ of the constituent $k$ and $\delta R_{ik}$ the distance from
+  subjet $i$ to constituent $k$.
+  %
+  In this work in particular we use as input to the MVA
+  \be
+\tau_{21} \equiv \frac{\tau_2}{\tau_1} \, ,
+  \ee
+  which provide good discrimination between QCD jets and jets arising from the decay of
+  a heavy resonance.
+  
+\item The energy correlation function double-ratios $C_2$ and $D_2$~\cite{Larkoski:2013eya}.
+
+  The energy correlation double ratio $C_2$ is defined
+  as
+  \be
+C_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{{\rm ECF}(2,\beta)} \, ,
+  \ee
+  where the energy correlation functions ${\rm ECF}(3,\beta)$ are defined
+  in~\cite{Larkoski:2013eya} with the motivation that $(N+1)$-point correlators
+  are sensitive to $N$-prong substructure.
+
 \end{itemize}
-The implementation of all these substructure variables follows
-closely the original ATLAS implementation summarized in Ref.~\cite{Aad:2013gja}.
-
-
-Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis, 17 for the semi-resolved, and 21 for the boosted category.
+%
+Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis,
+17 for the semi-resolved, and 21 for the boosted category.
 %
 Given that the MVA is able to identify the most discriminatory variables
 and to ignore those that have smaller effect, it is advantageous to
 include as many substructure variables as possible.
+%
+As we will show, the use of substructure variables in the MVA is the key to increase the signal
+significance in the boosted category.
 
-\subsection{Enhancing signal discrimination with the MVA}
+\subsection{Enhancing signal discrimination with MVA}
 
-Now we show the results of the MVA training on the signal and
-background samples.
+Let us now present the results of the MVA applied to the event samples
+that satisfy the cut-based analysis discussed in the previous section.
 %
-First of all in Fig.~\ref{fig:nnresponse} we show
-the neural network classification of events is demonstrated for both the resolved and boosted cases.
+First of all in Fig.~\ref{fig:nnresponse} we show the distribution of
+the ANN output, after the training for signal and background events, for the three
+exclusive categories.
 %
-In this figure, we show which is the distribution of the neural network
-response, that is, the value of the outer layer in Eq.~(\ref{eq:nn1}),
-for signal and background events.
+All distributions have been normalized, so that their integral
+  adds up to one.
 %
-For the MVA discrimination to be successful, one needs to find
-distinct distributions for the two types of events.
-%
-As can be seen from  Fig.~\ref{fig:nnresponse}, both
-in the boosted and in the resolved cases signal and background
-distributions are noticeably different: we can use this property
-to introduce the final cut in our analysis, a cut in the value
-of the neural network output.
+Given that the final separation between signal and background will be achieving by introducing
+a cut in the ANN output, the more separated that the two distributions are, the more efficient
+the MVA discrimination will be.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=0.48\textwidth]{plots/resolved_MVA_hist.pdf}
-\includegraphics[width=0.48\textwidth]{plots/boosted_MVA_hist.pdf}
-\caption{\small Neural network response demonstrated for the case of the resolved (left) and boosted (right) analyses. The frequency of background and signal events is plotted as a function of neural network output.
-{\bf what is the y axis??}
+\includegraphics[width=0.65\textwidth]{plots/Boosted_disc.pdf}
+\includegraphics[width=0.48\textwidth]{plots/Intermediate_disc.pdf}
+\includegraphics[width=0.48\textwidth]{plots/Resolved_disc.pdf}
+\caption{\small The distribution as a function of the ANN output
+  for the signal and background MC events in the three categories:
+  boosted (upper plot), intermediate (lower left plot) and
+  resolved (lower right plot).
+  %
+  All distributions are normalized so that their integral
+  adds up to one.
 }
 \label{fig:nnresponse}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-The result of the signal selection efficiency as a function of the
-background rejection rate as the value on the cut on the NN output
-is varied is known as the Receiver Operating Characteristic (ROC)
+From Fig.~\ref{fig:nnresponse} we see that in the boosted category the MVA manages
+to achieve a clear discrimination between signal and background, with the two distributions
+nicely peaking at 1 and at 0 respectively.
+%
+This indicates that introducing a suitable cut in the ANN output will substantially reduce the background,
+while keeping a reasonable signal efficiency.
+%
+The performance of the MVA discrimination is similar though slightly worse in the intermediate
+category, and it is markedly worse in the resolved category.
+%
+We have traced back these differences to the use of jet substructure variables
+in the boosted and intermediate categories, which induce the maximum
+discrimination between signal and background events.
+
+
+
+The results for the signal selection efficiency and the 
+background rejection rate as a function of the cut in the ANN output
+define the so-called  Receiver-Operating Characteristic (ROC)
 curve.
 %
-It is clear that we can achieve a very high signal efficiency but using
-a low value of the threshold, but this will have a poor background
+It is clear that we can achieve a very high signal efficiency by using
+a small value of the cut in the ANN output, but this choice will be
+affected from a poor background
 rejection.
 %
-Using a higher value of the cut will increase background rejection at the
+Conversely, using a higher value of the cut will increase background rejection at the
 cost of dropping signal efficiency.
 %
 The usefulness of ROC curves is that they allow to determine the
 optimal cut value that removes enough background without degrading too much the signal efficiency.
+%
+In addition, it is important to select a value of the cut in ANN output so that
+the number of expected signal events is still large enough.
 
-In Fig.~\ref{fig:exampleroc} the ROC curves for the
-boosted, intermediate and resolved categories are found.
+
+In Fig.~\ref{fig:exampleroc} the
+we show the ROC curve for the background rejection rate as a function of the signal
+  selection efficiency as the cut in the ANN output is varied.
+  %
+  We show the results for the three exclusive categories: boosted, intermediate
+  and resolved.
 %
 As could already be inferred from the distribution of neural
 networks output in Fig.~\ref{fig:nnresponse}, we find
 that the neural network MVA is reasonably efficient
 in discriminating signal over background.
 %
-The performance is slightly better in the case of the boosted
-topology, in particular thanks to the information provided
-by the substructure variables.
+The performance is best in the case of the boosted category,
+decreasing then for the intermediate and finally for the
+resolved categories, consistent with the distributions in
+Fig.~\ref{fig:exampleroc}.
 %
-In both cases we see that with a moderate reduction of signal
-efficiency of $\sim 0.8$, one can reduce the background by 80\%,
-which translates into an improvement factor of the pre-MVA $S/\sqrt{B}$
-of almost $\sim 1.8$.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=0.65\textwidth]{plots/example_roc.pdf}
-\caption{\small ROC curve for the neural network discriminant in the boosted (green) and resolved (blue) cases.}
+\includegraphics[width=0.65\textwidth]{plots/roc.pdf}
+\caption{\small ROC curve for the background rejection rate as a function of the signal
+  selection efficiency as the cut in the ANN output is varied.
+  %
+  We show the results for the three exclusive categories: boosted, intermediate
+  and resolved.
+}
 \label{fig:exampleroc}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+From Fig.~\ref{fig:exampleroc} we see that, always starting from the signal
+and background events that survive the basic cut-based analysis,
+one can achieve a  signal
+efficiency of $\sim 80\%$ while reducing the background by
+$60\%$, $55\%$ and $45\%$ in the boosted, intermediate and resolved
+categories respectively.
+%
+It is easy to translate these factors into an  improvement factor of the pre-MVA
+signal significance $S/\sqrt{B}$.
+%
+For example, requiring a signal efficiency of 90\%, we find a background rejection
+rate of $40\%$, $30\%$ and $20\%$ respectively, which corresponds to an increase
+in $S/\sqrt{B}$ of 1.2, 1.1 and 1.0 respectively.
+
+Of course, and important restriction on the range of allowed cuts in the ANN output
+is that the cut cannot be so hard that the actual number of signal events expected
+at the HL-LHC becomes unreasonably small.
+%
+To verify how many signal and background events are left after the MVA cut,
+we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and background (solid lines)
+  events expected at the HL-LHC as a function of the cut in the ANN output,
+  for the three separate categories.
+  %
+  Note that the value of the cut in the ANN cut can be separately optimised in the three
+  categories, even if here we plot them together for easiness of presentation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.65\textwidth]{plots/nev2.pdf}
+\caption{\small Number of signal (dashed lines) and background (solid lines)
+  events expected at the HL-LHC as a function of the cut in the ANN output,
+  for the three separate categories.
+}
+\label{fig:nev2}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+As can be seen from Fig.~\ref{fig:nev2}, in the boosted category
+event with a cut in the ANN output as hard as 0.9 we are still left
+with around 100 events at the HL-LHC, which is a reasonable number,
+which the background being reduced substantially to around
+500 events.
+%
+A similar cut would work fine for the intermediate category, though here
+the backgrounds are much larger and thus the expected signal significance smaller.
+%
+For the resolved case, the signal significance would be only slightly
+improved for any value of the cut.
 
 In order to gain physical insight of which are the variables that
 contribute the most to the MVA discrimination it is useful

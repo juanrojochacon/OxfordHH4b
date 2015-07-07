@@ -14,15 +14,15 @@ datafiles=[ "~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_resNTuple.dat",
 			"~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_intNTuple.dat",
 			"~/Dropbox/HH4bMC/mva/nn_17X5X3X1_500000-Gen_bstNTuple.dat"]
 
-datanames=[ "Resolved",
-			"Intermediate",
-			"Boosted"]
+datanames=[ "Resolved","Intermediate","Boosted"]
 
 
 # HL-LHC luminosity
 hl_lhc_lumi=3000
 
 colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
+
+linestyles = ['dashed','dotted','solid']
 
 # Histogram names
 Histout = "disc"  # Histograms for discriminant
@@ -39,19 +39,19 @@ def plotDiscriminantHisto(name, signal, background):
 	bins = numpy.linspace(0, 1, 20) # Binning density
 	fig, ax = plt.subplots()
 
-	ax.hist(signal, bins, color='r', alpha=0.5, normed=True, label = "Signal events")
-	ax.hist(background, bins, color='b', alpha=0.5, normed=True, label = "Background events")
+	ax.hist(signal, bins, color='r', alpha=0.5, normed=True, label = "Signal")
+	ax.hist(background, bins, color='b', alpha=0.5, normed=True, label = "Background")
 
 	ax.set_ylim([0,8])
-	ax.set_xlabel("Neural network response")
+	ax.set_xlabel("ANN Output")
 
 	# Legend
 	legend = ax.legend(fontsize=10, loc='best')
 	legend.get_frame().set_alpha(0.7)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
-	fig.text(0.13,0.92,numpoints, fontsize=12)
-	fig.text(0.13,0.96,"MVA: "+ name, fontsize=12)
+	# fig.text(0.13,0.92,numpoints, fontsize=12)
+	fig.text(0.13,0.96,"MVA for "+ name + " category", fontsize=15)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -62,7 +62,7 @@ def plotDiscriminantHisto(name, signal, background):
 roc, rocax = plt.subplots()
 rocax.plot([0,1],[1,0], color='grey')
 
-rocax.set_ylabel("Background rejection")
+rocax.set_ylabel("Background rejection rate")
 rocax.set_xlabel("Signal efficiency")
 
 # Gridlines
@@ -87,8 +87,8 @@ nevax2.set_ylabel("Number of background events")
 nevax.set_xlabel("NN Discriminant")
 
 nev3, nevax3 = plt.subplots()
-nevax3.set_ylabel("Number of events")
-nevax3.set_xlabel("NN Discriminant")
+nevax3.set_ylabel("Number of events after MVA cut expected at HL-LHC")
+nevax3.set_xlabel("ANN output cut")
 
 # Gridlines
 sbax.xaxis.grid(True)
@@ -97,10 +97,12 @@ ssbax.xaxis.grid(True)
 ssbax.yaxis.grid(True)
 nevax.xaxis.grid(True)
 nevax.yaxis.grid(True)
-nevax3.yaxis.grid(True)
+nevax3.xaxis.grid(True)
 nevax3.yaxis.grid(True)
 
 nevax3.set_yscale('log')
+
+nevax3.set_ylim([1,1e7])
 
 ######################## Reading data ##############################
 
@@ -131,7 +133,7 @@ for idat in xrange(0,len(datafiles)):
 			sigprob.append( float(line.split()[3]) )
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 5)
+	thresholds = numpy.linspace(0, 1, 25)
 	falsepos = []
 	truepos = []
 
@@ -180,7 +182,7 @@ for idat in xrange(0,len(datafiles)):
 	plotDiscriminantHisto(basename, sigprob, bkgprob)
 
 	# Plot ROC curve, s/b, s/sqrt(b)
-	rocax.plot(truepos, falsepos, color=colours[idat], label = basename)
+	rocax.plot(truepos, falsepos, color=colours[idat],linestyle=linestyles[idat], label = basename)
 	sbax.plot(thresholds, soverb, color=colours[idat], label = basename)
 	ssbax.plot(thresholds, soversb, color=colours[idat], label = basename)
 
