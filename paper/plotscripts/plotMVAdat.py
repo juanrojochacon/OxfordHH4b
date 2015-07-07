@@ -131,7 +131,7 @@ for idat in xrange(0,len(datafiles)):
 			sigprob.append( float(line.split()[3]) )
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 150)
+	thresholds = numpy.linspace(0, 1, 5)
 	falsepos = []
 	truepos = []
 

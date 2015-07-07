@@ -4,10 +4,9 @@
 
 After the traditional cut-based analysis presented in the previous section,
 and combining the significance of the different event categories,
-we end up with a $S/\sqrt{B}$ value of AAA.
+we end up with a $S/\sqrt{B}$ value around $1.2$.
 %
-Taking into account our more realistic simulation of the QCD background as
-compared to previous studies, this is not too bad.
+This is not enough to claim observation in this channel.
 %
 however, the attentive reader might have noticed that we have used
 relatively 
@@ -19,17 +18,29 @@ analysis with the motivation to increase the signal over background
 significance.
 %
 Multivariate techniques are by now a common tool to enhance signal
-significance in HEP analysis.
+significance in HEP analysis, and rightly so,
+since they open a new window to improve the performance
+of many physics analysis and searches.
+%
+For instance, the UCL $hh\to 4b$ analysis~\cite{Wardrope:2014kya}
+uses a Boosted
+Decision Tree MVA to improve signal discrimination.
 
-\subsection{MVA strategy}
+\subsection{MVA strategy: deep neural networks}
 
 The classification of events as arising from either signal or
 background processes via the use of a multivariate analysis is a common
-technique in high energy physics.
+technique in high energy physics~\cite{Baldi:2014pta,Wardrope:2014kya}.
 %
-In order to investigate the potential efficacy of an MVA in an $hh\to 4b$
-measurement, we process the events remaining after the cut-based analysis 
-through a feed-forward artificial neural network with architecture
+In our work we use a specific type of  MVA to
+disentangle signal and background events in the $hh\to 4b$ process,
+in particular we use a feed-forward artificial neural network (ANN).
+%
+The basic idea is that the ANN is given both all MC signal and background
+events which satisfy the basic selection cuts {\bf C1}, allowing to identify
+which are the most relevant variables to discriminate between the two.
+
+In this work, the ANN that we use has the following architecture.
 \be
 \label{eq:nn1}
 N_{\mathrm{var}}\times5\times3\times1 \, ,
@@ -37,8 +48,24 @@ N_{\mathrm{var}}\times5\times3\times1 \, ,
 where $N_{\mathrm{var}}$ represents the number of input variables for the MVA.
 All neural-network layers use a sigmoid activation function, allowing
 for a probabilistic
-interpretation of the neural-network output.
+interpretation of the neural-network output, including in the final layer.
+%
+In Fig.~\ref{fig:nnarch} we show an example of the ANN that we use in this work, corresponding here
+to the case of the resolved category.
 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+      \vspace{-1cm}
+  \includegraphics[width=0.80\textwidth]{plots/res_nnarch.pdf}
+  \vspace{-1cm}
+\caption{\small Architecture of the ANN used for the analysis of the resolved
+  category, with $N_{\rm var}=13$ input variables and thus the same number of neurons
+in the first layer.}
+\label{fig:nnarch}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
 
 
 Given a set of $N_{\mathrm{var}}$  kinematic variables $\{k\}_i$ associated with the event $i$, and a set of neural network parameters $\{\omega\}$, we interpret the neural network output $y_i$ as the probability that the event $i$ originates from the signal process,
