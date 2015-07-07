@@ -10,12 +10,12 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_resNTuple.net'
-dataname = "Resolved"
+datafile = '~/Dropbox/HH4bMC/mva/nn_17X5X3X1_500000-Gen_bstNTuple.net'
+dataname = "Boosted"
 sourcefile = os.path.expanduser(datafile)
 
-archout = "res_nnarch"
-histout = "res_wgthist"
+archout = "boosted_nnarch"
+histout = "boosted_wgthist"
 
 #############################################################################
 
@@ -128,9 +128,16 @@ plt.xlabel('Input Variable')
 plt.ylabel('Total associated weight (A.U.)')
 plt.xticks(numpy.arange(len(kinematics)) + 0.5, kinematics)
 
+plt.text(5,9.5,"Boosted category", fontsize=20)
+
 plt.savefig(histout+".pdf")
 plt.clf()
 
+
+
 nx.draw(G, pos=dict(zip(G.nodes(),posLoc)), labels=dict(zip(G.nodes(),labelList)), edge_color=colorList, node_color=biasList, width=2, with_labels=True)
 plt.savefig(archout+".pdf")
+
+
+
 plt.clf()

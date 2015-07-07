@@ -128,6 +128,8 @@ plt.xlabel('Input Variable')
 plt.ylabel('Total associated weight (A.U.)')
 plt.xticks(numpy.arange(len(kinematics)) + 0.5, kinematics)
 
+plt.text(4,10.4,"Resolved category", fontsize=20)
+
 plt.savefig(histout+".pdf")
 plt.clf()
 

@@ -72,19 +72,19 @@ rocax.yaxis.grid(True)
 # Setup s/b plot
 sb, sbax = plt.subplots()
 sbax.set_ylabel("S/B")
-sbax.set_xlabel("NN Discriminant")
+sbax.set_xlabel("ANN output cut")
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
 ssbax.set_ylabel("S/sqrt(B)")
-ssbax.set_xlabel("NN Discriminant")
+ssbax.set_xlabel("ANN output cut")
 
 # Setup N_evt plots
 nev, nevax = plt.subplots()
 nevax2 = nevax.twinx()
 nevax.set_ylabel("Number of signal events")
 nevax2.set_ylabel("Number of background events")
-nevax.set_xlabel("NN Discriminant")
+nevax.set_xlabel("ANN output cut")
 
 nev3, nevax3 = plt.subplots()
 nevax3.set_ylabel("Number of events after MVA cut expected at HL-LHC")
@@ -93,6 +93,9 @@ nevax3.set_xlabel("ANN output cut")
 # Gridlines
 sbax.xaxis.grid(True)
 sbax.yaxis.grid(True)
+sbax.set_yscale('log')
+
+
 ssbax.xaxis.grid(True)
 ssbax.yaxis.grid(True)
 nevax.xaxis.grid(True)
@@ -133,7 +136,7 @@ for idat in xrange(0,len(datafiles)):
 			sigprob.append( float(line.split()[3]) )
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 25)
+	thresholds = numpy.linspace(0, 1, 60)
 	falsepos = []
 	truepos = []
 
@@ -183,8 +186,8 @@ for idat in xrange(0,len(datafiles)):
 
 	# Plot ROC curve, s/b, s/sqrt(b)
 	rocax.plot(truepos, falsepos, color=colours[idat],linestyle=linestyles[idat], label = basename)
-	sbax.plot(thresholds, soverb, color=colours[idat], label = basename)
-	ssbax.plot(thresholds, soversb, color=colours[idat], label = basename)
+	sbax.plot(thresholds, soverb, color=colours[idat], linestyle=linestyles[idat], label = basename)
+	ssbax.plot(thresholds, soversb, color=colours[idat],linestyle=linestyles[idat], label = basename)
 
 	# Plot number of events per discriminant cut
 	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename)

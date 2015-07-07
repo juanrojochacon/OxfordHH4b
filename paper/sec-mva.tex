@@ -118,6 +118,7 @@ the cross-entropy error, defined as
  
 
  \subsection{Input kinematical variables for the MVA}
+ \label{sec:input}
 
  To identify the most discriminatory variables, we have to train
  the MVA using a large number of kinematic distributions for
@@ -146,6 +147,7 @@ the following common variables are used as input to the MVA:
    $b$-tagged small-$R$ jets in the event. 
 \end{itemize}
 Therefore, we have a total of 13 variables which are common to the three categories.
+%
 
 
 For analyses involving the use of large-$R$ jets,
@@ -366,25 +368,55 @@ the backgrounds are much larger and thus the expected signal significance smalle
 For the resolved case, the signal significance would be only slightly
 improved for any value of the cut.
 
-In order to gain physical insight of which are the variables that
-contribute the most to the MVA discrimination it is useful
-to show the distribution of NN weights for each of the
-input variables.
+A very useful property of MVA's such as the one used in this work
+is that they provide direct  physical insight about which of the
+input variables contribute the most to the signal over background
+separation.
 %
-This distributions is a measure of the correlation between
-each input variable and the Neural Network output: the higher
-the value, the stronger the impact of this variable in
-separating signal from the background.
+In the case of ANNs, this can be quantified by computing the sum
+of the absolute value of al the weights connected to a given
+input neuron $i$, that is
+\be
+\label{eq:totweight}
+\omega^{\rm tot}_i \equiv \sum_{k=1}^5 \Big|\omega^{(2)}_{ki}\Big| \, ,
+\qquad i=1,\ldots,N_{\rm var} \, ,
+\ee
+with $\omega^{(2)}_{ki}$ the value of the weight connecting
+the $k$-th neutron of the second layer with the $i$-th neuron of
+the first (input) layer.
+%
+The input variables with a larger value of $\omega^{\rm tot}_i$ will those
+be the ones that play a dominant role in enhancing the signal
+discrimination using the MVA.
+
 %
 In Fig.~\ref{fig:nnweights} we show
-the distribution of NN weights for the resolved and boosted categories.
+the distribution of the total associated weight,
+Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
+variables of the resolved (left plot) and boosted (right plot) categories.
+%
+The notation for the various kinematic variables is the same
+as in Sect.~\ref{sec:input}.
+%
+The scale of the $y$ axis is arbitrary, and the important information
+is contained in the relative strengths of the total associated weight
+for each of the input variables.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=0.48\textwidth]{plots/nnweights_res.pdf}
-\includegraphics[width=0.48\textwidth]{plots/nnweights_boost.pdf}
-\caption{\small Distribution of weights per input variable in the final ANN analysis. The above figure shows the weight distribution in the case of the resolved analysis, while the lower plot shows the boosted analysis.}
+\includegraphics[width=0.48\textwidth]{plots/res_wgthist.pdf}
+\includegraphics[width=0.48\textwidth]{plots/boosted_wgthist.pdf}
+\caption{\small
+Distribution of the total associated weight,
+Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
+variables of the resolved (left plot) and boosted (right plot) categories.
+%
+See Sect.~\ref{sec:input} for a description of each of the input
+variables to the MVA in the two cases.
+}
 \label{fig:nnweights}
 \end{center}
 \end{figure}
@@ -393,36 +425,131 @@ the distribution of NN weights for the resolved and boosted categories.
 The results of Fig.~\ref{fig:nnweights} clearly illustrate which variables
 are more discriminative between the signal and the background.
 %
-For instance, in the case of the resolved analysis, the variables that show
-a higher discrimination power is the invariant mass of the Higgs candidate dijets.
+Let's begin discussing the resolved analysis.
 %
-Note that as explained in Sect.~\ref{sec:analysis}, we have applied a realistic
-smearing of the four-momentum of all reconstructed jets, but still is clear that the
-distribution of invariant mass of the Higgs candidates will be very different
-in the signal and in the backgrounds.
+In this category, the variables that lead to
+a higher discrimination power
+are the $p_T$ of the two reconstructed Higgs, and then on a similar
+footing other variables like the $p_T$ of the individual jets
+and the mass of the di-Higgs system.
 %
-We discussed below the impact of smearing has.
-%
-Other variables do not seem to have a dramatic effect, although of course one of the
-advantages of the MVA technique is that it does not hurt to add redundant
-information.
-%
-In particular the angular distances between the four leading $b$-jets does not
-provide additional information.
+The only variable which seems to contain to information at all
+is the $\Delta \phi_{hh}$ separation between the two
+Higgs candidates.
 
 
-The corresponding analysis for the boosted category is also
-shown in Fig.~\ref{fig:nnweights}.
+For the boosted category, we see that substructure variables
+are the most helpful ones, in particular the $k_t$ splitting scales
+$\sqrt{d_{12}}$ and the subjetiness ratio $\tau_{12}$.
 %
-here we see that there is a more even distributions of weights, in that many
-variables help in a similar amount in the discrimination.
+The ratio of energy correlations $D_2$ and $C_2$ also help,
+in particular the former.
 %
-The invariant mass of the Higgs candidate of course still carries a lot of weight,
-but now we see that the substructure variables really carry  a lot of information,
-in particular the splitting scales and the subjetiness $\tau_{12}$.
+From the more traditional variables, the angular
+separation between the two large-$R$ jets $\Delta R_{hh}$,
+the invariant mass of the di-Higgs system $m_{hh}$ and the various
+$p_T$ also have discrimination power.
+%
+Other variables provide limited information, in particular the invariant
+mass of the Higgs candidates, $m_{h_1}$ and $m_{h_2}$, due to the realistic
+simulation of detector resolution introduced with the smearing.
 %
 We have verified that signal significance in the boosted category is substantially
-degraded if substructure variables are not used.
+degraded if substructure variables are not used, emphasizing that
+in the boosted category jet substructure provides the best handle
+to separate signal and background.
+
+At this point we have all the ingredients that we need to determine the optimal
+value of the MVA output cut and quantify the final values of the signal
+significance $S/\sqrt{B}$ and $S/B$ in our three categories.
+%
+These optimal values are determining by the maximisation of $S/\sqrt{B}$,
+ensuring that the number of events which is left at the HL-LHC is large
+enough, and also that the actual number of MC events used for the ANN training
+is still large enough to avoid the biases of a small training sample.
+%
+The post-MVA results for $S/\sqrt{B}$ and $S/B$ as a function of the cut
+in the ANN output for each of the three categories are shown in
+Fig.~\ref{fig:sb_mva}.
+%
+As mentioned before, the optimal cuts are determined independently for each
+category.
+%
+Note that the values of $S/\sqrt{B}$ and $S/B$ in the three cases should correspond
+to the same values at the end of the cut-based analysis, as
+can be verified by looking at the {\bf C2} row of Table~\ref{table:cutflow}.
+%
+Indeed, at the end of the cut based analysis $S/\sqrt{B}$ is approximately
+1.0, 0.5 and 0.5 for the boosted, intermediate and resolved
+categories, as can be seen from Fig.~\ref{fig:sb_mva}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.48\textwidth]{plots/ssb.pdf}
+\includegraphics[width=0.48\textwidth]{plots/sb.pdf}
+\caption{\small
+  The values of the signal significance $S/\sqrt{B}$ and of the
+  signal over background ratio $S/B$ for the boosted, intermediate
+  and resolved categories.
+  %
+  Note that the optimal cuts are determined independently for each
+  category.
+  %
+  The no-cut values correspond to the  cut-based analysis
+  results from Table~\ref{table:cutflow}.
+}
+\label{fig:sb_mva}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+The results of Fig.~\ref{fig:sb_mva} are interesting in that they show
+that for the resolved and boosted categories the improvement in signal
+significance arising from the MVA is rather moderate, less that a factor two
+in the two cases.
+%
+For no value of the cut the $S/\sqrt{B}$ value in these two categories
+goes above one.
+%
+The real usefulness of the MVA can be seen for the resolved category,
+where the signal significance rises from around 1.0 in the cut-based
+analysis to above 3.0 for values of the ANN output cut above 0.85.
+%
+This value of the cut seems reasonable, since we know from Fig.~\ref{fig:nev2}
+that the number of signal events at the HL-LHC is still quite substantial,
+of the order of 100.
+%
+Therefore, thanks to the MVA, we predict that one should be able
+to find evidence for the production of Higgs boson pairs
+at the HL-LHC using the $4b$ channel alone.
+
+Another very important benefit of the MVA applied to the boosted
+category is that fact that the background is substantially
+reduced so that $S/B$ can be as large as 10\% for the optimal
+values of the ANN output cut.
+%
+Note that this is not true for the other two categories,
+where $S/B$ is roughly constant.
+%
+A reasonably large value of $S/B$ is extremely beneficial
+from the experimental point of view, since it indicates
+that the measurement is feasible even if the
+systematic uncertainties are not very small.
+
+Our final results are summarized in Table, where we indicate
+the value of the optimal cut in each category,
+the number of signal and background events $N_{\rm ev}$,
+and also $S/\sqrt{B}$ and $S/B$.
+%
+For completeness, we also include the results after the cut-based
+analysis.
+%
+Given that the signal significance is much larger in the boosted as
+compared to the other two categories, no additional information
+could be obtained by combining the significance of the three
+categories, and it seems more efficient to perform
+the analysis exclusively in the boosted category.
 
 
 
@@ -466,76 +593,3 @@ between QCD jets and jets originated from the Higgs decays.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-\subsection{Impact of smearing in the MVA discrimination}
-
-Accounting for a suitable smearing of the final-state momenta of the reconstructed
-jets is essential to be able to draw any realistic conclusions in analysis like
-this one that are based on a large number of jets.
-%
-It is therefore interesting how the MVA discrimination changes if one did not account
-for smearing - of course in this case differences between signal and background distributions
-would be enhanced.
-
-To investigate this, we now consider a variant of the analysis used in
-Table  where the $m_h$ window criterion has been relaxed to $80 < m_h < 170$.
-%
-Firstly the same analysis is repeated with the larger $m_h$ window, with no smearing at all.
-%
-This is then compared to the same analysis but with a Gaussian smearing with $\sigma=10$ GeV applied to the dijet invariant mass used in the MVA.
-%
-In the left panel of Fig.~\ref{fig:invMsmear} the smearing is demonstrated.
-%
-Both with and without smearing, the  invariant mass distribution of the
-Higgs candidates is still the most discriminative variable.
-%
-This can be seen by comparing with   with the corresponding distribution with smearing in
-  Fig.~\ref{fig:nnweights}.
-
-
-
-
-%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.49\textwidth]{plots/Msmear/histo_mass_smear_precut.pdf}
-\includegraphics[width=0.49\textwidth]{plots/Msmear/nnweights.pdf}
-\caption{\small Left plot: the invariant mass distribution of the
-  Higgs candidates without (red) and with (blue) smearing.
-  %
-  Right plot: the strength of the NN weights in the resolved case when no smearing
-  is applied.
-  %
-  It should be compared with the corresponding distribution with smearing in
-  Fig.~\ref{fig:nnweights}.
-  %
-  As expected, the discrimination power of the invariant mass distribution is
-  enhanced if there is no smearing.}
-\label{fig:invMsmear}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%
-  
-
-While the MVA still derives most of it's discriminating power from the dijet masses, the smearing reduces it's effectiveness considerably.
-%
-In Fig.~\ref{fig:smearedROC} the ROC curves of the MVA applied to the smeared and unsmeared distributions are shown, where it is clear that the overall performance of the MVA is significantly hampered by the smeared invariant masses.
-%
-For example, if we require the same signal efficiency as before, 0.8, the background rejection
-is degraded from 80\% down to 60\%.
-%
-Therefore, we can conclude that it is important to include smearing to draw realistic
-conclusions, though the qualitative information of which are the most relevant
-discriminative variables is not changed by this conclusion.
-
-
-%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.50\textwidth]{plots/Msmear/roc.pdf}
-\caption{\small ROC curves of the MVA applied with the unsmeared (blue) and smeared (green) dijet invariant mass distributions.}
-\label{fig:smearedROC}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%
-            
