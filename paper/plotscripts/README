@@ -2,7 +2,7 @@ For each plot to be produced for the paper, please insert here a python script t
 it from the source data.
 
 Templates are prodided for matplotlib plots for basic histograms, ratio histograms, and 2-D histograms.
-(Templates will shortly be made available for MVA plots).
+Templates are also present for the MVA plots.
 
 The runAll.sh script loops through all scripts in this directory and executes them to produce the required
 plots. At the end, all pdf files are copied to ../autoplots/.
