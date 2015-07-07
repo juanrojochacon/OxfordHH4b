@@ -5,7 +5,7 @@
 In section we describe our analysis strategy, and in particular
 the classification of each individual event into
 different categories according to the event topology.
-
+%
 First of all we discuss the settings and nomenclature that
 we will use for jet clustering in this work.
 %
@@ -18,8 +18,9 @@ topologies, and how we can prioritise among them.
 
 \subsection{Jet reconstruction}
 
-In our analysis we will use different types of jet definitions,
-depending of the type of analysis that needs to be performed.
+In our study we will use different types of jet definitions,
+depending of the type of analysis that needs to be performed, optimized
+for the various possible event topologies.
 %
 Therefore, we being by enumerating the choices that we make.
 %
@@ -40,12 +41,12 @@ that we will use in this work:
   anti-$k_T$ clustering algorithm~\cite{Cacciari:2008gp} with $R=0.4$ radius.
   %
   When reconstructing small-$R$ jets, we will keep only
-  those with transverse momentum $p_T \ge 40$~GeV
+  those jets with transverse momentum $p_T \ge 40$~GeV
   and pseudo-rapidity $|\eta|<2.5$ within the central
   acceptance of ATLAS and CMS, jets that fail to satisfy these
-  conditions are discarded
-
-  They are required to have $p_T > 50$~GeV and $|\eta|<2.5$.
+  conditions are discarded.
+  %
+    
 
 \item {\it Large-$R$ jets}.
 
@@ -65,7 +66,7 @@ that we will use in this work:
   related to the track-jet-based calibration.
 
   In addition to the basic $p_T$ and $\eta$
-  selection requirements, large-$R$ jets should also
+  acceptance requirements, large-$R$ jets should also
   satisfy the  BDRS mass-drop tagger~\cite{Butterworth:2008iy}
   conditions, in order
   to enhance the discrimination of the signal over the background
@@ -74,7 +75,7 @@ that we will use in this work:
   For the BDRS mass-drop tagger, we use the {\tt FastJet} default
   parameters of  $\mu = 0.67$ and $y_{\textrm{cut}}= 0.09$.
   %
-  Before the mass-drop tagger is applied, the large-$R$ jet
+  As required, before the mass-drop tagger is applied, the large-$R$ jet
   constituents are reclustered with the Cambridge/Aachen
   algorithm.
 
@@ -92,20 +93,24 @@ that we will use in this work:
   %
   As we will discuss below, these small-$R$ subjets are the key of
   the $b$-tagging in the boosted category.
-%
+  %
+  Small-$R$ subjets are required to have $p_T > 50$~GeV and $|\eta|<2.5$,
+  else they are discarded.
+
   \end{itemize}
 
 
 \subsection{$b$-tagging}
 
-Given the final state that needs to be reconstructed, the
+Given the final state that needs to be reconstructed in our case, the
 optimisation of the $b$-tagging capabilities of the
-LHC experiments is an essential requirement.
+LHC experiments is an essential requirement to optimise
+the prospects for the observation of Higgs pair production.
 %
 The $b$-tagging used in this feasibility study is inspired
 in the current and projected ATLAS settings, and below
 we also comment on the differences and similarities with the
-corresponding CMS strategy.
+corresponding CMS strategy~\cite{Khachatryan:2011wq,Chatrchyan:2012jua}.
 %
 For each type of jet defined above, a different
 $b$-tagging strategy is used, as we discuss now.
@@ -123,8 +128,16 @@ $b$-tagging strategy is used, as we discuss now.
   of this jet, it can be still be tagged as a $b$-jet with
   a mistag rate of $f_l$.
   %
-  Note that the probability of tagging a jet is not increased
+  Note that the probability of tagging a jet is not modified
   if more than one $b$-quark is found among the jet constituents.
+
+  We only attempt to $b$-tag the four (two) hardest small-$R$ jets
+  in the resolved (intermediate) category.
+  %
+  We find that
+  trying to $b$-tag all
+  small-$R$ jets that satisfy the acceptance cuts worsens the performance
+  due to combinatorics.
 
   \item {\it Large-$R$ jets}.
 
@@ -181,8 +194,8 @@ that we will use, as well as the $b$-tagging strategy,
 we need to discuss the analysis strategy, including
 the event categorization and the cut flow.
 
-The basic idea of this work is the same as in Ref.~\cite{Gouzevitch:2013qca}:
-rather than selecting only a specific event topology, such as boosted
+The basic idea of this work is similar to that in Ref.~\cite{Gouzevitch:2013qca}:
+rather than concentrating only a specific event topology, such as boosted
 or resolved, we aim to consistently combine the information from
 the three possible event topologies: boosted, intermediate and
 resolved, which we define now.
@@ -190,25 +203,25 @@ resolved, which we define now.
 An important difference as compared to~\cite{Gouzevitch:2013qca}
 is that here each category is optimised separately, and then
 a exclusive categorisation is defined starting from the topology
-where the signal significance is the largest.
-
+where the signal significance is the best.
 
 Let us therefore define the three event categories that
 we use in this work:
 \begin{itemize}
 \item {\it Boosted category}.
 
-  A given event is assigned to the boosted category if it
+  A given event is assigned to the {\it boosted} category if it
   contains at least two large-$R$ jets, defined as above,
-  and of the tow leading large-$R$ jets have been double-$b$-tagged.
+  and where  the two leading large-$R$ jets have been
+  successfully double-$b$-tagged.
   %
- Therefore, each of these two large-$R$ $b$-tagged jets correspond to the
+ Therefore, each of these two large-$R$ double-$b$-tagged jets corresponds to the
  decay products of one Higgs boson candidate.
 
 \item {\it Intermediate category}.
 
-  An event is assigned to the intermediate category if
-  at least one large $R$ $b$-tagged jet is present.
+  An event is assigned to the {\it intermediate} category if
+  at least one large $R$ double-$b$-tagged jet is present.
   %
   If more than one is found, then the leading large-$R$ jet
   is assigned to be the first Higgs candidate.
@@ -217,18 +230,20 @@ we use in this work:
   which must be separated with respect to the large-$R$
   jet by at least an angular separation of $\Delta R\ge 1.0$.
   %
-  The small-$R$ jets must be $b$-tagged as well.
-  %
+  These small-$R$ jets must be $b$-tagged as well.
+
+  
   Then, the second Higgs boson candidate is reconstructed
-  by selecting the two small-$R$ jets that minimize the difference
-  between the invariant mass of the large-$R$ jet, $m_{lR}$,
+  by selecting the two $b$-tagged small-$R$ jets that minimize the difference
+  between the invariant mass of the large-$R$ jet, $m_{lR_1}$,
   with the invariant mass of the sum of the two small-$R$ jets,
   $m_{sR_1+sR_2}$, that is, ${\rm min}\lp m_{lR} -
-  m_{sR_1+sR_2}\rp$.
+  m_{sR_1+sR_2}\rp$, where $lR_1$ indicates the leading large-$R$ jet
+  and $sR_1$ and $sR_2$ indicate the small-$R$ jets.m
 
 \item {\it Resolved category}.
 
-  Finally, let us define the resolved category.
+  Finally, let us define the {\it resolved} category.
   %
   An event is assigned to this category
   if at least
@@ -244,8 +259,15 @@ $m_{sR_3+sR_4}$, respectively, and choosing the configuration that minimizes the
   leading small-$R$ jets arises from the need to reducing the
   combinatorics from the fakes.
 \end{itemize}
+Note that in principle these three categories are not exclusive:
+a given even can be assigned to more than one category, for
+example, satisfying both the requirements of the boosted and resolved
+categories at the same time.
 
-In addition, events from each category need to satisfy the usual
+
+
+Once a pair of Higgs boson candidates has been identified,
+then events from each category are required to satisfy the usual
 Higgs mass window cut, defined by
 the following condition
 \be
@@ -255,19 +277,23 @@ where $m_{h,j}$ is the invariant mass of the two Higgs candidates
 reconstructed as explained above.
 %
 We note that this cut is substantially looser as the corresponding
-cut used in the ATLAS and CMS $h\to b\bar{b}$ analysis: the motivation
-for this is that the MVA will take care of the optimisation of each cut.
-
+cut used in the typical ATLAS and CMS $h\to b\bar{b}$
+analyses~\cite{Aad:2012gxa,Chatrchyan:2013zna}: the motivation
+for this is that the MVA will take care of the optimisation of these
+and other cuts that are not explicitly performed.
 
 
 In Table~\ref{sec:categorisation} we summarize the definitions of each
 category.
 %
-We emphasize that each category is not exclusive of the others,
+We emphasize again that each category is not exclusive of the others,
 and in general there can be a substantial overlap
 between the different categories.
-
-
+%
+In particular, this overlap is a direct consequence that
+the different categories are optimised separately, as opposed
+to the approach of~\cite{Gouzevitch:2013qca}, where optimisation
+was performed simultaneously in the combination of exclusive categories.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -289,16 +315,48 @@ between the different categories.
     &        & $|\eta|<2.5$ (small-$R$ jet)  &  \\
     \hline
     $b$-tagging  & 2 double-$b$-tags  & 1 double-$b$-tag & 4 single-$b$-tags \\
-      &  & and 2 single-$b$-tags  &  \\
+    &  & and 2 single-$b$-tags  &  \\
+       & $\ge 2$ small-$R$ subjets  & &  \\
+    &  $p_T^{\rm sj}\ge 50$ GeV &   &  \\
     \hline
     \end{tabular}
   \caption{\small Definition of the three event categories used in this
     work, together with the corresponding basic kinematical cuts.
+    %
+    The categories are not exclusive, and each event can satisfy the
+    requirements of more than one category at the same time.  
 \label{sec:categorisation}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+As we will show now, the selection requirement and the kinematic cuts
+for each of the categories in Table~\ref{sec:categorisation} have
+been optimised independently.
+%
+First of all we have performed a inclusive analysis, and optimised
+$S/\sqrt{B}$ in each of the three categories separately, including
+the MVA.
+%
+We find that, in terms of signal significance, the ordering of
+the categories is
+\begin{enumerate}
+\item Boosted 
+\item Intermediate
+  \item Resolved
+  \end{enumerate}
+and therefore for the final analysis we turn to an exclusive approach:
+if an event satisfies the boosted requirements, it is kept for
+these category, else we check if it suits the intermediate
+requirements, and failing also this, the event is attempted
+in the resolved categories.
+%
+The resulting exclusive event samples are then separately processes
+through the MVA, as discussed in the next section.
+%
+This allows us to combine the significance of the dominant topology
+(boosted) with that of the sub-leading categories, intermediate
+and resolved.
 
 \subsection{Kinematic distributions}
 
