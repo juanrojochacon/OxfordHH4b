@@ -10,12 +10,12 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '~/Dropbox/HH4bMC/mva/nn_9X5X3X1_500000-Gen_CE.net'
+datafile = '~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_resNTuple.net'
 dataname = "Resolved"
 sourcefile = os.path.expanduser(datafile)
 
 archout = "res_nnarch"
-histout = "res+_wgthist"
+histout = "res_wgthist"
 
 #############################################################################
 
