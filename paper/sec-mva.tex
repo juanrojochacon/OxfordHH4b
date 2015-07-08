@@ -57,11 +57,15 @@ to the case of the resolved category.
 \begin{figure}[t]
   \begin{center}
       \vspace{-1cm}
-  \includegraphics[width=0.80\textwidth]{plots/res_nnarch.pdf}
+  \includegraphics[width=0.90\textwidth]{plots/res_nnarch.pdf}
   \vspace{-1cm}
 \caption{\small Architecture of the ANN used for the analysis of the resolved
   category, with $N_{\rm var}=13$ input variables and thus the same number of neurons
-in the first layer.}
+  in the first layer.
+  %
+  The color code in the neuron connections (the weights) is a heat map,
+  with red indicating large values and black small values.
+}
 \label{fig:nnarch}
 \end{center}
 \end{figure}
@@ -169,7 +173,7 @@ In particular we include in the MVA training for each large-$R$ jet
 where one can also define related variables like $\sqrt{d_{23}}$ that corresponds to the
 splitting scale in the second-to-last clustering.
   
-\item The ratio of 2-to-1-Subjetiness $\tau_{12}$~\cite{Thaler:2010tr,Thaler:2011gf}.
+\item The ratio of 2-to-1-subjettiness $\tau_{12}$~\cite{Thaler:2010tr,Thaler:2011gf}.
 
   The $N$-subjettiness variables $\tau_N$ are defined by clustering the constituents
   of a jet with the exclusive $k_t$ algorithm and requiring that $N$ subjets are found,
@@ -188,18 +192,26 @@ splitting scale in the second-to-last clustering.
   which provide good discrimination between QCD jets and jets arising from the decay of
   a heavy resonance.
   
-\item The energy correlation function double-ratios $C_2$ and $D_2$~\cite{Larkoski:2013eya}.
+\item The energy correlation function double-ratios $C_2$ and $D_2$~\cite{Larkoski:2013eya,Larkoski:2014gra}.
 
-  The energy correlation double ratio $C_2$ is defined
-  as
+  The energy correlation double ratios  $C_2^{\beta}$
+  and $D_2^{\beta}$ are defined
+  as follows
   \be
   \label{eq:c2}
-C_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{{\rm ECF}(2,\beta)} \, ,
+C_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{\lc {\rm ECF}(2,\beta)\rc ^2} \, ,
+\ee
+ \be
+  \label{eq:d2}
+D_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta)}{\lc {\rm ECF}(2,\beta)\rc^3} \, ,
   \ee
-  where the energy correlation functions ${\rm ECF}(3,\beta)$ are defined
+  where the energy correlation functions ${\rm ECF}(N,\beta)$ are defined
   in~\cite{Larkoski:2013eya} with the motivation that $(N+1)$-point correlators
   are sensitive to $N$-prong substructure.
-
+  %
+  The free parameter $\beta$ is set to a value of $\beta=2$,
+  as recommended by the authors of~\cite{Larkoski:2013eya,Larkoski:2014gra}.
+  
 \end{itemize}
 %
 Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis,
@@ -667,6 +679,15 @@ resolution.
 But before that let's illustrate how the improvement in $S/\sqrt{B}$
 obtained from the MVA arises from the power of the jet
 substructure variables.
+
+Finally, let us briefly comment on our results would be affected
+if we take into account the systematic uncertainty in the measurement
+of the backgrounds, in addition to the statistical uncertainty.
+%
+Assuming an optimistic value of a total 3\% systematic uncertainty in the
+multijet background measurement, we find that the signal significance is
+modified as....
+{\bf complete}
 
 \subsection{Another look at the jet substructure variables}
 
