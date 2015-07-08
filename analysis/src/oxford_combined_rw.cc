@@ -209,6 +209,12 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   
   smallRJetsSel_pt = sorted_by_pt( smallRJetsSel_pt_unsrt  ); // Resort
   smallRJetsSel = sorted_by_pt( smallRJetsSel_unsrt  ); // Resort
+
+  std::vector<bool> isFakeSR_all_vec;         // Vector specifying if each jet is fake or not
+  BTagging( smallRJets, isFakeSR_all_vec );
+  
+  std::vector<bool> isFakeSR_pt_vec;         // Vector specifying if each jet is fake or not
+  BTagging( smallRJetsSel_pt, isFakeSR_pt_vec );
   
   std::vector<bool> isFakeSR_vec;         // Vector specifying if each jet is fake or not
   BTagging( smallRJetsSel, isFakeSR_vec );
@@ -411,7 +417,7 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
     // Reconstruct Higgs candidates from large-R and small-R jets
     std::vector<fastjet::PseudoJet> higgs_inter;
     int nBJets_SR = 0;
-    const bool isRecoInter = Reco_Intermediate( smallRJets, isFakeSR_vec, largeRJets[0], nBJets_SR, higgs_inter );
+    const bool isRecoInter = Reco_Intermediate( smallRJets, isFakeSR_all_vec, largeRJets[0], nBJets_SR, higgs_inter );
 
     // Check if reconstruction was successful
     if( isRecoInter ){
@@ -447,6 +453,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
 
   // Boosted
   if( largeRJetsSel_pt.size() >= 2 ){    
+    
+	if( debug ) std::cout << " Is C1b boosted" << std::endl;
 //       if( fabs(largeRJetsSel_pt[0].m() - 125.) < 40.0 && fabs(largeRJetsSel_pt[1].m() - 125.) < 40.0 )
 //       {
         HiggsFill(largeRJetsSel_pt[0], largeRJetsSel_pt[1], "boost", 2, event_weight);
@@ -459,6 +467,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   // Resolved
   if( smallRJetsSel_pt.size() >= 4 && selected == false)
   {
+    
+      if( debug ) std::cout << " Is C1b resolved" << std::endl;
       // Reconstruct Higgs candidates from small-R jets
       std::vector<fastjet::PseudoJet> higgs_res;
       std::vector<fastjet::PseudoJet> higgs0_res;
@@ -478,13 +488,17 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   // Intermediate
   if( smallRJetsSel_pt.size() >= 2 &&  largeRJetsSel_pt.size() == 1 && selected == false)
   {
+    if( debug ) std::cout << " Checking C1b intermediate" << std::endl;
+    
     // Reconstruct Higgs candidates from large-R and small-R jets
     std::vector<fastjet::PseudoJet> higgs_inter;
     int nBJets_SR = 0;
-    const bool isRecoInter = Reco_Intermediate( smallRJetsSel_pt, isFakeSR_vec, largeRJetsSel_pt[0], nBJets_SR, higgs_inter );
+    const bool isRecoInter = Reco_Intermediate( smallRJetsSel_pt, isFakeSR_pt_vec, largeRJetsSel_pt[0], nBJets_SR, higgs_inter );
 
     // Check if reconstruction was successful
     if( isRecoInter ){
+	if( debug ) std::cout << " Is C1b intermediate" << std::endl;
+	
 //       if( fabs(higgs_inter[0].m() - 125.) < 40.0 && fabs(higgs_inter[1].m() - 125.) < 40.0 )
 //       {
         HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 2, event_weight);
