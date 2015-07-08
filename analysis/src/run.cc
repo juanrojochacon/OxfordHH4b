@@ -28,9 +28,7 @@ static std::vector<eventSample> samples;
 
 // Global run parameters
 const int nSamples = 5;
-//const int max_evt = 1E7;
-const int max_evt = 1E4;
-// const int max_evt = 100;
+const int max_evt = 1E7;
 
 const double jetp_smear = 5.0; // % smear on jet momentum
 const double jetE_smear = 5.0; // % smear on jet energy
