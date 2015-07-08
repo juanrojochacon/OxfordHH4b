@@ -38,4 +38,7 @@ double const bbtag_mistag = 0.01; // Mistag probability
 double const lumi_run2=300;
 double const lumi_hllhc=3000;
 
+// Initial seed for smearing
+uint const smear_seed = 23478234;
+
 //-------------------------------------------------------------

@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "settings.h"
 
+#include <stdlib.h>
 #include <vector>
 
 using namespace std;
@@ -422,9 +423,10 @@ double charm_eff( double jet_pt ){
   else return 1./5.;
 }
 
+uint ranf_rseed = smear_seed; // use reentrant ran to ensure consistency of smearing
 static float ranf()/* ranf() is uniform in 0..1 */
 {
-  return  (float) rand() / (double) RAND_MAX; 
+  return  (float) rand_r(&ranf_rseed) / (double) RAND_MAX; 
 };
 
 // Gaussian random numbers
