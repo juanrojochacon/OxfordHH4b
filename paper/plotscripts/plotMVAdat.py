@@ -125,15 +125,19 @@ for idat in xrange(0,len(datafiles)):
 	# Setup arrays
 	bkgprob = [] # Background point discriminant
 	sigprob = [] # Signal point discriminant
+	total_bkgweight = 0 # Total background weight
+	total_sigweight = 0 # Total signal weight
 	events = []	 # Full event info
 
 	# Read data
 	for line in infile:
 		events.append(line.split()[1:4])
 		if line.split()[1] == '0':
-			bkgprob.append( float(line.split()[3]) )
+			bkgprob.append( float(line.split()[3]) ) # Discriminant
+			total_bkgweight = total_bkgweight + float(line.split()[2]) # Weight
 		else:
-			sigprob.append( float(line.split()[3]) )
+			sigprob.append( float(line.split()[3]) ) # Discriminant
+			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
 	thresholds = numpy.linspace(0, 1, 60)
@@ -152,10 +156,6 @@ for idat in xrange(0,len(datafiles)):
 		signalwgt = 0
 		backgdwgt = 0
 
-		# ROC true and false positives
-		tp = 0
-		fp = 0
-
 		for evt in events:
 			signal = bool(int(evt[0]))
 			weight = float(evt[1])
@@ -164,13 +164,11 @@ for idat in xrange(0,len(datafiles)):
 			if discriminant > th:
 				if signal:
 					signalwgt = signalwgt + weight # signal weight
-					tp = tp+1 #ROC true positive
 				else:
 					backgdwgt = backgdwgt + weight # background weight
-					fp = fp+1 # ROC false positive
 
-		falsepos.append(1- fp/float(len(bkgprob)))
-		truepos.append(tp/float(len(sigprob)))
+		falsepos.append(1 - backgdwgt/total_bkgweight)
+		truepos.append(signalwgt/total_sigweight)
 
 		nsig.append(hl_lhc_lumi*signalwgt)
 		nbkg.append(hl_lhc_lumi*backgdwgt)
