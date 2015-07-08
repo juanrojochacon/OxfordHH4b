@@ -197,10 +197,14 @@ double LST_C2(double const& beta, fastjet::PseudoJet const& jet)
 // http://arxiv.org/pdf/1409.6298.pdf
 double LMN_D2(double const& beta, fastjet::PseudoJet const& jet)
 {
+  const double ECF1 = ECF(1, beta, jet);
   const double ECF2 = ECF(2, beta, jet);
   const double ECF3 = ECF(3, beta, jet);
 
-  return ECF3/(ECF2*ECF2*ECF2);
+  const double e3 = ECF3 / ( ECF1*ECF1*ECF1 );
+  const double e2 = ECF2 / ( ECF1*ECF1 );
+
+  return e3/(e2*e2*e2);
 }
 
 // ----------------------------------------------------------------------------------
