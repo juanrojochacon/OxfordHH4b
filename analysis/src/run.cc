@@ -65,7 +65,7 @@ eventSample GetSample( int const& isample )
 	  signal = true;
 	  hepmc = false;
 	  nevt_sample = 1E6;
-	  xsec_norm *= 2.26; // NNLO K-factor
+	  xsec_norm *= 2.4; // NNLO+NNLL K-factor
 	  break;
 
 	  case 1: 
@@ -74,6 +74,7 @@ eventSample GetSample( int const& isample )
 	  signal = false;
 	  hepmc = true;
 	  nevt_sample = 3E6;
+	  xsec_norm *= 1.3; // NLO K-factor
 	  break;
 
 	  case 2: 
@@ -82,6 +83,7 @@ eventSample GetSample( int const& isample )
 	  signal = false;
 	  hepmc = true;
 	  nevt_sample = 3E6;
+  	  xsec_norm *= 1.6; // NLO K-factor
 	  break;
 
 	  case 3: 
@@ -90,6 +92,7 @@ eventSample GetSample( int const& isample )
 	  signal = false;
 	  hepmc = true;
 	  nevt_sample = 3E6;
+  	  xsec_norm *= 0.5; // NLO K-factor
 	  break;
 
 	  case 4: 
@@ -98,6 +101,7 @@ eventSample GetSample( int const& isample )
 	  signal = false;
 	  hepmc = true;
 	  nevt_sample = 3E6;
+  	  xsec_norm *= 1.4; // NNLO+NNLL K-factor
 	  break;
 
 
