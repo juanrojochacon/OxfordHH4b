@@ -7,24 +7,21 @@ import numpy as np
 datafiles = []
 plotnames = []
 
-from matplotlib import rc
-rc('text', usetex=True)
-
 ############################## Settings ###############################
 
 # Output filename
-outfile = "tau21_H0_res_C1_boost"
+outfile = "EEC_D2_H1_res_C1_boost"
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_tau21_fj1_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_tau21_fj1_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_D2_fj2_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_D2_fj2_boost_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = r"Subjettiness Ratio $\tau_{12}$ for leading Higgs candidate"
+xLabel = r"Energy Correlation Ratio $D_2$ in for subleading Higgs candidate"
 yLabel = "A. U."
 
 # Log axes
@@ -50,14 +47,11 @@ if xLog == True:
 if yLog == True:
   ax.set_yscale('log')
 
-
-plt.rc('text', usetex=True)
-  
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([0,1])
-ax.set_ylim([1e-3,10])
+ax.set_xlim([0,1.0])
+ax.set_ylim([1e-4,100])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -115,8 +109,7 @@ for idat in xrange(0,len(datafiles)):
     xvals = [xlo[x], xhi[x]]
     yvalsup = [CVup[x], CVup[x]]
     yvalsdn = [CVdn[x], CVdn[x]]
-   # ax.fill_between(xvals, yvalsup, yvalsdn, facecolor=colours[icol], alpha = 0.4, linewidth = 1, color = colours[icol])
-
+  
   # Insert lower x-values
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])

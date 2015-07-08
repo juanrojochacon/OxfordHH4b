@@ -163,6 +163,7 @@ In particular we include in the MVA training for each large-$R$ jet
   $k_t$ algorithm, which usually clusters last the harder constituents, and then
   taking the $k_t$ distance measure between the two subjets at the final stage of the recombination
   \be
+  \label{eq:ktsplitting}
 \sqrt{d_{12}} \equiv {\rm min}\lp p_{T,1},p_{T,2}\rp \cdot \Delta R_{12} \, ,
 \ee
 where one can also define related variables like $\sqrt{d_{23}}$ that corresponds to the
@@ -181,6 +182,7 @@ splitting scale in the second-to-last clustering.
   %
   In this work in particular we use as input to the MVA
   \be
+  \label{eq:tau21}
 \tau_{21} \equiv \frac{\tau_2}{\tau_1} \, ,
   \ee
   which provide good discrimination between QCD jets and jets arising from the decay of
@@ -191,6 +193,7 @@ splitting scale in the second-to-last clustering.
   The energy correlation double ratio $C_2$ is defined
   as
   \be
+  \label{eq:c2}
 C_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{{\rm ECF}(2,\beta)} \, ,
   \ee
   where the energy correlation functions ${\rm ECF}(3,\beta)$ are defined
@@ -561,13 +564,13 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.85$}\\
+    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.86$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
         Signal & Back   &     &   &  Signal & Back   &     &    \\
     \hline
-      193   &  $3.8\,10^4$    &  0.99    &  $5.1\,10^{-3}$  &  &  &  & \\
+      193   &  $3.8\,10^4$    &  0.99    &  $5.1\,10^{-3}$  & 107 & 1040 & 3.31  & 0.10\\
         \hline
   \end{tabular}
    $\,$\\
@@ -579,13 +582,13 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.85$}\\
+    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.49$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
         Signal & Back   &     &   &  Signal & Back   &     &    \\
     \hline
-      660   &   $2.2\,10^6$   &   0.45   &  $3.1\,10^{-4}$ &  &  &  & \\
+      660   &   $2.2\,10^6$   &   0.45   &  $3.1\,10^{-4}$ & 480  & $3.2\,10^5$ & 0.85  & $1.5\,10^{-3}$ \\
         \hline
   \end{tabular}
     $\,$\\
@@ -597,13 +600,14 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.85$}\\
+    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.17$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
         Signal & Back   &     &   &  Signal & Back   &     &    \\
     \hline
-      $1.6\,10^{3}$   &   $1.1\,10^{7}$   & 0.50     &  $1.5\,10^{-4}$   &  &  &  & \\
+    $1.6\,10^{3}$   &   $1.1\,10^{7}$   & 0.50     &  $1.5\,10^{-4}$   & 968 &
+    $1.2\,10^{6}$  & 0.90 & $8.2\,10^{-4}$ \\
         \hline
   \end{tabular}
   \caption{\small The results for the number of signal and
@@ -622,45 +626,133 @@ the analysis exclusively in the boosted category.
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-\subsection{Another look at jet substructure variables}
-
-It is now worth trying to understand where does the increase in signal significance
-achieved after the MVA comes from.
+From Table~\ref{table:cutflowMVA} we see that after the
+MVA the signal significance in the boosted category increases
+from 0.99 to 3.31, with $S/B$ increasing from $0.005$ to $0.10$,
+with still more that 100 signal events at the HL-LHC.
 %
-As we will show now, the MVA has correctly identified which of the substructure
-variables are more discriminant between signal and background distributions,
-and combined this information to determine an optimal cut to maximize signal
-significance.
+Table~\ref{table:cutflowMVA} also shows that for the intermediate
+and resolved categories, the improvement due to the use
+of the MVA is rather moderate, and signal significance is always
+small since backgrounds are still very large.
 
-For instance, in the boosted category, the analyses of the
-size of the neural network weights clearly indicates that the subjetiness
-$\tau_{12}$ and the energy correlations $C_2$ are two of the most useful
-variables.
+Table~\ref{fig:sb_mva} contains the main result of this paper:
+at the HL-LHC, it should be possible to claim evidence of
+Higgs pair production using only the $4b$ final state.
 %
-To verify that indeed these two variables are quite different between signal
-and background events, in Fig.~\ref{fig:mva_substructure_1}
-we show the subjetiness $\tau_{12}$ and the energy correlation between
-signal and background.
+Needless to say, to claim discovery and to improve the accuracy
+of the measurement of the trilinear coupling it would still
+be needed to combine this channel with others like
+$b\bar{b}\gamma\gamma$ and $b\bar{b}\tau\tau$, but in any case
+it is always important to have solid evidence from
+individual channels.
+
+From Table~\ref{fig:sb_mva} it is also possible to
+extract the signal significance that would be obtained
+at the end of Run II with $\mathcal{L}_{\rm int}=300$ fb$^{-1}$:
+in the boosted category we expect 11 signal events and 100 background
+events, leading to a $S\sqrt{B}=1.1$, too small specially accounting
+for realistic systematic experimental uncertainties.
 %
-We indeed verify that the two shapes are quite different,
+So the full luminosity of the HL-LHC is really needed to exploit
+the information contained in this final state.
+
+In the next section we discuss how the expectations for the HL-LHC
+summarized in  Table~\ref{fig:sb_mva} are modified in different
+conservative and aggressive scenarios for the performance of the
+ATLAS and CMS experiments, in particular how the results depend
+on the $b$-tagging performance and in the detector momentum
+resolution.
+%
+But before that let's illustrate how the improvement in $S/\sqrt{B}$
+obtained from the MVA arises from the power of the jet
+substructure variables.
+
+\subsection{Another look at the jet substructure variables}
+
+The power of the MVA applied to the boosted category lies
+on the information contained on the various substructure variables
+used.
+%
+From the distribution of total associated ANN weights in the
+boosted category shown in Fig.~\ref{fig:nnweights} we see that
+all substructure variables contain useful information,
+but specially the $k_t$ splitting scale $\sqrt{d_{12}}$ of the
+subleading Higgs candidate, the $\tau_{21}$ subjettiness variable for
+the leading Higgs
+and the ratio of energy correlators $D_2$ of both the leading
+and subleading Higgs candidates.
+%
+Interestingly, other substructure variables like $\tau_{21}$ for
+the subleading Higgs seem to contain less information (or perhaps
+redundant as compared to the other variables).
+
+
+The information contained Fig.~\ref{fig:nnweights} should be
+reflected in the corresponding distributions of these substructure
+variables: those with a higher discrimination power should show
+clear differences in shape between the signal and background events,
+while those that carry less information should have similar
+shapes for signal and background.
+%
+There is also the possibility of redundant variables, where signal
+and background are quite different but the same information
+is already provided by other input variables.
+
+In Fig.~\ref{fig:mva_substructure_1}
+we show these substructure variables: the
+$k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}) for
+the subleading Higgs, the subjettiness ratio $\tau_{12}$
+Eq.~(\ref{eq:tau21})
+for the leading Higgs,
+and the energy correlation double ratio $D_2$
+Eq.~\ref{eq:c2}
+for the leading and subleading Higgs.
+%
+We can indeed verify that the shapes of the signal
+and background distributions are quite different,
 reflecting the differences in the internal structure of jets
 between QCD jets and jets originated from the Higgs decays.
+%
+This is true for all variables considered here.
+%
+As before, all the distributions in
+Fig.~\ref{fig:mva_substructure_1}
+have been normalized to unity.
+%
+All the distributions shown in this section refer to the boosted category.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
-\begin{center}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{plots/split12_H1_res_C1_boost.pdf} 
   \includegraphics[width=0.48\textwidth]{plots/tau21_h0_res_C1_boost.pdf}
   \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_res_C1_boost.pdf}
-  \caption{\small Left plot: subjetiness.
-    Right plot: energy correlations.
+  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_res_C1_boost.pdf}
+  \caption{\small Distribution of substructure variables
+    in the boosted category at the end of the cut-based
+    analysis, used as input to the MVA.
+    %
+    From top to bottom and from left to right we show  the
+$k_t$ splitting scale for
+the subleading Higgs, the subjettiness ratio $\tau_{12}$
+for the leading Higgs,
+and the energy correlation double ratio $D_2$
+for the leading and subleading Higgs.
+%
+All distributions have been normalized to unity.
 }
 \label{fig:mva_substructure_1}
 \end{center}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+Finally, let us show the distributions of those kinematic variables
+that according to the MVA provide a small amount of discrimination
+between signal and background, either because there is no real information or
+because it is redundant.
+
+{\bf add missing histograms}
 

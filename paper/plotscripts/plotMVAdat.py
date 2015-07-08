@@ -146,6 +146,7 @@ for idat in xrange(0,len(datafiles)):
 	nbkg = []
 	nsig = []
 
+        print "th,   s_over_b,      s_over_sb,    Nev_sig,    Nev_back"
 	for th in thresholds:
 		# S/B signal and background weights
 		signalwgt = 0
@@ -180,6 +181,9 @@ for idat in xrange(0,len(datafiles)):
 		else:
 			soverb.append(signalwgt/backgdwgt)
 			soversb.append((hl_lhc_lumi*signalwgt)/sqrt(hl_lhc_lumi*backgdwgt))
+                        s_over_b = signalwgt/backgdwgt
+                        s_over_sb = (hl_lhc_lumi*signalwgt)/sqrt(hl_lhc_lumi*backgdwgt)
+                        print th, s_over_b," ", s_over_sb, " ",hl_lhc_lumi*signalwgt, " ",hl_lhc_lumi*backgdwgt
 
 	# Plot discriminant histogram
 	plotDiscriminantHisto(basename, sigprob, bkgprob)
