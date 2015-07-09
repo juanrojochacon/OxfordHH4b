@@ -51,7 +51,7 @@ ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
 ax.set_xlim([0,4.99])
-ax.set_ylim([1e-3,5])
+ax.set_ylim([1e-3,2])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -118,8 +118,14 @@ for idat in xrange(0,len(datafiles)):
   icol=icol+1
 
 # Gridlines
-ax.xaxis.grid(True)
 ax.yaxis.grid(True)
+
+kinematics= [ 'RES','INT','BOOST','RES+INT','RES+BOOST' ]
+
+plt.xticks(rotation=-20)
+plt.xlabel('')
+plt.ylabel('Total associated weight (A.U.)')
+plt.xticks(np.arange(len(kinematics)) + 0.5, kinematics)
 
 # Legend
 legend = ax.legend(loc='best')
