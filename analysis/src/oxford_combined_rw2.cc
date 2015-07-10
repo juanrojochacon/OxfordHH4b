@@ -281,6 +281,9 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
             {
               selected = true;
 
+              HiggsFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+              BoostFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+
               // Calculate some substructure variables
               const std::vector<double> split12_vec = SplittingScales( largeRJets );
               const std::vector<double> tau21_vec = NSubjettiness( largeRJets, BoostJetR );
@@ -585,7 +588,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   else if( !isRes_C1e && isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 5.1);
   else if( isRes_C1e && isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 6.1);
   */
-  return Cut ("Uncategorised", event_weight);
+  if (!selected)
+    return Cut ("Uncategorised", event_weight);
 }
 
 
