@@ -10,8 +10,6 @@ print folder
 
 #recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j']
 recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j', 'SHERPA_QCDttbar']
-#recursive_folders = ['SHERPA_QCD4j']
-#recursive_folders = ['signal']
 file_types = ['res', 'inter', 'boost']
 
 new_data = {}

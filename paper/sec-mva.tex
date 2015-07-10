@@ -192,26 +192,27 @@ splitting scale in the second-to-last clustering.
   which provide good discrimination between QCD jets and jets arising from the decay of
   a heavy resonance.
   
-\item The energy correlation function double-ratios $C_2$ and $D_2$~\cite{Larkoski:2013eya,Larkoski:2014gra}.
+\item The ratios of energy correlation functions (EDFs)  $C^{(\beta)}_2$~\cite{Larkoski:2013eya} and
+  $D_2^{(\beta)}$~\cite{Larkoski:2014gra}.
 
-  The energy correlation double ratios  $C_2^{\beta}$
-  and $D_2^{\beta}$ are defined
-  as follows
+  The ratio of energy correlation functions $C_2^{\beta}$ is defined as
   \be
   \label{eq:c2}
-C_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{\lc {\rm ECF}(2,\beta)\rc ^2} \, ,
+C_2^{(\beta)} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{\lc {\rm ECF}(2,\beta)\rc ^2} \, ,
 \ee
- \be
+while $D_2^{(\beta)}$ is instead defined as a double ratio of ECFs, that is
+\be
+e_3^{(\beta)}\equiv \frac{ {\rm ECF}(3,\beta)}{\lc {\rm ECF}(1,\beta)\rc^3} \, , \quad
+  e_2^{(\beta)}\equiv \frac{ {\rm ECF}(2,\beta)}{\lc {\rm ECF}(1,\beta)\rc^2} \, , \quad
   \label{eq:d2}
-D_2^{\beta} \equiv \frac{ {\rm ECF}(3,\beta)}{\lc {\rm ECF}(2,\beta)\rc^3} \, ,
-  \ee
-  where the energy correlation functions ${\rm ECF}(N,\beta)$ are defined
+D_2^{(\beta)} \equiv \frac{ e_3^{(\beta)})}{\lp e_2^{(\beta)} \rp^3} \, .
+\ee
+The energy correlation functions ${\rm ECF}(N,\beta)$ are defined
   in~\cite{Larkoski:2013eya} with the motivation that $(N+1)$-point correlators
   are sensitive to $N$-prong substructure.
   %
   The free parameter $\beta$ is set to a value of $\beta=2$,
-  as recommended by the authors of~\cite{Larkoski:2013eya,Larkoski:2014gra}.
-  
+  as recommended by the authors of Refs.~\cite{Larkoski:2013eya,Larkoski:2014gra}.
 \end{itemize}
 %
 Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis,
