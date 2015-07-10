@@ -7,6 +7,8 @@ import numpy as np
 datafiles = []
 plotnames = []
 
+
+
 ############################## Settings ###############################
 
 # Output filename
@@ -37,6 +39,7 @@ if len(datafiles)!=len(plotnames):
   print "Error: datafile and plotname arrays are different lengths!"
   exit()
 
+linestyles = [ 'solid', 'dashed']
 colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
 icol = 0
 
@@ -114,17 +117,18 @@ for idat in xrange(0,len(datafiles)):
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])
 
-  ax.plot(xhi,yval/norm,ls = "steps-pre", color = colours[icol], label=plotnames[idat])
+  ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat], linestyle=linestyles[idat],linewidth=2)
   icol=icol+1
 
 # Gridlines
 ax.yaxis.grid(True)
 
+plt.rcParams.update({'font.size': 15})
+linestyles = ['solid','dashed']
 kinematics= [ 'RES','INT','BOOST','RES+INT','RES+BOOST' ]
 
-plt.xticks(rotation=-20)
+plt.xticks(rotation=-15)
 plt.xlabel('')
-plt.ylabel('Total associated weight (A.U.)')
 plt.xticks(np.arange(len(kinematics)) + 0.5, kinematics)
 
 # Legend
