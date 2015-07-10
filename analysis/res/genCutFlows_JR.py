@@ -7,7 +7,7 @@ regimes = ['res', 'inter','boost']
 folder = "../../paper/plotdata/oxford_combined_rw/"
 print folder
 
-recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j']
+recursive_folders = ['signal', 'background', 'SHERPA_QCD4b', 'SHERPA_QCD2b2j', 'SHERPA_QCD4j', 'SHERPA_QCDttbar']
 file_types = ['res', 'inter', 'boost']
 
 new_data = {}
