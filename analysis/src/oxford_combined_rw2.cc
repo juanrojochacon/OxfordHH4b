@@ -69,8 +69,8 @@ Analysis("oxford_combined_rw2", sampleName)
 
   for (int i=0; i< nAnalysis; i++)
   {
-    BookHistogram(new YODA::Histo1D( nCuts+1, 0, nCuts+1 ), "CF" + aString[i]);
-    BookHistogram(new YODA::Histo1D( nCuts+1, 0, nCuts+1 ), "CFN" + aString[i]);
+    BookHistogram(new YODA::Histo1D( nCuts, 0, nCuts ), "CF" + aString[i]);
+    BookHistogram(new YODA::Histo1D( nCuts, 0, nCuts ), "CFN" + aString[i]);
 
     for (int j=0; j< nCuts; j++)
     {
