@@ -183,7 +183,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Eta cut
   std::vector<fastjet::PseudoJet> smallRJets_etacut;
   for (size_t i=0; i<smallRJets_pTcut.size(); i++)
-    if (smallRJets_pTcut[i].eta() < SR_maxEta)
+    if (smallRJets_pTcut[i].eta() <= SR_maxEta)
       smallRJets_etacut.push_back(smallRJets_pTcut[i]);
 
   // Cluster large-R jets
@@ -195,7 +195,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Eta cut
   std::vector<fastjet::PseudoJet> largeRJets_etacut;
   for (size_t i=0; i<largeRJets_pTcut.size(); i++)
-    if (largeRJets_pTcut[i].eta() < LR_maxEta)
+    if (largeRJets_pTcut[i].eta() <= LR_maxEta)
       largeRJets_etacut.push_back(largeRJets_pTcut[i]);
 
   // Cluster small-R track jets 
@@ -207,7 +207,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Eta cut
   std::vector<fastjet::PseudoJet> trackJets_etacut;
   for (size_t i=0; i<trackjets_pTcut.size(); i++)
-    if (trackjets_pTcut[i].eta() < TJ_maxEta)
+    if (trackjets_pTcut[i].eta() <= TJ_maxEta)
       trackJets_etacut.push_back(trackjets_pTcut[i]);
 
   // Final sorted jets
@@ -225,7 +225,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   FillHistogram("CFN_inter", 1., 0.1);
   FillHistogram("CFN_boost", 1., 0.1);
 
-  // Resolve initial histograms
+  // Resolved initial histograms
   if (smallRJets_noCut.size() >= 4)
   {
     FillHistogram("CF_res", event_weight, 1.1);
