@@ -1,0 +1,18 @@
+Hi Nathan, Juan,
+
+I was going through the paper draft and noticed that according to the last bullet point on p.17, the MVA uses the transverse momenta of the reconstructed Higgs subjets. In the right plot in Fig. 7., however, there are no entries for the four subjet pt's and they are not written out to the ntuple in the code either. Should we add them to the MVA or did I miss the decision to remove them from the MVA input (in which case the bullet point on p. 17 needs to be updated)?
+
+A few more comments on the draft:
+
+- Regarding that same bullet point: We should mention the intermediate case for completeness.
+- Left plot in Fig. 7: "pt_h1_sub0" --> "pt_h1_sub1" to be consistent with Higgs labelling and avoid "C++ notation"
+- p. 18, first bullet point: "Subjetiness" but in the next line "N-Subjettiness" --> inconsistent spelling
+
+References requested yesterday:
+
+- Ghost association of track jets: used in ATLAS hh4b search http://arxiv.org/abs/1506.00285 (p.16) and references therein (depending on whether you are looking for a reference of the use of this method in an analysis or the performance note where it was first published)
+
+- Pseudorapidity < 2.0 for large-R jets: See above reference for an example where this constraint is used by ATLAS. The reason we need this requirement is the track-jet double-ratio method, described on p. 25 here: https://cds.cern.ch/record/1987296/files/ATL-COM-PHYS-2015-071.pdf
+This is still ATLAS-internal but I was told this would be published this month. If you want an older, public document have a look at reference [41] in this note.
+
+

@@ -1,0 +1,18 @@
+Hi Juan
+I have read the paper and I have put my comments in the pdf file.
+Very nice results. The strategy is very strong. I also think that the
+finding that the fake rate is important and that the bbjj and jjjj
+are not negligible is very useful information for the community.
+In my opinion almost all the plots have to be re-done with large fonts .
+
+Of course in this version some of the results are still missing.
+In page 23 you state that you plan not to combine the results but then in
+the conclusions you state that we  will combine them
+I do think that even if the intermediate and resolved categories do not
+add much...it is still better to combine them.
+
+As you know both CMS and ATLAS plan to have tracking in the forward region
+...would that add anything ? Or the events are in any case quite central ?
+Do we have plots showing the contribution of the various background  ???
+
+Best Daniela
