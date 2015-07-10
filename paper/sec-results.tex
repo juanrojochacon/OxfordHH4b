@@ -362,7 +362,126 @@ As we show next, once the MVA is used, we manage to outperform these previous
 works.
 
 
-\subsection{Overlap between different categories}
+
+
+\subsection{Background decomposition}
+
+Up to now we have considered the effects of all backgrounds added
+together, except in Table~\ref{table:cutflow4B} and the corresponding
+discussion where we have studies how our
+results are modified if only the QCD $4b$ background is included.
+%
+In this section we study the decomposition of the background in each
+of its individual components, for the three different categories
+of events used in this work.
+%
+
+In Table~\ref{table:cutflowBack}   we show the results for the cross-sections for the different
+backgrounds that we consider at the end of the cut-based analysis, for each
+of the three categories.
+%
+All the backgrounds have been normalized to known higher-order results,
+as summarized in Table~\ref{tab:samples}.
+%
+As we can see from this comparison, as opposed that what naively one would expect,
+the QCD $2b2j$ background turns out not to be negligible as compared to the $4b$
+multijets in any of the categories.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c|c}
+    \hline
+    Background  &    \multicolumn{3}{c}{$\sigma$ (fb)}   \\
+    \hline
+  &    Resolved  &  Intermediate  &   Boosted \\
+    \hline
+    \hline
+  QCD $4b$   &   $9.9\,10^{2}$       &  $59$       &   $7.1$        \\
+  QCD $2b2j$ &   $2.4\,10^{3}$       &  $6.4\,10^{2}$       &   $3.5$        \\
+  QCD $4j$ &     $1.7\,10^{2}$       &   $22$      &    $2.1$        \\
+  $t\bar{t}$ &   $3.6$       &  $2.2$       &   $4.5\,10^{-2}$        \\
+  \hline
+  \hline
+Total     &    $3.6\,10^{3}$      &   $7.2\,10^{2}$      &     $13$      \\
+\hline
+\end{tabular}
+    \caption{\small The cross-sections for each of the individual background
+      components (and their total sum) at the end of the cut-based
+      analysis, for each of three categories.
+    \label{table:cutflowBack}
+    }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the boosted case, the sum of the $2b2j$ and $4j$ components is almost as large as the
+irreducible $4b$ background, thus increasing the total background rates by a factor 2 as compared
+to the case where only $4b$ is accounted for.
+%
+This effect is more dramatic in the intermediate and resolved categories: in the former,
+$2b2j$ completely dominates the background (thus the increase in $S/\sqrt{B}$ noted in
+Table~\ref{table:cutflow4B}  when only the $4b$ component is kept), and in the latter
+it is comparable to $4b$.
+%
+Therefore, we conclude that an accurate estimate of the fake $b$-tag contribution is
+an essential component of this analyses, and that complete QCD multijet samples
+should be included.
+
+In Fig.~\ref{fig:histoBack} we show the decomposition of the background for one important kinematical
+distribution, the $p_T$ of the leading reconstructed Higgs candidate, various background
+components, for both the boosted and the resolved categories.
+%
+In the same figure we also show the results of the corresponding comparison
+at the level of the $p_T^{hh}$ of the
+reconstructed di-Higgs system.
+%
+The histograms correspond to the distributions at the end of the cut-based
+analysis.
+%
+The results are consistent with those summarized in
+Table~\ref{table:cutflowBack}: in the boosted case we see how $4b$ is the most important
+component of the background, with $2b2j$ being of the same order of magnitude, while
+for the resolved category we see that $2b2j$ dominates instead.
+%
+So the effect of the fakes is certainly important, but fortunately it is not a limiting factor
+in the resolved category, the one that leads to higher signal significance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+  \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_boost_back.pdf}
+  \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_res_back.pdf}
+  \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_boost_back.pdf}
+  \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_res_back.pdf}
+  \caption{\small
+    Upper plots: the decomposition of the QCD multijet background in its various
+    components, $4b$, $2b2j$ and $4j$, for the $p_T$ of the leading
+    Higgs candidate in the boosted (left plot) and resolved (right plot) categories.
+    %
+    Lower plots: the same comparison this time for the $p_T^{hh}$ of the
+    reconstructed di-Higgs system.
+}
+\label{fig:histoBack}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+  One might ask why the $2b2j$ process
+  is not subdominant as compared to $4b$: while its generator-level cross-section is
+  much larger, $\sigma_{2b2j} \simeq 240\sigma_{4b}$, one expects a suppression
+  of the order of $f_l^2 =10^{-4}$ since only with two light jets mistagged as $b$-jets the event
+  would be identified as a Higgs candidate.
+  %
+  We have checked that this expectation is true only at parton level: once parton shower effects
+  are accounted for, both the radiation of $b\bar{b}$ pairs from the shower and combinatorics increase
+  the number of $b$ quarks in the final state, enhancing substantially the $2b2j$ rates as compared
+  to the naive parton level expectation.
+  %
+  To verify this, we plot the number of $b$-quarks.....
+
+
+
+  \subsection{Overlap between different categories}
 \label{sec:overlap}
 
 As has been discussed in Sect.~\ref{sec:analysis}, while the optimization of each
@@ -443,82 +562,3 @@ category, since the fraction of background events is also larger,
 it is advantageous to use the small fraction of events in the boosted category
 since the suppression of the background in this category is larger
 than in the others.
-
-\subsection{Background decomposition}
-
-Up to now we have considered the effects of all backgrounds added
-together, except in Table~\ref{table:cutflow4B} and the corresponding
-discussion where we have studies how our
-results are modified if only the QCD $4b$ background is included.
-%
-In this section we study the decomposition of the background in each
-of its individual components, for the three different categories
-of events used in this work.
-%
-
-In Table~\ref{table:cutflowBack}   we show the results for the cross-sections for the different
-backgrounds that we consider at the end of the cut-based analysis, for each
-of the three categories.
-%
-All the backgrounds have been normalized to known higher-order results,
-as summarized in Table~\ref{tab:samples}.
-%
-As we can see from this comparison, as opposed that what naively one would expect,
-the QCD $2b2j$ background turns out not to be negligible as compared to the $4b$
-multijets in any of the categories.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-  \centering
-  \begin{tabular}{c|c|c|c}
-    \hline
-    Background  &    \multicolumn{3}{c}{$\sigma$ (fb)}   \\
-    \hline
-  &    Resolved  &  Intermediate  &   Boosted \\
-    \hline
-    \hline
-  QCD $4b$   &   $9.9\,10^{2}$       &  $59$       &   $7.1$        \\
-  QCD $2b2j$ &   $2.4\,10^{3}$       &  $6.4\,10^{2}$       &   $3.5$        \\
-  QCD $4j$ &     $1.7\,10^{2}$       &   $22$      &    $2.1$        \\
-  $t\bar{t}$ &   $3.6$       &  $2.2$       &   $4.5\,10^{-2}$        \\
-  \hline
-  \hline
-Total     &    $3.6\,10^{3}$      &   $7.2\,10^{2}$      &     $13$      \\
-\hline
-\end{tabular}
-    \caption{\small The cross-sections for each of the individual background
-      components (and their total sum) at the end of the cut-based
-      analysis, for each of three categories.
-    \label{table:cutflowBack}
-    }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-In the boosted case, the sum of the $2b2j$ and $4j$ components is almost as large as the
-irreducible $4b$ background, thus increasing the total background rates by a factor 2 as compared
-to the case where only $4b$ is accounted for.
-%
-This effect is more dramatic in the intermediate and resolved categories: in the former,
-$2b2j$ completely dominates the background (thus the increase in $S/sqrt{B}$ noted in
-Table~\ref{table:cutflow4B}  when only the $4b$ component is kept), and in the latter
-it is comparable to $4b$.
-%
-Therefore, we conclude that an accurate estimate of the fake $b$-tag contribution is
-an essential component of this analyses, and that complete QCD multijet samples
-should be included.
-
-
-  {\bf add plots BKG}
-
-  One might ask why the $2b2j$ process
-  is not subdominant as compared to $4b$: while its generator-level cross-section is
-  much larger, $\sigma_{2b2j} \simeq 240\sigma_{4b}$, one expects a suppression
-  of the order of $f_l^2 =10^{-4}$ since only with two light jets mistagged as $b$-jets the event
-  would be identified as a Higgs candidate.
-  %
-  We have checked that this expectation is true only at parton level: once parton shower effects
-  are accounted for, both the radiation of $b\bar{b}$ pairs from the shower and combinatorics increase
-  the number of $b$ quarks in the final state, enhancing substantially the $2b2j$ rates as compared
-  to the naive parton level expectation.
-  %
-  To verify this, we plot the number of $b$-quarks.....
