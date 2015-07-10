@@ -215,6 +215,9 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   const std::vector<fastjet::PseudoJet> largeRJets = sorted_by_pt(largeRJets_etacut);
   const std::vector<fastjet::PseudoJet> trackJets = sorted_by_pt(trackJets_etacut);
 
+  cout << <<" RW2: "<< largeRJets_noCut.size()<<"  "<<largeRJets_pTcut.size() <<"  "<<largeRJets.size()<<endl;
+
+
   // ***************************************** Initial histograms **********************************************
 
   FillHistogram("CF_res", event_weight, 0.1);

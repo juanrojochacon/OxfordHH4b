@@ -315,6 +315,8 @@ void OxfordCombinedRWAnalysis::Analyse(bool const& signal, double const& weightn
   largeRJetsSel_pt_eta = sorted_by_pt(largeRJetsSel_pt_eta_unsrt);  // Resort
   largeRJetsSel = sorted_by_pt(largeRJetsSel_unsrt);  // Resort
 
+  cout << <<" RW: "<< largeRJets.size()<<"  "<<largeRJetsSel_pt.size() <<"  "<<largeRJetsSel_pt_eta.size()<<endl;
+
   if( debug && largeRJetsSel_pt_eta_unsrt.size() >= 1 ) std::cout << " largeRJetsSel_pt_eta_unsrt[0].pt() " << largeRJetsSel_pt_eta_unsrt[0].pt() << std::endl;
   if( debug && largeRJetsSel_pt_eta_unsrt.size() >= 2 ) std::cout << " largeRJetsSel_pt_eta_unsrt[1].pt() " << largeRJetsSel_pt_eta_unsrt[1].pt() << std::endl;
   
