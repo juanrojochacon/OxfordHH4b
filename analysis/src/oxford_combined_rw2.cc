@@ -195,8 +195,11 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Eta cut
   std::vector<fastjet::PseudoJet> largeRJets_etacut;
   for (size_t i=0; i<largeRJets_pTcut.size(); i++)
+  {
+    std::cout << " RW2 ETA: "<<largeRJets_pTcut[i].eta()<<"  "<<LR_maxEta<<endl;
     if (largeRJets_pTcut[i].eta() <= LR_maxEta)
       largeRJets_etacut.push_back(largeRJets_pTcut[i]);
+  }
 
   // Cluster small-R track jets 
   const fastjet::JetDefinition jd_subjets(fastjet::antikt_algorithm, GAjetR);
@@ -215,7 +218,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   const std::vector<fastjet::PseudoJet> largeRJets = sorted_by_pt(largeRJets_etacut);
   const std::vector<fastjet::PseudoJet> trackJets = sorted_by_pt(trackJets_etacut);
 
-  cout << <<" RW2: "<< largeRJets_noCut.size()<<"  "<<largeRJets_pTcut.size() <<"  "<<largeRJets.size()<<endl;
+  cout <<" RW2: "<< largeRJets_noCut.size()<<"  "<<largeRJets_pTcut.size() <<"  "<<largeRJets.size()<<endl;
 
 
   // ***************************************** Initial histograms **********************************************
