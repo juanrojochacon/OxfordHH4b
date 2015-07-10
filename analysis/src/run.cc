@@ -17,6 +17,7 @@
 #include "oxford_truth.h"
 #include "oxford_combined.h"
 #include "oxford_combined_rw.h"
+#include "oxford_combined_rw2.h"
 
 #include <vector>
 #include <cmath>
@@ -134,13 +135,13 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
   //HH4bAnalyses.push_back(new AMCAnalysis("total"));
 
   HH4bAnalyses.push_back(new OxfordCombinedRWAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordCombinedAnalysis("total"));
+  HH4bAnalyses.push_back(new OxfordCombinedRW2Analysis("total"));
 
   signalAnalyses.push_back(new OxfordCombinedRWAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordCombinedAnalysis("signal"));
+  signalAnalyses.push_back(new OxfordCombinedRW2Analysis("signal"));
 
   backgroundAnalyses.push_back(new OxfordCombinedRWAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordCombinedAnalysis("background"));
+  backgroundAnalyses.push_back(new OxfordCombinedRW2Analysis("background"));
 
 	// **************** DO NOT MODIFY  ****************
 
@@ -149,7 +150,7 @@ void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
 	sampleAnalyses.push_back(new OxfordCombinedRWAnalysis(samplename));
-	sampleAnalyses.push_back(new OxfordCombinedAnalysis(samplename));
+	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename));
 
 
 	// **************** DO NOT MODIFY  ****************

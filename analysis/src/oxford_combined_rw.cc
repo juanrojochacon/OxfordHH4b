@@ -43,7 +43,7 @@ static const fastjet::JetDefinition VR_AKT(&lvjet_pluginAKT);
 
 
 // Debugging
-bool debug = false;
+static const bool debug = false;
 
 
 OxfordCombinedRWAnalysis::OxfordCombinedRWAnalysis(std::string const& sampleName):
