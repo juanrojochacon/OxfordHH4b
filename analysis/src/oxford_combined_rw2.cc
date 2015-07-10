@@ -792,6 +792,15 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   return true;
 }
 
+    // Fill basic jet quantities
+void OxfordCombinedRW2Analysis::JetFill(  std::vector<fastjet::PseudoJet> const& jets,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+
+}
+
 // General fill for reconstructed higgs quantities
 void OxfordCombinedRW2Analysis::HiggsFill(fastjet::PseudoJet const& H0,
                                          fastjet::PseudoJet const& H1,
