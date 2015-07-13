@@ -16,6 +16,8 @@ outfile = "m_HH_res_C1"
 datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_HH_res_C1.dat")
 datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_HH_res_C1.dat")
 
+linestyles = [ 'solid', 'dashed']
+
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
@@ -114,7 +116,7 @@ for idat in xrange(0,len(datafiles)):
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])
 
-  ax.plot(xhi,yval/norm,ls = "steps-pre", color = colours[icol], label=plotnames[idat])
+  ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
 
 # Gridlines

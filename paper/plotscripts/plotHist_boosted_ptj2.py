@@ -10,25 +10,25 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_H0_boost_C1"
+outfile = "pt_H1_boost_C1"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_H0_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_H0_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_pt_H1_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_pt_H1_boost_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Leading Higgs Candidate Mass (GeV)"
+xLabel = "Subleading large-R Jet $p_{T}$ (GeV)"
 yLabel = "A. U."
 
 # Log axes
 xLog = False
-yLog = False
+yLog = True
 
 # Normalise histograms
 normalise = True
@@ -52,8 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([80,170])
-ax.set_ylim([5e-4,0.025])
+ax.set_xlim([150,600])
+ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -117,7 +117,6 @@ for idat in xrange(0,len(datafiles)):
   yval.insert(0,yval[0])
 
   ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
-
   icol=icol+1
 
 # Gridlines

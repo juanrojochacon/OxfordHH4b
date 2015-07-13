@@ -10,7 +10,9 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_H0_res_C1_boost"
+outfile = "pt_H0_boost_C1"
+
+linestyles = [ 'solid', 'dashed']
 
 # Datafiles
 datafiles.append("../plotdata/oxford_combined_rw/signal/histo_pt_H0_boost_C1.dat")
@@ -21,8 +23,7 @@ plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Leading Jet $p_{T}$ (GeV)"
-# yLabel = "$d^2\sigma$/$dp_{T}$ (fb)"
+xLabel = "Leading large-R Jet $p_{T}$ (GeV)"
 yLabel = "A. U."
 
 # Log axes
@@ -51,8 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([200,500])
-ax.set_ylim([1e-4,0.05])
+ax.set_xlim([150,600])
+ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -110,18 +111,20 @@ for idat in xrange(0,len(datafiles)):
     xvals = [xlo[x], xhi[x]]
     yvalsup = [CVup[x], CVup[x]]
     yvalsdn = [CVdn[x], CVdn[x]]
-   # ax.fill_between(xvals, yvalsup, yvalsdn, facecolor=colours[icol], alpha = 0.4, linewidth = 1, color = colours[icol])
 
   # Insert lower x-values
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])
 
-  ax.plot(xhi,yval/norm,ls = "steps-pre", color = colours[icol], label=plotnames[idat])
+  ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
 
 # Gridlines
 ax.xaxis.grid(True)
 ax.yaxis.grid(True)
+
+plt.rcParams.update({'font.size': 16})
+fig.text(0.33,0.96,"Boosted category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

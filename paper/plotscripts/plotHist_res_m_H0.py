@@ -10,13 +10,13 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_H0_boost_C1"
+outfile = "m_H0_res_C1"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_H0_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_H0_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_H0_res_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_H0_res_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
@@ -125,7 +125,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.33,0.96,"Boosted category", fontsize=20)
+fig.text(0.33,0.96,"Resolved category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
