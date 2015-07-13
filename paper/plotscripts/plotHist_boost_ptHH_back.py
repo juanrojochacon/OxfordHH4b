@@ -47,7 +47,7 @@ icol = 0
 
 # Setup figure
 fig, ax = plt.subplots()
-fig.text(0.33,0.96,"Boosted category", fontsize=20)
+fig.text(0.33,0.92,"Boosted category", fontsize=20)
 if xLog == True:
   ax.set_xscale('log')
 if yLog == True:

@@ -1,35 +1,32 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Results for the cut-based analysis}
+\section{Results of the cut-based analysis}
 
 \label{sec:results}
 
-In this section we discuss the results of the traditional
-cut-based analysis, using the analysis strategy presented in the previous
-section.
+In this section we present the results of the 
+cut-based analysis and
+compare our results with other recent related studies.
 %
-We compare our results with other recent related studies,
-and in particular we study how the signal significance
-is modified if only the $4b$ QCD background is taken into account,
-but the $2b2j$ and $jjjj$ backgrounds are neglected.
+We study how the signal significance
+is modified if only the $4b$ component of the
+QCD multi-jet background is taken into account,
+but the $2b2j$ and $4j$ components are neglected.
 %
-Then in the next section we show how using multivariate techniques
-one can substantially improve the signal significance as compared
-to the cut-based analysis.
+We also study the role of the overlap
+between the different categories.
 
 
-
-\subsection{Signal significance}
+\subsection{Cut flow and signal significance}
 
 First of all we compare the cross-sections at various
-analysis levels for the three categories, for signal and background,
+analysis levels for the three categories, for signal and background events,
 by providing a detailed cut-flow.
 %
-Here we consider all backgrounds enumerated in Sect.~\ref{mcgeneration},
-and below we discuss how results are modified if only the $4b$
-multijet background is used.
+We consider all backgrounds enumerated in Sect.~\ref{mcgeneration},
+then we discuss how results are modified if only the $4b$
+component is kept.
 %
-In particular,
 we consider the following levels of the cut-flow
 \begin{itemize}
 \item {\bf C0}: cross-sections at the generator
@@ -41,25 +38,25 @@ we consider the following levels of the cut-flow
 Note that {\bf C1} already includes the effect of the Higgs mass
 window cut, Eq.~(\ref{higgsmasswindow}).
 %
-Of course at the {\bf C0} level the numbers will be the same
+At the {\bf C0} level the numbers will be the same
 for the three individual categories.
 
 In the following, results are presented for the exclusive
-categorisation, as discussed in Sect.~\ref{sec:categorisation}.
+categorisation defined in Sect.~\ref{sec:categorisation}.
 %
-In Sect.~\ref{sec:overlap} we comment
-interplay of the overlap between the various categories.
 %
 At each stage of the cut flow, we also provide the number
 of events that would be expected at the HL-LHC with
-an integrated luminosity of $\mathcal{L}=3000$ fb$^{-1}$,
+an integrated luminosity of $\mathcal{L}_{\rm int}
+=3000$ fb$^{-1}$,
 as well as 
 the signal significance $S/\sqrt{B}$ and the signal
 over background ratio $S/B$.
 %
 We emphasize that it is important not only to achieve a good signal
 significance, $S/\sqrt{B}$, but also a good signal over background ratio $S/B$:
-if the latter is too small, a measurement of the background with an infeasible small
+if the latter is too small, a very accurate
+measurement of the background with an infeasible small
 systematic uncertainty would be required.
 
 
@@ -131,7 +128,6 @@ systematic uncertainty would be required.
     The first row {\bf C0} is the generator-level result and thus is common
     to all three categories.
     %
-    See text for more details.
     \label{table:cutflow}
   }
 \end{table}
@@ -141,11 +137,11 @@ systematic uncertainty would be required.
 The results for the three categories have been collected in
 Table~\ref{table:cutflow}.
 %
-Let us begin with the discussion of the boosted category, that as we have explained
-is the one that benefits from a higher signal significance.
+Let us begin with the discussion of the boosted category, the one that
+leads to a higher signal significance.
 %
 We see that after all the cuts, including $b$-tagging,
-we end up with almost 200 signal events at the HL-LHC, and
+we end up with almost 200 signal events at the HL-LHC, with
 still a substantial background of around $40k$ events.
 %
 The signal significance is around 1.0 at the end of the
@@ -153,12 +149,12 @@ cut-based analysis.
 %
 While it should have been possible to increase this significance
 but using more aggressive cuts, we have refrained doing so
-since we prefer this optimisation to per performed by
+since we prefer this optimisation to be performed at the level of
 the MVA.
 
 
-Note that from the results of Table~\ref{table:cutflow}
-it is easy to compute the corresponding numbers
+From the results of Table~\ref{table:cutflow}
+it is possible to compute the corresponding numbers
 for the end of Run II at the LHC with
 $\mathcal{L}_{\rm int}=300$ fb$^{-1}$: in the boosted category,
 we have only
@@ -167,16 +163,16 @@ $S/\sqrt{B}\sim 0.3$.
 %
 We will discuss in the next section what are the Run II prospects
 once we include the effects of the MVA in the analysis, but
-it is clear already at this level that, unless rates are
-increased by new BSM dynamics, one really needs the full
+it is clear already at this level that one really needs the full
 integrated luminosity of the HL-LHC to be able to observe
-the Higgs pair production process.
+the Higgs pair production process, unless  of course production rates are
+increased by new BSM dynamics
 
 Both the intermediate and resolved categories benefit from higher signal yields,
-specially in the resolved category, but this enhancement is canceled by the stronger
+specially in the resolved category, but this enhancement is washed out by the stronger
 increase in the QCD multi-jet background.
 %
-We see that in both cases the signal significance is around half of that in the boosted category,
+In both cases the signal significance is around half of that in the boosted category,
 with in addition $S/B$ being an order of magnitude smaller.
 %
 Therefore, the boosted category is clearly determined to be the most useful category,
@@ -193,8 +189,6 @@ and that the combination
 of the boosted, intermediate and resolved categories gives a slightly higher
 value, around 1.20.
 %
-We discuss in the next section how this significance can be enhanced by means
-of multivariate analysis.
 
 \subsection{Comparison with previous work}
 
@@ -358,8 +352,13 @@ the same size of the higher-order QCD corrections to $4b$ production~\cite{Binot
 In summary, we find that the results of our cut-based analysis are roughly
 consistent with the results of previous related studies.
 %
-As we show next, once the MVA is used, we manage to outperform these previous
-works.
+Indeed, combining the signal significance in the three categories, we end
+up with a final $S/\sqrt{B}\simeq 2.3$.
+%
+As we show next, once the MVA is used, we achieve a substantial
+improvement
+over previous works, even after taking into account our rather more
+complete modelling of the QCD multijet background.
 
 
 
@@ -380,7 +379,7 @@ In Table~\ref{table:cutflowBack}   we show the results for the cross-sections fo
 backgrounds that we consider at the end of the cut-based analysis, for each
 of the three categories.
 %
-All the backgrounds have been normalized to known higher-order results,
+Recall that all the backgrounds have been normalized to known higher-order results,
 as summarized in Table~\ref{tab:samples}.
 %
 As we can see from this comparison, as opposed that what naively one would expect,
@@ -388,7 +387,7 @@ the QCD $2b2j$ background turns out not to be negligible as compared to the $4b$
 multijets in any of the categories.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
+\begin{table}[h]
   \centering
   \begin{tabular}{c|c|c|c}
     \hline
@@ -426,6 +425,9 @@ it is comparable to $4b$.
 Therefore, we conclude that an accurate estimate of the fake $b$-tag contribution is
 an essential component of this analyses, and that complete QCD multijet samples
 should be included.
+%
+On the other hand, we find that the hadronic $t\bar{t}$ component of the backround
+is smaller than the QCD multijet one.
 
 In Fig.~\ref{fig:histoBack} we show the decomposition of the background for one important kinematical
 distribution, the $p_T$ of the leading reconstructed Higgs candidate, various background
@@ -449,10 +451,10 @@ in the resolved category, the one that leads to higher signal significance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_boost_back.pdf}
-  \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_res_back.pdf}
+ \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_res_back.pdf}
+ \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_boost_back.pdf}
+   \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_res_back.pdf}
   \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_boost_back.pdf}
-  \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_res_back.pdf}
   \caption{\small
     Upper plots: the decomposition of the QCD multijet background in its various
     components, $4b$, $2b2j$ and $4j$, for the $p_T$ of the leading
@@ -479,9 +481,11 @@ in the resolved category, the one that leads to higher signal significance.
   %
   To verify this, we plot the number of $b$-quarks.....
 
+  {\bf compare parton level with hadron level distributions}
 
 
-  \subsection{Overlap between different categories}
+
+  \subsection{The role of the overlap between different categories}
 \label{sec:overlap}
 
 As has been discussed in Sect.~\ref{sec:analysis}, while the optimization of each
@@ -523,7 +527,7 @@ We consider the following cases:
   %
   By construction, there is no overlap between the boosted
   and intermediate categories due to the
-   orthogonal jet multiplicity cuts.
+   orthogonal jet multiplicity cuts. {\bf update including event weights}
 }
 \label{fig:categorisationHisto}
 \end{center}

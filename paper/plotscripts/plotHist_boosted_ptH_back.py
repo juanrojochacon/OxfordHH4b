@@ -131,6 +131,6 @@ ax.yaxis.grid(True)
 legend = ax.legend(loc='best')
 legend.get_frame().set_alpha(0.8)
 
-fig.text(0.33,0.96,"Boosted category", fontsize=20)
+fig.text(0.33,0.92,"Boosted category", fontsize=20)
 
 fig.savefig(outfile+'.pdf')

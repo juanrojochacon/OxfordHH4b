@@ -2,29 +2,42 @@
 \section{Multivariate analysis}
 \label{sec:mva}
 
-After the traditional cut-based analysis presented in the previous section,
-and combining the significance of the different event categories,
-we end up with a $S/\sqrt{B}$ value around $1.2$.
+From the cut-based analysis,
+combining the significance of the three categories,
+we end up with a signal significance $S/\sqrt{B}\simeq 1.2(2.3)$
+with all backgrounds (only QCD $4b$) taken into account,
+which is not enough to be able to claim observation
+of Higgs pair production
+in this channel, and even less to extract the trilinear Higgs  coupling
+$\lambda$.
 %
-This is not enough to claim observation in this channel.
-%
-however, the attentive reader might have noticed that we have used
-relatively 
-loose kinematics cuts, for example in the Higgs mass window.
-%
-The motivation for this is that the $n$-tuples of signal and background
-events, after our basic selection, are processed though a multivariate
-analysis with the motivation to increase the signal over background
+We now process  the $n$-tuples of the signal and background
+events that survive the cut-based
+analysis by means of a multivariate
+analysis, in order increase the signal over background
 significance.
 %
 Multivariate techniques are by now a common tool to enhance signal
-significance in HEP analysis, and rightly so,
+significance in HEP analysis, and this is fully justified
 since they open a new window to improve the performance
 of many physics analysis and searches.
 %
 For instance, the UCL $hh\to 4b$ analysis~\cite{Wardrope:2014kya}
 uses a Boosted
 Decision Tree MVA to improve signal discrimination.
+
+In this section first of all we present the specific MVA that we use,
+based on feed-forward multi-layer neural networks.
+%
+We then describe the input variable to the MVA, including the jet substructure
+variables, and then present the results of $S/sqrt{B}$ including
+the MVA effects.
+%
+Since we find that jet substructure variables are a crucial input
+to the MVA, we end this section showing various kinematic distributions
+of these variables.
+
+{\bf add more refs from ATLAS and CMS}
 
 \subsection{MVA strategy: deep neural networks}
 
@@ -34,10 +47,15 @@ technique in high energy physics~\cite{Baldi:2014pta,Wardrope:2014kya}.
 %
 In our work we use a specific type of  MVA to
 disentangle signal and background events in the $hh\to 4b$ process,
-in particular we use a feed-forward artificial neural network (ANN).
+in particular we use a multi-layer feed-forward artificial neural network (ANN),
+also known as a {\it perceptron}.\footnote{This type of ANNs are the same
+  as those used to parametrize Parton Distribution Functions
+in the NNPDF global analyses~\cite{DelDebbio:2004qj,Ball:2008by,Ball:2011mu,Ball:2010de}.}
 %
-The basic idea is that the ANN is given both all MC signal and background
-events which satisfy the basic selection cuts {\bf C1}, allowing to identify
+The basic idea is that the ANN is trained on an input composed on
+all  signal and background
+events which satisfy the
+cut-based analysis, allowing to identify in an automated way
 which are the most relevant variables to discriminate between the two.
 
 In this work, the ANN that we use has the following architecture.
@@ -106,7 +124,7 @@ the cross-entropy error, defined as
  
  Therefore, the training of the neural networks consist on the
  minimization of the cross-entropy error,
- Eq.~\ref{cross-entropy}, which in this work is achieved using a
+ Eq.~(\ref{cross-entropy}), which in this work is achieved using a
  Genetic Algorithm.
  %
  Since given the large number of events the probability of
@@ -117,7 +135,9 @@ the cross-entropy error, defined as
  are used the results are unchanged.
  %
  We have also verified that using a cross-validation stopping
- criterion as in the NNPDF3.0 fits does not affect the results.
+ criterion (in particular, the same one as
+ that used in the NNPDF3.0 fit~\cite{Ball:2014uwa})
+ does not modify the results.
 
  
 
@@ -130,69 +150,83 @@ the cross-entropy error, defined as
 %
 In our $hh\to 4b$ case,
 the input variables for the MVA differ between our three categories,
-since in the case of large-$R$ jet reconstruction we want to exploit
+and in particular in the case of large-$R$ jets we want to exploit
 the richness of substructure information.
 
 For the three categories, boosted, intermediate and resolved,
 the following common variables are used as input to the MVA:
 \begin{itemize}
 \item The transverse momenta of the leading and subleading Higgs, $p_{T,h_1}$ and $p_{T,h_2}$.
-\item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$
+\item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$.
 \item The invariant masses of the leading and sub-leading Higgs candidates, $m_{h,1}$ and $m_{h,2}$.
 \item The invariant mass of the reconstructed Higgs pair, $m_{hh}$.
 \item The separation in $R$ between the two Higgs candidates, $\Delta R_{hh}$.
 \item The separation in $\phi$  between the two Higgs candidates, $\Delta \phi_{hh}$.
 \item The separation in $\eta$  between the two Higgs candidates, $\Delta \eta_{hh}$.
-\item In the boosted category,
+\end{itemize}
+In addition, in the boosted category we use
   the transverse momenta of the leading, $p_{T,h_{1,1}}$ and $p_{T,h_{1,2}}$ and
   sub-leading, $p_{T,h_{2,1}}$ and $p_{T,h_{2,1}}$, Higgs candidate subjets.
   %
-  In the resolved category instead, we use the transverse momenta $p_{T,i}$ of the four leading 
-   $b$-tagged small-$R$ jets in the event. 
-\end{itemize}
+  In the resolved category instead,
+  the corresponding variables are
+  the transverse momenta $p_{T,i}$ of the four leading 
+  $b$-tagged small-$R$ jets in the event.
+  %
+  In the intermediate category, we use the
+  transverse momenta of the subjets
+  from the large-$R$ jet $p_{T,h_{1,1}}$ and $p_{T,h_{1,2}}$ and the
+ transverse momenta $p_{T,i}$ of the two leading 
+  $b$-tagged small-$R$ jets.
+  %
 Therefore, we have a total of 13 variables which are common to the three categories.
 %
 
 
 For analyses involving the use of large-$R$ jets,
 namely for the boosted and intermediate categories,
-a number of jet substructure variables~\cite{Aad:2013gja} is used
-for every large-$R$ jet that is used for the Higgs reconstruction.
+a number of jet substructure variables~\cite{Salam:2009jx,Aad:2013gja} is used
+for every large-$R$ jet that is classified as a Higgs candidate.
 %
-In particular we include in the MVA training for each large-$R$ jet
+In particular we include in the MVA training for each large-$R$ jet the following
+substructure variables:
 \begin{itemize}
-\item The $k_T$ splitting scale~\cite{Butterworth:2002tt,Butterworth:2008iy}.
+\item The $k_T$-splitting scale~\cite{Butterworth:2002tt,Butterworth:2008iy}.
 
   This variable is defined by reclustering the constituents of a jet with the
   $k_t$ algorithm, which usually clusters last the harder constituents, and then
   taking the $k_t$ distance measure between the two subjets at the final stage of the recombination
   \be
   \label{eq:ktsplitting}
-\sqrt{d_{12}} \equiv {\rm min}\lp p_{T,1},p_{T,2}\rp \cdot \Delta R_{12} \, ,
+\sqrt{d_{12}} \equiv {\rm min}\lp p_{T,1},p_{T,2}\rp \cdot \Delta R_{12} \, .
 \ee
-where one can also define related variables like $\sqrt{d_{23}}$ that corresponds to the
-splitting scale in the second-to-last clustering.
+It is also possible to define related variables like $\sqrt{d_{23}}$
+that corresponds to the
+splitting scale in the second-to-last clustering, though we do not use
+it here since it is only relevant for three-prong decays.
   
 \item The ratio of 2-to-1-subjettiness $\tau_{12}$~\cite{Thaler:2010tr,Thaler:2011gf}.
 
   The $N$-subjettiness variables $\tau_N$ are defined by clustering the constituents
-  of a jet with the exclusive $k_t$ algorithm and requiring that $N$ subjets are found,
+  of a jet with the exclusive $k_t$ algorithm~\cite{Catani:1993hr}
+  and requiring that $N$ subjets are found,
   \be
   \tau_N \equiv \frac{1}{d_0} \sum_k p_{T,k}\cdot {\rm min}\lp \delta R_{1k}, \ldots,
   \delta R_{Nk}\rp \, , \qquad d_0\equiv \sum_k p_{T,k}\cdot R \, ,
   \ee
-  with $ p_{T,k}$ the $p_T$ of the constituent $k$ and $\delta R_{ik}$ the distance from
+  with $p_{T,k}$ is the $p_T$ of the constituent particle $k$ and $\delta R_{ik}$ the distance from
   subjet $i$ to constituent $k$.
   %
-  In this work in particular we use as input to the MVA
+  In this work we use as input to the MVA the ratio of 2-subjettiness to 1-subjettiness
   \be
   \label{eq:tau21}
 \tau_{21} \equiv \frac{\tau_2}{\tau_1} \, ,
   \ee
-  which provide good discrimination between QCD jets and jets arising from the decay of
+  which provides good discrimination power
+  between QCD jets and jets arising from the decay of
   a heavy resonance.
   
-\item The ratios of energy correlation functions (EDFs)  $C^{(\beta)}_2$~\cite{Larkoski:2013eya} and
+\item The ratios of energy correlation functions (ECFs)  $C^{(\beta)}_2$~\cite{Larkoski:2013eya} and
   $D_2^{(\beta)}$~\cite{Larkoski:2014gra}.
 
   The ratio of energy correlation functions $C_2^{\beta}$ is defined as
@@ -222,10 +256,8 @@ Given that the MVA is able to identify the most discriminatory variables
 and to ignore those that have smaller effect, it is advantageous to
 include as many substructure variables as possible.
 %
-As we will show, the use of substructure variables in the MVA is the key to increase the signal
-significance in the boosted category.
 
-\subsection{Enhancing signal discrimination with MVA}
+\subsection{Signal significance after the MVA}
 
 Let us now present the results of the MVA applied to the event samples
 that satisfy the cut-based analysis discussed in the previous section.
@@ -394,12 +426,13 @@ of the absolute value of al the weights connected to a given
 input neuron $i$, that is
 \be
 \label{eq:totweight}
-\omega^{\rm tot}_i \equiv \sum_{k=1}^5 \Big|\omega^{(2)}_{ki}\Big| \, ,
+\omega^{\rm tot}_i \equiv \sum_{k=1}^{n^{(2)}} \Big|\omega^{(2)}_{ki}\Big| \, ,
 \qquad i=1,\ldots,N_{\rm var} \, ,
 \ee
 with $\omega^{(2)}_{ki}$ the value of the weight connecting
 the $k$-th neutron of the second layer with the $i$-th neuron of
-the first (input) layer.
+the first (input) layer, and $n^{(2)}=5$ the number of
+neurons in the second layer.
 %
 The input variables with a larger value of $\omega^{\rm tot}_i$ will those
 be the ones that play a dominant role in enhancing the signal
