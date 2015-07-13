@@ -10,11 +10,11 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_HH_boost_C1"
+outfile = "m_HH_res_C1"
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_HH_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_HH_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_m_HH_res_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_m_HH_res_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
@@ -50,7 +50,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel,fontsize=18)
 
-ax.set_xlim([450,700])
+ax.set_xlim([200,600])
 ax.set_ylim([1e-4,0.05])
 
 for idat in xrange(0,len(datafiles)):
@@ -122,7 +122,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.33,0.96,"Boosted category", fontsize=20)
+fig.text(0.33,0.96,"Resolved category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
