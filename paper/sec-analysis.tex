@@ -129,6 +129,9 @@ $b$-tagging strategy is used:
   If a small-$R$ jet has at least one $b$-quark among their constituents,
   it will be tagged as a $b$-jet with probability $f_b$.
   %
+  In order to be considered in the $b$-tagging algorithm,
+   $b$-quarks should satisfy $p_T \ge 15$ GeV.
+  %
   If no $b$-quarks are found among the constituents
   of this jet, it can be still be tagged as a $b$-jet with
   a mistag rate of $f_l$.
@@ -157,6 +160,11 @@ $b$-tagging strategy is used:
     a large-$R$ jet is considered  double-$b$-tagged if both
     the leading and subleading subjets (where the ordering
     is done in the subjet $p_T$) are both individually $b$-tagged.
+    %
+    As in the case
+    of small-$R$ jets, in
+    order to be considered in the $b$-tagging algorithm,
+   $b$-quarks should satisfy $p_T \ge 15$ GeV.
     %
     Note that we only attempt to $b$-tag the two leading subjets:
     trying to $b$-tag all subjets above the $p_T$ cut degrades
