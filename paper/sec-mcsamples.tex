@@ -1,4 +1,6 @@
-\section{Monte Carlo samples}
+
+
+\section{Theoretical modeling of signal and background processes}
 \label{mcgeneration}
 
 First of all in this section we discuss the settings of the
@@ -32,9 +34,7 @@ particles four-momentum.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 Higgs pair production is simulated at leading order using
-{\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}, with finite $m_t$ effects taken into
-account.\footnote{We thank Eleni Vrodynou for assistance with di-Higgs production
-  in {\tt MadGraph5\_aMC@NLO}.}
+{\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}.
 %
 We use a tailored {\tt MadGraph5\_aMC@NLO} model~\cite{Maltoni:2014eza} that simulates
 gluon-gluon-fusion Higgs boson pair production including the effects
@@ -44,7 +44,7 @@ order, the latter taken from from~\cite{Plehn:1996wb}.\footnote{We note that sin
 loop-induced processes in {\tt MadGraph5\_aMC@NLO} without the need of using specific
 models~\cite{Hirschi:2015iia}.}
 %
-We use the NNPDF 3.0 $n_f = 4$ LO set~\cite{Ball:2014uwa} with
+We adopt the NNPDF 3.0 $n_f = 4$ LO set~\cite{Ball:2014uwa} with
 $\alpha_S(m_Z^2)=0.118$
 as interfaced via {\tt LHAPDF6}~\cite{Buckley:2014ana}.
 %
@@ -99,7 +99,7 @@ A complete simulation of $b$-tagging at the hadron level is difficult to achieve
 detector simulator, which is beyond the scope of this paper.
 %
 For a similar reason, we don't consider underlying event, multiple parton interactions and
-pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia}.
+pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba}.
 %
 The same applies to the background samples, which we discuss now.
 
@@ -221,7 +221,7 @@ $pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.71\times 10^6$ &  0.6 (NLO~\cite{
 $pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.51\times 10^3$   & 1.4 (NNLO+NNLL~\cite{Czakon:2013goa})\\
 \hline
 \end{tabular}
-\caption{\small Summary of signal and background samples generated in this work,
+\caption{\small Summary of signal and background samples generated,
   together with the corresponding generator-level LO cross-sections.
   %
   For top quark production, only the hadronic final state is generated.
