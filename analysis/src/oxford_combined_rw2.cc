@@ -32,6 +32,11 @@ const double LST_beta = 2;
 // Debugging
 static const bool debug = false;
 
+// Analysis settings
+const int nAnalysis = 3;  const int nCuts = 8;
+const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
+const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2", "_C3"};
+
 
 OxfordCombinedRW2Analysis::OxfordCombinedRW2Analysis(std::string const& sampleName):
 Analysis("oxford_combined_rw2", sampleName)
@@ -62,10 +67,6 @@ Analysis("oxford_combined_rw2", sampleName)
   const int nbins = 30;
   
   // ********************* Histogram definitions ******************
-
-  const int nAnalysis = 3;  const int nCuts = 8;
-  const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
-  const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2", "_C3"};
 
   for (int i=0; i< nAnalysis; i++)
   {
@@ -134,16 +135,9 @@ Analysis("oxford_combined_rw2", sampleName)
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
   bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
 
-  // ********************* Cutflow histograms  **********************
-
   // Category overlap
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C1a");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C1b");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C1c");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C1d");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C1e");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C2");
-  BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories_C3");
+  for (int i=0; i<nCuts; i++)
+    BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories"+cString[i]);
 
 }
 
@@ -154,6 +148,16 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Set initial weight
   const double event_weight = weightnorm;
   bool selected = false;
+
+  // *************************************** Classification vectors *********************************
+
+  std::vector<bool> bstClassified(nCuts,false);
+  std::vector<bool> intClassified(nCuts,false);
+  std::vector<bool> resClassified(nCuts,false);
+
+  bstClassified[0] = true;
+  intClassified[0] = true;
+  resClassified[0] = true;
 
   // *************************************** General cut consts *************************************
 
@@ -263,20 +267,24 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   {
     FillHistogram("CF_boost", event_weight, 1.1);
     FillHistogram("CFN_boost", 1., 1.1);
+    bstClassified[1] = true;
 
     if (largeRJets_pTcut.size() >= 2) // pT cut
     {
       FillHistogram("CF_boost", event_weight, 2.1);
       FillHistogram("CFN_boost", 1., 2.1);
+      bstClassified[2] = true;
 
       if (largeRJets_etacut.size() >= 2) // Eta cut
       {
       FillHistogram("CF_boost", event_weight, 3.1);
       FillHistogram("CFN_boost", 1., 3.1);
+      bstClassified[3] = true;
 
         if( largeRJets.size() >= 2 ) // MDT
         {
           HiggsFill(largeRJets[0], largeRJets[1], "boost", 4, event_weight);
+          bstClassified[4] = true;
 
           // Higgs mass-window
           const double diffHiggs_0 = fabs(largeRJets[0].m() - 125.);
@@ -286,6 +294,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           {
             HiggsFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
             BoostFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
+            bstClassified[5] = true;
 
             // b-tagging weights
             const double nB = nBSubjetsLR_vec[0] + nBSubjetsLR_vec[1];      // Number of true b-subjets
@@ -297,12 +306,14 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
             HiggsFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
             BoostFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
+            bstClassified[6] = true;
 
             // Final exclusive booking
             if (!selected)
             {
               HiggsFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
               BoostFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+              bstClassified[7] = true;
 
               // Calculate some substructure variables
               const std::vector<double> split12_vec = SplittingScales( largeRJets );
@@ -352,18 +363,21 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   {
     FillHistogram("CF_inter", event_weight, 1.1);
     FillHistogram("CFN_inter", 1., 1.1);
+    intClassified[1] = true;
   }
 
   if (smallRJets_pTcut.size() >= 2 && largeRJets_pTcut.size() == 1) // pT cut
   {
     FillHistogram("CF_inter", event_weight, 2.1);
     FillHistogram("CFN_inter", 1., 2.1);
+    intClassified[2] = true;
   }
 
   if (smallRJets_etacut.size() >= 2 && largeRJets_etacut.size() == 1) // Eta cut
   {
     FillHistogram("CF_inter", event_weight, 3.1);
     FillHistogram("CFN_inter", 1., 3.1);
+    intClassified[3] = true;
   }
 
   if( smallRJets.size() >= 2 &&  largeRJets.size() == 1 ) // MDT + reco cut
@@ -376,6 +390,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     {   
       HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 4, event_weight);
       BoostFill(largeRJets[0], "inter", 4, event_weight);
+      intClassified[4] = true;
 
       // Higgs mass-window
       const double diffHiggs_0 = fabs(higgs_inter[0].m() - 125.);
@@ -385,6 +400,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
       {
         HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 5, event_weight);
         BoostFill(largeRJets[0], "inter", 5, event_weight);
+        intClassified[5] = true;
 
         // Determine number of fake bJets
         const int nB = nBJets_SR + nBSubjetsLR_vec[0];
@@ -403,12 +419,14 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
         HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 6, inter_weight);
         BoostFill(largeRJets[0], "inter", 6, inter_weight);
+        intClassified[6] = true;
 
         if (!selected)
         {
           // Exclusivity cut
           HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 7, inter_weight);
           BoostFill(largeRJets[0], "inter", 7, inter_weight);
+          intClassified[7] = true;
 
           // Calculate some substructure variables
           const double split12 = SplittingScales( largeRJets[0] );
@@ -448,16 +466,19 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   {
     FillHistogram("CF_res", event_weight, 1.1);
     FillHistogram("CFN_res", 1., 1.1);
+    resClassified[1] = true;
 
     if (smallRJets_pTcut.size() >= 4) // pT cut
     {
       FillHistogram("CF_res", event_weight, 2.1);
       FillHistogram("CFN_res", 1., 2.1);
+      resClassified[2] = true;
 
       if (smallRJets_etacut.size() >= 4) // Eta cut
       {
         FillHistogram("CF_res", event_weight, 3.1);
         FillHistogram("CFN_res", 1., 3.1);
+        resClassified[3] = true;
 
         if( smallRJets.size() >= 4 )
         {
@@ -468,6 +489,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
           Reco_Resolved( smallRJets, higgs_res, higgs0_res, higgs1_res );
           HiggsFill( higgs_res[0], higgs_res[1], "res", 4, event_weight );
+          resClassified[4] = true;
 
           // Higgs mass-window
           const double diffHiggs_0 = fabs(higgs_res[0].m() - 125.);
@@ -476,6 +498,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
           {
             HiggsFill( higgs_res[0], higgs_res[1], "res", 5, event_weight );
+            resClassified[5] = true;
 
             // Determine number of real and fake b-jets
             int nB = 0;
@@ -490,10 +513,12 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
             const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
 
             HiggsFill(higgs_res[0], higgs_res[1], "res", 6, res_weight);
+            resClassified[6] = true;
 
             if (!selected)
             {
               HiggsFill(higgs_res[0], higgs_res[1], "res", 7, res_weight);
+              resClassified[7] = true;
               resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
                         << higgs_res[0].pt() << "\t"
                         << higgs_res[1].pt() << "\t"
@@ -519,70 +544,24 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     }
   }
 
-  // ************************************* Remaining ********************************************
+  // ************************************* Categorisation ********************************************
  
-  /*
-  
-  if( isRes_C1a && !isInter_C1a && !isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 0.1);
-  else if( !isRes_C1a && isInter_C1a && !isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 1.1);
-  else if( !isRes_C1a && !isInter_C1a && isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 2.1);
-  else if( isRes_C1a && isInter_C1a && !isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 3.1);
-  else if( isRes_C1a && !isInter_C1a && isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 4.1);
-  else if( !isRes_C1a && isInter_C1a && isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 5.1);
-  else if( isRes_C1a && isInter_C1a && isBoost_C1a )	FillHistogram("Categories_C1a", 1.0, 6.1);
+  for (int icut=0; icut<nCuts; icut++)
+  {
+    const std::string histoname = "Categories"+cString[icut];
+    double coord = 0;
 
-  //===================================================
-  // C1b: Jet pt cuts
-  //===================================================
+    if (resClassified[icut] && !intClassified[icut] && !bstClassified[icut]) coord = 0.1;
+    else if (!resClassified[icut] && intClassified[icut] && !bstClassified[icut]) coord = 1.1;
+    else if (!resClassified[icut] && !intClassified[icut] && bstClassified[icut]) coord = 2.1;
+    else if (resClassified[icut] && intClassified[icut] && !bstClassified[icut]) coord = 3.1;
+    else if (resClassified[icut] && !intClassified[icut] && bstClassified[icut]) coord = 4.1;
+    else if (!resClassified[icut] && intClassified[icut] && bstClassified[icut]) coord = 5.1;
+    else if (resClassified[icut] && intClassified[icut] && bstClassified[icut]) coord = 6.1;
 
-   
-  if( isRes_C1b && !isInter_C1b && !isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 0.1);
-  else if( !isRes_C1b && isInter_C1b && !isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 1.1);
-  else if( !isRes_C1b && !isInter_C1b && isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 2.1);
-  else if( isRes_C1b && isInter_C1b && !isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 3.1);
-  else if( isRes_C1b && !isInter_C1b && isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 4.1);
-  else if( !isRes_C1b && isInter_C1b && isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 5.1);
-  else if( isRes_C1b && isInter_C1b && isBoost_C1b )	FillHistogram("Categories_C1b", 1.0, 6.1);
- 
-  //===================================================
-  // C1c: Jet pt and eta cuts + Higgs mass window cut
-  //===================================================
-  
-   
-  
-  if( isRes_C1c && !isInter_C1c && !isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 0.1);
-  else if( !isRes_C1c && isInter_C1c && !isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 1.1);
-  else if( !isRes_C1c && !isInter_C1c && isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 2.1);
-  else if( isRes_C1c && isInter_C1c && !isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 3.1);
-  else if( isRes_C1c && !isInter_C1c && isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 4.1);
-  else if( !isRes_C1c && isInter_C1c && isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 5.1);
-  else if( isRes_C1c && isInter_C1c && isBoost_C1c )	FillHistogram("Categories_C1c", 1.0, 6.1);
+    FillHistogram(histoname, 1.0, coord);
+  }
 
-  //=========================================
-  // C1d: All jet cuts
-  //=========================================
-
-  
-  if( isRes_C1d && !isInter_C1d && !isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 0.1);
-  else if( !isRes_C1d && isInter_C1d && !isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 1.1);
-  else if( !isRes_C1d && !isInter_C1d && isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 2.1);
-  else if( isRes_C1d && isInter_C1d && !isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 3.1);
-  else if( isRes_C1d && !isInter_C1d && isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 4.1);
-  else if( !isRes_C1d && isInter_C1d && isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 5.1);
-  else if( isRes_C1d && isInter_C1d && isBoost_C1d )	FillHistogram("Categories_C1d", 1.0, 6.1);
-  
-  //===================================================
-  // C1e: All jet cuts + Higgs mass window cut
-  //===================================================
-  
-  if( isRes_C1e && !isInter_C1e && !isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 0.1);
-  else if( !isRes_C1e && isInter_C1e && !isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 1.1);
-  else if( !isRes_C1e && !isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 2.1);
-  else if( isRes_C1e && isInter_C1e && !isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 3.1);
-  else if( isRes_C1e && !isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 4.1);
-  else if( !isRes_C1e && isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 5.1);
-  else if( isRes_C1e && isInter_C1e && isBoost_C1e )	FillHistogram("Categories_C1e", 1.0, 6.1);
-  */
   if (!selected)
     return Cut ("Uncategorised", event_weight);
 }
@@ -809,10 +788,9 @@ void OxfordCombinedRW2Analysis::HiggsFill(fastjet::PseudoJet const& H0,
 
   if( debug ) std::cout << "HiggsFill INFO: cut = " << cut << std::endl;
   if( debug ) std::cout << "HiggsFill INFO: analysis = " << analysis << std::endl;
-  
-  const std::string cutID[8] = {"0","1a","1b","1c","1d","1e","2","3"};
-  const std::string cutStr = "_C" + cutID[cut];
-  const std::string suffix = "_" + analysis + cutStr;
+
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
     
   // Record cutflow
   FillHistogram("CF_" +analysis, weight, cut + 0.1);
@@ -847,9 +825,8 @@ void OxfordCombinedRW2Analysis::BoostFill( fastjet::PseudoJet const& H,
                                           size_t const& cut, 
                                           double const& weight )
 {
-  const std::string cutID[8] = {"0","1a","1b","1c","1d","1e","2","3"};
-  const std::string cutStr = "_C" + cutID[cut];
-  const std::string suffix = "_" + analysis + cutStr;
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
 
   // Splitting scales
   const double split12 = SplittingScales( H );
@@ -879,9 +856,8 @@ void OxfordCombinedRW2Analysis::BoostFill( fastjet::PseudoJet const& H0,
   if( debug ) std::cout << "BoostFill INFO: cut = " << cut << std::endl;
   if( debug ) std::cout << "BoostFill INFO: analysis = " << analysis << std::endl;
 
-  const std::string cutID[8] = {"0","1a","1b","1c","1d","1e","2","3"};
-  const std::string cutStr = "_C" + cutID[cut];
-  const std::string suffix = "_" + analysis + cutStr;
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
 
   // Splitting scales
   if( debug ) std::cout << "BoostFill INFO: Calculate splitting scales" << std::endl;
