@@ -12,18 +12,18 @@ linestyles = [ 'solid', 'dashed']
 ############################## Settings ###############################
 
 # Output filename
-outfile = "tau21_H0_C1_boost"
+outfile = "tau21_H1_C1_boost"
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_tau21_fj1_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_tau21_fj1_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_tau21_fj2_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_tau21_fj2_boost_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = r"Subjettiness Ratio $\tau_{12}$ for leading Higgs candidate"
+xLabel = r"Subjettiness Ratio $\tau_{12}$ for subleading Higgs candidate"
 yLabel = "A. U."
 
 # Log axes

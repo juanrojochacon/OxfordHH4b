@@ -10,13 +10,13 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_H1_boost_C1"
+outfile = "pt_H1_res_C1"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_pt_H1_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_pt_H1_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_pt_H1_res_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_pt_H1_res_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")

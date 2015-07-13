@@ -7,23 +7,24 @@ import numpy as np
 datafiles = []
 plotnames = []
 
-linestyles = [ 'solid', 'dashed']
-
 ############################## Settings ###############################
 
 # Output filename
-outfile = "tau21_H0_C1_boost"
+outfile = "DeltaPhi_HH_C1_res"
+
+
+linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/oxford_combined_rw/signal/histo_tau21_fj1_boost_C1.dat")
-datafiles.append("../plotdata/oxford_combined_rw/background/histo_tau21_fj1_boost_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/signal/histo_dPhi_HH_res_C1.dat")
+datafiles.append("../plotdata/oxford_combined_rw/background/histo_dPhi_HH_res_C1.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = r"Subjettiness Ratio $\tau_{12}$ for leading Higgs candidate"
+xLabel = r"$\Delta \phi_{hh}$"
 yLabel = "A. U."
 
 # Log axes
@@ -49,12 +50,11 @@ if xLog == True:
 if yLog == True:
   ax.set_yscale('log')
 
-  
 ax.set_ylabel(yLabel)
-ax.set_xlabel(xLabel)
+ax.set_xlabel(xLabel,fontsize=16)
 
-ax.set_xlim([0,1])
-ax.set_ylim([1e-3,10])
+ax.set_xlim([0.0,3.15159])
+ax.set_ylim([0.008,2])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -112,22 +112,21 @@ for idat in xrange(0,len(datafiles)):
     xvals = [xlo[x], xhi[x]]
     yvalsup = [CVup[x], CVup[x]]
     yvalsdn = [CVdn[x], CVdn[x]]
-  
 
   # Insert lower x-values
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])
 
   ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
-   
   icol=icol+1
 
 # Gridlines
 ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
+
 plt.rcParams.update({'font.size': 16})
-fig.text(0.33,0.92,"Boosted category", fontsize=20)
+fig.text(0.33,0.92,"Resolved category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

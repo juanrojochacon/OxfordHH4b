@@ -21,8 +21,10 @@ particles four-momentum.
     for Higgs pair production in gluon fusion at
     leading order.
     %
-    Only the left diagram is sensitive to the trilinear coupling
+    Only the quark triangle diagram (left) is sensitive to the Higgs trilinear coupling
     $\lambda$.
+    %
+    In the SM, the fermion loops are dominated by the top quark contribution.
 }
 \label{fig:hhFeyn}
 \end{center}
@@ -31,7 +33,8 @@ particles four-momentum.
 
 Higgs pair production is simulated at leading order using
 {\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}, with finite $m_t$ effects taken into
-account.\footnote{We thank Eleni Vrodynou for assistance here.}
+account.\footnote{We thank Eleni Vrodynou for assistance with di-Higgs production
+  in {\tt MadGraph5\_aMC@NLO}.}
 %
 We use a tailored {\tt MadGraph5\_aMC@NLO} model~\cite{Maltoni:2014eza} that simulates
 gluon-gluon-fusion Higgs boson pair production including the effects
@@ -79,7 +82,7 @@ Therefore, to achieve the correct higher-order value of the  integrated cross-se
 we rescale our signal sample using the
 NNLO inclusive calculation from Ref.~\cite{deFlorian:2013jea} accounting the threshold resummed
 NNLL effects, which corresponds to using a $K$-factor $\sigma_{\rm NNLO+NNLL}/\sigma_{\rm LO}=2.4$, as indicated
-in Table.~\ref{tab:samples}
+in Table~\ref{tab:samples}.
 
 
 %
@@ -96,7 +99,7 @@ A complete simulation of $b$-tagging at the hadron level is difficult to achieve
 detector simulator, which is beyond the scope of this paper.
 %
 For a similar reason, we don't consider underlying event, multiple parton interactions and
-pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp}.
+pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia}.
 %
 The same applies to the background samples, which we discuss now.
 

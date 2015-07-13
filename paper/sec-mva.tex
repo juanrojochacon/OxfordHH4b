@@ -685,73 +685,80 @@ Finally, let us briefly comment on our results would be affected
 if we take into account the systematic uncertainty in the measurement
 of the backgrounds, in addition to the statistical uncertainty.
 %
-Assuming an optimistic value of a total 3\% systematic uncertainty in the
-multijet background measurement, we find that the signal significance is
-modified as....
-{\bf complete}
+While there is no unique definition of how signal significance is modified
+by experimental systematic uncertainties~\cite{Bityukov:2002eq}, here we estimate
+this effect with the simple correction
+\be
+\frac{S}{\sqrt{B}} \, \to \, \frac{S}{\sqrt{B}} \frac{1}{\sqrt{1+\lp \sigma^{\rm sys}\rp^2\cdot B}} \, ,
+\ee
+which corresponds to adding in quadrature to the statistical uncertainty  a single
+uncorrelated systematic uncertainty $\sigma^{\rm sys}$.
+%
+Assuming an optimistic value of a total 2\% systematic uncertainty in the
+multijet background measurement, we find that the signal significance would be
+reduced in the boosted category from 3.31 to 2.8.
+%
+However, it is beyond the scope of this work to estimate realistically
+the systematic uncertainties on QCD multijet distributions (and their bin-by-bin correlation)
+that will be achieved at HL-LHC, and in the following we only consider the statistical
+uncertainties on the background.
+%
+But this quick estimate emphasizes the crucial need of an experimentally accurate
+measurement of multijet backgrounds at the LHC to fully exploit the $4b$ channel.
+
 
 \subsection{Another look at the jet substructure variables}
 
-The power of the MVA applied to the boosted category lies
-on the information contained on the various substructure variables
-used.
+It is possible to verify that the usefulness of the MVA when
+applied to the boosted category arises from the 
+the information contained on the various jet substructure variables.
 %
 From the distribution of total associated ANN weights in the
-boosted category shown in Fig.~\ref{fig:nnweights} we see that
-all substructure variables contain useful information,
-but specially the $k_t$ splitting scale $\sqrt{d_{12}}$ of the
-subleading Higgs candidate, the $\tau_{21}$ subjettiness variable for
-the leading Higgs
-and the ratio of energy correlators $D_2$ of both the leading
-and subleading Higgs candidates.
+boosted category, shown in Fig.~\ref{fig:nnweights}, we see that
+all substructure variables contain useful information:
+the $k_t$ splitting scales $\sqrt{d_{12}}$,
+the $\tau_{21}$ subjettiness ratio, and the ECF ratios
+$C_2^{{\beta}}$ and $D_2^{{\beta}}$.
 %
-Interestingly, other substructure variables like $\tau_{21}$ for
-the subleading Higgs seem to contain less information (or perhaps
-redundant as compared to the other variables).
+Interestingly, for some substructure variables, such as $\tau_{21}$,
+the total associated weight turns out to be stronger in the leading
+than in the sub-leading Higgs candidate (or vice-versa), indicating some
+degree of redundancy when the same variable is used for the two Higgs candidates
+at the same time.
 
 
-The information contained Fig.~\ref{fig:nnweights} should be
+Indeed, the information contained Fig.~\ref{fig:nnweights} should be
 reflected in the corresponding distributions of these substructure
 variables: those with a higher discrimination power should show
 clear differences in shape between the signal and background events,
 while those that carry less information should have similar
 shapes for signal and background.
 %
-There is also the possibility of redundant variables, where signal
-and background are quite different but the same information
+The third possibility is that of of redundant variables, where signal
+and background exhibit different shapes but the same information
 is already provided by other input variables.
-
+%
+To illustrate these points,
 In Fig.~\ref{fig:mva_substructure_1}
-we show these substructure variables: the
+we show the distributions of some of
+these substructure variables for the boosted category: the
 $k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}) for
-the subleading Higgs, the subjettiness ratio $\tau_{12}$
+the subleading Higgs,
+the energy correlation double ratio $D_2^{(\beta)}$
+Eq.~(\ref{eq:d2}) for the leading Higgs,
+and then 
+the subjettiness ratio $\tau_{12}$
 Eq.~(\ref{eq:tau21})
-for the leading Higgs,
-and the energy correlation double ratio $D_2$
-Eq.~\ref{eq:c2}
-for the leading and subleading Higgs.
+for both the leading and subleading Higgs candidates.
 %
-We can indeed verify that the shapes of the signal
-and background distributions are quite different,
-reflecting the differences in the internal structure of jets
-between QCD jets and jets originated from the Higgs decays.
-%
-This is true for all variables considered here.
-%
-As before, all the distributions in
-Fig.~\ref{fig:mva_substructure_1}
-have been normalized to unity.
-%
-All the distributions shown in this section refer to the boosted category.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-    \includegraphics[width=0.48\textwidth]{plots/split12_H1_res_C1_boost.pdf} 
-  \includegraphics[width=0.48\textwidth]{plots/tau21_h0_res_C1_boost.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_res_C1_boost.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_res_C1_boost.pdf}
+    \includegraphics[width=0.48\textwidth]{plots/split12_h1_C1_boost.pdf} 
+  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_h0_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_h1_C1_boost.pdf}
   \caption{\small Distribution of substructure variables
     in the boosted category at the end of the cut-based
     analysis, used as input to the MVA.
@@ -771,10 +778,66 @@ All distributions have been normalized to unity.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Finally, let us show the distributions of those kinematic variables
+From Fig.~\ref{fig:mva_substructure_1}
+we can observe that for all variables the shapes of the signal
+and background distributions are quite different,
+reflecting the inherent differences in the internal structure of jets
+between QCD jets and jets originated from the Higgs decays.
+%
+Note that as before, all the distributions in
+Fig.~\ref{fig:mva_substructure_1}
+have been normalized to unity.
+%
+Importantly, we observe that signal and background distributions peak
+in different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
+peaks around 80 GeV (50 GeV) for signal (background) events, while
+the ECF ratio $D_2^{(\beta)}$ peaks at much lower values for signal than
+for background events.
+%
+From Fig.~\ref{fig:mva_substructure_1} we also see
+the distributions of the subjettiness ratio $\tau_{12}$ are quite similar
+in the leading and in the subleading jets, therefore adding the value
+of  $\tau_{12}$ from the two Higgs candidates at the MVA at the same time
+is redundant, explaining why in these cases either one or the other
+variable from a Higgs candidate is assigned higher weight.
+
+
+Finally, let us show the distributions of kinematic variables
 that according to the MVA provide a small amount of discrimination
-between signal and background, either because there is no real information or
-because it is redundant.
+between signal and background, and where the should not be an issue
+of redundancy.
+%
+In Fig.~\ref{fig:mva_substructure_2}
+we show the kinematic variable that carries less weight in the MVA,
+    the azimuthal angle separation between the two Higgs candidates
+    $\Delta\phi_{hh}$, for the resolved and boosted categories:
+    according to Fig.~\ref{fig:nnweights}, no much discrimination power
+    is obtained here, and indeed the shapes of the two signal
+    and background
+    are very similar here.
+    %
+    From Fig.~\ref{fig:nnweights} we also saw that the
+    invariant mass distributions $m_h$ carry little information,
+    and this was verified from 
+the corresponding
+distributions in $m_{hh}$ from Fig.~\ref{fig:mHHinv}.
+%
+As explained before, the reason for this is
+the  smearing of jet four-momenta introduced to mimic
+realistically detector resolution.
 
-{\bf add missing histograms}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+  \includegraphics[width=0.48\textwidth]{plots/DeltaPhi_HH_C1_res.pdf} 
+  \includegraphics[width=0.48\textwidth]{plots/DeltaPhi_HH_C1_boosted.pdf} 
+  \caption{\small Same as Fig.~\ref{fig:mva_substructure_1},
+    now for the kinematic variable that carries less weight in the MVA,
+    the azimuthal angle separation between the two Higgs candidates
+    $\Delta\phi_{hh}$, for the resolved and boosted categories.
+}
+\label{fig:mva_substructure_2}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -32,10 +32,14 @@ SSBout = "ssb"	  # S/Sqrt(B) curve
 NeVout = "nev"	  # Number of events (twin axes)
 NeV2out = "nev2"  # Number of events (single axis)
 
+
+ 
+ 
 #############################################################################
 
 # Plot the individual discriminant histograms
 def plotDiscriminantHisto(name, signal, background):
+        plt.rcParams.update({'font.size': 16})
 	bins = numpy.linspace(0, 1, 20) # Binning density
 	fig, ax = plt.subplots()
 
@@ -44,14 +48,15 @@ def plotDiscriminantHisto(name, signal, background):
 
 	ax.set_ylim([0,8])
 	ax.set_xlabel("ANN Output")
+        ax.set_ylabel("A. U.")
 
 	# Legend
-	legend = ax.legend(fontsize=10, loc='best')
+	legend = ax.legend(fontsize=14, loc='best')
 	legend.get_frame().set_alpha(0.7)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
 	# fig.text(0.13,0.92,numpoints, fontsize=12)
-	fig.text(0.13,0.96,"MVA for "+ name + " category", fontsize=15)
+	fig.text(0.13,0.96,"MVA for "+ name + " category", fontsize=16)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -71,12 +76,12 @@ rocax.yaxis.grid(True)
 
 # Setup s/b plot
 sb, sbax = plt.subplots()
-sbax.set_ylabel("S/B")
+sbax.set_ylabel("$S/B$")
 sbax.set_xlabel("ANN output cut")
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
-ssbax.set_ylabel("S/sqrt(B)")
+ssbax.set_ylabel("$S/\sqrt{B}$")
 ssbax.set_xlabel("ANN output cut")
 
 # Setup N_evt plots
@@ -87,7 +92,7 @@ nevax2.set_ylabel("Number of background events")
 nevax.set_xlabel("ANN output cut")
 
 nev3, nevax3 = plt.subplots()
-nevax3.set_ylabel("Number of events after MVA cut expected at HL-LHC")
+nevax3.set_ylabel("$N_{ev}$ at HL-LHC after MVA cut")
 nevax3.set_xlabel("ANN output cut")
 
 # Gridlines
@@ -187,16 +192,16 @@ for idat in xrange(0,len(datafiles)):
 	plotDiscriminantHisto(basename, sigprob, bkgprob)
 
 	# Plot ROC curve, s/b, s/sqrt(b)
-	rocax.plot(truepos, falsepos, color=colours[idat],linestyle=linestyles[idat], label = basename)
-	sbax.plot(thresholds, soverb, color=colours[idat], linestyle=linestyles[idat], label = basename)
-	ssbax.plot(thresholds, soversb, color=colours[idat],linestyle=linestyles[idat], label = basename)
+	rocax.plot(truepos, falsepos, color=colours[idat],linestyle=linestyles[idat], label = basename,linewidth=2.4)
+	sbax.plot(thresholds, soverb, color=colours[idat], linestyle=linestyles[idat], label = basename,linewidth=2.4)
+	ssbax.plot(thresholds, soversb, color=colours[idat],linestyle=linestyles[idat], label = basename,linewidth=2.4)
 
 	# Plot number of events per discriminant cut
-	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename)
-	nevax2.plot(thresholds, nbkg, color=colours[idat], label=basename)
+	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename,linewidth=2.4)
+	nevax2.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
 
-	nevax3.plot(thresholds, nsig, color=colours[idat], linestyle='--')
-	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basename)
+	nevax3.plot(thresholds, nsig, color=colours[idat], linestyle='--',linewidth=2.4)
+	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
 
 ################################### Finish up ########################################
 

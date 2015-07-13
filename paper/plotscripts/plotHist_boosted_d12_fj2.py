@@ -7,13 +7,13 @@ import numpy as np
 datafiles = []
 plotnames = []
 
-from matplotlib import rc
-rc('text', usetex=True)
+
+linestyles = [ 'solid', 'dashed']
 
 ############################## Settings ###############################
 
 # Output filename
-outfile = "split12_H1_res_C1_boost"
+outfile = "split12_H1_C1_boost"
 
 # Datafiles
 datafiles.append("../plotdata/oxford_combined_rw/signal/histo_split12_fj1_boost_C1.dat")
@@ -24,7 +24,7 @@ plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = r"$k_{t}$ splitting scale $\sqrt{d_{12}}$ for sub-leading Higgs candidate (GeV)"
+xLabel = r"$k_{t}$ splitting scale $\sqrt{d_{12}}$ of sub-leading Higgs (GeV)"
 yLabel = "A. U."
 
 # Log axes
@@ -50,11 +50,9 @@ if xLog == True:
 if yLog == True:
   ax.set_yscale('log')
 
-
-plt.rc('text', usetex=True)
-  
 ax.set_ylabel(yLabel)
-ax.set_xlabel(xLabel)
+ax.set_xlabel(xLabel,fontsize=16)
+ax.xaxis.labelpad = -2
 
 ax.set_xlim([9,200])
 ax.set_ylim([1e-4,0.1])
@@ -121,12 +119,16 @@ for idat in xrange(0,len(datafiles)):
   xhi.insert(0,xlo[0])
   yval.insert(0,yval[0])
 
-  ax.plot(xhi,yval/norm,ls = "steps-pre", color = colours[icol], label=plotnames[idat])
+  ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
 
 # Gridlines
 ax.xaxis.grid(True)
 ax.yaxis.grid(True)
+
+
+plt.rcParams.update({'font.size': 16})
+fig.text(0.33,0.92,"Boosted category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
