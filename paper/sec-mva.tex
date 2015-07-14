@@ -488,7 +488,7 @@ resolved category, the variables that lead to
 a higher discrimination power
 are the $p_T$ of the two reconstructed Higgs candidates, and then on a similar
 footing other variables like the $p_T$ of the individual jets
-and the mass of the di-Higgs system.
+and the mass of the di-Higgs system $m_{hh}$.
 %
 The only variable which seems to contain to information at all
 is the $\Delta \phi_{hh}$ separation between the two
@@ -518,49 +518,57 @@ variables to the MVA.
 
 
 For the boosted category, we see that substructure variables
-are the most helpful ones, in particular the $k_t$ splitting scales
-$\sqrt{d_{12}}$ and the subjetiness ratio $\tau_{12}$.
+are the most helpful ones, in particular the $k_t$-splitting scale
+$\sqrt{d_{12}}$ and the subjettiness ratio $\tau_{12}$.
 %
-The ratio of energy correlations $D_2$ and $C_2$ also help,
-in particular the former.
+The ratio of ECFs $D_2^{(\beta)}$ and
+$C_2^{(\beta)}$ also seems to provide
+useful discrimination power.
 %
-From the more traditional variables, the angular
+Concerning other kinematic variables, the angular
 separation between the two large-$R$ jets $\Delta R_{hh}$,
 the invariant mass of the di-Higgs system $m_{hh}$ and the various
 $p_T$ also have discrimination power.
 %
 Other variables provide limited information, in particular the invariant
-mass of the Higgs candidates, $m_{h_1}$ and $m_{h_2}$, due to the realistic
+mass of the Higgs candidates, $m_{h_1}$ and $m_{h_2}$: this
+is due to the realistic
 simulation of detector resolution introduced with the smearing.
 %
-We have verified that signal significance in the boosted category is substantially
-degraded if substructure variables are not used, emphasizing that
-in the boosted category jet substructure provides the best handle
-to separate signal and background.
+We have verified that the post-MVA
+signal significance in the boosted category is substantially
+degraded if substructure variables are not used.
 
 At this point we have all the ingredients that we need to determine the optimal
-value of the MVA output cut and quantify the final values of the signal
-significance $S/\sqrt{B}$ and $S/B$ in our three categories.
+value of the MVA output cuts $y_{\rm cut}$
+and quantify the final values of the signal
+significance $S/\sqrt{B}$ and $S/B$ in the three categories.
 %
-These optimal values are determining by the maximisation of $S/\sqrt{B}$,
-ensuring that the number of events which is left at the HL-LHC is large
-enough, and also that the actual number of MC events used for the ANN training
-is still large enough to avoid the biases of a small training sample.
+These optimal values are determined from the maximisation of $S/\sqrt{B}$,
+ensuring that the number of events $N_{\rm ev}$
+which would be expected at the HL-LHC is large
+enough.
 %
+In addition, we also require when fixing $y_{\rm cut}$
+that the actual number of MC events used for the ANN training
+is large enough to avoid the biases of a small training sample.
+
+
 The post-MVA results for $S/\sqrt{B}$ and $S/B$ as a function of the cut
 in the ANN output for each of the three categories are shown in
 Fig.~\ref{fig:sb_mva}.
 %
-As mentioned before, the optimal cuts are determined independently for each
-category.
+Note that the values of $S/\sqrt{B}$ and $S/B$
+for $y_{\rm cut}=0$ correspond to the values at
+the end of the cut-based analysis, see
+the {\bf C2} row of Table~\ref{table:cutflow}.
 %
-Note that the values of $S/\sqrt{B}$ and $S/B$ in the three cases should correspond
-to the same values at the end of the cut-based analysis, as
-can be verified by looking at the {\bf C2} row of Table~\ref{table:cutflow}.
-%
-Indeed, at the end of the cut based analysis $S/\sqrt{B}$ is approximately
+Indeed, at the end of the cut based analysis $S/\sqrt{B}$ was
+approximately
 1.0, 0.5 and 0.5 for the boosted, intermediate and resolved
 categories, as can be seen from Fig.~\ref{fig:sb_mva}.
+%
+The same applies to $S/B$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -570,12 +578,11 @@ categories, as can be seen from Fig.~\ref{fig:sb_mva}.
 \caption{\small
   The values of the signal significance $S/\sqrt{B}$ and of the
   signal over background ratio $S/B$ for the boosted, intermediate
-  and resolved categories.
+  and resolved categories as  function of the cut
+  $y_{\rm cut}=0$ in the ANN output.
   %
-  Note that the optimal cuts are determined independently for each
-  category.
-  %
-  The no-cut values correspond to the  cut-based analysis
+  The $y_{\rm cut}=0$
+  values correspond to the  cut-based analysis
   results from Table~\ref{table:cutflow}.
 }
 \label{fig:sb_mva}
@@ -640,7 +647,7 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.86$}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.86$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
@@ -658,7 +665,7 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.49$}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.49$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
@@ -676,7 +683,7 @@ the analysis exclusively in the boosted category.
     \hline
     \hline
     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm mva}=0$} & \multicolumn{4}{c}{$y_{\rm mva}=0.17$}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.17$}\\
     \hline
     \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
@@ -695,8 +702,9 @@ the analysis exclusively in the boosted category.
     From top to bottom we show the results for boosted,
     intermediate and resolved categories.
     %
-    Note that the optimal value of the MVA cut
-    is different in each of the three categories.
+    The optimal value of the MVA cut $y_{\rm cut}$
+    is optimised separately in the
+    three categories.
     \label{table:cutflowMVA}
   }
 \end{table}

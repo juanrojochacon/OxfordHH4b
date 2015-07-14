@@ -76,13 +76,16 @@ rocax.yaxis.grid(True)
 
 # Setup s/b plot
 sb, sbax = plt.subplots()
-sbax.set_ylabel("$S/B$")
+sbax.set_ylabel("$S/B$",fontsize=19)
 sbax.set_xlabel("ANN output cut")
+sbax.set_ylim([0.00001,10])
+sbax.set_xlim([0,0.95])
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
-ssbax.set_ylabel("$S/\sqrt{B}$")
+ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=20)
 ssbax.set_xlabel("ANN output cut")
+ssbax.set_xlim([0,0.95])
 
 # Setup N_evt plots
 nev, nevax = plt.subplots()
@@ -145,7 +148,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 2)
+	thresholds = numpy.linspace(0, 1, 100)
 	falsepos = []
 	truepos = []
 
