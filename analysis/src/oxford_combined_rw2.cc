@@ -118,7 +118,7 @@ Analysis("oxford_combined_rw2", sampleName)
     
   // ********************* Ntuple definition **********************
 
-  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH";
+  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
   outputNTuple<<tupleSpec<<std::endl;
 
   const std::string root = "." + GetRoot() + GetSample() + "/";
@@ -131,7 +131,7 @@ Analysis("oxford_combined_rw2", sampleName)
   intNTuple.open(intDir.c_str());
   bstNTuple.open(bstDir.c_str());
 
-  resNTuple << tupleSpec <<" pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1"<<std::endl;
+  resNTuple << tupleSpec <<std::endl;
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
   bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
 
@@ -147,6 +147,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
   // Set initial weight
   const double event_weight = weightnorm;
+  double P_select = 1; // Probability of selection
   bool selected = false;
 
   // *************************************** Classification vectors *********************************
@@ -252,13 +253,18 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
   // b-tagging for large-R jets
   std::vector<int> nBSubjetsLR_vec;    // Vector specifying how many real b subjets there are
-  BTagging( largeRJets, trackJets, nBSubjetsLR_vec);
+  std::vector<int> nFSubjetsLR_vec;    // Vector specifying how many fake b subjets there are
+  std::vector<fastjet::PseudoJet> leading_subjet;
+  std::vector<fastjet::PseudoJet> subleading_subjet;
+
+  BTagging( largeRJets, trackJets, leading_subjet, subleading_subjet, nBSubjetsLR_vec, nFSubjetsLR_vec);
   if( largeRJets.size() != nBSubjetsLR_vec.size() )
     std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl;
 
   // b-tagging for small-R jets
-  std::vector<bool> isFakeSR_vec;  // Vector specifying if each jet is fake or not
-  BTagging( smallRJets, isFakeSR_vec );
+  std::vector<bool> isTrueSR_vec;  // Vector specifying if each jet is fake or not
+  std::vector<bool> isFakeSR_vec;  // Vector specifying if each jet is true or not
+  BTagging( smallRJets, isTrueSR_vec, isFakeSR_vec );
 
   // **************************************** Boosted analysis *********************************************
 
@@ -298,58 +304,68 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
             // b-tagging weights
             const double nB = nBSubjetsLR_vec[0] + nBSubjetsLR_vec[1];      // Number of true b-subjets
-            const double nF = 4 - nB;  // Number of fake b-subjets
+            const double nF = nFSubjetsLR_vec[0] + nFSubjetsLR_vec[1];      // Number of fake b-subjets
 
-            // Reweighted event weight
-            const double boost_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
-            const fastjet::PseudoJet dihiggs_boost = largeRJets[0] + largeRJets[1];
-
-            HiggsFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
-            BoostFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
-            bstClassified[6] = true;
-
-            // Final exclusive booking
-            if (!selected)
+            // Selection probability
+            if (nB+nF == 4) // Selected 4 candidates
             {
-              HiggsFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
-              BoostFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
-              bstClassified[7] = true;
+              P_select *= pow(btag_prob,nB)*pow(btag_mistag,nF);
 
-              // Calculate some substructure variables
-              const std::vector<double> split12_vec = SplittingScales( largeRJets );
-              const std::vector<double> tau21_vec = NSubjettiness( largeRJets, BoostJetR );
+              // Reweighted event weight
+              const double boost_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
+              const fastjet::PseudoJet dihiggs_boost = largeRJets[0] + largeRJets[1];
 
-              // C2 energy correlation double-ratio
-              const double C2_fj1 = LST_C2(LST_beta, largeRJets[0]);
-              const double C2_fj2 = LST_C2(LST_beta, largeRJets[1]);
+              HiggsFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
+              BoostFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
+              bstClassified[6] = true;
 
-              // D2 energy correlation double-ratio
-              const double D2_fj1 = LMN_D2(LST_beta, largeRJets[0]);
-              const double D2_fj2 = LMN_D2(LST_beta, largeRJets[1]);
+              // Final exclusive booking
+              if (!selected)
+              {
+                HiggsFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+                BoostFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+                bstClassified[7] = true;
 
-              // Fill tuple
-              bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
-                  << largeRJets[0].pt() << "\t"
-                  << largeRJets[1].pt() << "\t"
-                  << dihiggs_boost.pt() << "\t"
-                  << largeRJets[0].m() << "\t"
-                  << largeRJets[1].m() << "\t"
-                  << dihiggs_boost.m() << "\t"
-                  << largeRJets[0].delta_R(largeRJets[1])  << "\t"
-                  << getDPhi(largeRJets[0].phi(), largeRJets[1].phi())  << "\t"
-                  << fabs( largeRJets[0].eta() - largeRJets[1].eta())  << "\t"
-                  << split12_vec[0] << "\t"
-                  << split12_vec[1] << "\t"
-                  << tau21_vec[0] << "\t"
-                  << tau21_vec[1] << "\t"
-                  << C2_fj1 << "\t"
-                  << C2_fj2 << "\t"
-                  << D2_fj1 << "\t"
-                  << D2_fj2 << "\t"
-                  <<std::endl;
+                // Calculate some substructure variables
+                const std::vector<double> split12_vec = SplittingScales( largeRJets );
+                const std::vector<double> tau21_vec = NSubjettiness( largeRJets, BoostJetR );
 
-              Pass(boost_weight); selected = true;
-              Cut("BoostedCut", event_weight - boost_weight );
+                // C2 energy correlation double-ratio
+                const double C2_fj1 = LST_C2(LST_beta, largeRJets[0]);
+                const double C2_fj2 = LST_C2(LST_beta, largeRJets[1]);
+
+                // D2 energy correlation double-ratio
+                const double D2_fj1 = LMN_D2(LST_beta, largeRJets[0]);
+                const double D2_fj2 = LMN_D2(LST_beta, largeRJets[1]);
+
+                // Fill tuple
+                bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
+                    << largeRJets[0].pt() << "\t"
+                    << largeRJets[1].pt() << "\t"
+                    << dihiggs_boost.pt() << "\t"
+                    << largeRJets[0].m() << "\t"
+                    << largeRJets[1].m() << "\t"
+                    << dihiggs_boost.m() << "\t"
+                    << largeRJets[0].delta_R(largeRJets[1])  << "\t"
+                    << getDPhi(largeRJets[0].phi(), largeRJets[1].phi())  << "\t"
+                    << fabs( largeRJets[0].eta() - largeRJets[1].eta())  << "\t"
+                    << leading_subjet[0].pt() << "\t"
+                    << subleading_subjet[0].pt() << "\t"
+                    << leading_subjet[1].pt() << "\t"
+                    << subleading_subjet[1].pt() << "\t"
+                    << split12_vec[0] << "\t"
+                    << split12_vec[1] << "\t"
+                    << tau21_vec[0] << "\t"
+                    << tau21_vec[1] << "\t"
+                    << C2_fj1 << "\t"
+                    << C2_fj2 << "\t"
+                    << D2_fj1 << "\t"
+                    << D2_fj2 << "\t"
+                    <<std::endl;
+
+                Pass(boost_weight); selected = true;
+                Cut("BoostedCut", event_weight - boost_weight );
+              }
             }
           }
         }
@@ -383,8 +399,9 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   if( smallRJets.size() >= 2 &&  largeRJets.size() == 1 ) // MDT + reco cut
   {
     // Reconstruct Higgs candidates from large-R and small-R jets
-    std::vector<fastjet::PseudoJet> higgs_inter; int nBJets_SR = 0;
-    const bool isRecoInter = Reco_Intermediate( smallRJets, isFakeSR_vec, largeRJets[0], nBJets_SR, higgs_inter );
+    std::vector<fastjet::PseudoJet> higgs_inter; int nBJets_SR = 0; int nFJets_SR = 0;
+    fastjet::PseudoJet res_leading_subjet; fastjet::PseudoJet res_subleading_subjet; 
+    const bool isRecoInter = Reco_Intermediate( smallRJets, isTrueSR_vec, isFakeSR_vec, largeRJets[0], nBJets_SR, nFJets_SR, res_leading_subjet, res_subleading_subjet, higgs_inter );
 
     if( isRecoInter )
     {   
@@ -404,56 +421,59 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
         // Determine number of fake bJets
         const int nB = nBJets_SR + nBSubjetsLR_vec[0];
-        const int nF = 4 - nB;
+        const int nF = nFJets_SR + nFSubjetsLR_vec[0];
 
-        // Error checking
-        if (nB > 4)
+        if (nB+nF == 4)
         {
-          std::cerr << "ERROR: number of reconstructed b quarks > 4!"<<std::endl;
-          exit(-1);
-        }
+          // Selection probability
+          P_select *= pow(btag_prob,nB)*pow(btag_mistag,nF);
 
-        // Reweighted event weight
-        const double inter_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
-        const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
+          // Reweighted event weight
+          const double inter_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
+          const fastjet::PseudoJet dihiggs_inter = higgs_inter[0] + higgs_inter[1];
 
-        HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 6, inter_weight);
-        BoostFill(largeRJets[0], "inter", 6, inter_weight);
-        intClassified[6] = true;
+          HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 6, inter_weight);
+          BoostFill(largeRJets[0], "inter", 6, inter_weight);
+          intClassified[6] = true;
 
-        if (!selected)
-        {
-          // Exclusivity cut
-          HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 7, inter_weight);
-          BoostFill(largeRJets[0], "inter", 7, inter_weight);
-          intClassified[7] = true;
+          if (!selected)
+          {
+            // Exclusivity cut
+            HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 7, inter_weight);
+            BoostFill(largeRJets[0], "inter", 7, inter_weight);
+            intClassified[7] = true;
 
-          // Calculate some substructure variables
-          const double split12 = SplittingScales( largeRJets[0] );
-          const double tau21 = NSubjettiness( largeRJets[0], BoostJetR );
-          const double C2 = LST_C2(LST_beta, largeRJets[0]);
-          const double D2 = LMN_D2(LST_beta, largeRJets[0]);
+            // Calculate some substructure variables
+            const double split12 = SplittingScales( largeRJets[0] );
+            const double tau21 = NSubjettiness( largeRJets[0], BoostJetR );
+            const double C2 = LST_C2(LST_beta, largeRJets[0]);
+            const double D2 = LMN_D2(LST_beta, largeRJets[0]);
 
-          // Fill tuple
-          intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
-                    << higgs_inter[0].pt() << "\t"
-                    << higgs_inter[1].pt() << "\t"
-                    << dihiggs_inter.pt() << "\t"
-                    << higgs_inter[0].m() << "\t"
-                    << higgs_inter[1].m() << "\t"
-                    << dihiggs_inter.m() << "\t"
-                    << higgs_inter[0].delta_R(higgs_inter[1]) << "\t"
-                    << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << "\t"
-                    << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
-                    << split12 << "\t"
-                    << tau21 << "\t"
-                    << C2 << "\t"
-                    << D2 << "\t"
-                    <<std::endl;
+            // Fill tuple
+            intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
+                      << higgs_inter[0].pt() << "\t"
+                      << higgs_inter[1].pt() << "\t"
+                      << dihiggs_inter.pt() << "\t"
+                      << higgs_inter[0].m() << "\t"
+                      << higgs_inter[1].m() << "\t"
+                      << dihiggs_inter.m() << "\t"
+                      << higgs_inter[0].delta_R(higgs_inter[1]) << "\t"
+                      << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << "\t"
+                      << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
+                      << leading_subjet[0].pt() << "\t"
+                      << subleading_subjet[0].pt() << "\t"
+                      << res_leading_subjet.pt() << "\t"
+                      << res_subleading_subjet.pt() << "\t"
+                      << split12 << "\t"
+                      << tau21 << "\t"
+                      << C2 << "\t"
+                      << D2 << "\t"
+                      <<std::endl;
 
-          // Final
-          Pass(inter_weight);  selected = true;
-          Cut("IntermediateCut", event_weight - inter_weight );
+            // Final
+            Pass(inter_weight);  selected = true;
+            Cut("IntermediateCut", event_weight - inter_weight );
+          }
         }
       }
     }
@@ -503,40 +523,49 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
             // Determine number of real and fake b-jets
             int nB = 0;
             for (int i=0; i<4; i++)
-              if (!isFakeSR_vec[i])
+              if (isTrueSR_vec[i])
                 nB++;
 
-            const int nF = 4 - nB;
+            int nF = 0;
+            for (int i=0; i<4; i++)
+              if (isFakeSR_vec[i])
+                nF++;
 
-            // Reweighted event weight
-            const double res_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
-            const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
-
-            HiggsFill(higgs_res[0], higgs_res[1], "res", 6, res_weight);
-            resClassified[6] = true;
-
-            if (!selected)
+            if (nB+nF == 4) // Need 4 b-tags
             {
-              HiggsFill(higgs_res[0], higgs_res[1], "res", 7, res_weight);
-              resClassified[7] = true;
-              resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
-                        << higgs_res[0].pt() << "\t"
-                        << higgs_res[1].pt() << "\t"
-                        << dihiggs_res.pt() << "\t"
-                        << higgs_res[0].m() << "\t"
-                        << higgs_res[1].m() << "\t"
-                        << dihiggs_res.m() << "\t"
-                        << higgs_res[0].delta_R(higgs_res[1]) << "\t"
-                        << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << "\t"
-                        << fabs( higgs_res[0].eta() - higgs_res[1].eta())  << "\t"
-                        << higgs0_res[0].pt() << "\t"
-                        << higgs0_res[1].pt() << "\t"
-                        << higgs1_res[0].pt() << "\t"
-                        << higgs1_res[1].pt() << "\t"
-                        <<std::endl;
+              // Selection probability
+              P_select *= pow(btag_prob,nB)*pow(btag_mistag,nF);
 
-              Pass(res_weight); selected = true;
-              Cut("ResolvedCut", event_weight - res_weight);
+              // Reweighted event weight
+              const double res_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
+              const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
+
+              HiggsFill(higgs_res[0], higgs_res[1], "res", 6, res_weight);
+              resClassified[6] = true;
+
+              if (!selected)
+              {
+                HiggsFill(higgs_res[0], higgs_res[1], "res", 7, res_weight);
+                resClassified[7] = true;
+                resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
+                          << higgs_res[0].pt() << "\t"
+                          << higgs_res[1].pt() << "\t"
+                          << dihiggs_res.pt() << "\t"
+                          << higgs_res[0].m() << "\t"
+                          << higgs_res[1].m() << "\t"
+                          << dihiggs_res.m() << "\t"
+                          << higgs_res[0].delta_R(higgs_res[1]) << "\t"
+                          << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << "\t"
+                          << fabs( higgs_res[0].eta() - higgs_res[1].eta())  << "\t"
+                          << higgs0_res[0].pt() << "\t"
+                          << higgs0_res[1].pt() << "\t"
+                          << higgs1_res[0].pt() << "\t"
+                          << higgs1_res[1].pt() << "\t"
+                          <<std::endl;
+
+                Pass(res_weight); selected = true;
+                Cut("ResolvedCut", event_weight - res_weight);
+              }
             }
           }
         }
@@ -551,6 +580,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     const std::string histoname = "Categories"+cString[icut];
     double coord = 0;
 
+
     if (resClassified[icut] && !intClassified[icut] && !bstClassified[icut]) coord = 0.1;
     else if (!resClassified[icut] && intClassified[icut] && !bstClassified[icut]) coord = 1.1;
     else if (!resClassified[icut] && !intClassified[icut] && bstClassified[icut]) coord = 2.1;
@@ -559,7 +589,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     else if (!resClassified[icut] && intClassified[icut] && bstClassified[icut]) coord = 5.1;
     else if (resClassified[icut] && intClassified[icut] && bstClassified[icut]) coord = 6.1;
 
-    FillHistogram(histoname, 1.0, coord);
+    FillHistogram(histoname, (icut < 6) ? event_weight:P_select*event_weight, coord);
   }
 
   if (!selected)
@@ -567,7 +597,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 }
 
 
-void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<bool>& isFake_vec  )
+void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<bool>& isTrue_vec, std::vector<bool>& isFake_vec  )
 {
   // Loop over all jets
   for( size_t i=0; i<jets_vec.size(); i++){
@@ -575,6 +605,7 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
     // Get the jet constituents
     const std::vector<fastjet::PseudoJet>& jet_constituents = jets_vec[i].constituents();
     bool isbJet = false;
+    bool isfJet = false;
 
     // Loop over constituents and look for b quarks
     // b quarks must be above some minimum pt
@@ -584,17 +615,44 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
       const int userid= jet_constituents.at(j).user_index();
       const double pt_bcandidate = jet_constituents.at(j).pt();
 
-      if(abs(userid) == 5 && pt_bcandidate > pt_btagging)
-        isbJet = true;    
+      if (pt_bcandidate > pt_btagging)
+      {
+        isfJet = true; // Potentially a fake
+        if(abs(userid) == 5 && pt_bcandidate > pt_btagging)
+        {
+          isbJet = true;
+          break;    
+        }
+      }
+
     }
 
-    // Push opposite of isBJet!
-    isFake_vec.push_back(!isbJet);
+    if (isbJet) // True
+    {
+      isFake_vec.push_back(false);
+      isTrue_vec.push_back(true);
+    }
+    else if (isfJet && !isbJet) // Fake
+    {
+      isFake_vec.push_back(true);
+      isTrue_vec.push_back(false);
+    }
+    else //Neither
+    {
+      isFake_vec.push_back(false);
+      isTrue_vec.push_back(false);
+    }
+
   }
          
 }
 
-void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet> const& trackjets, std::vector<int>& nBSubJets_vec )
+void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets,
+                                          std::vector<fastjet::PseudoJet> const& trackjets,
+                                          std::vector<fastjet::PseudoJet>& subjets1,
+                                          std::vector<fastjet::PseudoJet>& subjets2,
+                                          std::vector<int>& nBSubJets_vec,
+                                          std::vector<int>& nFSubJets_vec  )
 {
     // Loop over all fat jets
     for( size_t i=0; i<largeRJets.size(); i++)
@@ -603,13 +661,27 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
       std::vector<fastjet::PseudoJet> subjets;
       get_assoc_trkjets( largeRJets.at(i), trackjets, subjets, false);
 
-      int nBSubJets = 0;
+      // Failed to cluster 2 subjets
+      subjets = sorted_by_pt(subjets);
+      if (subjets.size() < 2)
+      {
+        subjets1.push_back(fastjet::PseudoJet());
+        subjets2.push_back(fastjet::PseudoJet());
+      }
+      else
+      {
+        subjets1.push_back(subjets[0]);
+        subjets2.push_back(subjets[1]);
+      }
 
-      // Loop over subjets
+      int nBSubJets = 0;  // Number of b's
+      int nFSubJets = 0;  // Number of fakes
       const int nSubjets = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
       for( int j=0; j < nSubjets; j++)
       {
         bool isBJet = false;
+        bool isFake = false;
+
         // Loop over constituents and look for b quarks
         // b quarks must be above some minimum pt 
         const std::vector<fastjet::PseudoJet>& subjet_constituents = sorted_by_pt( subjets[j].constituents() );
@@ -619,19 +691,26 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
           const int userid= subjet_constituents.at(k).user_index();
           const double pt_bcandidate = subjet_constituents.at(k).pt();
 
-          if( abs(userid) == 5 && pt_bcandidate > pt_btagging )
+          if ( pt_bcandidate > pt_btagging )
           {
-            isBJet = true;
-            break;
+            isFake = true; // Potential fake
+            if( abs(userid) == 5 )  // not a fake
+            {
+              isBJet = true;
+              break;
+            }
           }
         }
 
         if (isBJet)
           nBSubJets++;
+        else if (isFake)
+          nFSubJets++;
            
       }//end of loop over subjets
   	   
       nBSubJets_vec.push_back(nBSubJets);
+      nFSubJets_vec.push_back(nFSubJets);
 
     }//end of loop over jets
 }
@@ -710,15 +789,20 @@ void OxfordCombinedRW2Analysis::Reco_Resolved( std::vector<fastjet::PseudoJet> c
 
 
 bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJet> const& bjets, 
+                                                  std::vector<bool> const& isTrueSR_vec,
                                                   std::vector<bool> const& isFakeSR_vec,
                                                   fastjet::PseudoJet const& fatjet, 
                                                   int& nBjets,
+                                                  int& nFjets,
+                                                  fastjet::PseudoJet& lead_subjet,
+                                                  fastjet::PseudoJet& sublead_subjet,
                                                   std::vector<fastjet::PseudoJet>& higgs_vec )
 {
   // Identify small-R jets separated from merged Higgs
   std::vector<fastjet::PseudoJet> bjets_separated;
   std::vector<bool> bjets_separated_isFake;
-  
+  std::vector<bool> bjets_separated_isTrue;
+
   for( size_t i = 0; i < bjets.size(); i++ )
   {  
     double dR = bjets.at(i).delta_R(fatjet);
@@ -726,6 +810,7 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
     
     bjets_separated.push_back( bjets.at(i) );
     bjets_separated_isFake.push_back( isFakeSR_vec[i] );
+    bjets_separated_isTrue.push_back( isTrueSR_vec[i] );
   }
   
   if( bjets_separated.size() < 2 ) return false;
@@ -743,7 +828,6 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
       double diff = fabs( sum.m() - fatjet.m() );
       if( diff < mdj_diff_min )
       {
-        
         bjet_id1 = ijet;
         bjet_id2 = jjet;
         mdj_diff_min = diff;
@@ -753,8 +837,9 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   // Construct the Higgs candidates
   fastjet::PseudoJet higgs1 = fatjet; 
   fastjet::PseudoJet higgs2 = bjets_separated.at( bjet_id1) + bjets_separated.at( bjet_id2);
-  nBjets = (bjets_separated_isFake[bjet_id1] ? 0:1) + (bjets_separated_isFake[bjet_id2] ? 0:1);
-  
+  nBjets = (bjets_separated_isTrue[bjet_id1] ? 1:0) + (bjets_separated_isTrue[bjet_id2] ? 1:0);
+  nFjets = (bjets_separated_isFake[bjet_id1] ? 1:0) + (bjets_separated_isFake[bjet_id2] ? 1:0);
+
   if( higgs1.pt() > higgs2.pt()){
     higgs_vec.push_back(higgs1);
     higgs_vec.push_back(higgs2);
@@ -762,6 +847,18 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   else{
     higgs_vec.push_back(higgs2);
     higgs_vec.push_back(higgs1);    
+  }
+
+  // Subjets
+  if (bjets_separated.at(bjet_id1).pt() > bjets_separated.at(bjet_id2).pt())
+  {
+    lead_subjet = bjets_separated.at( bjet_id1);
+    sublead_subjet = bjets_separated.at( bjet_id2);
+  }
+  else
+  {
+    sublead_subjet = bjets_separated.at( bjet_id1);
+    lead_subjet = bjets_separated.at( bjet_id2);
   }
   
   return true;
