@@ -43,20 +43,20 @@ def plotDiscriminantHisto(name, signal, background):
 	bins = numpy.linspace(0, 1, 20) # Binning density
 	fig, ax = plt.subplots()
 
-	ax.hist(signal, bins, color='r', alpha=0.5, normed=True, label = "Signal")
-	ax.hist(background, bins, color='b', alpha=0.5, normed=True, label = "Background")
+	ax.hist(signal, bins, color='r', alpha=0.8, normed=True, label = "Signal",linewidth=2)
+	ax.hist(background, bins, color='b',fill=False, alpha=0.8, edgecolor='b',normed=True, label = "Background",hatch="//",linewidth=2)
 
-	ax.set_ylim([0,8])
+	ax.set_ylim([0,10])
 	ax.set_xlabel("ANN Output")
         ax.set_ylabel("A. U.")
 
 	# Legend
-	legend = ax.legend(fontsize=14, loc='best')
-	legend.get_frame().set_alpha(0.7)
+	legend = ax.legend(fontsize=18, loc='best')
+	legend.get_frame().set_alpha(0.8)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
 	# fig.text(0.13,0.92,numpoints, fontsize=12)
-	fig.text(0.13,0.96,"MVA for "+ name + " category", fontsize=16)
+	fig.text(0.35,0.92,name + " category", fontsize=19)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -145,7 +145,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 100)
+	thresholds = numpy.linspace(0, 1, 2)
 	falsepos = []
 	truepos = []
 
@@ -206,6 +206,7 @@ for idat in xrange(0,len(datafiles)):
 ################################### Finish up ########################################
 
 # Legends
+plt.rcParams.update({'font.size': 19})
 rlegend = rocax.legend(loc='best')
 rlegend.get_frame().set_alpha(0.8)
 slegend = sbax.legend(loc='best')

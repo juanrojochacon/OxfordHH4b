@@ -124,15 +124,14 @@ plt.xticks(rotation=-25)
 plt.bar(numpy.arange(len(kinematics)), sumw, alpha=0.6)
 plt.subplots_adjust(bottom=0.20)
 
-plt.xlabel('Input Variable')
-plt.ylabel('Total associated weight (A.U.)')
+plt.xlabel('ANN Input Variable',fontsize=18)
+plt.ylabel('Total associated weight',fontsize=18)
 plt.xticks(numpy.arange(len(kinematics)) + 0.5, kinematics)
 
-plt.text(5,9.5,"Boosted category", fontsize=20)
+plt.text(5,9.3,"Boosted category", fontsize=20)
 
 plt.savefig(histout+".pdf")
 plt.clf()
-
 
 
 nx.draw(G, pos=dict(zip(G.nodes(),posLoc)), labels=dict(zip(G.nodes(),labelList)), edge_color=colorList, node_color=biasList, width=2, with_labels=True)

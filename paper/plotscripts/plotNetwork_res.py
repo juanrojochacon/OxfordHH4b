@@ -124,11 +124,13 @@ plt.xticks(rotation=-25)
 plt.bar(numpy.arange(len(kinematics)), sumw, alpha=0.6)
 plt.subplots_adjust(bottom=0.20)
 
-plt.xlabel('Input Variable')
-plt.ylabel('Total associated weight (A.U.)')
 plt.xticks(numpy.arange(len(kinematics)) + 0.5, kinematics)
 
-plt.text(4,10.4,"Resolved category", fontsize=20)
+plt.xlabel('ANN Input Variable',fontsize=18)
+plt.ylabel('Total associated weight',fontsize=18)
+
+
+plt.text(4,10.3,"Resolved category", fontsize=20)
 
 plt.savefig(histout+".pdf")
 plt.clf()

@@ -437,7 +437,7 @@ event with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$
 we are still left
 with around 100 events at the HL-LHC, which is a reasonable number,
 which the background being reduced substantially to around
-500 events.
+1000 events.
 %
 A similar cut would work fine for the intermediate category, though here
 the backgrounds are much larger and thus the expected signal significance smaller.
@@ -445,10 +445,10 @@ the backgrounds are much larger and thus the expected signal significance smalle
 For the resolved case, the signal significance would be only slightly
 improved for any value of the cut.
 
-A very useful property of MVAs such as the one used in this work
+A useful property of MVAs such as the one used in this work
 is that they provide direct  physical insight about which of the
-input variables contribute the most to the signal over background
-separation.
+input variables contribute the most to the separation of
+signal over background.
 %
 In the case of ANNs, this can be quantified by computing the sum
 of the absolute value of al the weights connected to a given
@@ -476,44 +476,45 @@ variables of the resolved (left plot) and boosted (right plot) categories.
 The notation for the various kinematic variables is the same
 as in Sect.~\ref{sec:input}.
 %
-The scale of the $y$ axis is arbitrary, and the important information
+The important information
 is contained in the relative strengths of the total associated weight
 for each of the input variables.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.48\textwidth]{plots/res_wgthist.pdf}
-\includegraphics[width=0.48\textwidth]{plots/boosted_wgthist.pdf}
-\caption{\small
-Distribution of the total associated weight,
-Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
-variables of the resolved (left plot) and boosted (right plot) categories.
 %
-See Sect.~\ref{sec:input} for a description of each of the input
-variables to the MVA in the two cases.
-}
-\label{fig:nnweights}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
-
-The results of Fig.~\ref{fig:nnweights} clearly illustrate which variables
+The results of Fig.~\ref{fig:nnweights} illustrate which variables
 are more discriminative between the signal and the background.
 %
-Let's begin discussing the resolved analysis.
-%
-In this category, the variables that lead to
+For instance, in the 
+resolved category, the variables that lead to
 a higher discrimination power
-are the $p_T$ of the two reconstructed Higgs, and then on a similar
+are the $p_T$ of the two reconstructed Higgs candidates, and then on a similar
 footing other variables like the $p_T$ of the individual jets
 and the mass of the di-Higgs system.
 %
 The only variable which seems to contain to information at all
 is the $\Delta \phi_{hh}$ separation between the two
 Higgs candidates.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/res_wgthist.pdf}
+\includegraphics[width=0.49\textwidth]{plots/boosted_wgthist.pdf}
+\vspace{-0.5cm}
+\caption{\small
+Distribution of the total associated weight,
+Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
+variables of the resolved (left plot) and boosted (right plot) categories.
+%
+See Sect.~\ref{sec:input} for a description of each of the input
+variables to the MVA.
+}
+\label{fig:nnweights}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 For the boosted category, we see that substructure variables
