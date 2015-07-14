@@ -521,7 +521,7 @@ For the boosted category, we see that substructure variables
 are the most helpful ones, in particular the $k_t$-splitting scale
 $\sqrt{d_{12}}$ and the subjettiness ratio $\tau_{12}$.
 %
-The ratio of ECFs $D_2^{(\beta)}$ and
+The ratios of ECFs $D_2^{(\beta)}$ and
 $C_2^{(\beta)}$ also seems to provide
 useful discrimination power.
 %
@@ -595,22 +595,21 @@ that for the resolved and boosted categories the improvement in signal
 significance arising from the MVA is rather moderate, less that a factor two
 in the two cases.
 %
-For no value of the cut the $S/\sqrt{B}$ value in these two categories
-goes above one.
+Even after the MVA, $S/\sqrt{B}$ never grows above 1.0.
 %
-The real usefulness of the MVA can be seen for the resolved category,
+The real power of the MVA can be seen for the boosted category,
 where the signal significance rises from around 1.0 in the cut-based
-analysis to above 3.0 for values of the ANN output cut above 0.85.
+analysis to above 3.0 for values of the ANN output cut $y_{\rm cut}\ge0.85$.
 %
 This value of the cut seems reasonable, since we know from Fig.~\ref{fig:nev2}
-that the number of signal events at the HL-LHC is still quite substantial,
-of the order of 100.
+that the signal yield at the HL-LHC is still quite substantial,
+of the order of 100 event.
 %
 Therefore, thanks to the MVA, we predict that one should be able
 to find evidence for the production of Higgs boson pairs
 at the HL-LHC using the $4b$ channel alone.
 
-Another very important benefit of the MVA applied to the boosted
+Another important benefit of the MVA applied to the boosted
 category is that fact that the background is substantially
 reduced so that $S/B$ can be as large as 10\% for the optimal
 values of the ANN output cut.
@@ -618,24 +617,23 @@ values of the ANN output cut.
 Note that this is not true for the other two categories,
 where $S/B$ is roughly constant.
 %
-A reasonably large value of $S/B$ is extremely beneficial
+A reasonably large value of $S/B$ is beneficial
 from the experimental point of view, since it indicates
 that the measurement is feasible even if the
 systematic uncertainties are not very small.
 
 Our final results are summarized in Table~\ref{table:cutflowMVA}, where we indicate
-the value of the optimal cut in each category,
-the number of signal and background events $N_{\rm ev}$,
+the value of the optimal ANN output
+cut in each category,
+the number of signal and background events $N_{\rm ev}$ expected
+at the HL-LHC,
 and also $S/\sqrt{B}$ and $S/B$.
 %
-For completeness, we also include the results after the cut-based
+For reference, we also include the results at the end of
+the cut-based
 analysis.
 %
-Given that the signal significance is much larger in the boosted as
-compared to the other two categories, no additional information
-could be obtained by combining the significance of the three
-categories, and it seems more efficient to perform
-the analysis exclusively in the boosted category.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -702,7 +700,7 @@ the analysis exclusively in the boosted category.
     From top to bottom we show the results for boosted,
     intermediate and resolved categories.
     %
-    The optimal value of the MVA cut $y_{\rm cut}$
+    The value of the ANN output cut $y_{\rm cut}$
     is optimised separately in the
     three categories.
     \label{table:cutflowMVA}
@@ -718,7 +716,12 @@ with still more that 100 signal events at the HL-LHC.
 Table~\ref{table:cutflowMVA} also shows that for the intermediate
 and resolved categories, the improvement due to the use
 of the MVA is rather moderate, and signal significance is always
-small since backgrounds are still very large.
+small since backgrounds are still  large.
+%
+The combination of the signal significance of the
+three categories leads to a $S/\sqrt{B}=3.53$, and compared
+to 3.31 using only the boosted category.
+
 
 Table~\ref{fig:sb_mva} contains the main result of this paper:
 at the HL-LHC, it should be possible to claim evidence of
@@ -728,7 +731,7 @@ Needless to say, to claim discovery and to improve the accuracy
 of the measurement of the trilinear coupling it would still
 be needed to combine this channel with others like
 $b\bar{b}\gamma\gamma$ and $b\bar{b}\tau\tau$, but in any case
-it is always important to have solid evidence from
+it is always important to have robust evidence from
 individual channels.
 
 From Table~\ref{fig:sb_mva} it is also possible to
@@ -739,22 +742,17 @@ events, leading to a $S\sqrt{B}=1.1$, too small specially accounting
 for realistic systematic experimental uncertainties.
 %
 So the full luminosity of the HL-LHC is really needed to exploit
-the information contained in this final state.
+the information contained in this final state, unless of course
+new BSM dynamics enhance the di-Higgs production rates.
 
-In the next section we discuss how the expectations for the HL-LHC
-summarized in  Table~\ref{fig:sb_mva} are modified in different
-conservative and aggressive scenarios for the performance of the
-ATLAS and CMS experiments, in particular how the results depend
-on the $b$-tagging performance and in the detector momentum
-resolution.
+The results of Table~\ref{table:cutflowMVA} include
+only the statistical uncertainty in the determination of
+the background number of events.
 %
-But before that let's illustrate how the improvement in $S/\sqrt{B}$
-obtained from the MVA arises from the power of the jet
-substructure variables.
-
-Finally, let us briefly comment on our results would be affected
-if we take into account the systematic uncertainty in the measurement
-of the backgrounds, in addition to the statistical uncertainty.
+We  briefly comment now how these results would be affected
+if we also take into account the systematic experimental
+uncertainty in the measurement
+of the multijet backgrounds distributions.
 %
 While there is no unique definition of how signal significance is modified
 by experimental systematic uncertainties~\cite{Bityukov:2002eq}, here we estimate
@@ -765,18 +763,30 @@ this effect with the simple correction
 which corresponds to adding in quadrature to the statistical uncertainty  a single
 uncorrelated systematic uncertainty $\sigma^{\rm sys}$.
 %
-Assuming an optimistic value of a total 2\% systematic uncertainty in the
-multijet background measurement, we find that the signal significance would be
-reduced in the boosted category from 3.31 to 2.8.
+Assuming an aggressive value of $\sigma^{\rm sys}=2\%$,
+we find that the combined signal significance would be
+reduced from 3.51 to 3.03.
 %
-However, it is beyond the scope of this work to estimate realistically
+While this quick estimate emphasizes the critical
+importance of an experimentally accurate
+measurement of multijet backgrounds at the LHC to fully exploit the $4b$
+channel,
+it is beyond the scope of this work to estimate realistically
 the systematic uncertainties on QCD multijet distributions (and their bin-by-bin correlation)
-that will be achieved at HL-LHC, and in the following we only consider the statistical
-uncertainties on the background.
-%
-But this quick estimate emphasizes the crucial need of an experimentally accurate
-measurement of multijet backgrounds at the LHC to fully exploit the $4b$ channel.
+that will be achieved at HL-LHC.
 
+
+In the next section we discuss how the expectations for the HL-LHC
+summarized in  Table~\ref{fig:sb_mva} are modified in different
+conservative and aggressive scenarios for the performance of the
+ATLAS and CMS experiments, in particular how the results depend
+on the $b$-tagging performance and in the detector momentum
+resolution.
+%
+But before that let us illustrate how the improvement in $S/\sqrt{B}$
+obtained from the MVA in the boosted
+category arises from the information contained in the
+jet substructure variables.
 
 \subsection{Another look at jet substructure variables}
 
