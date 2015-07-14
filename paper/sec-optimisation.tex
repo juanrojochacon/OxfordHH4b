@@ -1,19 +1,20 @@
 
-\section{Optimisation}
+\section{Analysis optimisation}
 \label{sec:optimisation}
 
-One important motivation of this work was to quantify which aspects
+One motivation for this work was to quantify which aspects
 of the performance of the LHC detectors needs to be improved
 the most in order to maximise the significance of the observation
 of double Higgs production in the $4b$ final state.
 %
-In this section we explore how the results with the baseline settings,
+In this section we explore how the post-MVA
+results with the baseline settings,
 summarized in the previous section, are modified when some of
 these settings are changed.
 %
 In particular we will explore the dependence of the results on
 the $b$-tagging probability $f_b$, the light jet mistag rate
-$f_l$, as well on the momentum smearing fraction.
+$f_l$, as well on the four-momentum smearing fraction $\Delta p$.
 %
 The variations of the analysis
 settings that we will explore are collected in
@@ -45,15 +46,6 @@ Table~\ref{sec:variations}.
   \end{table}
 %%%%%%%%%%%%%%%%%%%
 
-We also study how the signal significance is modified as a function
-of the systematic uncertainty that needs to be obtained
-in the measurement of the background processes.
-%
-This is specially important in a process like this one where
-the signal over background ratio $S/B$ is small, and thus were
-it is essential to measure the backgrounds as accurately
-as possible.
-
 
 Given that we have found in the previous section that the
 only category with real discrimination power is the boosted one,
@@ -63,9 +55,27 @@ with the new scenarios.
 %
 When necessary, the MVA has been retrained to optimise the
 new information contained in the various scenarios.
+%
+This is important since for example, when we vary $f_b$
+or $f_l$, the relative composition of the multijet
+background will change, and this can translate into
+modifications of the kinematical variables used for
+the MVA training.
+%
+Similarly, if the momentum resolution is modified,
+the weight of the different variables in the MVA
+will be altered, in particular the invariant mass
+of Higgs candidates $m_h$.
+
 
 The results of this optimisation study are collected in
-Table~\ref{table:cutflowMVAoptimisation}
+Table~\ref{table:cutflowMVAoptimisation}.
+%
+There we compare the results for the number of signal
+and background events $N_{\rm ev}$ expected at the
+HL-LHC, the signal significance and the $S/B$ ratio
+for our nominal settings and for the variations
+of the analysis settings.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
@@ -88,9 +98,30 @@ Table~\ref{table:cutflowMVAoptimisation}
          &  &   &   &   \\
    \hline
   \end{tabular}
-  \caption{\small The details of the various scenarios have been collected in
-    Table~\ref{sec:variations}.
-    \label{table:cutflowMVAoptimisation}
+  \caption{\small
+Number of signal
+and background events $N_{\rm ev}$ expected at the
+HL-LHC, signal significance and $S/B$ ratio
+for the nominal settings and for the variations
+of the analysis settings, summarized
+in  Table~\ref{sec:variations}.
+ \label{table:cutflowMVAoptimisation}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Neglecting the
+contribution from light jet fakes,
+it is easy to estimate how $S/\sqrt{B}$ should
+scale with $f_b$: since we have two double-$b$-tagged jets
+both in signal and background events, one should find that
+\be
+\frac{S}{\sqrt{B}}\Bigg|_{f_b}\Bigg/
+\frac{S}{\sqrt{B}}\Bigg|_{f_b'}
+\simeq \frac{f_b^2}{f_b'^2} \, .
+\ee
+By comparing this expectations with the numbers of
+Table~\ref{table:cutflowMVAoptimisation}, we see that there
+is a reasonable agreement in the boosted category,
+as expected since it is dominated by the irreducible
+$4b$ component.

@@ -134,7 +134,11 @@ $b$-tagging strategy is used:
   %
   If no $b$-quarks are found among the constituents
   of this jet, it can be still be tagged as a $b$-jet with
-  a mistag rate of $f_l$.
+  a mistag rate of $f_l$, unless a charm quark is found,
+  when the mistag rate is $f_c$.
+  %
+  Only jets which contain at least one constituent
+  with $p_T \ge 15$ GeV can lead to fake $b$-tags.
   %
   The probability of tagging a jet is not modified
   if more than one $b$-quark is found among the jet constituents.
@@ -186,8 +190,9 @@ $b$-tagging strategy is used:
 \end{itemize}
 
 Concerning the actual values of the $b$-tag probability $f_b$ and
-the $b$-mistag probability of light jets $f_l$, 
-we adopt as baseline the values $f_b=0.8$ and $f_l=0.01$.
+the $b$-mistag probability of light and charm jets $f_l$ and  $f_c$, 
+we adopt as baseline the values $f_b=0.8$, $f_l=0.01$
+and  $f_c=0.1$.
 %
 In Sect.~\ref{sec:optimisation} we study the dependence of
 our results against variations of $f_b$ and $f_l$ both
