@@ -1,61 +1,77 @@
 
-\section{Multivariate analysis}
+\section{Results from the multivariate analysis}
 \label{sec:mva}
 
 From the cut-based analysis,
 combining the significance of the three categories,
-we end up with a signal significance $S/\sqrt{B}\simeq 1.2(2.3)$
-with all backgrounds (only QCD $4b$) taken into account,
-which is not enough to be able to claim observation
+we end up with a signal significance of $S/\sqrt{B}\simeq 1.2(2.3)$
+with all backgrounds (only QCD $4b$) taken into account.
+%
+This does not seem
+to be enough to be able to claim observation
 of Higgs pair production
 in this channel, and even less to extract the trilinear Higgs  coupling
-$\lambda$.
+$\lambda$ with good precision.
 %
-We now process  the $n$-tuples of the signal and background
-events that survive the cut-based
-analysis by means of a multivariate
-analysis, in order increase the signal over background
-significance.
+In this section we show how the signal significance for
+our process can
+be substantially improved when
+applying a multivariate analysis (MVA) to the events
+ that survive the cut-based
+ analysis.
+
+ 
 %
 Multivariate techniques are by now a common tool to enhance signal
 significance in HEP analysis, and this is fully justified
 since they open a new window to improve the performance
 of many physics analysis and searches.
 %
-For instance, the UCL $hh\to 4b$ analysis~\cite{Wardrope:2014kya}
-uses a Boosted
-Decision Tree MVA to improve signal discrimination.
+In particular, the classification of events as arising from either signal or
+background processes via the use of a multivariate analysis is becoming
+a mature
+technique in LHC
+applications~\cite{Baldi:2014pta,Aaltonen:2012qt,
+  Wardrope:2014kya,Chatrchyan:2013zna,Dall'Osso:2015aia}.
+%
+For instance, the CMS $Vh(\to b\bar{b})$ analysis~\cite{Chatrchyan:2013zna}
+is based on a Boosted Decision Tree (BDT) MVA, and the UCL $hh\to 4b$
+feasibility study~\cite{Wardrope:2014kya}
+also used  a BDT to improve signal discrimination.
 
-In this section first of all we present the specific MVA that we use,
+In this section, first of all we present the specific MVA that we use,
 based on feed-forward multi-layer neural networks.
 %
-We then describe the input variable to the MVA, including the jet substructure
-variables, and then present the results of $S/sqrt{B}$ including
+We then introduce the input variables that are
+used the MVA, including the jet substructure
+variables, and then present the results of $S/\sqrt{B}$ including
 the MVA effects.
 %
 Since we find that jet substructure variables are a crucial input
 to the MVA, we end this section showing various kinematic distributions
 of these variables.
 
-{\bf add more refs from ATLAS and CMS}
+
 
 \subsection{MVA strategy: deep neural networks}
 
-The classification of events as arising from either signal or
-background processes via the use of a multivariate analysis is a common
-technique in high energy physics~\cite{Baldi:2014pta,Wardrope:2014kya,Chatrchyan:2013zna}.
+
 %
 In our work we use a specific type of  MVA to
 disentangle signal and background events in the $hh\to 4b$ process,
-in particular we use a multi-layer feed-forward artificial neural network (ANN),
+a multi-layer feed-forward artificial neural network (ANN),
 also known as a {\it perceptron}.\footnote{This type of ANNs are the same
   as those used to parametrize Parton Distribution Functions
 in the NNPDF global analyses~\cite{DelDebbio:2004qj,Ball:2008by,Ball:2011mu,Ball:2010de}.}
 %
+This family of ANNs is sometimes known as {\it deep} neural networks.
+%
 The basic idea is that the ANN is trained on an input composed on
 all  signal and background
-events which satisfy the
-cut-based analysis, allowing to identify in an automated way
+events which satisfy the requirements of the
+cut-based analysis.
+%
+The main result of the trained ANN is identifying, in a fully automated way,
 which are the most relevant variables to discriminate between the two.
 
 In this work, the ANN that we use has the following architecture.
@@ -259,18 +275,21 @@ include as many substructure variables as possible.
 
 \subsection{Signal significance after the MVA}
 
-Let us now present the results of the MVA applied to the event samples
-that satisfy the cut-based analysis discussed in the previous section.
+In Fig.~\ref{fig:nnresponse} we show the distribution of
+the ANN output at the end of the training, for the exclusive
+boosted, intermediate and resolved categories.
 %
-First of all in Fig.~\ref{fig:nnresponse} we show the distribution of
-the ANN output, after the training for signal and background events, for the three
-exclusive categories.
-%
-All distributions have been normalized, so that their integral
+The distributions are normalized so that their integral
   adds up to one.
 %
-Given that the final separation between signal and background will be achieving by introducing
-a cut in the ANN output, the more separated that the two distributions are, the more efficient
+The  separation between signal and background is achieving by introducing
+a cut, $y_{\rm cut}$, in the ANN output, so that MC events with $y_i\ge
+y_{\rm cut}$ are classified as signal events, and those with
+ $y_i <
+y_{\rm cut}$ as background events.
+%
+Therefore,
+the more separated that the two distributions are, the more efficient
 the MVA discrimination will be.
 
 
@@ -298,24 +317,28 @@ From Fig.~\ref{fig:nnresponse} we see that in the boosted category the MVA manag
 to achieve a clear discrimination between signal and background, with the two distributions
 nicely peaking at 1 and at 0 respectively.
 %
-This indicates that introducing a suitable cut in the ANN output will substantially reduce the background,
+This indicates that introducing a suitable cut
+$y_{\rm cut}$
+in the ANN output will substantially reduce the background,
 while keeping a reasonable signal efficiency.
 %
 The performance of the MVA discrimination is similar though slightly worse in the intermediate
 category, and it is markedly worse in the resolved category.
 %
 We have traced back these differences to the use of jet substructure variables
-in the boosted and intermediate categories, which induce the maximum
+in the boosted and intermediate categories, whose use substantially
+improves the
 discrimination between signal and background events.
 
 
 
 The results for the signal selection efficiency and the 
 background rejection rate as a function of the cut in the ANN output
+$y_{\rm cut}$
 define the so-called  Receiver-Operating Characteristic (ROC)
 curve.
 %
-It is clear that we can achieve a very high signal efficiency by using
+It is clear that we can achieve  high signal efficiency by using
 a small value of the cut in the ANN output, but this choice will be
 affected from a poor background
 rejection.
@@ -323,11 +346,14 @@ rejection.
 Conversely, using a higher value of the cut will increase background rejection at the
 cost of dropping signal efficiency.
 %
-The usefulness of ROC curves is that they allow to determine the
+The usefulness of ROC curves is that they allow to determine and
 optimal cut value that removes enough background without degrading too much the signal efficiency.
 %
-In addition, it is important to select a value of the cut in ANN output so that
-the number of expected signal events is still large enough.
+Another important requirement on the value of $y_{\rm cut}$ is that
+the  number of expected  signal events (the physical
+events for a given integrated
+luminosity, not the MC events used for the ANN training)
+after the cut is large enough.
 
 
 In Fig.~\ref{fig:exampleroc} the
@@ -355,7 +381,7 @@ Fig.~\ref{fig:exampleroc}.
 \begin{center}
 \includegraphics[width=0.65\textwidth]{plots/roc.pdf}
 \caption{\small ROC curve for the background rejection rate as a function of the signal
-  selection efficiency as the cut in the ANN output is varied.
+  selection efficiency, as the cut in the ANN output is varied.
   %
   We show the results for the three exclusive categories: boosted, intermediate
   and resolved.
@@ -368,28 +394,30 @@ Fig.~\ref{fig:exampleroc}.
 From Fig.~\ref{fig:exampleroc} we see that, always starting from the signal
 and background events that survive the basic cut-based analysis,
 one can achieve a  signal
-efficiency of $\sim 80\%$ while reducing the background by
-$60\%$, $55\%$ and $45\%$ in the boosted, intermediate and resolved
+efficiency of $\sim 90\%$ while reducing the background by
+$80\%$, $60\%$ and $50\%$ in the boosted, intermediate and resolved
 categories respectively.
 %
 It is easy to translate these factors into an  improvement factor of the pre-MVA
 signal significance $S/\sqrt{B}$.
 %
-For example, requiring a signal efficiency of 90\%, we find a background rejection
-rate of $40\%$, $30\%$ and $20\%$ respectively, which corresponds to an increase
-in $S/\sqrt{B}$ of 1.2, 1.1 and 1.0 respectively.
+As an illustration, if a signal efficiency of 90\%
+is required, we find that the MVA improves $S/\sqrt{B}$
+by  approximately 2.0, 1.4 and 1.3  in the three categories respectively.
 
-Of course, and important restriction on the range of allowed cuts in the ANN output
-is that the cut cannot be so hard that the actual number of signal events expected
+As mentioned above, an
+ important restriction on the range of allowed cuts in the ANN output
+ is that $y_{\rm cut}$
+ cannot be so hard that the actual number of signal events expected
 at the HL-LHC becomes unreasonably small.
 %
 To verify how many signal and background events are left after the MVA cut,
 we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and background (solid lines)
-  events expected at the HL-LHC as a function of the cut in the ANN output,
-  for the three separate categories.
+  events expected at the HL-LHC as a function of $y_{\rm cut}$,
+  for the three exclusive categories.
   %
-  Note that the value of the cut in the ANN cut can be separately optimised in the three
-  categories, even if here we plot them together for easiness of presentation.
+  Note that the value of the cut in the ANN cut is separately optimised in the three
+  categories.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -405,7 +433,8 @@ we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and backgroun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As can be seen from Fig.~\ref{fig:nev2}, in the boosted category
-event with a cut in the ANN output as hard as 0.9 we are still left
+event with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$
+we are still left
 with around 100 events at the HL-LHC, which is a reasonable number,
 which the background being reduced substantially to around
 500 events.
@@ -416,7 +445,7 @@ the backgrounds are much larger and thus the expected signal significance smalle
 For the resolved case, the signal significance would be only slightly
 improved for any value of the cut.
 
-A very useful property of MVA's such as the one used in this work
+A very useful property of MVAs such as the one used in this work
 is that they provide direct  physical insight about which of the
 input variables contribute the most to the signal over background
 separation.
@@ -740,7 +769,7 @@ But this quick estimate emphasizes the crucial need of an experimentally accurat
 measurement of multijet backgrounds at the LHC to fully exploit the $4b$ channel.
 
 
-\subsection{Another look at the jet substructure variables}
+\subsection{Another look at jet substructure variables}
 
 It is possible to verify that the usefulness of the MVA when
 applied to the boosted category arises from the 
@@ -751,7 +780,7 @@ boosted category, shown in Fig.~\ref{fig:nnweights}, we see that
 all substructure variables contain useful information:
 the $k_t$ splitting scales $\sqrt{d_{12}}$,
 the $\tau_{21}$ subjettiness ratio, and the ECF ratios
-$C_2^{{\beta}}$ and $D_2^{{\beta}}$.
+$C_2^{(\beta)}$ and $D_2^{(\beta)}$.
 %
 Interestingly, for some substructure variables, such as $\tau_{21}$,
 the total associated weight turns out to be stronger in the leading
