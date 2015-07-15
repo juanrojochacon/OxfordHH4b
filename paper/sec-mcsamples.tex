@@ -11,7 +11,7 @@ We also discuss how we study the effects of finite detector
 resolution by means of an smearing of the final-state
 particles four-momentum.
 
-\subsection{Higgs pair production}
+\subsection{Higgs pair production by gluon-fusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -97,11 +97,6 @@ $b$-tagging.
 %
 A complete simulation of $b$-tagging at the hadron level is difficult to achieve without a full
 detector simulator, which is beyond the scope of this paper.
-%
-For a similar reason, we don't consider underlying event, multiple parton interactions and
-pile-up, which can be taken of using a variety of subtraction methods~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba}.
-%
-The same applies to the background samples, which we discuss now.
 
 \subsection{Backgrounds: QCD multijet and $t\bar{t}$ production}
 
@@ -248,22 +243,72 @@ We find agreement, within the scale uncertainties, between the {\tt MadGraph5\_a
 backgrounds, so we can be confident that the set-up that we will use in this analysis is robust enough.
 
 
+\subsection{Mimicking detector resolution}
 
-Finally, let us discuss the smearing applied to signal
-and background samples.
+
+While it is beyond the scope of this work to perform a full
+detector simulation, it is still important to include an estimate of detector
+effects in the analysis, in particular for the finite resolution
+in energy and momentum, which will affect some kinematical variables, in particular
+the invariant mass of the Higgs candidates.
 %
-It is beyond the scope of this work to perform a complete study of the impact of
-detector effects in this process.
-%
-However, it is still important to include some form of rough estimate of detector
-effects in the analysis, to properly estimate for example the impact
-of the Higgs mass window cuts.
-%
+For example, in the absence of any four-momentum smearing, the impact of the $m_h$
+distributions of the Higgs candidates in the MVA
+would be unrealistically large.
+
+
 In this work we simulate the finite momentum resolution of the ATLAS and CMS
-hadronic calorimeters by applying a Gaussian smearing to the four components
-of the four-momentum $p$, with mean zero and standard deviation $\Delta p$.
+hadronic calorimeters by applying a Gaussian smearing
+with mean zero and standard deviation $\sigma_E$.
 %
-We take as baseline value a smearing of $\Delta p=5\%$, and in
+In particular, we rescale the four-momentum of all
+final-state particles, before jet clustering, using
+a common factor for the energy $E$ and the length of the
+three-momentum $\vec{p}$, while keeping the direction unchanged:
+%
+\be
+E_i \, \to \, E'_i= \lp 1+ r_i\cdot\sigma_E \rp\, E_i \, ,\quad
+\vec{p}_i \, \to \, \vec{p}'_i= \lp 1+ r_i\cdot\sigma_E \rp\, \vec{p}_i \, , \quad
+i=1,\ldots,N_{\rm part} \, ,
+\ee
+with $r_i$ an univariate Gaussian random number which is different for each
+of the $N_{\rm part}$ particles in the event.
+
+
+This smearing reflects the fact that the angular resolution of the LHC detectors
+is better than the energy resolution.
+%
+We take as baseline value a momentum smearing
+factor of $\sigma_E=5\%$, and in
 Sect.~\ref{sec:optimisation} we explore how our results change
-if a more optimistic or pessimistic value is assumed for the momentum
+if a more optimistic or pessimistic value is assumed for this value
+of the momentum
 resolution in the LHC detectors.
+
+It is also beyond the scope of this paper to
+consider
+the effects in our analysis of  Underlying Event (UE),
+Multiple Parton Interactions (MPI) and in
+particular
+pile-up (PU).
+%
+While PU will be be one of the major problems at the HL-LHC, fortunately
+a number of powerful methods for the subtraction of  UE, MPI and PU
+effects 
+have been developed recently~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba,Ellis:2009me,Bertolini:2014bba,Cacciari:2014gra,Cacciari:2014jta,Berta:2014eza,Larkoski:2014wba}.
+%
+For these reasons, in our Monte Carlo analysis we switch off MPI and PU,
+and postpone to a future work a full detector simulation
+to quantify the robustness
+of our analysis strategy with respect to the inclusion
+(and its subtraction) of the large PU
+expected at the HL-LHC.
+
+
+We note that while substructure variables can be affected by PU, event after its
+subtraction, our analysis should be relatively robust since we do not cut
+over any specific variables, but input the full distributions to the MVA.
+%
+In particular, if after PU suppression a given variable is modified
+but in the same way for signal and background samples, it should not
+affect MVA discrimination.
