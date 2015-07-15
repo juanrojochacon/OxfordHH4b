@@ -65,6 +65,12 @@ Analysis("oxford_combined_rw", sampleName)
  
   const double pt_min = 0.;
   const double pt_max = 900.;
+
+  const double eta_min = -6.;
+  const double eta_max = +6.;
+  
+  const double phi_min = -3.15;
+  const double phi_max = +3.15;
   
   const double m_HH_min = 0.;
   const double m_HH_max = 600.; 
@@ -95,6 +101,12 @@ Analysis("oxford_combined_rw", sampleName)
       BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1" + suffix);
 
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_H1" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, phi_min, phi_max), "phi_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, phi_min, phi_max), "phi_H1" + suffix);
+      
       BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, DeltaRmin, DeltaRmax), "dR_HH" + suffix);
@@ -935,7 +947,9 @@ void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& 
          
 }
 
-void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector<fastjet::PseudoJet> const& trackjets, std::vector<int>& nBSubJets_vec )
+void OxfordCombinedRWAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets, 
+					 std::vector<fastjet::PseudoJet> const& trackjets, 
+					 std::vector<int>& nBSubJets_vec )
 {
     // Loop over all fat jets
     for( size_t i=0; i<largeRJets.size(); i++)
@@ -1063,7 +1077,7 @@ bool OxfordCombinedRWAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet
     for( size_t i = 0; i < bjets.size(); i++ )
     {  
       double dR = bjets.at(i).delta_R(fatjet);
-      if( dR < 1.0 ) continue;
+      if( dR < 1.2 ) continue;
       
       bjets_separated.push_back( bjets.at(i) );
       bjets_separated_isFake.push_back( isFakeSR_vec[i] );
@@ -1074,9 +1088,12 @@ bool OxfordCombinedRWAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet
     double mdj_diff_min = 1e20; // Some large number to begin
     int bjet_id1(100), bjet_id2(100);
     
+    int n_sep_jet_candidates = 2;
+  //   int n_sep_jet_candidates = (int)bjets_separated.size()
+    
     // Get the pairing that minimizes |m_dj1 - m_dj2|
-    for(int ijet=0; ijet < (int)bjets_separated.size(); ijet++)
-      for(int jjet=0; jjet < (int)bjets_separated.size(); jjet++)
+    for(int ijet=0; ijet < n_sep_jet_candidates; ijet++)
+      for(int jjet=0; jjet < n_sep_jet_candidates; jjet++)
       {
         // Compute jet masses
         const fastjet::PseudoJet sum = bjets_separated[ijet] + bjets_separated[jjet];
@@ -1144,6 +1161,12 @@ void OxfordCombinedRWAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
   FillHistogram("m_H0" + suffix, weight, H0.m());
   FillHistogram("m_H1" + suffix, weight, H1.m());
 
+  FillHistogram("eta_H0" + suffix, weight, H0.eta());
+  FillHistogram("eta_H1" + suffix, weight, H1.eta());
+  
+  FillHistogram("phi_H0" + suffix, weight, H0.phi());
+  FillHistogram("phi_H1" + suffix, weight, H1.phi());
+  
   FillHistogram("ptHptH" + suffix, weight, H0.pt(), H1.pt());
   FillHistogram("mHmH" + suffix, weight, H0.m(), H1.m());
 

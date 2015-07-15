@@ -48,6 +48,13 @@ class OxfordCombinedRW2Analysis : public Analysis
 	                    size_t const& cut, 
 	                    double const& weight );
 
+		// Fill basic jet quantities
+		void SubJetFill( 	std::vector<fastjet::PseudoJet> const& leading_subjet,
+				std::vector<fastjet::PseudoJet> const& subleading_subjet,
+						std::string const& analysis, 
+	                    size_t const& cut, 
+	                    double const& weight );
+
 		// Fill common reconstructed higgs quantities
 		void HiggsFill(	fastjet::PseudoJet const& H0,
 	                    fastjet::PseudoJet const& H1,

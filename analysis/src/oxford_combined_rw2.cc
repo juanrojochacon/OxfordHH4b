@@ -58,6 +58,12 @@ Analysis("oxford_combined_rw2", sampleName)
   const double pt_min = 0.;
   const double pt_max = 900.;
   
+  const double eta_min = -6.;
+  const double eta_max = +6.;
+  
+  const double phi_min = -3.15;
+  const double phi_max = +3.15;
+  
   const double m_HH_min = 0.;
   const double m_HH_max = 600.; 
   
@@ -82,6 +88,12 @@ Analysis("oxford_combined_rw2", sampleName)
 
       BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H0" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, m_min, m_max), "m_H1" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_H1" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, phi_min, phi_max), "phi_H0" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, phi_min, phi_max), "phi_H1" + suffix);
 
       BookHistogram(new YODA::Histo1D(nbins, pt_HH_min, pt_HH_max), "pt_HH" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, m_HH_min, m_HH_max), "m_HH" + suffix);
@@ -92,7 +104,16 @@ Analysis("oxford_combined_rw2", sampleName)
 
       BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH" + suffix);
       BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_leadSJ_fj1" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_subleadSJ_fj1" + suffix);
 
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_leadSJ_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_subleadSJ_fj2" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_leadSJ_fj" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_subleadSJ_fj" + suffix);
+      
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj1" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj2" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj" + suffix);  
@@ -300,6 +321,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           {
             HiggsFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
             BoostFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
+	    SubJetFill( leading_subjet, subleading_subjet, "boost", 5, event_weight);
             bstClassified[5] = true;
 
             // b-tagging weights
@@ -317,6 +339,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
               HiggsFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
               BoostFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
+	      SubJetFill( leading_subjet, subleading_subjet, "boost", 6, boost_weight);
               bstClassified[6] = true;
 
               // Final exclusive booking
@@ -324,6 +347,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
               {
                 HiggsFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
                 BoostFill(largeRJets[0], largeRJets[1], "boost", 7, boost_weight);
+		SubJetFill( leading_subjet, subleading_subjet, "boost", 7, boost_weight);
                 bstClassified[7] = true;
 
                 // Calculate some substructure variables
@@ -434,6 +458,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
           HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 6, inter_weight);
           BoostFill(largeRJets[0], "inter", 6, inter_weight);
+	  SubJetFill( leading_subjet, subleading_subjet, "inter", 6, inter_weight);
           intClassified[6] = true;
 
           if (!selected)
@@ -441,6 +466,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
             // Exclusivity cut
             HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 7, inter_weight);
             BoostFill(largeRJets[0], "inter", 7, inter_weight);
+	    SubJetFill( leading_subjet, subleading_subjet, "inter", 7, inter_weight);
             intClassified[7] = true;
 
             // Calculate some substructure variables
@@ -806,7 +832,7 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   for( size_t i = 0; i < bjets.size(); i++ )
   {  
     double dR = bjets.at(i).delta_R(fatjet);
-    if( dR < 1.0 ) continue;
+    if( dR < 1.2 ) continue;
     
     bjets_separated.push_back( bjets.at(i) );
     bjets_separated_isFake.push_back( isFakeSR_vec[i] );
@@ -818,9 +844,12 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   double mdj_diff_min = 1e20; // Some large number to begin
   int bjet_id1(100), bjet_id2(100);
   
+  int n_sep_jet_candidates = 2;
+//   int n_sep_jet_candidates = (int)bjets_separated.size()
+  
   // Get the pairing that minimizes |m_dj1 - m_dj2|
-  for(int ijet=0; ijet < (int)bjets_separated.size(); ijet++)
-    for(int jjet=0; jjet < (int)bjets_separated.size(); jjet++)
+  for(int ijet=0; ijet < n_sep_jet_candidates; ijet++)
+    for(int jjet=0; jjet < n_sep_jet_candidates; jjet++)
     {
       // Compute jet masses
       const fastjet::PseudoJet sum = bjets_separated[ijet] + bjets_separated[jjet];
@@ -864,13 +893,55 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
   return true;
 }
 
-    // Fill basic jet quantities
+// Fill basic jet quantities
 void OxfordCombinedRW2Analysis::JetFill(  std::vector<fastjet::PseudoJet> const& jets,
                                           std::string const& analysis, 
                                           size_t const& cut, 
                                           double const& weight )
 {
 
+}
+
+
+// Fill basic subjet quantities
+void OxfordCombinedRW2Analysis::SubJetFill(  std::vector<fastjet::PseudoJet> const& leading_subjet,
+					      std::vector<fastjet::PseudoJet> const& subleading_subjet,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+  
+    // Histo fill suffix
+    const std::string suffix = "_" + analysis + cString[cut];
+  
+    // Fill histograms for boosted
+    if ( analysis == "boost" ){
+      
+	if ( leading_subjet.size() < 2 )
+	    std::cerr << "SubJetFill WARNING: Less than two leading subjets "<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
+	if ( subleading_subjet.size() < 2 )
+	    std::cerr << "SubJetFill WARNING: Less than two subleading subjets "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
+	
+	FillHistogram("pt_leadSJ_fj1" + suffix, weight, leading_subjet[0].pt());
+	FillHistogram("pt_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].pt());
+	
+	FillHistogram("pt_leadSJ_fj2" + suffix, weight, leading_subjet[1].pt());
+	FillHistogram("pt_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].pt());
+	
+    }
+    
+    // Fill histograms for intermediate
+    if ( analysis == "inter" ){
+      
+	if ( leading_subjet.size() < 1 )
+	    std::cerr << "SubJetFill WARNING: Less than one leading subjet"<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
+	if ( subleading_subjet.size() < 1 )
+	    std::cerr << "SubJetFill WARNING: Less than one subleading subjet "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
+	
+	FillHistogram("pt_leadSJ_fj" + suffix, weight, leading_subjet[0].pt());
+	FillHistogram("pt_subleadSJ_fj" + suffix, weight, subleading_subjet[0].pt());
+    }
+    
 }
 
 // General fill for reconstructed higgs quantities
@@ -899,6 +970,12 @@ void OxfordCombinedRW2Analysis::HiggsFill(fastjet::PseudoJet const& H0,
 
   FillHistogram("m_H0" + suffix, weight, H0.m());
   FillHistogram("m_H1" + suffix, weight, H1.m());
+  
+  FillHistogram("eta_H0" + suffix, weight, H0.eta());
+  FillHistogram("eta_H1" + suffix, weight, H1.eta());
+  
+  FillHistogram("phi_H0" + suffix, weight, H0.phi());
+  FillHistogram("phi_H1" + suffix, weight, H1.phi());
 
   FillHistogram("ptHptH" + suffix, weight, H0.pt(), H1.pt());
   FillHistogram("mHmH" + suffix, weight, H0.m(), H1.m());
