@@ -3,18 +3,19 @@
 \label{sec:optimisation}
 
 One motivation for this work was to quantify which aspects
-of the performance of the LHC detectors needs to be improved
+of the performance of the LHC detectors need to be improved
 the most in order to maximise the significance of the observation
 of double Higgs production in the $4b$ final state.
 %
 In this section we explore how the post-MVA
 results with the baseline settings,
 summarized in the previous section, are modified when some of
-these settings are changed.
+these settings are modified.
 %
 In particular we will explore the dependence of the results on
 the $b$-tagging probability $f_b$, the light jet mistag rate
-$f_l$, as well on the four-momentum smearing fraction $\Delta p$.
+$f_l$, as well on the four-momentum smearing fraction $\sigma_E$,
+see Eq.~(\ref{eq:smearing}).
 %
 The variations of the analysis
 settings that we will explore are collected in
@@ -25,7 +26,7 @@ Table~\ref{sec:variations}.
   \centering
   \begin{tabular}{|c|c|c|c|}
 \hline
-    Scenario  &  $f_b$  &  $f_l$  &  $\Delta p_T$ \\
+    Scenario  &  $f_b$  &  $f_l$  &  $\sigma_E$ \\
     \hline
     \hline
     Baseline  &  0.8   &   0.01  &  5\% \\
@@ -34,12 +35,13 @@ Table~\ref{sec:variations}.
     B        &  0.7   &   0.01  &  5\% \\
     C        &  0.8   &   0.005  &  5\% \\
     D        &  0.8   &   0.02  &  5\% \\
-    E        &  0.9   &   0.005  &  2\% \\   
+    E        &  0.9   &   0.005  &  3\% \\
+    F        &  0.9   &   0.005  &  7\% \\   
     \hline
   \end{tabular}
   \caption{\small The baseline settings for the $b$-jet
     tagging probability, the light jet mistag rate $f_l$
-    and the $p_T$ resolution $\Delta p_T$, compared
+    and the momentum resolution $\sigma_E$, compared
     to the various scenarios that we discussed in this section.
 \label{sec:variations}
   }
@@ -48,12 +50,13 @@ Table~\ref{sec:variations}.
 
 
 Given that we have found in the previous section that the
-only category with real discrimination power is the boosted one,
-in this section we concentrate only on this one,
+category with highest discrimination power is the boosted one,
+in this section we concentrate on it,
 by comparing our baseline results from Table~\ref{table:cutflowMVA}
 with the new scenarios.
 %
-When necessary, the MVA has been retrained to optimise the
+Each time of the parameters in Table~\ref{sec:variations}
+ has been changed, the MVA has been retrained to optimise the
 new information contained in the various scenarios.
 %
 This is important since for example, when we vary $f_b$
@@ -73,7 +76,7 @@ Table~\ref{table:cutflowMVAoptimisation}.
 %
 There we compare the results for the number of signal
 and background events $N_{\rm ev}$ expected at the
-HL-LHC, the signal significance and the $S/B$ ratio
+HL-LHC, the signal significance, and the $S/B$ ratio,
 for our nominal settings and for the variations
 of the analysis settings.
 
@@ -116,12 +119,21 @@ it is easy to estimate how $S/\sqrt{B}$ should
 scale with $f_b$: since we have two double-$b$-tagged jets
 both in signal and background events, one should find that
 \be
-\frac{S}{\sqrt{B}}\Bigg|_{f_b}\Bigg/
-\frac{S}{\sqrt{B}}\Bigg|_{f_b'}
+\lp \frac{S}{\sqrt{B}} \rp _{f_b}\Bigg/
+\lp \frac{S}{\sqrt{B}} \rp_{f_b'}
 \simeq \frac{f_b^2}{f_b'^2} \, .
 \ee
 By comparing this expectations with the numbers of
 Table~\ref{table:cutflowMVAoptimisation}, we see that there
 is a reasonable agreement in the boosted category,
 as expected since it is dominated by the irreducible
-$4b$ component.
+$4b$ component of the QCD multijet background.
+
+The most aggressive scenario is the one in which the $b$-tagging
+is improved up an efficiency $f_b=0.9$, while at the same
+time the light jet fake rate is reduced down to $0.5\%$, while
+at the same time the momentum resolution has been decreased
+to $\sigma_E=3\%$.
+%
+In this scenario, the signal significance of the boosted category
+increases to AAA, to be compared to BBB with the baseline settings.
