@@ -113,6 +113,15 @@ Analysis("oxford_combined_rw2", sampleName)
       
       BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_leadSJ_fj" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_subleadSJ_fj" + suffix);
+
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_leadSJ_fj1" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_subleadSJ_fj1" + suffix);
+
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_leadSJ_fj2" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_subleadSJ_fj2" + suffix);
+      
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_leadSJ_fj" + suffix);
+      BookHistogram(new YODA::Histo1D(nbins, eta_min, eta_max), "eta_subleadSJ_fj" + suffix);
       
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj1" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, 0, 200), "split12_fj2" + suffix);
@@ -927,6 +936,12 @@ void OxfordCombinedRW2Analysis::SubJetFill(  std::vector<fastjet::PseudoJet> con
 	
 	FillHistogram("pt_leadSJ_fj2" + suffix, weight, leading_subjet[1].pt());
 	FillHistogram("pt_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].pt());
+
+	FillHistogram("eta_leadSJ_fj1" + suffix, weight, leading_subjet[0].eta());
+	FillHistogram("eta_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].eta());
+	
+	FillHistogram("eta_leadSJ_fj2" + suffix, weight, leading_subjet[1].eta());
+	FillHistogram("eta_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].eta());
 	
     }
     
@@ -940,6 +955,9 @@ void OxfordCombinedRW2Analysis::SubJetFill(  std::vector<fastjet::PseudoJet> con
 	
 	FillHistogram("pt_leadSJ_fj" + suffix, weight, leading_subjet[0].pt());
 	FillHistogram("pt_subleadSJ_fj" + suffix, weight, subleading_subjet[0].pt());
+	
+	FillHistogram("eta_leadSJ_fj" + suffix, weight, leading_subjet[0].eta());
+	FillHistogram("eta_subleadSJ_fj" + suffix, weight, subleading_subjet[0].eta());
     }
     
 }

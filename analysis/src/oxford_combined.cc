@@ -1154,7 +1154,7 @@ bool OxfordCombinedAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet>&
     for( size_t i = 0; i < bjets.size(); i++ ){
       
       double dR = bjets.at(i).delta_R(fatjet);
-      if( dR < 1.0 ) continue;
+      if( dR < 1.2 ) continue;
       
       bjets_separated.push_back( bjets.at(i) );
     }
@@ -1164,9 +1164,12 @@ bool OxfordCombinedAnalysis::Reco_Intermediate( std::vector<fastjet::PseudoJet>&
     double mdj_diff_min = 1e20; // Some large number to begin
     int bjet_id1(100), bjet_id2(100);
     
-    // Get the pairing that minimizes |m_dj1 - m_dj2|
-    for(int ijet=0; ijet < (int)bjets_separated.size(); ijet++)
-      for(int jjet=0; jjet < (int)bjets_separated.size(); jjet++)
+    int n_sep_jet_candidates = 2;
+    //   int n_sep_jet_candidates = (int)bjets_separated.size()
+      
+      // Get the pairing that minimizes |m_dj1 - m_dj2|
+      for(int ijet=0; ijet < n_sep_jet_candidates; ijet++)
+	for(int jjet=0; jjet < n_sep_jet_candidates; jjet++)
       {
         // Compute jet masses
         const fastjet::PseudoJet sum = bjets_separated[ijet] + bjets_separated[jjet];
