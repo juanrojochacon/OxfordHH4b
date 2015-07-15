@@ -1,0 +1,35 @@
+***********************************************************
+
+* Finalise the small corrections needed in the b-tagging
+
+* Implement c-tagging with charm mistag probability of 10%
+
+* Smearing: agreed to smear only the magnitude of the four-momentum
+but not its direction
+
+E -> E' = ( 1 + sigmaE ) * E
+
+\vec{p} -> \vec{p'} =  ( 1 + sigmaE ) * \vec{p}
+
+with sigmaE a gaussianly distributed random number, with STD
+currently set to 5%
+
+* Before tagging the code, check that the unweighted and
+the two reweighted analysis all give identical results
+within statistics
+For this test, it might be useful to loosen the kinemtical
+cuts to increase the statistics
+
+* Run the final analysis code on parton level samples,
+to understand why fakes are so important
+
+* Correct the overlap plot in the paper with the correct weights
+
+* Add the missing kinematic information to the n-tuples
+
+* Tag the code before running any of the analysis variations
+and produce the final numbers
+
+* The MVA will be retrained for each of the analysis variations
+
+***********************************************************
