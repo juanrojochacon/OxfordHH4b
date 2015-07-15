@@ -1,72 +1,167 @@
-\section{Conclusions and outlook}
+\section{Summary and outlook}
 \label{sec:conclusions}
 
 In this work we have presented a detailed study of the feasibility
-of the measurement of Higgs pair production in the $bb\bar{b}\bar{b}$
+of a measurement of Higgs pair production in the $b\bar{b}b\bar{b}$
 final state at the High-Luminosity LHC.
 %
-As opposed to previous works, we have combined a traditional
-cut-based analysis with a modern multivariate analysis,
-which allows one to significantly improve the signal significance.
+Our strategy is based on the combination of a traditional
+cut-based analysis with modern multivariate techniques,
+which allows us to improve the signal significance of this channel
+as compared to previous studies.
 %
-A careful analysis of the different possible methods to reconstruct
-Higgs pairs finds that the boosted category is the most efficient
-one, but that additional complementary information can also be provided
+Following a careful optimisation of the
+signal reconstruction strategy for different event topologies,
+we find that the highest significance is obtained
+in the 
+boosted category, and that complementary information is also provided
 by the intermediate and resolved categories.
 %
-Our analysis includes all relevant backgrounds, including the
-effects from fake $b$-tags, neglected in previous works,
-which turn out to be quite important specially
-in the boosted and in the resolved categories.
 
-Thanks for the MVA improvements, and combining the information
-from the three exclusive categories, we find a signal significance
-of 3.8.
+
+Our analysis is based on a complete simulation of
+all relevant backgrounds, in particular
+of QCD multijets.
 %
-Therefore, we can conclude that, already on the $4b$ channel along,
-it should be possible to observe evidence for this process at
+We include not only the irreducible $4b$ component, but
+also the $2b2j$ and $4j$ backgrounds, which contribute
+to the yield of reconstructed Higgs candidates
+when light partons are mistagged as $b$-quarks.
+%
+We show that neglecting the contribution
+from these fakes is a poor approximation
+in general, specially for the resolved and intermediate
+categories, and that the origin of this is that
+the impact of fakes
+is substantially enhanced when compared to a naive parton
+level estimate due to combinatorics and $b\bar{b}$
+pair radiation during the parton shower.
+
+The combination of the three categories leads to a total
+signal significance of $S/\sqrt{B}\simeq 3.2$.
+%
+Therefore, we can conclude that, already from the $4b$ channel alone,
+it should be possible to claim evidence for Higgs pair production at
 the HL-LHC.
 %
-A combination with other decay channels, like $b\bar{b}\gamma\gamma$
-and $b\bar{b}\tau\tau$ would still be required in order
-to claim discovery of Higgs pair production.
-
-
-One important implication of our results is which is the accuracy
-that can be achieved for a measurement of the
-Higgs trilinear coupling $\lambda$ from a measurement
-of the $4b$ final state.
+We have estimated the robustness of these estimates by varying some
+of the analysis settings, such as the $b$-quark tagging efficiency
+or the momentum resolution, finding that one could achieve
+a signal significance of up to $S/\sqrt{B}\simeq 4.2$ in
+the most aggressive scenarios.
 %
-We plan to quantify this in future work.
+However, it is also clear that in order
+to claim discovery of Higgs pair production
+(with the traditional 5-$\sigma$ criterion)
+a combination with other decay channels
+would still be required.
 %
+In this respect, the 
+ $b\bar{b}\gamma\gamma$
+and $b\bar{b}\tau\tau$ final states are the most
+promising, since while having
+smaller rates as compared to $4b$
+they
+benefit from reduced backgrounds.
+%
+We also find that an observation of Higgs pair production at the
+LHC Run II is very difficult unless the rates are enhanced
+by BSM dynamics.
+
+The main limitation of this work is the lack a full
+detector simulation, and the assumption that the large PU
+expected at the HL-LHC can be removed using
+available background
+suppression methods~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba,Ellis:2009me,Bertolini:2014bba,Cacciari:2014gra,Cacciari:2014jta,Berta:2014eza,Larkoski:2014wba} without modifying significantly the
+kinematic variables that we input to the MVA.
+%
+While these are reasonable approximations (and we mimic to some
+extent the detector resolution with the smearing), they need
+to be validated in a complete detector simulation with realistic
+PU effects.
+%
+In addition, it would be desirable, having established the
+value of the $4b$ channel for the study of
+Higgs pair production, to revisit and improve the
+theoretical modeling of signal and background simulation,
+in particular using NLO calculations matched to
+parton showers both for signal~\cite{Frederix:2014hta,Maierhofer:2013sha}
+and for backgrounds~\cite{Alwall:2014hca,Gleisberg:2008ta}.
+%
+We plan to address these two issues in a follow-up
+publication.
+
+One important application of our results
+would be to quantify the accuracy on the extraction of
+the Higgs trilinear coupling $\lambda$
+that could be achieved from
+a measurement of the
+$\sigma\lp hh\to 4b\rp$ cross-section.
+%
+This is however not straightforward since
+the determination of the trilinear coupling
+requires not only to regenerate signal samples
+for a wide range values of  $\lambda$, but also to
+redo the analysis
+optimisation (including the MVA training) for each
+of these values.
+%
+We plan to explore this possibility in the future, and to
+compare with the precision in the determination of
+$\lambda$ that has been claimed in other final states.
+
 In addition,
-in this work we have considered only SM production mechanism,
-but it is well known that many BSM scenarios predict deviations
-in Higgs pair production, both at the level of rates,
-for instance when the trilinear coupling $\lambda$, and of
-shapes of the distributions, when higher-order effective
-operators are included in the theory~\cite{Azatov:2015oxa}.
+in this work we have considered only the SM production mechanism,
+but many BSM scenarios predict deviations
+in Higgs pair production, both at the level of total rates
+and of
+differential distributions.
 %
-In this respect, we plan to study which are the constraints
-on BSM physics that can be obtained from measurements
-of Higgs pair production in the $4b$ channel.
+In the absence of new explicit degrees of freedom,
+deviations from the SM can be parametrized in
+the EFT framework using higher-order
+operators~\cite{Azatov:2015oxa,Goertz:2014qta}.
 %
-This however will be a computationally intensive task since in
-general BSM physics modify the shapes of the Higgs kinematical
-distributions, and thus each different point in the parameter
-space would require a re-optimization via a new training
+We thus plan to study which are the constraints
+on the coefficients of these effective
+operators that can be obtained from measurements
+of various $hh\to 4b$ distributions.
+%
+Note that the higher rates of the $4b$ final state as compared to
+say $b\bar{b}\gamma\gamma$ allow to better constrain operators
+that modify the high-energy behavior
+of the theory, in particular
+since it becomes possible
+to access the tail of the $m_{hh}$ distribution.
+
+
+As in the case of the extraction of $\lambda$, such study
+would be a computationally intensive task, since
+BSM dynamics will modify the shapes of the kinematical
+distributions, and thus in principle each point in the EFT parameter
+space would require a re-optimization with a new training
 of the MVA.
+%
+In order to explore efficiency the BSM parameters
+without having to redo a full analysis
+for each point, modern techniques
+such as the cluster analysis proposed
+in Ref.~\cite{Dall'Osso:2015aia} should be very useful.
 
 Finally, it would be important to estimate the prospects for
-Higgs pair production in the $4b$ at a Future Circular
-Collider with a center of mass energy of 100 TeV, along the lines
-of similar studies~\cite{Barr:2014sga}.
+Higgs pair production in the $4b$  final
+state at a Future Circular
+Collider (FCC) with a center of mass energy of
+100 TeV~\cite{Barr:2014sga,Azatov:2015oxa,Papaefstathiou:2015iba}.
 %
 While signal yields would be certainly increased, also the QCD
 multijet background would grow, so it is necessary to repeat
-our analysis, including full background simulation, for 100 TeV,
-in order to be able to draw any definite conclusion here.
-
+our analysis, including full background simulation, at 100 TeV,
+and assess if the accuracy in the extraction of the trilinear $\lambda$
+is improved or degraded as compared to the 14 TeV case.
+%
+This study should address both SM and BSM
+production mechanisms.
 
 
 \bigskip
