@@ -41,4 +41,5 @@ double const lumi_hllhc=3000;
 // Initial seed for smearing
 uint const smear_seed = 23478234;
 
+typedef enum {NTAG, BTAG, CTAG, LTAG} btagType;
 //-------------------------------------------------------------

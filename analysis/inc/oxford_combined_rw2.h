@@ -2,6 +2,7 @@
 #pragma once
 
 #include "analysis.h"
+#include "settings.h"
 
 #include <iostream>
 #include <vector>
@@ -17,8 +18,11 @@ class OxfordCombinedRW2Analysis : public Analysis
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:
-		// B-tagging
-		void BTagging( 	std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<bool>& isTrue_vec, std::vector<bool>& isFake_vec  );
+		// Small-R B-tagging
+		void BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, 
+					   std::vector<btagType>& btag_vec  );
+
+		// Large-R B-tagging
  		void BTagging( 	std::vector<fastjet::PseudoJet> const& largeRJets, 
  						std::vector<fastjet::PseudoJet> const& trackjets, 
  						std::vector<fastjet::PseudoJet>& subjet1,
