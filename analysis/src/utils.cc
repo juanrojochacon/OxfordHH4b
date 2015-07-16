@@ -484,7 +484,7 @@ double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL)
         const int permutationTags = iB+iC+iL;   //Number of b-Tags in current permutation
         if (permutationTags == nTag) 
         {
-        std::cout << iB<<"  "<<iC<<"  "<<iL<< "  "<<bProb*cProb*lProb<<std::endl;
+          //std::cout << iB<<"  "<<iC<<"  "<<iL<< "  "<<std::scientific<<bProb*cProb*lProb<<std::endl;
           totalProb += bProb*cProb*lProb;
         }
       }

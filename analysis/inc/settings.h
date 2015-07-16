@@ -27,7 +27,7 @@ double const ycut = 0.09;
 // Choose working point with high purity
 double const btag_prob = 0.80; // Probability of correct b tagging
 double const btag_mistag = 0.01; // Mistag probability  
-const double ctag_prob = 0.17; // c-mistag rate ~1/6.
+double const ctag_prob = 0.01;//0.17; // c-mistag rate ~1/6.
 
 // bb tagging
 // Choose working point with high purity

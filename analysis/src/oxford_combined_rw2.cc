@@ -294,12 +294,13 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // ***************************************** B-Tagging **********************************************
 
   // b-tagging for large-R jets
-  std::vector<int> nBSubjetsLR_vec;    // Vector specifying how many real b subjets there are
-  std::vector<int> nFSubjetsLR_vec;    // Vector specifying how many fake b subjets there are
+  std::vector<int> nBSubjetsLR_vec;    // Vector specifying how many b subjets there are
+  std::vector<int> nCSubjetsLR_vec;    // Vector specifying how many c subjets there are
+  std::vector<int> nLSubjetsLR_vec;    // Vector specifying how many l subjets there are
   std::vector<fastjet::PseudoJet> leading_subjet;
   std::vector<fastjet::PseudoJet> subleading_subjet;
 
-  BTagging( largeRJets, trackJets, leading_subjet, subleading_subjet, nBSubjetsLR_vec, nFSubjetsLR_vec);
+  BTagging( largeRJets, trackJets, leading_subjet, subleading_subjet, nBSubjetsLR_vec, nCSubjetsLR_vec, nLSubjetsLR_vec);
   if( largeRJets.size() != nBSubjetsLR_vec.size() )
     std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl;
 
@@ -351,12 +352,13 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
             // b-tagging weights
             const double nB = nBSubjetsLR_vec[0] + nBSubjetsLR_vec[1];      // Number of true b-subjets
-            const double nF = nFSubjetsLR_vec[0] + nFSubjetsLR_vec[1];      // Number of fake b-subjets
+            const double nC = nCSubjetsLR_vec[0] + nCSubjetsLR_vec[1];      // Number of fake b-subjets
+            const double nL = nLSubjetsLR_vec[0] + nLSubjetsLR_vec[1];      // Number of fake b-subjets
 
             // Selection probability
-            if (nB+nF == 4) // Selected 4 candidates
+            if (nB+nC+nL == 4) // Selected 4 candidates
             {
-              P_select_boost = pow(btag_prob,nB)*pow(btag_mistag,nF);
+              P_select_boost = btagProb(4,nB,nC,nL);
 
               // Reweighted event weight
               const double boost_weight = P_select_boost*event_weight;
@@ -692,7 +694,8 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
                                           std::vector<fastjet::PseudoJet>& subjets1,
                                           std::vector<fastjet::PseudoJet>& subjets2,
                                           std::vector<int>& nBSubJets_vec,
-                                          std::vector<int>& nFSubJets_vec  )
+                                          std::vector<int>& nCSubJets_vec,
+                                          std::vector<int>& nLSubJets_vec  )
 {
     // Loop over all fat jets
     for( size_t i=0; i<largeRJets.size(); i++)
@@ -714,43 +717,18 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
         subjets2.push_back(subjets[1]);
       }
 
-      int nBSubJets = 0;  // Number of b's
-      int nFSubJets = 0;  // Number of fakes
-      const int nSubjets = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
-      for( int j=0; j < nSubjets; j++)
-      {
-        bool isBJet = false;
-        bool isFake = false;
+      // B-tag subjets
+      std::vector<btagType> btag_vec;
+      BTagging( subjets, btag_vec );
 
-        // Loop over constituents and look for b quarks
-        // b quarks must be above some minimum pt 
-        const std::vector<fastjet::PseudoJet>& subjet_constituents = sorted_by_pt( subjets[j].constituents() );
-        for(size_t k=0; k < subjet_constituents.size(); k++)
-        {
-          // Flavour of jet constituent
-          const int userid= subjet_constituents.at(k).user_index();
-          const double pt_bcandidate = subjet_constituents.at(k).pt();
-
-          if ( pt_bcandidate > pt_btagging )
-          {
-            isFake = true; // Potential fake
-            if( abs(userid) == 5 )  // not a fake
-            {
-              isBJet = true;
-              break;
-            }
-          }
-        }
-
-        if (isBJet)
-          nBSubJets++;
-        else if (isFake)
-          nFSubJets++;
-           
-      }//end of loop over subjets
-  	   
+      const int nSub = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
+      const int nBSubJets = std::count(btag_vec.begin(), btag_vec.begin() + nSub, BTAG);  // Number of b's
+      const int nCSubJets = std::count(btag_vec.begin(), btag_vec.begin() + nSub, CTAG);  // Number of c's
+      const int nLSubJets = std::count(btag_vec.begin(), btag_vec.begin() + nSub, LTAG);  // Number of u,d,s,g
+      	   
       nBSubJets_vec.push_back(nBSubJets);
-      nFSubJets_vec.push_back(nFSubJets);
+      nCSubJets_vec.push_back(nCSubJets);
+      nLSubJets_vec.push_back(nLSubJets);
 
     }//end of loop over jets
 }
