@@ -887,81 +887,77 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate( std::vector<fastjet::PseudoJe
 
 // Fill basic jet quantities
 void OxfordCombinedRW2Analysis::JetFill(  std::vector<fastjet::PseudoJet> const& smallRJets,
-					   std::vector<fastjet::PseudoJet> const& largeRJets,
+                                          std::vector<fastjet::PseudoJet> const& largeRJets,
                                           std::string const& analysis, 
                                           size_t const& cut, 
                                           double const& weight )
 {
-  
-    // Histo fill suffix
-    const std::string suffix = "_" + analysis + cString[cut];
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
 
-    // Fill small-R jets
-    for( int i = 0; i < (int) smallRJets.size(); i++ ){
-      
-	FillHistogram("pt_smallR" + suffix, weight, smallRJets[i].pt());
-	FillHistogram("eta_smallR" + suffix, weight, smallRJets[i].eta());
-	FillHistogram("m_smallR" + suffix, weight, smallRJets[i].m());
-    }
+  // Fill small-R jets
+  for( int i = 0; i < (int) smallRJets.size(); i++ )
+  {
+    FillHistogram("pt_smallR" + suffix, weight, smallRJets[i].pt());
+    FillHistogram("eta_smallR" + suffix, weight, smallRJets[i].eta());
+    FillHistogram("m_smallR" + suffix, weight, smallRJets[i].m());
+  }
 
-    // Fill large-R jets
-    for( int i = 0; i < (int) largeRJets.size(); i++ ){
-      
-	FillHistogram("pt_largeR" + suffix, weight, largeRJets[i].pt());
-	FillHistogram("eta_largeR" + suffix, weight, largeRJets[i].eta());
-	FillHistogram("m_largeR" + suffix, weight, largeRJets[i].m());
-    }
+  // Fill large-R jets
+  for( int i = 0; i < (int) largeRJets.size(); i++ )
+  {
+    FillHistogram("pt_largeR" + suffix, weight, largeRJets[i].pt());
+    FillHistogram("eta_largeR" + suffix, weight, largeRJets[i].eta());
+    FillHistogram("m_largeR" + suffix, weight, largeRJets[i].m());
+  }
 }
 
 
 // Fill basic subjet quantities
-void OxfordCombinedRW2Analysis::SubJetFill(  std::vector<fastjet::PseudoJet> const& leading_subjet,
-					      std::vector<fastjet::PseudoJet> const& subleading_subjet,
-                                          std::string const& analysis, 
-                                          size_t const& cut, 
-                                          double const& weight )
+void OxfordCombinedRW2Analysis::SubJetFill( std::vector<fastjet::PseudoJet> const& leading_subjet,
+                                            std::vector<fastjet::PseudoJet> const& subleading_subjet,
+                                            std::string const& analysis, 
+                                            size_t const& cut, 
+                                            double const& weight )
 {
-  
-    // Histo fill suffix
-    const std::string suffix = "_" + analysis + cString[cut];
-  
-    // Fill histograms for boosted
-    if ( analysis == "boost" ){
-      
-	if ( leading_subjet.size() < 2 )
-	    std::cerr << "SubJetFill WARNING: Less than two leading subjets "<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
-	if ( subleading_subjet.size() < 2 )
-	    std::cerr << "SubJetFill WARNING: Less than two subleading subjets "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
-	
-	FillHistogram("pt_leadSJ_fj1" + suffix, weight, leading_subjet[0].pt());
-	FillHistogram("pt_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].pt());
-	
-	FillHistogram("pt_leadSJ_fj2" + suffix, weight, leading_subjet[1].pt());
-	FillHistogram("pt_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].pt());
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
 
-	FillHistogram("eta_leadSJ_fj1" + suffix, weight, leading_subjet[0].eta());
-	FillHistogram("eta_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].eta());
-	
-	FillHistogram("eta_leadSJ_fj2" + suffix, weight, leading_subjet[1].eta());
-	FillHistogram("eta_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].eta());
-	
-    }
-    
-    // Fill histograms for intermediate
-    if ( analysis == "inter" ){
-      
-	if ( leading_subjet.size() < 1 )
-	    std::cerr << "SubJetFill WARNING: Less than one leading subjet"<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
-	if ( subleading_subjet.size() < 1 )
-	    std::cerr << "SubJetFill WARNING: Less than one subleading subjet "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
-	
-	FillHistogram("pt_leadSJ_fj" + suffix, weight, leading_subjet[0].pt());
-	FillHistogram("pt_subleadSJ_fj" + suffix, weight, subleading_subjet[0].pt());
-	
-	FillHistogram("eta_leadSJ_fj" + suffix, weight, leading_subjet[0].eta());
-	FillHistogram("eta_subleadSJ_fj" + suffix, weight, subleading_subjet[0].eta());
-    }
-    
+  // Fill histograms for boosted
+  if ( analysis == "boost" )
+  {
+    if ( leading_subjet.size() < 2 )
+      std::cerr << "SubJetFill WARNING: Less than two leading subjets "<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
+    if ( subleading_subjet.size() < 2 )
+      std::cerr << "SubJetFill WARNING: Less than two subleading subjets "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
+
+    FillHistogram("pt_leadSJ_fj1" + suffix, weight, leading_subjet[0].pt());
+    FillHistogram("pt_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].pt());
+
+    FillHistogram("pt_leadSJ_fj2" + suffix, weight, leading_subjet[1].pt());
+    FillHistogram("pt_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].pt());
+
+    FillHistogram("eta_leadSJ_fj1" + suffix, weight, leading_subjet[0].eta());
+    FillHistogram("eta_subleadSJ_fj1" + suffix, weight, subleading_subjet[0].eta());
+
+    FillHistogram("eta_leadSJ_fj2" + suffix, weight, leading_subjet[1].eta());
+    FillHistogram("eta_subleadSJ_fj2" + suffix, weight, subleading_subjet[1].eta());
+  }
+
+  // Fill histograms for intermediate
+  if ( analysis == "inter" )
+  {
+    if ( leading_subjet.size() < 1 )
+      std::cerr << "SubJetFill WARNING: Less than one leading subjet"<<analysis<<"  "<<cut<<"  "<< leading_subjet.size() <<std::endl;
+    if ( subleading_subjet.size() < 1 )
+      std::cerr << "SubJetFill WARNING: Less than one subleading subjet "<<analysis<<"  "<<cut<<"  "<< subleading_subjet.size() <<std::endl;
+
+    FillHistogram("pt_leadSJ_fj" + suffix, weight, leading_subjet[0].pt());
+    FillHistogram("pt_subleadSJ_fj" + suffix, weight, subleading_subjet[0].pt());
+
+    FillHistogram("eta_leadSJ_fj" + suffix, weight, leading_subjet[0].eta());
+    FillHistogram("eta_subleadSJ_fj" + suffix, weight, subleading_subjet[0].eta());
+  }
 }
 
 // General fill for reconstructed higgs quantities
