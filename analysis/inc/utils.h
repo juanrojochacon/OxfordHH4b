@@ -31,6 +31,9 @@ double charm_eff( double jet_pt );
 // Box-Muller transform for gaussian random numbers
 float box_muller(float m, float s);
 
+// b-tagging probabilities
+double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL);
+
 
 // ************************** FastJet User info ************************************
 
