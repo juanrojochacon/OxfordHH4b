@@ -323,15 +323,15 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
       if (largeRJets_etacut.size() >= 2) // Eta cut
       {
-      FillHistogram("CF_boost", event_weight, 3.1);
-      FillHistogram("CFN_boost", 1., 3.1);
-      JetFill(  smallRJets, largeRJets_etacut, "boost", 3, event_weight );
-      bstClassified[3] = true;
+        FillHistogram("CF_boost", event_weight, 3.1);
+        FillHistogram("CFN_boost", 1., 3.1);
+        JetFill(  smallRJets, largeRJets_etacut, "boost", 3, event_weight );
+        bstClassified[3] = true;
 
         if( largeRJets.size() >= 2 ) // MDT
         {
           HiggsFill(largeRJets[0], largeRJets[1], "boost", 4, event_weight);
-	  JetFill(  smallRJets, largeRJets, "boost", 4, event_weight );
+          JetFill(  smallRJets, largeRJets, "boost", 4, event_weight );
           bstClassified[4] = true;
 
           // Higgs mass-window
@@ -342,8 +342,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           {
             HiggsFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
             BoostFill(largeRJets[0], largeRJets[1], "boost", 5, event_weight);
-	    JetFill(  smallRJets, largeRJets, "boost", 5, event_weight );
-	    SubJetFill( leading_subjet, subleading_subjet, "boost", 5, event_weight);
+            JetFill(  smallRJets, largeRJets, "boost", 5, event_weight );
+            SubJetFill( leading_subjet, subleading_subjet, "boost", 5, event_weight);
             bstClassified[5] = true;
 
             // b-tagging weights
@@ -361,8 +361,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
               HiggsFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
               BoostFill(largeRJets[0], largeRJets[1], "boost", 6, boost_weight);
-	      JetFill(  smallRJets, largeRJets, "boost", 6, boost_weight );
-	      SubJetFill( leading_subjet, subleading_subjet, "boost", 6, boost_weight);
+              JetFill(  smallRJets, largeRJets, "boost", 6, boost_weight );
+              SubJetFill( leading_subjet, subleading_subjet, "boost", 6, boost_weight);
               bstClassified[6] = true;
 
               // Final exclusive booking
@@ -469,7 +469,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
       {
         HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 5, event_weight);
         BoostFill(largeRJets[0], "inter", 5, event_weight);
-	JetFill(  smallRJets, largeRJets, "inter", 5, event_weight );
+        JetFill(  smallRJets, largeRJets, "inter", 5, event_weight );
         intClassified[5] = true;
 
         // Determine number of fake bJets
@@ -487,8 +487,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
           HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 6, inter_weight);
           BoostFill(largeRJets[0], "inter", 6, inter_weight);
-	  JetFill(  smallRJets, largeRJets, "inter", 6, inter_weight );
-	  SubJetFill( leading_subjet, subleading_subjet, "inter", 6, inter_weight);
+          JetFill(  smallRJets, largeRJets, "inter", 6, inter_weight );
+          SubJetFill( leading_subjet, subleading_subjet, "inter", 6, inter_weight);
           intClassified[6] = true;
 
           if (!selected)
@@ -496,8 +496,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
             // Exclusivity cut
             HiggsFill(higgs_inter[0], higgs_inter[1], "inter", 7, inter_weight);
             BoostFill(largeRJets[0], "inter", 7, inter_weight);
-	    JetFill(  smallRJets, largeRJets, "inter", 7, inter_weight );
-	    SubJetFill( leading_subjet, subleading_subjet, "inter", 7, inter_weight);
+            JetFill(  smallRJets, largeRJets, "inter", 7, inter_weight );
+            SubJetFill( leading_subjet, subleading_subjet, "inter", 7, inter_weight);
             intClassified[7] = true;
 
             // Calculate some substructure variables
@@ -557,7 +557,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
       {
         FillHistogram("CF_res", event_weight, 3.1);
         FillHistogram("CFN_res", 1., 3.1);
-	JetFill(  smallRJets_etacut, largeRJets, "res", 3, event_weight );
+	      JetFill(  smallRJets_etacut, largeRJets, "res", 3, event_weight );
         resClassified[3] = true;
 
         if( smallRJets.size() >= 4 )
@@ -569,7 +569,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
           Reco_Resolved( smallRJets, higgs_res, higgs0_res, higgs1_res );
           HiggsFill( higgs_res[0], higgs_res[1], "res", 4, event_weight );
-	  JetFill(  smallRJets, largeRJets, "res", 4, event_weight );
+	        JetFill(  smallRJets, largeRJets, "res", 4, event_weight );
           resClassified[4] = true;
 
           // Higgs mass-window
@@ -579,7 +579,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
           {
             HiggsFill( higgs_res[0], higgs_res[1], "res", 5, event_weight );
-	    JetFill(  smallRJets, largeRJets, "res", 5, event_weight );
+	          JetFill(  smallRJets, largeRJets, "res", 5, event_weight );
             resClassified[5] = true;
 
             // Determine number of real and fake b-jets
@@ -602,14 +602,14 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
               const double res_weight = pow(btag_prob,nB)*pow(btag_mistag,nF)*event_weight;
               const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
 
-              HiggsFill(higgs_res[0], higgs_res[1], "res", 6, res_weight);
-	      JetFill(  smallRJets, largeRJets, "res", 6, res_weight );
+              HiggsFill(higgs_res[0], higgs_res[1], "res", 6, res_weight); 
+              JetFill(  smallRJets, largeRJets, "res", 6, res_weight );
               resClassified[6] = true;
 
               if (!selected)
               {
                 HiggsFill(higgs_res[0], higgs_res[1], "res", 7, res_weight);
-		JetFill(  smallRJets, largeRJets, "res", 7, res_weight );
+		            JetFill(  smallRJets, largeRJets, "res", 7, res_weight );
                 resClassified[7] = true;
                 resNTuple << signal <<"\t"<<GetSample()<<"\t"<<res_weight << "\t"
                           << higgs_res[0].pt() << "\t"
