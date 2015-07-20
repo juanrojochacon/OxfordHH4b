@@ -191,6 +191,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   double P_select_boost = 0; // Probability of boosted selection
   double P_select_inter = 0; // Probability of intermediate selection
   double P_select_resol = 0; // Probability of resolved selection
+  double passed_weight = 0; // Total passed weight
 
   // *************************************** Classification vectors *********************************
 
@@ -408,6 +409,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
                   <<std::endl;
 
               Pass(boost_weight);
+              passed_weight += boost_weight;
               Cut("BoostedCut", event_weight - boost_weight );
             }
           }
@@ -481,7 +483,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
         {
           // Selection probability
           P_select_inter = btagProb(4,nB,nC,nL);
-          const double P_exclusive = exclusive ? (1-P_select_boost):1;
+          const double P_exclusive = exclusive ? (1.0-P_select_boost):1.0;
 
           // Reweighted event weight
           const double inter_weight = P_select_inter*P_exclusive*event_weight;
@@ -522,6 +524,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
           // Final
           Pass(inter_weight);
+          passed_weight+=inter_weight;
           Cut("IntermediateCut", event_weight - inter_weight );
         }
       }
@@ -601,7 +604,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
               P_select_resol = btagProb( 4, nB, nC, nL);
 
               // Reweighted event weight
-              const double P_exclusive = exclusive ? (1.0-P_select_inter)*(1.0-P_select_boost):1;
+              const double P_exclusive = exclusive ? (1.0-P_select_inter)*(1.0-P_select_boost):1.0;
               const double res_weight = P_select_resol*P_exclusive*event_weight;
               const fastjet::PseudoJet dihiggs_res = higgs_res[0] + higgs_res[1];
 
@@ -626,6 +629,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
                         <<std::endl;
 
               Pass(res_weight); 
+              passed_weight += res_weight;
               Cut("ResolvedCut", event_weight - res_weight);
             }
           }
@@ -653,11 +657,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     FillHistogram(histoname, (icut < 6) ? event_weight:P*event_weight, coord);
   }
 
-  const double bst_wgt = event_weight*(P_select_boost);
-  const double int_wgt = event_weight*(P_select_inter)*(1.0-P_select_boost);
-  const double res_wgt = event_weight*(P_select_resol)*(1.0-P_select_inter)*(1.0-P_select_boost);
-
-  return Cut ("Uncategorised", event_weight - bst_wgt - int_wgt - res_wgt);
+  return Cut ("Uncategorised", event_weight - passed_weight);
 }
 
 // Small-R B-tagging
