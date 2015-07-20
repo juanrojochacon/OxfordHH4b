@@ -9,12 +9,12 @@
 
 
 /*
-combined analysis for HH in fully merged, semi-merged and resolved channels - reweighting events rather than rejecting them at b-tagging
+combined analysis for HH in fully merged, semi-merged and resolved channels
  */
-class OxfordCombinedRW2Analysis : public Analysis
+class OxfordCombinedCheckAnalysis : public Analysis
 {
 	public:
-		OxfordCombinedRW2Analysis(std::string const& sampleName);
+		OxfordCombinedCheckAnalysis(std::string const& sampleName);
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:
@@ -44,40 +44,4 @@ class OxfordCombinedRW2Analysis : public Analysis
 	                              fastjet::PseudoJet& lead_subjet,
 	                              fastjet::PseudoJet& sublead_subjet,
 	                              std::vector<fastjet::PseudoJet>& higgs_vec );
-
-		// Fill basic jet quantities
-		void JetFill( 	std::vector<fastjet::PseudoJet> const& smallRJets,
-				std::vector<fastjet::PseudoJet> const& largeRJets,
-						std::string const& analysis, 
-	                    size_t const& cut, 
-	                    double const& weight );
-
-		// Fill basic jet quantities
-		void SubJetFill( 	std::vector<fastjet::PseudoJet> const& leading_subjet,
-				std::vector<fastjet::PseudoJet> const& subleading_subjet,
-						std::string const& analysis, 
-	                    size_t const& cut, 
-	                    double const& weight );
-
-		// Fill common reconstructed higgs quantities
-		void HiggsFill(	fastjet::PseudoJet const& H0,
-	                    fastjet::PseudoJet const& H1,
-	                    std::string const& analysis, 
-	                    size_t const& cut, 
-	                    double const& weight);
-
-		void BoostFill( fastjet::PseudoJet const& H,
-						std::string const& analysis, 
-	                    size_t const& cut, 
-	                    double const& weight );
-
-		void BoostFill( fastjet::PseudoJet const& H0,
-						fastjet::PseudoJet const& H1,
-						std::string const& analysis, 
-	                    size_t const& cut, 
-	                    double const& weight );	
-
-		std::ofstream resNTuple;
-		std::ofstream intNTuple;
-		std::ofstream bstNTuple;
 };
