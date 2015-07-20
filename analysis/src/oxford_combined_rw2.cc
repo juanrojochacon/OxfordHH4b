@@ -653,7 +653,11 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     FillHistogram(histoname, (icut < 6) ? event_weight:P*event_weight, coord);
   }
 
-  return Cut ("Uncategorised", (1.0-P_select_resol)*(1.0-P_select_inter)*(1.0-P_select_boost)*event_weight);
+  const double bst_wgt = event_weight*(P_select_boost);
+  const double int_wgt = event_weight*(P_select_inter)*(1.0-P_select_boost);
+  const double res_wgt = event_weight*(P_select_resol)*(1.0-P_select_inter)*(1.0-P_select_boost);
+
+  return Cut ("Uncategorised", event_weight - bst_wgt - int_wgt - res_wgt);
 }
 
 // Small-R B-tagging
