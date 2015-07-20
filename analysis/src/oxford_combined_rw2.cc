@@ -410,7 +410,6 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
               Pass(boost_weight);
               passed_weight += boost_weight;
-              Cut("BoostedCut", event_weight - boost_weight );
             }
           }
         }
@@ -525,7 +524,6 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
           // Final
           Pass(inter_weight);
           passed_weight+=inter_weight;
-          Cut("IntermediateCut", event_weight - inter_weight );
         }
       }
     }
@@ -630,7 +628,6 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
               Pass(res_weight); 
               passed_weight += res_weight;
-              Cut("ResolvedCut", event_weight - res_weight);
             }
           }
         }
