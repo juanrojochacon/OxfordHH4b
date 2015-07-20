@@ -33,7 +33,7 @@ const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e
 
 
 OxfordCombinedCheckAnalysis::OxfordCombinedCheckAnalysis(std::string const& sampleName):
-Analysis("oxford_combined_rw2", sampleName)
+Analysis("oxford_combined_check", sampleName)
 {
   
   // ********************* Histogram definitions ******************
