@@ -18,6 +18,7 @@
 #include "oxford_combined.h"
 #include "oxford_combined_rw.h"
 #include "oxford_combined_rw2.h"
+#include "oxford_combined_rw2_check.h"
 
 #include <vector>
 #include <cmath>
