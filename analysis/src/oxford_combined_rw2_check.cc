@@ -367,7 +367,10 @@ void OxfordCombinedCheckAnalysis::Analyse(bool const& signal, double const& weig
     }
   }
 
-  return Cut ("Uncategorised", event_weight);
+  if (!selected)
+    Cut ("Uncategorised", event_weight);
+
+  return;
 }
 
 // Small-R B-tagging
