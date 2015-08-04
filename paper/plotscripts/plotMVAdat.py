@@ -10,9 +10,9 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_resNTuple.dat",
-			"~/Dropbox/HH4bMC/mva/nn_13X5X3X1_500000-Gen_intNTuple.dat",
-			"~/Dropbox/HH4bMC/mva/nn_17X5X3X1_500000-Gen_bstNTuple.dat"]
+datafiles=[ "~/Dropbox/HH4bMC/mva/nn_13X5X3X1_50000-Gen_resNTuple.dat",
+			"~/Dropbox/HH4bMC/mva/nn_17X5X3X1_50000-Gen_intNTuple.dat",
+			"~/Dropbox/HH4bMC/mva/nn_21X5X3X1_50000-Gen_bstNTuple.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
 
@@ -222,7 +222,7 @@ nev3legend = nevax3.legend(loc='best')
 nev3legend.get_frame().set_alpha(0.8)
 
 x1,x2,y1,y2 = ssbax.axis()
-ssbax.axis((x1,x2,0,4))
+ssbax.axis((x1,x2,0,10))
 
 roc.savefig(ROCout+'.pdf')
 sb.savefig(SBout+'.pdf')
