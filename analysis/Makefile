@@ -28,6 +28,7 @@ VPATH=$(SOURCEDIR)
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/data/atlastemp/DiHiggsSharedSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"/nnpdfscratch1/nh/OxfordHH4b/sherpa/final/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
@@ -68,7 +69,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = pythia hepmc analysis run utils oxford_truth oxford_combined oxford_combined_rw oxford_combined_rw2 oxford_combined_rw2_check
+MODULES = pythia hepmc analysis detector run utils oxford_truth oxford_combined oxford_combined_rw oxford_combined_rw2 oxford_combined_rw2_check
 
 ############################## do not change ###################################
 

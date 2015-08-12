@@ -106,11 +106,10 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     if( pythiaRun.event[i].status() <= 0 ) continue;
     
     // Get the particle kinematics
-    const double smear = box_muller(1.0,0.01*GetESmear());
-    const double E = pythiaRun.event[i].e()*smear;
-    const double px= pythiaRun.event[i].px()*smear;
-    const double py= pythiaRun.event[i].py()*smear;
-    const double pz = pythiaRun.event[i].pz()*smear;
+    const double E = pythiaRun.event[i].e();
+    const double px= pythiaRun.event[i].px();
+    const double py= pythiaRun.event[i].py();
+    const double pz = pythiaRun.event[i].pz();
 
     // Form PseudoJet
     fastjet::PseudoJet jet(px,py,pz,E);

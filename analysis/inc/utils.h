@@ -48,6 +48,13 @@ public:
   charge(_charge)
   { }
 
+  JetInfo( const JetInfo& r):
+  eventID(r.eventID),
+  motherID(r.motherID),
+  motherPDG(r.motherPDG),
+  charge(r.charge)
+  { }
+
   const int eventID;
   const int motherID;
   const int motherPDG;

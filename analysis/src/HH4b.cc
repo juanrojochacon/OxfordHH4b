@@ -16,6 +16,7 @@
 
 #include "pythia.h"
 #include "hepmc.h"
+#include "detector.h"
 
 #include "run.h"
 
@@ -75,14 +76,16 @@ int main()
     // Begin loop over events
     for (int iEvent = 0; iEvent < sample.nevt_sample; ++iEvent) 
     {
-      finalState fs; // The event final state
+      finalState ifs, fs; // The event final state
 
       double event_weight=0;
       if (!sample.hepmc) // Pythia
-        get_final_state_particles(pythiaRun, fs, event_weight);
+        get_final_state_particles(pythiaRun, ifs, event_weight);
       else  // HepMC      
-        get_final_state_particles(hepmc_is,  fs, event_weight);
+        get_final_state_particles(hepmc_is,  ifs, event_weight);
 
+      // Perform detector simulation
+      DetectorSim(ifs,fs);
 
       if (iEvent % 1000 == 0 && sample.hepmc)
         cout << iEvent <<" HepMC events analysed"<<endl;
