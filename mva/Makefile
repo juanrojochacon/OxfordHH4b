@@ -47,7 +47,7 @@ INCPATH = $(CFLAGS)
 
 # main programs and required modules 
 
-MAIN =  mva
+MAIN =  mva_CV
 
 MODULES = parametrisation random trainingdata
 
