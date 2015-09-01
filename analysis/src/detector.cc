@@ -11,7 +11,6 @@
 using namespace std;
 
 static std::ifstream pileupStream;
-static int pileupCount = 0;
 
 // SoftKiller
 static fastjet::contrib::SoftKiller soft_killer(3, 0.1);
@@ -22,18 +21,15 @@ void AddPileup( int const& nPileup, finalState& particles )
 	{
 		 if (!pileupStream || pileupCount >= npileupTotal())
 		 {
-		 	pileupStream.close();
-		 	pileupCount = 0;
+		 	pileupStream.clear() ;
+			pileupStream.seekg(0, ios::beg);
 		 }
 
 		 if (!pileupStream.is_open())
-		 {
 		 	pileupStream.open( std::string(SAMPLEDIR) + minBiasFile() );
-		 }
 
 		 double dummy;
 		 get_final_state_particles(pileupStream, particles, dummy);
-		 pileupCount++;
 	}
 }
 
