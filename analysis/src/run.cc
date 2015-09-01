@@ -38,8 +38,9 @@ const double jetE_smear = 5.0; // % smear on jet energy
 const bool pythiaShower = true; // Shower events in pythia
 const double random_seed_pythia = 40487;	//!< Random seed for pythia
 
-const bool pileup = false;
+const bool pileup = true;
 const int npileup = 50;
+const int npileup_total = 1E6;
 const std::string minbias = "SHERPA_MinBias.hepmc";
 
 	// **************** DO NOT MODIFY  ****************
@@ -53,6 +54,7 @@ double pythiaSeed() {return random_seed_pythia;};
 
 bool pileupSimulated() {return pileup;};
 int npileupEvents() {return npileup;};
+int npileupTotal() {return npileup_total;};
 std::string minBiasFile() {return minbias;};
 
 eventSample GetSample( int const& isample )

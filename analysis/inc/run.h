@@ -31,6 +31,7 @@ double pythiaSeed();
 // Pileup
 bool pileupSimulated();
 int npileupEvents();
+int npileupTotal();
 std::string minBiasFile();
 
 // Analysis initialisation

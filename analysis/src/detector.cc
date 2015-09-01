@@ -20,7 +20,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 {
 	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
 	{
-		 if (!pileupStream)
+		 if (!pileupStream || pileupCount >= npileupTotal())
 		 {
 		 	pileupStream.close();
 		 	pileupCount = 0;
