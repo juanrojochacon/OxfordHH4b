@@ -43,7 +43,7 @@ void DetectorSim(finalState const& input, finalState& output)
     		// Set highest user_index
     		const int jidx = jet.user_index();
     		if (abs(jidx) < 6 && jet.pt() > 15)
-    			if (abs(jidx) > (*f).second.user_index())
+    			if (abs(jidx) > abs((*f).second.user_index()))
     				(*f).second.set_user_index(jidx);
 
     	}
@@ -68,6 +68,7 @@ void DetectorSim(finalState const& input, finalState& output)
 
  		// Form PseudoJet
     	fastjet::PseudoJet jet(px, py, pz, E);
+    	jet.set_user_index((*iTower).second.user_index());
     	output.push_back(jet);
 	}
 }
