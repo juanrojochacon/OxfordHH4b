@@ -22,7 +22,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 	{
 		 if (!pileupStream || pileupCount >= npileupTotal())
 		 {
-		 	pileupStream.clear() ;
+		 	pileupStream.clear();
 			pileupStream.seekg(0, ios::beg);
 			pileupCount = 0;
 		 }
