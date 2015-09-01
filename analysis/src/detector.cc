@@ -10,7 +10,7 @@
 
 using namespace std;
 
-static std::ifstream pileupStream;
+static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
 // SoftKiller
@@ -20,18 +20,18 @@ void AddPileup( int const& nPileup, finalState& particles )
 {
 	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
 	{
-		 if (!pileupStream || pileupCount >= npileupTotal())
+		 if (!(*pileupStream) || pileupCount >= npileupTotal())
 		 {
-		 	pileupStream.clear();
-			pileupStream.seekg(0, ios::beg);
-			pileupCount = 0;
+		 	(*pileupStream).close();
+			delete pileupStream;
+			pileupStream = NULL;
 		 }
 
-		 if (!pileupStream.is_open())
-		 	pileupStream.open( std::string(SAMPLEDIR) + minBiasFile() );
+		 if (!pileupStream)
+		 	pileupStream = new std::ifstream( std::string(SAMPLEDIR) + minBiasFile() );
 
 		 double dummy;
-		 get_final_state_particles(pileupStream, particles, dummy);
+		 get_final_state_particles(*pileupStream, particles, dummy);
 		 pileupCount++;
 	}
 }
