@@ -1,6 +1,7 @@
 #include "detector.h"
 #include "run.h"
 #include "utils.h"
+#include "hepmc.h"
 
 #include <math.h> 
 
@@ -8,9 +9,36 @@
 
 using namespace std;
 
-typedef std::map<std::pair<int, int>, fastjet::PseudoJet > JetMap;
-void DetectorSim(finalState const& input, finalState& output)
+static std::ifstream pileupStream;
+static int pileupCount = 0;
+
+void AddPileup( int const& nPileup, finalState& particles )
 {
+	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
+	{
+		 if (!pileupStream)
+		 {
+		 	pileupStream.close();
+		 	pileupCount = 0;
+		 }
+
+		 if (!pileupStream.is_open())
+		 {
+		 	pileupStream.open( std::string(SAMPLEDIR) + minBiasFile() );
+		 }
+
+		 double dummy;
+		 get_final_state_particles(pileupStream, particles, dummy);
+		 pileupCount++;
+	}
+}
+
+typedef std::map<std::pair<int, int>, fastjet::PseudoJet > JetMap;
+void DetectorSim(finalState input, finalState& output)
+{
+	if (pileupSimulated())
+		AddPileup(npileupEvents(), input);
+
 	const double phiRes=0.1;
 	const double etaRes=0.1;
 

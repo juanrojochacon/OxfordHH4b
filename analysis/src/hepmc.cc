@@ -85,16 +85,8 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
         JetInfo* user_info = new JetInfo(0, 0, 0, 0);
         jet.set_user_info(user_info);
 
-        // partons
-        if(abs(pdg)<6 || pdg==21 || pdg > 2000 )
-        {
-          particles.push_back( jet );
-        }
-        else
-        {
-          std::cout<<"Invalid particle ID = "<<pdg<<std::endl;
-          exit(-10);
-        }
+        // push back
+        particles.push_back( jet );
      }
 
   // Verify final state four momenta

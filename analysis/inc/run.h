@@ -28,6 +28,11 @@ double GetESmear();	// Return the % of Jet energy to smear by
 bool pythiaShowered(); // Is pythia showering
 double pythiaSeed();
 
+// Pileup
+bool pileupSimulated();
+int npileupEvents();
+std::string minBiasFile();
+
 // Analysis initialisation
 void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
 					std::vector<Analysis*>& signalAnalyses,

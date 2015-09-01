@@ -4,4 +4,4 @@
 #include "analysis.h"
 
 // Run detector simulation
-void DetectorSim(finalState const& input, finalState& output);
+void DetectorSim(finalState input, finalState& output);
