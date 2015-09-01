@@ -11,6 +11,7 @@
 using namespace std;
 
 static std::ifstream pileupStream;
+static int pileupCount = 0;
 
 // SoftKiller
 static fastjet::contrib::SoftKiller soft_killer(3, 0.1);
@@ -23,6 +24,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 {
 		 	pileupStream.clear() ;
 			pileupStream.seekg(0, ios::beg);
+			pileupCount = 0;
 		 }
 
 		 if (!pileupStream.is_open())
@@ -30,6 +32,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 
 		 double dummy;
 		 get_final_state_particles(pileupStream, particles, dummy);
+		 pileupCount++;
 	}
 }
 
