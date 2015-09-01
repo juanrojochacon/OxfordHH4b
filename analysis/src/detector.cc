@@ -6,11 +6,15 @@
 #include <math.h> 
 
 #include "fastjet/PseudoJet.hh"
+#include "fastjet/contrib/SoftKiller.hh"
 
 using namespace std;
 
 static std::ifstream pileupStream;
 static int pileupCount = 0;
+
+// SoftKiller
+static fastjet::contrib::SoftKiller soft_killer(3, 0.1);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {
@@ -37,7 +41,10 @@ typedef std::map<std::pair<int, int>, fastjet::PseudoJet > JetMap;
 void DetectorSim(finalState input, finalState& output)
 {
 	if (pileupSimulated())
+	{
 		AddPileup(npileupEvents(), input);
+		input = soft_killer(input);
+	}
 
 	const double phiRes=0.1;
 	const double etaRes=0.1;
