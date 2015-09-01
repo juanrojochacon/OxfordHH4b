@@ -38,7 +38,7 @@ const double jetE_smear = 5.0; // % smear on jet energy
 const bool pythiaShower = true; // Shower events in pythia
 const double random_seed_pythia = 40487;	//!< Random seed for pythia
 
-const bool pileup = true;
+const bool pileup = false;
 const int npileup = 50;
 const std::string minbias = "SHERPA_MinBias.hepmc";
 
