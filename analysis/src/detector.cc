@@ -13,13 +13,19 @@ using namespace std;
 static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
+// Detector resolution
+static const double phiRes=0.1;
+static const double etaRes=0.1;
+
 // SoftKiller
-static fastjet::contrib::SoftKiller soft_killer(3, 0.1);
+static const fastjet::contrib::SoftKiller soft_killer(3, etaRes);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {
 	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
 	{
+		// Have to delete stream rather than reset it, HepMC adds some user information
+		// to the stream which must be cleared.
 		 if (pileupCount >= npileupTotal())
 		 {
 			delete pileupStream;
@@ -35,7 +41,6 @@ void AddPileup( int const& nPileup, finalState& particles )
 	}
 }
 
-typedef std::map<std::pair<int, int>, fastjet::PseudoJet > JetMap;
 void DetectorSim(finalState input, finalState& output)
 {
 	if (pileupSimulated())
@@ -44,17 +49,17 @@ void DetectorSim(finalState input, finalState& output)
 		input = soft_killer(input);
 	}
 
-	const double phiRes=0.1;
-	const double etaRes=0.1;
-
-	//Form Hadronic calorimeter towers
-	JetMap caloTowers;
 	for(size_t i=0; i<input.size(); i++)
 	{
+		// Detector granularity
 		const double newEta = floor(input[i].eta()/etaRes)*etaRes + etaRes/2.0;
 		const double newPhi = floor(input[i].phi()/phiRes)*phiRes + phiRes/2.0;
 
-		const double pT = input[i].pt();
+		// Lengthwise gaussian smear
+		const double sm = box_muller(1.0,0.01*GetESmear());
+
+		// Reconstruct smeared jet
+		const double pT = sm*input[i].pt();
 		const double px = pT*cos(newPhi);
 		const double py = pT*sin(newPhi);
 		const double pz = pT*sinh(newEta);
@@ -66,42 +71,6 @@ void DetectorSim(finalState input, finalState& output)
     	if (input[i].has_user_info())
     		jet.set_user_info(new JetInfo(input[i].user_info<JetInfo>()));
 
-    	// Look for existing calo tower
-    	const std::pair<int,int> caloCoords(newEta*100.0, newPhi*100.0);
-    	JetMap::iterator f = caloTowers.find(caloCoords);
-    	if (f != caloTowers.end())
-    	{
-    		(*f).second += jet;
-
-    		// Set highest user_index
-    		const int jidx = jet.user_index();
-    		if (abs(jidx) < 6 && jet.pt() > 15)
-    			if (abs(jidx) > abs((*f).second.user_index()))
-    				(*f).second.set_user_index(jidx);
-
-    	}
-    	else
-    	{
-    		caloTowers[caloCoords] = jet;
-    	}
-	}
-
-	for(JetMap::iterator iTower = caloTowers.begin(); iTower != caloTowers.end(); iTower++)
-	{
-		const fastjet::PseudoJet& tower = (*iTower).second;
-
-		// Lengthwise gaussian smear
-		const double sm = box_muller(1.0,0.01*GetESmear());
-		const double px = sm*tower.px();
-		const double py = sm*tower.py();
-		const double pz = sm*tower.pz();
-
-		// Tower is massless
-		const double E = sqrt(px*px + py*py + pz*pz);
-
- 		// Form PseudoJet
-    	fastjet::PseudoJet jet(px, py, pz, E);
-    	jet.set_user_index((*iTower).second.user_index());
     	output.push_back(jet);
 	}
 }
