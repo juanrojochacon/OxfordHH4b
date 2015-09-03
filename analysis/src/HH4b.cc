@@ -40,7 +40,7 @@ int main( int argc, char* argv[] )
   systemSeed() = atoi(argv[3]);
 
   cout << "Processing sample ID: " <<sampleID;
-  cout << "RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
+  cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
   // Results output
   ofstream out_results;
