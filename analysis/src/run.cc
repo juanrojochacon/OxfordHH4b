@@ -138,32 +138,12 @@ eventSample GetSample( int const& isample )
   return newsamp;
 }
 
-void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
-					std::vector<Analysis*>& signalAnalyses,
-					std::vector<Analysis*>& backgroundAnalyses)
-{
-	// **************** PLEASE MODIFY  ****************
-  //HH4bAnalyses.push_back(new AMCAnalysis("total"));
-
-  HH4bAnalyses.push_back(new OxfordCombinedCheckAnalysis("total"));
-  HH4bAnalyses.push_back(new OxfordCombinedRW2Analysis("total"));
-
-  signalAnalyses.push_back(new OxfordCombinedCheckAnalysis("signal"));
-  signalAnalyses.push_back(new OxfordCombinedRW2Analysis("signal"));
-
-  backgroundAnalyses.push_back(new OxfordCombinedCheckAnalysis("background"));
-  backgroundAnalyses.push_back(new OxfordCombinedRW2Analysis("background"));
-
-	// **************** DO NOT MODIFY  ****************
-
-}
-
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
+	// **************** PLEASE MODIFY *****************
+	
 	sampleAnalyses.push_back(new OxfordCombinedCheckAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename));
 
-
 	// **************** DO NOT MODIFY  ****************
-
 }

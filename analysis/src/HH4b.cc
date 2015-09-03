@@ -38,13 +38,6 @@ int main()
   // Set here the path to the MC samples Dropbox folder
   string samples_path=std::string(SAMPLEDIR);
 
-  // Initialise analyses
-  vector<Analysis*> HH4bAnalyses;
-  vector<Analysis*> signalAnalyses;
-  vector<Analysis*> backgroundAnalyses;
-
-  // Initialise all-sample analyses
-  InitAnalyses(HH4bAnalyses, signalAnalyses, backgroundAnalyses);
   for(int is=0; is<GetNSamples(); is++)
   {
     // Read sample data
@@ -96,23 +89,11 @@ int main()
       // Add to sample xsec
       sample_xsec += event_weight;
 
-  // ****************************** Analyses ******************************
-
-      // Total analyses
-      for (size_t i=0; i<HH4bAnalyses.size(); i++)
-        HH4bAnalyses[i]->Analyse(sample.signal, event_weight, fs);
+    // ****************************** Analyses ******************************
 
       // Sample analyses
       for (size_t i=0; i<sampleAnalyses.size(); i++)
         sampleAnalyses[i]->Analyse(sample.signal, event_weight, fs);
-
-      // Signal
-      if (sample.signal)
-        for (size_t i=0; i<signalAnalyses.size(); i++)
-          signalAnalyses[i]->Analyse(sample.signal, event_weight, fs);
-      else // Background
-        for (size_t i=0; i<backgroundAnalyses.size(); i++)
-          backgroundAnalyses[i]->Analyse(sample.signal, event_weight, fs);
 
     // ****************************** Analyses ******************************
 
@@ -146,14 +127,6 @@ int main()
 
 // Finish up
 out_results.close();
-for (size_t i=0; i<HH4bAnalyses.size(); i++)
-  delete HH4bAnalyses[i];
-
-for (size_t i=0; i<signalAnalyses.size(); i++)
-  delete signalAnalyses[i];
-
-for (size_t i=0; i<backgroundAnalyses.size(); i++)
-  delete backgroundAnalyses[i];
 
 // End of the main program
 return 0;

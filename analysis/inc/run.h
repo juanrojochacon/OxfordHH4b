@@ -34,8 +34,4 @@ int npileupEvents();
 int npileupTotal();
 std::string minBiasFile();
 
-// Analysis initialisation
-void InitAnalyses(	std::vector<Analysis*>& HH4bAnalyses,
-					std::vector<Analysis*>& signalAnalyses,
-					std::vector<Analysis*>& backgroundAnalyses);
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename );
