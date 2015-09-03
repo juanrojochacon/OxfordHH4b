@@ -26,7 +26,10 @@ double GetPSmear();	// Return the % of Jet momenta to smear by
 double GetESmear();	// Return the % of Jet energy to smear by
 
 bool pythiaShowered(); // Is pythia showering
-double pythiaSeed();
+
+// RNG seeds
+double& pythiaSeed();
+double& systemSeed();
 
 // Pileup
 bool pileupSimulated();

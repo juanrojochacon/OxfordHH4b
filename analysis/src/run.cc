@@ -36,7 +36,9 @@ const double jetp_smear = 5.0; // % smear on jet momentum
 const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
-const double random_seed_pythia = 40487;	//!< Random seed for pythia
+
+static double random_seed_pythia = 40487;	//!< Random seed for pythia
+static double random_seed_system = 23429;
 
 const bool pileup = true;
 const int npileup = 50;
@@ -50,7 +52,9 @@ double GetESmear() {return jetE_smear;};
 
 int GetNSamples() {return nSamples;};
 bool pythiaShowered() {return pythiaShower;};
-double pythiaSeed() {return random_seed_pythia;};
+
+double& pythiaSeed() {return random_seed_pythia;};
+double& systemSeed() {return random_seed_system;};
 
 bool pileupSimulated() {return pileup;};
 int npileupEvents() {return npileup;};
@@ -141,7 +145,7 @@ eventSample GetSample( int const& isample )
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
 {
 	// **************** PLEASE MODIFY *****************
-	
+
 	sampleAnalyses.push_back(new OxfordCombinedCheckAnalysis(samplename));
 	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename));
 
