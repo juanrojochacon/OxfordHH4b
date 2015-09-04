@@ -76,7 +76,7 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 
 	// Add to histogram prototypes
 	hist->setTitle(name);
-	hist->setPath(path);
+	hist->setPath(analysisRoot + "histo_" + name);
 
 	std::map<int,YODA::Histo1D*>::iterator iMap = bookedHistograms_1D.find(IntHash(name));
 	if (iMap != bookedHistograms_1D.end())
