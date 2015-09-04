@@ -23,3 +23,11 @@ do
 		fi
 	fi
 done
+
+for f in $1/background/*.yoda
+do
+	filename=$( basename $f )
+	filename="${filename%.*}".dat
+	yoda2flat $f $1/background/$filename
+	rm $f
+done
