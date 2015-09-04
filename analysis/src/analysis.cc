@@ -71,9 +71,6 @@ Analysis::~Analysis()
 
 void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 {
-	// Histo path
-	const string path  = analysisRoot +sampleName+"/histo_" + name;
-
 	// Add to histogram prototypes
 	hist->setTitle(name);
 	hist->setPath(analysisRoot + "histo_" + name);
@@ -97,12 +94,9 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name)
 
 void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name)
 {
-	// Histo path
-	const string path  = analysisRoot +sampleName+"/histo_" + name;
-
 	// Add to histogram prototypes
 	hist->setTitle(name);
-	hist->setPath(path);
+	hist->setPath(analysisRoot + "histo_" + name);
 
 	std::map<int,YODA::Histo2D*>::iterator iMap = bookedHistograms_2D.find(IntHash(name));
 	if (iMap != bookedHistograms_2D.end())
@@ -182,8 +176,9 @@ void Analysis::Export()
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap1D).second->path()<<std::endl;
 		if ((*iMap1D).second->numEntries() > 0)
 		{
-			YODA::WriterFLAT::write("." + (*iMap1D).second->path() + ".dat", *(*iMap1D).second);
-			YODA::WriterYODA::write("." + (*iMap1D).second->path() + ".yoda", *(*iMap1D).second);
+			const string path  = analysisRoot +sampleName+"/histo_" + (*iMap1D).second->title();
+			YODA::WriterFLAT::write("." + path + ".dat", *(*iMap1D).second);
+			YODA::WriterYODA::write("." + path + ".yoda", *(*iMap1D).second);
 		}
 		iMap1D++;
 	}
@@ -195,8 +190,9 @@ void Analysis::Export()
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap2D).second->path()<<std::endl;
 		if ((*iMap2D).second->numEntries() > 0)
 		{
-			YODA::WriterFLAT::write("." + (*iMap2D).second->path() + ".dat", *(*iMap2D).second);
-			YODA::WriterYODA::write("." + (*iMap2D).second->path() + ".yoda", *(*iMap2D).second);
+			const string path  = analysisRoot +sampleName+"/histo_" + (*iMap2D).second->title();
+			YODA::WriterFLAT::write("." + path + ".dat", *(*iMap2D).second);
+			YODA::WriterYODA::write("." + path + ".yoda", *(*iMap2D).second);
 		}
 		iMap2D++;
 	}
