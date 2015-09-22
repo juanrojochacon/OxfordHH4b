@@ -18,7 +18,7 @@ static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
 // Pythia MinBias
-Pythia8::Pythia pythiaPileup;
+Pythia8::Pythia pythiaPileup(std::string(PYTHIADIR));
 bool pythiaInit = false;
 void initPythiaPileup()
 {
