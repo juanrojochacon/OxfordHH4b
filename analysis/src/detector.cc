@@ -8,6 +8,9 @@
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/contrib/SoftKiller.hh"
 
+#include "Pythia8/Pythia.h"
+#include "pythia.h"
+
 using namespace std;
 
 // SHERPA MinBias
@@ -15,7 +18,7 @@ static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
 // Pythia MinBias
-Pythia pythiaPileup;
+Pythia8::Pythia pythiaPileup;
 bool pythiaInit = false;
 void initPythiaPileup()
 {
@@ -44,7 +47,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 	if (!pythiaInit) initPythiaPileup();
     
     // Generate a number of pileup events. Add them to sumEvent.
-	Event sumEvent;
+	Pythia8::Event sumEvent;
     for (int iPileup = 0; iPileup < nPileup; ++iPileup) {
       pythiaPileup.next();
       sumEvent += pythiaPileup.event;
