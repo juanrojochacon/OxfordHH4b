@@ -118,14 +118,7 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     // Form user_info - should set charge and event ID here
     JetInfo* user_info = new JetInfo(0, 0, motherID, motherPDG);
     jet.set_user_info(user_info);
-
-    if(abs(particle_id)<6 || particle_id==21 || particle_id > 2000 )
-    { particles.push_back( jet );}
-    else
-    {
-      std::cout<<"Invalid particle ID = "<<particle_id<<std::endl;
-      exit(-10);
-    }
+    particles.push_back( jet );
     
   } // End loop over particles in event
   
