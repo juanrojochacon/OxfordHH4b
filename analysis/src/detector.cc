@@ -47,14 +47,10 @@ void AddPileup( int const& nPileup, finalState& particles )
 	if (!pythiaInit) initPythiaPileup();
     
     // Generate a number of pileup events. Add them to sumEvent.
-	Pythia8::Event sumEvent;
-    for (int iPileup = 0; iPileup < nPileup; ++iPileup) {
-      pythiaPileup.next();
-      sumEvent += pythiaPileup.event;
-    }
+	double dummy;
 
-    double dummy;
-	get_final_state_particles(pythiaPileup, particles, dummy);
+    for (int iPileup = 0; iPileup < nPileup; ++iPileup)
+    	get_final_state_particles(pythiaPileup, particles, dummy);
 
 
 	/* SHERPA MinBias
