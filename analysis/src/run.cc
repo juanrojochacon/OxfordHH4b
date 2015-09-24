@@ -43,7 +43,7 @@ static double random_seed_system = 23429;
 const bool pileup = true;
 const int npileup = 50;
 const int npileup_total = 150E6;
-const std::string minbias = "SHERPA_MinBias.hepmc";
+const std::string minbias = "PYTHIA_MinBias_14TEV.hepmc";
 
 	// **************** DO NOT MODIFY  ****************
 

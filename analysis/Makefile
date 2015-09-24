@@ -67,7 +67,7 @@ INCPATH = $(CFLAGS)
 
 # main programs and required modules 
 
-MAIN =  HH4b
+MAIN =  HH4b genMB
 
 MODULES = pythia hepmc analysis detector run utils oxford_truth oxford_combined oxford_combined_rw oxford_combined_rw2 oxford_combined_rw2_check
 

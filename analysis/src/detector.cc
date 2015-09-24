@@ -17,24 +17,6 @@ using namespace std;
 static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
-// Pythia MinBias
-Pythia8::Pythia pythiaPileup(std::string(PYTHIADIR));
-bool pythiaInit = false;
-void initPythiaPileup()
-{
-  pythiaPileup.readString("Next:numberShowInfo = 0");
-  pythiaPileup.readString("Next:numberShowProcess = 0");
-  pythiaPileup.readString("Next:numberShowEvent = 0");
-
-  pythiaPileup.readString("Random:setSeed = on");
-  pythiaPileup.readString("Random:seed = 10000002");
-  pythiaPileup.readString("SoftQCD:all = on");
-  pythiaPileup.settings.parm("Beams:eCM", 14000);
-  pythiaPileup.init();
-
-  pythiaInit = true;
-}
-
 // Detector resolution
 static const double phiRes=0.1;
 static const double etaRes=0.1;
@@ -44,16 +26,8 @@ static const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {
-	if (!pythiaInit) initPythiaPileup();
-    
-    // Generate a number of pileup events. Add them to sumEvent.
-	double dummy;
 
-    for (int iPileup = 0; iPileup < nPileup; ++iPileup)
-    	get_final_state_particles(pythiaPileup, particles, dummy);
-
-
-	/* SHERPA MinBias
+	// HepMC MinBias
 	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
 	{
 		// Have to delete stream rather than reset it, HepMC adds some user information
@@ -71,7 +45,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 get_final_state_particles(*pileupStream, particles, dummy);
 		 pileupCount++;
 	}
-	*/
+	
 }
 
 void DetectorSim(finalState input, finalState& output)
