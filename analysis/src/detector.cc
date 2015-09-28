@@ -39,7 +39,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 }
 
 		 if (!pileupStream)
-		 	pileupStream = new std::ifstream( std::string(SAMPLEDIR) + minBiasFile() );
+		 	pileupStream = new std::ifstream( minBiasFile() );
 
 		 double dummy;
 		 get_final_state_particles(*pileupStream, particles, dummy);
@@ -54,7 +54,6 @@ void DetectorSim(finalState input, finalState& output)
 	{
 		AddPileup(npileupEvents(), input);
 		input = soft_killer(input);
-		//cout << input.size()<<"  "<<sk.size()<<endl;
 	}
 
 	for(size_t i=0; i<input.size(); i++)
