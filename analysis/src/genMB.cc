@@ -34,7 +34,7 @@ int main( int argc, char* argv[]  ) {
 
   // Specify file where HepMC events will be stored.
   std::stringstream filename;
-  filename << "PYTHIA_MinBias_14TEV_" << runID <<".hepmc";
+  filename << " /data/atlastemp/DiHiggsSharedSamples/PYTHIA_MinBias_14TEV_" << runID <<".hepmc";
   HepMC::IO_GenEvent ascii_io(filename.str(), std::ios::out);
 
   // Generator. Process selection. LHC initialization. Histogram.
