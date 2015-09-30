@@ -16,13 +16,26 @@
 
 using namespace Pythia8;
 
-int main() {
+int main( int argc, char* argv[]  ) {
+
+
+ if (argc != 2)
+  {
+    cerr << "Error: Wrong number of arguments!"<<endl;
+    cerr << "Usage: HH4b <runID>" <<endl;
+    exit(-1);
+  }
+
+  // Read sampleID
+  const int runID = atoi(argv[1]);
 
   // Interface for conversion from Pythia8::Event to HepMC event.
   HepMC::Pythia8ToHepMC ToHepMC;
 
   // Specify file where HepMC events will be stored.
-  HepMC::IO_GenEvent ascii_io("PYTHIA_MinBias_14TEV_50mu.hepmc", std::ios::out);
+  std::stringstream filename;
+  filename << "PYTHIA_MinBias_14TEV_" << runID <<".hepmc";
+  HepMC::IO_GenEvent ascii_io(filename.str(), std::ios::out);
 
   // Generator. Process selection. LHC initialization. Histogram.
   Pythia pythia(std::string(PYTHIADIR));
@@ -31,13 +44,16 @@ int main() {
   pythia.readString("Next:numberShowEvent = 0");
 
   pythia.readString("Random:setSeed = on");
-  pythia.readString("Random:seed = 1343356");
+
+  std::stringstream seedString;
+  seedString << "Random:seed = " <<  ( 23487*runID + 4847 );
+  pythia.readString(seedString.str());
   pythia.readString("SoftQCD:all = on");
   pythia.settings.parm("Beams:eCM", 14000);
   pythia.init();
 
   // Begin event loop. Generate event. Skip if error.
-  for (int iEvent = 0; iEvent < 50*3E6; ++iEvent) {
+  for (int iEvent = 0; iEvent < 1E7; ++iEvent) {
     if (!pythia.next()) continue;
 
     // Construct new empty HepMC event and fill it.
