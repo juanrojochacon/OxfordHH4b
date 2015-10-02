@@ -41,9 +41,9 @@ static double random_seed_pythia = 40487;	//!< Random seed for pythia
 static double random_seed_system = 23429;
 
 const bool pileup = true;
-const int npileup = 50;
-const int npileup_total = 20E6;
-const std::string minbias = "./dat/PYTHIA_MinBias_14TEV.hepmc";
+const int npileup = 150;
+const int npileup_total = 0.99E7;
+const std::string minbias = "PYTHIA_MinBias_14TEV.1.hepmc";
 
 	// **************** DO NOT MODIFY  ****************
 

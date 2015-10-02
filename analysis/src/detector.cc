@@ -39,7 +39,11 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 }
 
 		 if (!pileupStream)
-		 	pileupStream = new std::ifstream( minBiasFile() );
+		 {
+		 	const string samples_path=std::string(SAMPLEDIR);
+			const string minbfile = samples_path + minBiasFile();
+		 	pileupStream = new std::ifstream( minbfile );
+		 }
 
 		 double dummy;
 		 get_final_state_particles(*pileupStream, particles, dummy);
