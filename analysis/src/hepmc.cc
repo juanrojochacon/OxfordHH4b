@@ -63,6 +63,9 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
   // Unit weight
   unit_weight = event.weights()[0];
 
+  // Conversion factors
+  const double momConv = HepMC::Units::conversion_factor(event.momentum_unit(), HepMC::Units::GEV);
+
   for ( HepMC::GenEvent::particle_iterator p = event.particles_begin();
         p != event.particles_end(); ++p ) 
      if ( !(*p)->end_vertex() && (*p)->status()==1 ) // Is final-state
@@ -70,10 +73,10 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
         HepMC::GenParticle* gp = *p;
 
         // Particle kinematics
-        const double E = gp->momentum().e();
-        const double px = gp->momentum().px();
-        const double py = gp->momentum().py();
-        const double pz = gp->momentum().pz();
+        const double E = momConv*gp->momentum().e();
+        const double px = momConv*gp->momentum().px();
+        const double py = momConv*gp->momentum().py();
+        const double pz = momConv*gp->momentum().pz();
 
         const int pdg = gp->pdg_id();
 
