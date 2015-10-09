@@ -45,15 +45,6 @@ int main( int argc, char* argv[] )
   cout << "Processing sample ID: " <<sampleID<< ", subsample: : "<<subsample;
   cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
-  // Results output
-  ofstream out_results;
-  const string outDir = "./" + std::string(RESDIR) + "/hh4b_" + argv[1]+".res";
-  out_results.open(outDir.c_str()); 
-
-  // Scientific output
-  out_results << std::scientific;
-  cout << std::scientific;
-
   // Read sample data
   const eventSample sample = GetSample(sampleID);
   const string samples_path=std::string(SAMPLEDIR);
@@ -121,31 +112,12 @@ int main( int argc, char* argv[] )
 
   }
 
-  // Compute the total weight of the sample
-  // Should coincide with nev_pass for btag prob of 1.0 and light jet mistag prob of 0.0
-  for (size_t i=0; i<sampleAnalyses.size(); i++)
-  {
-    const double wgt_pass = sampleAnalyses[i]->GetWeight();
-    const int nev_pass = sampleAnalyses[i]->GetNPassed();
-    const double notCounted = sample_xsec - (sampleAnalyses[i]->GetCutWeight() + sampleAnalyses[i]->GetWeight());
-
-    // Save results for cross-sections and number of events
-    // Use LHC Run II and HL-LHC luminosities
-    out_results<<"\nSample = "<< sample.samplename<<" , Analysis = "<< sampleAnalyses[i]->GetName()<<std::endl;
-    out_results<<"nev_tot(MC), nev_pass(MC) = "<<sample.nevt_sample<<" , "<<nev_pass<<std::endl;
-    out_results<<"xsec_tot, xsec_pass (fb) = "<<sample_xsec<< " , "<<wgt_pass<<std::endl;
-    out_results << "cutXsec: "<< sampleAnalyses[i]->GetCutWeight() << ", Unaccounted for weights: "<< notCounted <<endl;
-    out_results<<"pass weight (300 1/fb) = "<< lumi_run2*wgt_pass<<std::endl; // LHC run II numbers
-    out_results<<"pass weight, nev_pass (3000 1/fb) = "<< lumi_hllhc*wgt_pass<<std::endl; // HL-LHC numbers
-  }
-
   // Free sample analyses
   for (size_t i=0; i<sampleAnalyses.size(); i++)
     delete sampleAnalyses[i];
 
   // Close stream and finish up
   hepmc_is.close();
-  out_results.close();
 
   // End of the main program
   return 0;
