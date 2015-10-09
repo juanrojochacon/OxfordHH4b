@@ -68,7 +68,7 @@ void DetectorSim(finalState input, finalState& output)
 	 		}
 
 		AddPileup(npileupEvents(), input);
-		input = soft_killer(input);
+		if (softKillered()) input = soft_killer(input);
 	}
 
 	for(size_t i=0; i<input.size(); i++)

@@ -24,6 +24,7 @@ const double jetp_smear = 5.0; // % smear on jet momentum
 const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
+const bool softKiller = true; // Enable softkiller pileup removal
 
 const bool pileup = true;
 const int npileup = 150;
@@ -46,6 +47,7 @@ double GetESmear() {return jetE_smear;};
 
 int GetNSamples() {return nSamples;};
 bool pythiaShowered() {return pythiaShower;};
+bool softKillered() {return softKiller;};
 
 int& subSample() {return subsample;};
 int sampleSize() {return samplesize;};
