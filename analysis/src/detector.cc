@@ -60,12 +60,16 @@ void DetectorSim(finalState input, finalState& output)
 	{
 		// Skip first chunk
 		if (firstInit)
+		{
+			std::cout << "Initialising MinBias" <<std::endl;
+		 	firstInit = false;
 	 		for ( int jEvent = 0; jEvent < sampleStart(); jEvent++ )
 	 		{
-			 	firstInit = false;
 			 	finalState dum;
 	 			AddPileup(npileupEvents(), dum);
 	 		}
+			std::cout << "MinBias Initialised" <<std::endl;
+	 	}
 
 		AddPileup(npileupEvents(), input);
 		if (softKillered()) input = soft_killer(input);

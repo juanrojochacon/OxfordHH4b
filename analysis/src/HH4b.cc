@@ -70,6 +70,7 @@ int main( int argc, char* argv[] )
   InitSampleAnalyses(sampleAnalyses, sample.samplename, subsample);
 
   // Skip to subsample x
+  cout << "Skipping to startpoint: " << sampleStart() <<endl;
   double dum; finalState dum2;
   for (int iEvent = 0; iEvent < sampleStart(); ++iEvent) 
     if (!sample.hepmc) // Pythia
@@ -80,6 +81,7 @@ int main( int argc, char* argv[] )
   // total xsec counter
   double sample_xsec = 0;
   // Begin loop over events
+  cout << "*************** Analysis Begins ***************" <<endl;
   for (int iEvent = 0; iEvent < sampleSize(); ++iEvent) 
   {
     finalState ifs, fs; // The event final state
