@@ -26,6 +26,7 @@ double GetPSmear();	// Return the % of Jet momenta to smear by
 double GetESmear();	// Return the % of Jet energy to smear by
 
 bool pythiaShowered(); // Is pythia showering
+bool softKillered(); // Is softkiller removing PU
 
 int& subSample(); // Current working subsample
 int sampleSize(); // Size point of sample;
