@@ -14,7 +14,7 @@ combined analysis for HH in fully merged, semi-merged and resolved channels - re
 class OxfordCombinedRW2Analysis : public Analysis
 {
 	public:
-		OxfordCombinedRW2Analysis(std::string const& sampleName);
+		OxfordCombinedRW2Analysis(std::string const& sampleName, int const& subSample);
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:

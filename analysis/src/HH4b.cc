@@ -27,19 +27,22 @@ using namespace Pythia8;
 int main( int argc, char* argv[] ) 
 {  
 
-  if (argc != 4)
+  if (argc != 3)
   {
     cerr << "Error: Wrong number of arguments!"<<endl;
-    cerr << "Usage: HH4b <sampleID> <systemSeed> <pythiaSeed>" <<endl;
+    cerr << "Usage: HH4b <sampleID> <subsample>" <<endl;
     exit(-1);
   }
 
   // Read sampleID
   const int sampleID = atoi(argv[1]);
-  pythiaSeed() = atoi(argv[2]);
-  systemSeed() = atoi(argv[3]);
+  const int subsample = atoi(argv[2]);
 
-  cout << "Processing sample ID: " <<sampleID;
+  subSample() = subsample;
+  pythiaSeed() = 430598*sampleID +342*subsample + 382;
+  systemSeed() = 175*sampleID +34562*subsample + 2093;
+
+  cout << "Processing sample ID: " <<sampleID<< ", subsample: : "<<subsample;
   cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
   // Results output
@@ -73,12 +76,20 @@ int main( int argc, char* argv[] )
 
   // Initialse Analyses for sample
   vector<Analysis*> sampleAnalyses;
-  InitSampleAnalyses(sampleAnalyses, sample.samplename);
+  InitSampleAnalyses(sampleAnalyses, sample.samplename, subsample);
+
+  // Skip to subsample x
+  double dum; finalState dum2;
+  for (int iEvent = 0; iEvent < sampleStart(); ++iEvent) 
+    if (!sample.hepmc) // Pythia
+      get_final_state_particles(pythiaRun, dum2, dum);
+    else  // HepMC      
+      get_final_state_particles(hepmc_is,  dum2, dum);
 
   // total xsec counter
   double sample_xsec = 0;
   // Begin loop over events
-  for (int iEvent = 0; iEvent < sample.nevt_sample; ++iEvent) 
+  for (int iEvent = 0; iEvent < sampleSize(); ++iEvent) 
   {
     finalState ifs, fs; // The event final state
 

@@ -30,21 +30,13 @@ static int IntHash(const std::string& _str)
 {
 	std::hash<std::string> str_hash;
 	return str_hash(_str);
-/*
-	const char* s = _str.c_str();
-	unsigned h = 31;
-	while (*s) {
-		h = (h * 54059) ^ (s[0] * 76963);
-		s++;
-	}
-	return h % 86969;
-	*/
 };
 
-Analysis::Analysis(string const& name, string const& sample):
+Analysis::Analysis(string const& name, string const& sample, int const& subsample):
 analysisName(name),
 analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
 sampleName(sample),
+subSample(subsample),
 nPassed(0),
 totalWeight(0),
 passedWeight(0)
@@ -54,16 +46,11 @@ passedWeight(0)
 	createPath("." + analysisRoot + sampleName);
 
 	if (Verbose) std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
-	const string ntupOut =  "." + analysisRoot + sampleName + "/ntuple.dat";
-	outputNTuple.open( ntupOut.c_str() );
 };
 
 
 Analysis::~Analysis()
 {
-	// Close NTuple output
-	outputNTuple.close();
-
 	// Export files
 	Export();
 }
@@ -141,34 +128,6 @@ void Analysis::FillHistogram(string const& rname, double const& weight, double c
 
 void Analysis::Export()
 {
-	// Write out cut flow
-	if (Verbose) std::cout << "Exporting cutFlow: "<<analysisRoot + sampleName + "/cutFlow.dat"<<std::endl;
-	const string cutFlow_out = "./" + analysisRoot + sampleName + "/cutFlow.dat";
-	std::ofstream cutFlow(cutFlow_out.c_str());
-
-	// Total weights
-	double sumWeight = 0.0;
-	for (size_t i=0; i<cutWeight.size(); i++)
-		sumWeight += cutWeight[i].second;
-
-	cutFlow << std::left<<std::setw(5) << 0 << std::left<<std::setw(25) 
-		<< "Total" <<std::left<<std::setw(25) 
-		<< totalWeight <<std::left<<std::setw(20)<<std::endl;
-
-	for (size_t i=0; i<cutWeight.size(); i++)
-	{
-		cutFlow << std::left<<std::setw(5) << i+1 << std::left<<std::setw(25) 
-		<< cutWeight[i].first <<std::left<<std::setw(25) 
-		<< totalWeight - cutWeight[i].second<<std::left<<std::setw(20)<<std::endl;
-		totalWeight -= cutWeight[i].second;
-	}
-	cutFlow << std::left<<std::setw(5) << cutWeight.size()<<std::left
-	<<std::setw(25)<<"(Passed)"<<std::left<<std::setw(25)
-	<<passedWeight<<"  ("<<totalWeight<<")"<<std::endl;
-
-
-	cutFlow.close();
-
 	// Export histograms
 	std::map<int,YODA::Histo1D*>::iterator iMap1D = bookedHistograms_1D.begin();
 	while (iMap1D != bookedHistograms_1D.end())
@@ -196,36 +155,6 @@ void Analysis::Export()
 		}
 		iMap2D++;
 	}
-}
-
-void Analysis::Cut(std::string const& cutStr, double const& weight)
-{
-	// Check for already booked cuts
-	for (size_t i=0; i< cutWeight.size(); i++)
-		if (cutWeight[i].first.compare(cutStr) == 0)
-		{
-			cutWeight[i].second += weight;
-			return;
-		}
-
-	// No cut found, book a new one
-	cutWeight.push_back(std::pair<std::string, double>(cutStr, weight));
-	return;
-}
-
-double Analysis::GetCutWeight() const
-{
-	double cutWeights = 0.0;
-	for (size_t i=0; i< cutWeight.size(); i++)
-		cutWeights += cutWeight[i].second;
-
-	return cutWeights;
-}
-
-void Analysis::Pass(double const& weight)
-{
-	nPassed++;
-	passedWeight += weight;
 }
 
 
@@ -271,12 +200,3 @@ bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 	}
 	return true;
 }
-
-
-
-
-
-
-
-
-

@@ -41,8 +41,8 @@ const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
 const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2"};
 
 
-OxfordCombinedRW2Analysis::OxfordCombinedRW2Analysis(std::string const& sampleName):
-Analysis("oxford_combined_rw2", sampleName)
+OxfordCombinedRW2Analysis::OxfordCombinedRW2Analysis(std::string const& sampleName, int const& subsample):
+Analysis("oxford_combined_rw2", sampleName, subsample)
 {
   // ********************* Histogram settings******************
 
@@ -160,7 +160,6 @@ Analysis("oxford_combined_rw2", sampleName)
   // ********************* Ntuple definition **********************
 
   const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
-  outputNTuple<<tupleSpec<<std::endl;
 
   const std::string root = "." + GetRoot() + GetSample() + "/";
 
@@ -654,7 +653,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     FillHistogram(histoname, (icut < 6) ? event_weight:P*event_weight, coord);
   }
 
-  return Cut ("Uncategorised", event_weight - passed_weight);
+  return Cut (event_weight - passed_weight);
 }
 
 // Small-R B-tagging

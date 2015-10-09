@@ -7,8 +7,8 @@
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 
-OxfordTruthAnalysis::OxfordTruthAnalysis(std::string const& sampleName):
-Analysis("oxford_truth", sampleName)
+OxfordTruthAnalysis::OxfordTruthAnalysis(std::string const& sampleName, int const& subsample):
+Analysis("oxford_truth", sampleName, subsample)
 {
 // ********************* Histogram settings******************
 
@@ -140,10 +140,6 @@ Analysis("oxford_truth", sampleName)
   BookHistogram(new YODA::Histo1D(30, 0, 300), "ptFatJetFatJet");
 
   // ********************************************************************
-
-
-  const std::string tupleSpec = "# signal source weight";
-  outputNTuple<<tupleSpec<<std::endl;
 }
 
 void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -496,20 +492,7 @@ void OxfordTruthAnalysis::Analyse(bool const& signal, double const& weightnorm, 
   FillHistogram("ptFatJet2", boost_weight, fatjets[1].pt() );
   FillHistogram("ptFatJetFatJet", boost_weight, fatjets[0].pt() + fatjets[1].pt());
   }
-  // ************************************* MVA Output **********************************************************
-  // Now save the ntuples to be used by the TMVA or the ANNs
-  // In the UCL analysis they use
-  //
-  // m, y, pT of the 4b system and masses of the two dijets
-  // 3 decay angles (in resp. rest frames) & 2 angles between decay planes
-  // This is for the UCL-like strategy
-  // sabe mass, pt and y of th 4b system
-  // the two dijet masses
-  // and all independent angular distances between the four b jets
-  // totalNTuple<<"# signal source m4b pt4b y4b mHiggs1 mHiggs2 DeltaR_b1b2 DeltaR_b1b3 DeltaR_b1b4 DeltaR_b2b3 DeltaR_b2b4 DeltaR_b3b4 "<<std::endl;
-  outputNTuple <<signal <<"\t"<<GetSample()<<"\t"<<event_weight<<std::endl;
-  // Other combinations of kinematical variables could also be useful
-  // Need to investigate the kinematics of the 4b final state in more detail
+  
   // Pass event
   Pass(event_weight);
 

@@ -14,7 +14,7 @@ combined analysis for HH in fully merged, semi-merged and resolved channels
 class OxfordCombinedCheckAnalysis : public Analysis
 {
 	public:
-		OxfordCombinedCheckAnalysis(std::string const& sampleName);
+		OxfordCombinedCheckAnalysis(std::string const& sampleName, int const& subsample);
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:

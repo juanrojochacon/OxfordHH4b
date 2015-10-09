@@ -32,8 +32,8 @@ const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
 const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2"};
 
 
-OxfordCombinedCheckAnalysis::OxfordCombinedCheckAnalysis(std::string const& sampleName):
-Analysis("oxford_combined_check", sampleName)
+OxfordCombinedCheckAnalysis::OxfordCombinedCheckAnalysis(std::string const& sampleName, int const& subsample):
+Analysis("oxford_combined_check", sampleName, subsample)
 {
   
   // ********************* Histogram definitions ******************
@@ -368,7 +368,7 @@ void OxfordCombinedCheckAnalysis::Analyse(bool const& signal, double const& weig
   }
 
   if (!selected)
-    Cut ("Uncategorised", event_weight);
+    Cut (event_weight);
 
   return;
 }

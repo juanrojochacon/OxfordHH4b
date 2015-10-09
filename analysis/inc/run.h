@@ -27,6 +27,10 @@ double GetESmear();	// Return the % of Jet energy to smear by
 
 bool pythiaShowered(); // Is pythia showering
 
+int& subSample(); // Current working subsample
+int sampleSize(); // Size point of sample;
+int sampleStart(); // Start point of sample;
+
 // RNG seeds
 double& pythiaSeed();
 double& systemSeed();
@@ -37,4 +41,4 @@ int npileupEvents();
 int npileupTotal();
 std::string minBiasFile();
 
-void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename );
+void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename, int const& subsample );

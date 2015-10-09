@@ -4,19 +4,7 @@
 #include "utils.h"
 #include "analysis.h"
 
-#include "ucl.h"
-#include "ucl_vr.h"
-#include "durham.h"
-#include "oxford_res_vr.h"
-#include "oxford_res_fr.h"
-#include "oxford_boost_vr.h"
-#include "oxford_boost_fr.h"
-#include "variableR.h"
-#include "amcatnlo.h"
-#include "btag_test.h"
 #include "oxford_truth.h"
-#include "oxford_combined.h"
-#include "oxford_combined_rw.h"
 #include "oxford_combined_rw2.h"
 #include "oxford_combined_rw2_check.h"
 
@@ -37,21 +25,31 @@ const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
 
-static double random_seed_pythia = 40487;	//!< Random seed for pythia
-static double random_seed_system = 23429;
-
 const bool pileup = true;
 const int npileup = 150;
 const int npileup_total = 0.99E7;
+
+const int samplesize = 1E5; //!< Size of individual subsamples
+
 const std::string minbias = "PYTHIA_MinBias_14TEV.1.hepmc";
 
-	// **************** DO NOT MODIFY  ****************
+// **************** DO NOT MODIFY  ****************
+
+// Current working subsample
+static int subsample = -1;
+
+static double random_seed_pythia = 40487;	//!< Random seed for pythia
+static double random_seed_system = 23429;
 
 double GetPSmear() {return jetp_smear;};
 double GetESmear() {return jetE_smear;};
 
 int GetNSamples() {return nSamples;};
 bool pythiaShowered() {return pythiaShower;};
+
+int& subSample() {return subsample;};
+int sampleSize() {return samplesize;};
+int sampleStart() {return samplesize*subsample;};
 
 double& pythiaSeed() {return random_seed_pythia;};
 double& systemSeed() {return random_seed_system;};
@@ -142,12 +140,12 @@ eventSample GetSample( int const& isample )
   return newsamp;
 }
 
-void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename )
+void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename, int const& subsample )
 {
 	// **************** PLEASE MODIFY *****************
 
-	sampleAnalyses.push_back(new OxfordCombinedCheckAnalysis(samplename));
-	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename));
+	sampleAnalyses.push_back(new OxfordCombinedCheckAnalysis(samplename, subsample));
+	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename, subsample));
 
 	// **************** DO NOT MODIFY  ****************
 }
