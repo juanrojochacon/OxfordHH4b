@@ -13,7 +13,8 @@
 
 using namespace std;
 
-// SHERPA MinBias
+// HepMC MinBias
+static bool firstInit = true;
 static std::ifstream *pileupStream;
 static int pileupCount = 0;
 
@@ -43,6 +44,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 	const string samples_path=std::string(SAMPLEDIR);
 			const string minbfile = samples_path + minBiasFile();
 		 	pileupStream = new std::ifstream( minbfile );
+
 		 }
 
 		 double dummy;
@@ -56,6 +58,15 @@ void DetectorSim(finalState input, finalState& output)
 {
 	if (pileupSimulated())
 	{
+		// Skip first chunk
+		if (firstInit)
+	 		for ( int jEvent = 0; jEvent < sampleStart(); jEvent++ )
+	 		{
+			 	firstInit = false;
+			 	finalState dum;
+	 			AddPileup(npileupEvents(), dum);
+	 		}
+
 		AddPileup(npileupEvents(), input);
 		input = soft_killer(input);
 	}
