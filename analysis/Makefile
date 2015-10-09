@@ -48,7 +48,7 @@ FASTJETLIBS = $(shell fastjet-config --libs) -lSoftKiller
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # fastjet-contrib
-FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.014/lib/ -lVariableR
+FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl
@@ -69,7 +69,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b genMB
 
-MODULES = pythia hepmc analysis detector run utils oxford_truth oxford_combined oxford_combined_rw oxford_combined_rw2 oxford_combined_rw2_check
+MODULES = pythia hepmc analysis detector run utils oxford_truth oxford_combined_rw2 oxford_combined_rw2_check
 
 ############################## do not change ###################################
 
