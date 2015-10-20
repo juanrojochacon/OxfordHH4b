@@ -32,7 +32,7 @@ const int npileup_total = 0.99E7;
 
 const int samplesize = 1E5; //!< Size of individual subsamples
 
-const std::string minbias = "PYTHIA_MinBias_14TEV.1.hepmc";
+const std::string minbias = "PYTHIA_MinBias_14TEV.";
 
 // **************** DO NOT MODIFY  ****************
 
@@ -59,7 +59,13 @@ double& systemSeed() {return random_seed_system;};
 bool pileupSimulated() {return pileup;};
 int npileupEvents() {return npileup;};
 int npileupTotal() {return npileup_total;};
-std::string minBiasFile() {return minbias;};
+
+std::string minBiasFile() 
+{
+	stringstream filename;
+	filename << minbias <<subSample() <<".hepmc"
+	return filename.str();
+};
 
 eventSample GetSample( int const& isample )
 {

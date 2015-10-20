@@ -27,7 +27,6 @@ static const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {
-
 	// HepMC MinBias
 	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
 	{
@@ -58,19 +57,6 @@ void DetectorSim(finalState input, finalState& output)
 {
 	if (pileupSimulated())
 	{
-		// Skip first chunk
-		if (firstInit)
-		{
-			std::cout << "Initialising MinBias" <<std::endl;
-		 	firstInit = false;
-	 		for ( int jEvent = 0; jEvent < sampleStart(); jEvent++ )
-	 		{
-			 	finalState dum;
-	 			AddPileup(npileupEvents(), dum);
-	 		}
-			std::cout << "MinBias Initialised" <<std::endl;
-	 	}
-
 		AddPileup(npileupEvents(), input);
 		if (softKillered()) input = soft_killer(input);
 	}
