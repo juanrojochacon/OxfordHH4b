@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <cmath>
+#include <sstream>
 
 // List of samples
 static std::vector<eventSample> samples;
@@ -30,7 +31,7 @@ const bool pileup = true;
 const int npileup = 150;
 const int npileup_total = 0.99E7;
 
-const int samplesize = 1E5; //!< Size of individual subsamples
+const int samplesize = 100; //!< Size of individual subsamples
 
 const std::string minbias = "PYTHIA_MinBias_14TEV.";
 
@@ -62,8 +63,8 @@ int npileupTotal() {return npileup_total;};
 
 std::string minBiasFile() 
 {
-	stringstream filename;
-	filename << minbias <<subSample() <<".hepmc"
+	std::stringstream filename;
+	filename << minbias <<subSample() <<".hepmc";
 	return filename.str();
 };
 
