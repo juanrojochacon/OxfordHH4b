@@ -84,10 +84,6 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
         fastjet::PseudoJet jet(px,py,pz,E);
         jet.set_user_index(pdg);
 
-        // Form user_info - should set charge and event ID here
-        JetInfo* user_info = new JetInfo(0, 0, 0, 0);
-        jet.set_user_info(user_info);
-
         // push back
         particles.push_back( jet );
      }

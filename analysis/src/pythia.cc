@@ -115,9 +115,6 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
     fastjet::PseudoJet jet(px,py,pz,E);
     jet.set_user_index(particle_id);
 
-    // Form user_info - should set charge and event ID here
-    JetInfo* user_info = new JetInfo(0, 0, motherID, motherPDG);
-    jet.set_user_info(user_info);
     particles.push_back( jet );
     
   } // End loop over particles in event
