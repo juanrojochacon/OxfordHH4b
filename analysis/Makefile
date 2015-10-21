@@ -26,7 +26,7 @@ DESTDIR=.
 VPATH=$(SOURCEDIR)
 
 # MC sample directory
-SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples\"
+SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"/nnpdfscratch1/nh/OxfordHH4b/sherpa/final/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
