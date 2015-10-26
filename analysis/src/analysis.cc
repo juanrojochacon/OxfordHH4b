@@ -137,7 +137,6 @@ void Analysis::Export()
 		{
 			std::stringstream path;
 			path << analysisRoot +sampleName+"/histo_" + (*iMap1D).second->title() << "." <<subSample;
-			YODA::WriterFLAT::write("." + path.str() + ".dat", *(*iMap1D).second);
 			YODA::WriterYODA::write("." + path.str() + ".yoda", *(*iMap1D).second);
 		}
 		iMap1D++;
@@ -152,7 +151,6 @@ void Analysis::Export()
 		{
 			std::stringstream path;
 			path << analysisRoot +sampleName+"/histo_" + (*iMap2D).second->title() <<"."<<subSample;
-			YODA::WriterFLAT::write("." + path.str() + ".dat", *(*iMap2D).second);
 			YODA::WriterYODA::write("." + path.str() + ".yoda", *(*iMap2D).second);
 		}
 		iMap2D++;
