@@ -82,7 +82,9 @@ int main( int argc, char* argv[] )
   double sample_xsec = 0;
   // Begin loop over events
   cout << "*************** Analysis Begins ***************" <<endl;
-  for (int iEvent = 0; iEvent < sampleSize(); ++iEvent) 
+  const int targetSize = min(sampleSize(), sample.nevt_sample - sampleStart());
+  cout << "Analysing: " << targetSize <<" events"<<endl;
+  for (int iEvent = 0; iEvent < targetSize; ++iEvent) 
   {
     finalState ifs, fs; // The event final state
 
