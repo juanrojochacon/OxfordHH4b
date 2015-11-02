@@ -27,10 +27,10 @@ const bool pythiaShower = true; // Shower events in pythia
 const bool softKiller = true; // Enable softkiller pileup removal
 
 const bool pileup = true;
-const int npileup = 150;
+const int npileup = 80;
 const int npileup_total = 3999999;
 
-const int samplesize = 100; //!< Size of individual subsamples
+const int samplesize = 3E5; //!< Size of individual subsamples
 
 const std::string minbias = "PYTHIA_MinBias_14TEV.";
 
