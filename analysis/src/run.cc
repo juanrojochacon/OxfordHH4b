@@ -28,7 +28,7 @@ const bool softKiller = true; // Enable softkiller pileup removal
 
 const bool pileup = true;
 const int npileup = 150;
-const int npileup_total = 0.99E7;
+const int npileup_total = 3999999;
 
 const int samplesize = 100; //!< Size of individual subsamples
 
