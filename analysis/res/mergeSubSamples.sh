@@ -25,7 +25,7 @@ do
 	if [[ $d != *background* ]]; then
     	COUNT=0
             for f in $d*NTuple.*.dat; do
-            	echo "merging " $f 
+            	echo "NTuple Merging " $f 
 				filename=$(basename $f)
 				basename=${filename:0:9}
 
@@ -37,6 +37,9 @@ do
 
             	COUNT=$((COUNT+1))
             done
+            
+            # Cleanup
+            rm $d*NTuple.*.dat
     fi
 
 
