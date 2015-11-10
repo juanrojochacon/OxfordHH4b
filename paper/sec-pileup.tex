@@ -136,3 +136,39 @@ compare the distribution of the $D_2^{(\beta)}$
 Finally, we revisit how the signal significance after the MVA
 is affected by the inclusion of realistic PU effects.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.48\textwidth]{plots/ssb_pu.pdf}
+\includegraphics[width=0.48\textwidth]{plots/sb_pu.pdf}
+\caption{\small
+  Same as Fig.~\ref{fig:sb_mva} this time for the analysis including
+  effects of PU, with $\la n_{\rm PU}\ra=150$.
+}
+\label{fig:sb_mva_pu}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+In Fig.~\ref{fig:sb_mva_pu} we show the signal significance,
+$S/\sqrt{B}$, as well as the signal over background ratio,
+$S/B$, as a function of the NN discriminant, in the case
+of the analysis including the effects of PU
+with $\la n_{\rm PU}\ra=150$.
+%
+The corresponding results in the case without PU were shown in
+Fig.~\ref{fig:sb_mva}.
+%
+As can be seen, the MVA-driven enhancement is robust event in the
+presence of PU, and a total signal significance of
+almost $S/\sqrt{B}\simeq 3$ is also obtained in this case.
+%
+Therefore, we conclude that the qualitative results obtained
+in the previous section are robust even in the presence
+of realistic PU effects.
+%
+Note that no specific effort has been performed to
+optimize PU subtraction (for example by tuning the value
+of the patch length $a$ in {\tt SoftKiller}), so there is
+certainly still room for improvement.
