@@ -73,10 +73,13 @@ int main( int argc, char* argv[] )
   cout << "Skipping to startpoint: " << sampleStart() <<endl;
   double dum; finalState dum2;
   for (int iEvent = 0; iEvent < sampleStart(); ++iEvent) 
+  {
+    dum2.clear();
     if (!sample.hepmc) // Pythia
       get_final_state_particles(pythiaRun, dum2, dum);
     else  // HepMC      
       get_final_state_particles(hepmc_is,  dum2, dum);
+  }
 
   // total xsec counter
   double sample_xsec = 0;
