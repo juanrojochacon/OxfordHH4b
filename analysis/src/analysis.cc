@@ -53,6 +53,15 @@ Analysis::~Analysis()
 {
 	// Export files
 	Export();
+
+    // Clear all histograms
+    for(std::map<int,YODA::Histo1D*>::iterator iT = bookedHistograms_1D.begin(); iT != bookedHistograms_1D.end(); iT++)
+            delete iT->second;
+    for(std::map<int,YODA::Histo2D*>::iterator iT = bookedHistograms_2D.begin(); iT != bookedHistograms_2D.end(); iT++)
+            delete iT->second;
+
+    bookedHistograms_1D.clear();
+    bookedHistograms_2D.clear();
 }
 
 
