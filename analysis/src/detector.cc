@@ -80,8 +80,6 @@ void DetectorSim(finalState input, finalState& output)
  		// Form PseudoJet
     	fastjet::PseudoJet jet(px, py, pz, E);
     	jet.set_user_index(input[i].user_index());
-    	if (input[i].has_user_info())
-    		jet.set_user_info(new JetInfo(input[i].user_info<JetInfo>()));
 
     	output.push_back(jet);
 	}
