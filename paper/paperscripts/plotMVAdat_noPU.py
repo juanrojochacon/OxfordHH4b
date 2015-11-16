@@ -10,9 +10,9 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "~/Dropbox/HH4bMC/mva/results_noPU/resNTuple.dat",
-			"~/Dropbox/HH4bMC/mva/results_noPU/intNTuple.dat",
-			"~/Dropbox/HH4bMC/mva/results_noPU/bstNTuple.dat"]
+datafiles=[ "../plotdata/results_noPU/MVA/nn_12X5X3X1_50000-Gen_noPU_res.dat",
+			"../plotdata/results_noPU/MVA/nn_16X5X3X1_50000-Gen_noPU_int.dat",
+			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
 

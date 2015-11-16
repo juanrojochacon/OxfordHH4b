@@ -10,8 +10,8 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '~/Dropbox/HH4bMC/mva/results_noPU/resNTuple.dat'
-dataname = "Resolved"
+datafile = '../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.net'
+dataname = "Boosted"
 sourcefile = os.path.expanduser(datafile)
 
 archout = "res_nnarch"
