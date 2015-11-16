@@ -10,12 +10,12 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.net'
+datafile = '../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.net'
 dataname = "Boosted"
 sourcefile = os.path.expanduser(datafile)
 
-archout = "res_nnarch_noPU"
-histout = "res_wgthist_noPU"
+archout = "res_nnarch_SKPU80"
+histout = "res_wgthist_SKPU80"
 
 #############################################################################
 

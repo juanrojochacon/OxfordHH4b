@@ -10,11 +10,10 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_noPU/MVA/nn_12X5X3X1_50000-Gen_noPU_res.dat",
-			"../plotdata/results_noPU/MVA/nn_16X5X3X1_50000-Gen_noPU_int.dat",
-			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.dat"]
+datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_16X5X3X1_50000-Gen_SKPU80_int.dat",
+            "../plotdata/results_noPU/MVA/nn_16X5X3X1_50000-Gen_noPU_int.dat"]
 
-datanames=[ "Resolved","Intermediate","Boosted"]
+datanames=[ "SKPU80_Intermediate","noPU_intermediate"]
 
 
 # HL-LHC luminosity
@@ -25,15 +24,13 @@ colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
 linestyles = ['dashed','dotted','solid']
 
 # Histogram names
-Histout = "disc_noPU"  # Histograms for discriminant
-ROCout = "roc_noPU"	  # ROC curve
-SBout = "sb_noPU"	  # S/B curve
-SSBout = "ssb_noPU"	  # S/Sqrt(B) curve
-NeVout = "nev_noPU"	  # Number of events (twin axes)
-NeV2out = "nev2_noPU"  # Number of events (single axis)
+Histout = "disc_comp_int"  # Histograms for discriminant
+ROCout = "roc_comp_int"	  # ROC curve
+SBout = "sb_comp_int"	  # S/B curve
+SSBout = "ssb_comp_int"	  # S/Sqrt(B) curve
+NeVout = "nev_comp_int"	  # Number of events (twin axes)
+NeV2out = "nev2_comp_int"  # Number of events (single axis)
 
-
- 
  
 #############################################################################
 
