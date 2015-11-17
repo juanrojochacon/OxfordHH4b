@@ -7,4 +7,4 @@ default:
 
 clean:
 	rm -rf *~ *.log *.pdf *.aux *.bbl *.toc *.dvi *.blg *.out
-	rm -rf plotscripts/*~ plotscripts/*.pdf ../analysis/res/*~ ../analysis/res/*.dat paperscripts/*.pdf paperscripts/*~
+	rm -rf paperscripts/*.pdf paperscripts/*~  paperscripts/*.dat
