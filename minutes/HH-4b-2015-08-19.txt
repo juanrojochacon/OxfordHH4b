@@ -1,0 +1,53 @@
+*******************************************
+
+Meeting 19/08/2015
+
+*******************************************
+
+
+Detector simulation
+-------------------
+
+- Agreed to simulate finite angular resolution of calorimeter
+towers by having a finite granularity of 0.1 \times 0.1
+in the rapidity/azimuth plane
+
+- Agreed to then smear the pt of individual final state particles,
+and apply mass shell condition to the calorimeter towers
+
+- A 5% value of Et of the towers seems to be a bit
+too optimistic, agreed to change the working point to 7.5%,
+and then try other values.
+
+- If more refined treatment is needed, we can study a pt
+dependence of this smearing factor, but this should not
+be needed
+
+- Once this is done, we agree that this is a reasonable enough
+simulation of detector effects
+
+Pile-up simulation
+------------------
+
+- Let's begin adding 50 minbias events to each hard event
+
+- We have 3M events for each background samples, assuming that
+we can reuse PU events at most 10 times, we need to generate
+
+4 backgronds * 3M events per sample = 12 M back events
+
+12 M back events * 50 pu per event = 600M minbias events
+
+ 600M minbias events / reuse 10 times = 60M min bias events needed
+
+- NH has generated 3M, this is very quick, so he can generate a factor
+20 more without much problem
+
+- Then agreed to use SoftKiller at the particle level (after the shower,
+but before we generate the calorimenter towers) to remove
+the PU effects, using the FastJet routines and the default
+parameters of their paper
+
+*******************************************
+
+
