@@ -10,12 +10,12 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.net'
-dataname = "Boosted"
+datafile = '../plotdata/results_SK_PU80/MVA/nn_12X5X3X1_50000-Gen_SKPU80_res.net'
+dataname = "Resolved"
 sourcefile = os.path.expanduser(datafile)
 
-archout = "bst_nnarch_noPU"
-histout = "bst_wgthist_noPU"
+archout = "res_nnarch_SKPU80"
+histout = "res_wgthist_SKPU80"
 
 #############################################################################
 
@@ -124,13 +124,13 @@ plt.xticks(rotation=-25)
 plt.bar(numpy.arange(len(kinematics))+2, sumw, alpha=0.6)
 plt.subplots_adjust(bottom=0.15)
 
-plt.xticks(numpy.arange(len(kinematics)) + 2.5, kinematics,fontsize=7)
+plt.xticks(numpy.arange(len(kinematics)) + 2.5, kinematics,fontsize=10)
 
 
 plt.xlabel('ANN Input Variable',fontsize=17)
 plt.ylabel('Total associated weight',fontsize=17)
 
-plt.text(4,14.5,"Boosted category, no PU", fontsize=20)
+plt.text(4,8.5,"Resolved category, $n_{PU}=80$+SK", fontsize=20)
 
 plt.savefig(histout+".pdf")
 plt.clf()
