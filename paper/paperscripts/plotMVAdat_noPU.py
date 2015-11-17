@@ -15,6 +15,8 @@ datafiles=[ "../plotdata/results_noPU/MVA/nn_12X5X3X1_50000-Gen_noPU_res.dat",
 			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
+titlenames=[ "Resolved Category","Intermediate Category",\
+             "Boosted Category"]
 
 
 # HL-LHC luminosity
@@ -32,13 +34,11 @@ SSBout = "ssb_noPU"	  # S/Sqrt(B) curve
 NeVout = "nev_noPU"	  # Number of events (twin axes)
 NeV2out = "nev2_noPU"  # Number of events (single axis)
 
-
- 
  
 #############################################################################
 
 # Plot the individual discriminant histograms
-def plotDiscriminantHisto(name, signal, background):
+def plotDiscriminantHisto(name, signal, background,title):
         plt.rcParams.update({'font.size': 16})
 	bins = numpy.linspace(0, 1, 20) # Binning density
 	fig, ax = plt.subplots()
@@ -48,15 +48,14 @@ def plotDiscriminantHisto(name, signal, background):
 
 	ax.set_ylim([0,10])
 	ax.set_xlabel("ANN Output")
-        ax.set_ylabel("A. U.")
+        ax.set_ylabel("a. u.")
 
 	# Legend
 	legend = ax.legend(fontsize=18, loc='best')
 	legend.get_frame().set_alpha(0.8)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
-	# fig.text(0.13,0.92,numpoints, fontsize=12)
-	fig.text(0.35,0.92,name + " category", fontsize=19)
+	fig.text(0.33,0.93,title, fontsize=19)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -78,7 +77,7 @@ rocax.yaxis.grid(True)
 sb, sbax = plt.subplots()
 sbax.set_ylabel("$S/B$",fontsize=19)
 sbax.set_xlabel("ANN output cut")
-sbax.set_ylim([0.00001,10])
+sbax.set_ylim([0.0001,1])
 sbax.set_xlim([0,0.95])
 
 # Setup s/sqrt(b) plot
@@ -120,6 +119,7 @@ nevax3.set_ylim([1,1e7])
 for idat in xrange(0,len(datafiles)):
 	infilenm = os.path.expanduser(datafiles[idat])
 	basename = datanames[idat]
+        titlename = titlenames[idat]
 
 	# Verify paths
 	if os.path.exists(infilenm) == False:
@@ -192,7 +192,7 @@ for idat in xrange(0,len(datafiles)):
                         print th, s_over_b," ", s_over_sb, " ",hl_lhc_lumi*signalwgt, " ",hl_lhc_lumi*backgdwgt
 
 	# Plot discriminant histogram
-	plotDiscriminantHisto(basename, sigprob, bkgprob)
+	plotDiscriminantHisto(basename, sigprob, bkgprob,titlename)
 
 	# Plot ROC curve, s/b, s/sqrt(b)
 	rocax.plot(truepos, falsepos, color=colours[idat],linestyle=linestyles[idat], label = basename,linewidth=2.4)
@@ -222,7 +222,7 @@ nev3legend = nevax3.legend(loc='best')
 nev3legend.get_frame().set_alpha(0.8)
 
 x1,x2,y1,y2 = ssbax.axis()
-ssbax.axis((x1,x2,0,10))
+ssbax.axis((x1,x2,0,8))
 
 roc.savefig(ROCout+'.pdf')
 sb.savefig(SBout+'.pdf')
