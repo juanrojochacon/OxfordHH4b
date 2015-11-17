@@ -10,7 +10,7 @@ import sys
 ################################ Settings ###################################
 
 # Init data
-datafile = '../plotdata/results_SK_PU80/MVA/nn_12X5X3X1_50000-Gen_SKPU80_res.net'
+datafile = '../plotdata/results_SK_PU80/MVA/nn_13X5X3X1_50000-Gen_SKPU80_res.net'
 dataname = "Resolved"
 sourcefile = os.path.expanduser(datafile)
 
