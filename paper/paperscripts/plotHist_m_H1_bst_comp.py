@@ -10,13 +10,13 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_H0_bst_comp"
+outfile = "m_H_bst_comp"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H0_boost_C2.dat")
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H0_boost_C2.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H1_boost_C2.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H1_boost_C2.dat")
 
 
 # Plot labels
@@ -24,7 +24,7 @@ plotnames.append("no PU")
 plotnames.append("$n_{PU}=80$ + SK")
 
 # Axis labels
-xLabel = "Leading Higgs Candidate Invariant Mass (GeV)"
+xLabel = "Sub-Leading Higgs Candidate Invariant Mass (GeV)"
 yLabel = "a. u."
 
 # Log axes

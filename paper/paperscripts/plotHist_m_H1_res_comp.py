@@ -10,13 +10,13 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_H0_bst_comp"
+outfile = "m_H1_res_comp"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H0_boost_C2.dat")
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H0_boost_C2.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H1_res_C2.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H1_res_C2.dat")
 
 
 # Plot labels
@@ -24,7 +24,7 @@ plotnames.append("no PU")
 plotnames.append("$n_{PU}=80$ + SK")
 
 # Axis labels
-xLabel = "Leading Higgs Candidate Invariant Mass (GeV)"
+xLabel = "Sub-Leading Higgs Candidate Invariant Mass (GeV)"
 yLabel = "a. u."
 
 # Log axes
@@ -125,7 +125,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.23,0.93,"Signal events, Boosted category", fontsize=20)
+fig.text(0.23,0.93,"Signal events, Resolved category", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

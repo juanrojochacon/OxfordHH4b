@@ -93,7 +93,6 @@ regime are particularly robust against PU effects, and this
 will have the important consequence that the MVA discrimination
 will not be substantially affected.
 
-{\bf add plots of these various distributions}
 
 In Fig.~\ref{fig: pu-vs-nopu-comparison-d2} we
 compare the distribution of the $D_2^{(\beta)}$
@@ -126,10 +125,50 @@ compare the distribution of the $D_2^{(\beta)}$
     %
     See text for more details.
 }
-\label{fig: pu-vs-nopu-comparison-d2}
+\label{fig:pu-vs-nopu-comparison-d2}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+
+We now compare a number of signal distributions with
+and without PU.
+%
+In Fig.~\ref{fig:m_H_PU} we show first of all the invariant mass distribution
+of the leading and subleading Higgs candidates in the boosted
+and resolved categories.
+%
+These distributions are plotted after the $b$-tagging,
+before they are used as input to the MVA.
+%
+As we can see, in the boosted category, the residual effects of PU
+after the SoftKiller subtraction are very mild in this
+distribution.
+%
+The effects are more important for the resolved category, where PU
+shifts the Higgs peak by am amount $\Delta m_h \simeq 5$ GeV.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+      \vspace{-1cm}
+      \includegraphics[width=0.49\textwidth]{plots/m_H0_res_comp.pdf}
+      \includegraphics[width=0.49\textwidth]{plots/m_H1_res_comp.pdf}
+      \includegraphics[width=0.49\textwidth]{plots/m_H0_bst_comp.pdf}
+      \includegraphics[width=0.49\textwidth]{plots/m_H1_bst_comp.pdf}
+  \caption{\small
+    Comparison of the invariant mass distributions of the leading (left plots)
+    and subleading (right plots) Higgs candidates in the resolved
+    (upper plots) and boosted (lower plots) categories,
+    without PU and with $\la n_{PU}\ra=80$ subtracted with SoftKiller.
+}
+\label{fig:m_H_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Signal significance in the presence of PU}
 
