@@ -1,3 +1,7 @@
+%%% jhep.bst %%%
+%%% History %%%
+%%% 2015feb06 sissa medialab %%%
+
 % UT Physics bibliographic style, ver. 1.2.1 Based on:
 %
 %X     IEEE Transactions bibliography style (29-Jan-88 version)
@@ -16,10 +20,11 @@
 %                 3) "publisher, address" instead of "address: publisher"
 %                 4) added "report" field for article entries.
 %                 5) particle physics-oriented abbreviations, rather than ieee.
-%                 6) added "collaboration" field, as per 
+%                 6) added "collaboration" field, as per
 %                    Jonathan Flynn' suggestion. SPIRES now supports this field.
 %                 7) added support for new arXIv identifier format
 %                 8) minor corrections (mg 27/2/2012)
+%                 9) arXiv links point to arxiv.org and not to xxx.lanl.gov (08/2014)
 %
 %    Modified by Jacques Distler, 7/97
 %           History: ver 1.0  9/96
@@ -34,11 +39,11 @@
 %   eprint   = "9605023"
 % and
 %   eprint   = "hep-th/9605023"
-% both produce 
+% both produce
 %    \href{http://arxiv.org/abs/hep-th/9605023}{{\tt hep-th/9605023}}
 % in the bibliographic output at the appropriate point. If you are using a
 % hypertex macropackage, like hyperref.sty, this will create a link to Los
-% Alamos. 
+% Alamos.
 %
 % The bibtex output produced by SPIRES, while far from perfect, is pretty
 % suitable for use with this style. Indeed, this style was designed with
@@ -276,18 +281,18 @@ FUNCTION {format.authors}
 
 FUNCTION {format.eprint.newarXivid}
 { eprint #1 #6 substring$ "arXiv:" =
-    {"\href{http://xxx.lanl.gov/abs/" eprint #7 #9 substring$ * "}" *
-        "{{\tt " * eprint #7 #9 substring$ * "}}" *}
-    {"\href{http://xxx.lanl.gov/abs/" eprint #1 #9 substring$  * "}" *
-        "{{\tt arXiv:" * eprint #1 #9 substring$ * "}}" *}
+    {"\href{http://arxiv.org/abs/" eprint #7 #10 substring$ * "}" *
+        "{{\tt " * eprint #7 #10 substring$ * "}}" *}
+    {"\href{http://arxiv.org/abs/" eprint #1 #10 substring$  * "}" *
+        "{{\tt arXiv:" * eprint #1 #10 substring$ * "}}" *}
   if$
 }
 
 FUNCTION {format.eprint.oldarXivid}
 { archive empty$
-    {"\href{http://xxx.lanl.gov/abs/" eprint * "}" *
+    {"\href{http://arxiv.org/abs/" eprint * "}" *
         "{{\tt " * eprint * "}}" *}
-    {"\href{http://xxx.lanl.gov/abs/" archive *  "/" * eprint * "}" *
+    {"\href{http://arxiv.org/abs/" archive *  "/" * eprint * "}" *
         "{{\tt " * archive * "/" * eprint * "}}" *}
   if$
 }
@@ -298,9 +303,9 @@ FUNCTION {format.eprint}
     { ""}
         { eprint #1 #6 substring$ "arXiv:" =
           eprint #5 #1 substring$ "." =
-          or  
-              { format.eprint.newarXivid } 
-              { format.eprint.oldarXivid } 
+          or
+              { format.eprint.newarXivid }
+              { format.eprint.oldarXivid }
         if$
       }
   if$
@@ -308,9 +313,9 @@ FUNCTION {format.eprint}
 
 
 FUNCTION {format.eprint.paren}
-{ eprint missing$ { "" } { eprint empty$ { "" } {"[" format.eprint * "]" *} 
-    			   if$ 
-			  } 
+{ eprint missing$ { "" } { eprint empty$ { "" } {"[" format.eprint * "]" *}
+    			   if$
+			  }
   if$
 }
 
@@ -700,7 +705,7 @@ FUNCTION {article}
       blank.sep
       format.date.paren "year" output.check
       month empty$ { format.number output }
-        		  'skip$ if$ 
+        		  'skip$ if$
       blank.sep
       format.pages.nopp output }
       if$
@@ -1080,7 +1085,7 @@ FUNCTION {begin.bib}
     { preamble$ write$ newline$ }
   if$
   "\providecommand{\href}[2]{#2}"
-  "\begingroup\raggedright\begin{thebibliography}{" * longest.label  * 
+  "\begingroup\raggedright\begin{thebibliography}{" * longest.label  *
   "}" * write$ newline$ }
 
 EXECUTE {begin.bib}
