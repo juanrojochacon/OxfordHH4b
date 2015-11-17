@@ -11,11 +11,12 @@ print "Warning: This script might take a minute or two depending on the density 
 
 # Source files
 datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_12X5X3X1_50000-Gen_SKPU80_res.dat",
-			"../plotdata/results_SK_PU80/MVA/nn_16X5X3X1_50000-Gen_SKPU80_int.dat",
-			"../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat"]
+            "../plotdata/results_SK_PU80/MVA/nn_16X5X3X1_50000-Gen_SKPU80_int.dat",
+            "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
-titlenames=[ "Resolved Category,  $n_{PU}=80$+SK","Intermediate Category,  $n_{PU}=80$+SK",\
+titlenames=[ "Resolved Category,  $n_{PU}=80$+SK",
+             "Intermediate Category,  $n_{PU}=80$+SK",\
              "Boosted Category,  $n_{PU}=80$+SK"]
 
 
@@ -148,7 +149,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 50)
+	thresholds = numpy.linspace(0, 1, 100)
 	falsepos = []
 	truepos = []
 

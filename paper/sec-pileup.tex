@@ -363,7 +363,158 @@ of the absolute value of all the weights connected to a given
 input neuron $i$, Eq.~(\ref{eq:totweight}).
 %
 The results for the resolved and boosted categories are shown
-on Fig. ...
+on Fig.~\ref{fig:nnweights_PU}.
 %
-As we can see
+As we can see by comparing to the corresponding
+results without PU in Fig.~\ref{fig:nnweights}, we see that
+in the boosted category, the discrimination power of the invariant
+mass of Higgs candidates is decreased and that of the various substructure
+variables, in particular $C_2$ and $D^{{\rm rm}}$, is conversely
+increased.
+%
+This reflects the fact that these substructure variables are
+relatively robust against PU contamination.
 
+In the case of the resolved category, in the case without PU the highest
+values of the weight sum were found for the $p_T$ of the leading
+Higgs and for the Higgs invariant masses.
+%
+This is also true in the case with PU, but now the rapidity difference
+between the two Higgs candidates, $\Delta y_{hh}$ increases its
+importance, again reflecting that this variable is relatively
+insensitive to PU effects.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/res_wgthist_SKPU80.pdf}
+\includegraphics[width=0.49\textwidth]{plots/bst_wgthist_SKPU80.pdf}
+\vspace{-0.5cm}
+\caption{\small
+Same as Fig.~\ref{fig:nnweights} in the case of PU.
+}
+\label{fig:nnweights_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\subsection{Combined results}
+
+Finally, we now combine the three categories, resolved,
+intermediate and boosted, and determine the signal
+significance taking into account all event topologies.
+%
+First of all, in Table~\ref{table:cutflowMVA_PU}
+we provide the  the number of signal and
+    background events at the HL-LHC, as well as the $S/\sqrt{B}$ and $S/B$,
+    for both the cut-based analysis (corresponding
+    to $y_{\rm cut}=0$) and after the
+    optimal MVA cut.
+    %
+    These numbers corresponding to the simulations
+    with $\la n_{\rm PU}\ra=80$
+    and SK subtraction.
+    %
+    The corresponding results without PU were collected
+    in Table.~\ref{table:cutflowMVA}.
+    %
+    The value of the optimal MVA cut $y_{\rm cut}$ is determined
+    as the one leading to highest signal significance, with
+    the constraint that number of MC events left is still large
+    enough to tame statistical fluctuations.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \begin{tabular}{c|c|c|c||c|c|c|c}
+    \hline
+    \multicolumn{8}{c}{Boosted category, $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.84$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+    362  &  $1.4\cdot 10^6$     & 0.31       &  $3\cdot 10^{-4}$ &
+    248     &   7250             &  2.9       & 0.034 \\
+        \hline
+  \end{tabular}
+   $\,$\\
+  \vspace{0.4cm}
+  \noindent
+  \begin{tabular}{c|c|c|c||c|c|c|c}
+    \hline
+    \multicolumn{8}{c}{Intermediate category,  $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.72$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+    146  &    $9\cdot 10^5$   & 0.15        &  $2\cdot 10^{-4}$      &
+  53  &  2547        & 1.1        &  0.02 \\
+        \hline
+  \end{tabular}
+    $\,$\\
+  \vspace{0.4cm}
+  \noindent
+  \begin{tabular}{c|c|c|c||c|c|c|c}
+    \hline
+    \multicolumn{8}{c}{Resolved category,  $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.49$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+  1123  &    $8.5\cdot 10^6$   & 0.40       &  $1.3\cdot 10^{-4}$       &
+  432  &  $3\cdot 10^4$        &   2.5      & 0.15 \\
+        \hline
+  \end{tabular}
+  \caption{\small The results for the number of signal and
+    background events
+    at the HL-LHC for both the cut-based analysis and after the
+    optimal MVA cut, as well as the $S/\sqrt{B}$ and $S/B$
+    values in the two cases, in the case of $\la n_{\rm PU}\ra=80$
+    and SK subtraction.
+    %
+    The corresponding results without PU were collected
+    in Fig.~\ref{table:cutflowMVA}.
+        \label{table:cutflowMVA_PU}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+From Table~\ref{table:cutflowMVA_PU} we see that, thanks
+to the MVA, we can improve the signal significance and the
+signal over background ratio from 0.31 and $3\cdot 10^{-4}$
+(0.40 and $1.3\cdot 10^{-4}$) up to 2.9 and 0.034 (2.5 and 0.15)
+in the boosted (resolved) category.
+%
+The intermediate category exhibits a lower value of $S/\sqrt{B}$
+for the optimal $y_{\rm cut}$ value, around unity.
+%
+We thus conclude that the boosted category is the most promising
+one for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
+at the HL-LHC, with however useful information also provided
+by the resolved category.
+
+
+
+
+In summary, in this section we have demonstrated the robustness
+of our results under the presence of PU conditions as those
+expected at the HL-LHC.
