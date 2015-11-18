@@ -7,7 +7,6 @@ from tabulate import tabulate
 ###################################################################
 
 root = "../../paper/plotdata/results_noPU/"
-print "Analysing: ",root
 
 folders = ['diHiggs/', 'background/', 'SHERPA_QCD4b/', 'SHERPA_QCD2b2j/', 'SHERPA_QCD4j/', 'SHERPA_QCDttbar/']
 names = ['signal', 'total bkg', '4b', '2b2j', '4j', 'ttbar']
@@ -17,7 +16,7 @@ regimes = ['res', 'inter','boost']
 Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2' ]
 
 lumi = 3000.0 # used for S/sqrt(B) only.
-tablefmt = ''#'latex'
+tablefmt = 'latex'
 
 ######################### Cutflow functions ########################
 
@@ -89,7 +88,7 @@ for key in operations:
 
 		signal = cutflows["diHiggs/"+regime]
 		for folder in folders:
-			if folder=='diHiggs/' and key != '':
+			if folder=='diHiggs/' and ( key != '' and key != ' Nevt' ) :
 				CFtable.append(len(Cnum)*['-'])
 			else:
 				row = op(signal,cutflows[folder+regime])
