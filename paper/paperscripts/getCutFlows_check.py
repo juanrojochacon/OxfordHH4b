@@ -4,9 +4,14 @@ import math
 import yoda
 from tabulate import tabulate
 
-###################################################################
+##################################################################
+
 
 root = "../../paper/plotdata/results_noPU/"
+labeltag="noPU"
+
+#root = "../../paper/plotdata/results_SK_PU80/"
+#labeltag="SKPU80"
 
 folders = ['diHiggs/', 'background/', 'SHERPA_QCD4b/', 'SHERPA_QCD2b2j/', 'SHERPA_QCD4j/', 'SHERPA_QCDttbar/']
 names = ['signal', 'total bkg', '4b', '2b2j', '4j', 'ttbar']
@@ -93,11 +98,18 @@ for key in operations:
 			else:
 				row = op(signal,cutflows[folder+regime])
 				CFtable.append(row)
-
+                                
 		CFtable=zip(*CFtable)
-		tables.append(tabulate(CFtable, header,numalign="right", floatfmt=".4E", tablefmt=tablefmt))
+		tables.append(tabulate(CFtable, header,numalign="center", floatfmt=".1E", tablefmt=tablefmt))
 
 ######################### Print tables #########################
 
+i=1
 for table in tables:
-	print table,'\n'
+        f = open('table_'+labeltag+"_"+str(i)+'.tex', 'w')
+        i = i + 1
+        for row in table:
+                s=str(row)
+                f.write(s)
+
+        f.close()
