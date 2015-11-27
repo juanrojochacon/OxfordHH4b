@@ -15,41 +15,23 @@ but the $2b2j$ and $4j$ components are neglected.
 %
 
 
-\subsection{Cut flow and signal significance}
+\subsection{Cut-flow and signal significance}
 
-First of all we compare the cross-sections at various
+First of all, we compare the cross-sections at various
 analysis levels for the three categories, for signal and background events,
 by providing a detailed cut-flow.
 %
 We consider all backgrounds enumerated in Sect.~\ref{mcgeneration},
-then we discuss how results are modified if only the $4b$
+and also discuss how results are modified if only the $4b$
 component is kept.
 %
-we consider the following levels of the cut-flow
-\begin{itemize}
-\item {\bf C0}: cross-sections at the generator
-  level, before any analysis cuts.
-\item {\bf C1}:  cross-sections after the basic jet acceptance selection
-  cuts, but before $b$-tagging.
-\item {\bf C2}: cross-sections after after the $b$-tagging.
-\end{itemize}
-Note that {\bf C1} already includes the effect of the Higgs mass
-window cut, Eq.~(\ref{higgsmasswindow}).
-%
-At the {\bf C0} level the numbers will be the same
-for the three individual categories.
-
-In the following, results are presented for the exclusive
-categorisation defined in Sect.~\ref{sec:categorisation}.
-%
-%
-At each stage of the cut flow, we also provide the number
-of events that would be expected at the HL-LHC with
+At each stage of the cut-flow, we also provide the
+the signal significance, $S/\sqrt{B}$, and the signal
+over background ratio, $S/B$, for the case of the
+ HL-LHC with
 an integrated luminosity of $\mathcal{L}_{\rm int}
-=3000$ fb$^{-1}$,
-as well as 
-the signal significance $S/\sqrt{B}$ and the signal
-over background ratio $S/B$.
+=3000$ fb$^{-1}$.
+%
 %
 We emphasize that it is important not only to achieve a good signal
 significance, $S/\sqrt{B}$, but also a good signal over background ratio $S/B$:
@@ -58,82 +40,126 @@ measurement of the background with an infeasible small
 systematic uncertainty would be required.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
   \centering
-  \begin{tabular}{c|c|c||c|c||c|c}
-    \hline
-    \multicolumn{7}{c}{Boosted category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c||}{$\sigma$ (fb)}   &  \multicolumn{2}{c||}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-        {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
-        {\bf C1}  &  0.46    & $1.3\,10^6$    &  $1.4\,10^3$   & $3.9\,10^9$     & 0.022     &  $3.5\,10^{-7}$ \\
-        {\bf C2}  &  0.064     &  12.6     &  193   &  $3.8\,10^4$    &  0.99    &  $5.1\,10^{-3}$ \\
-        \hline
+  \begin{tabular}{|c|c|c|c|}
+\hline
+&  Boosted  &   Intermediate &  Resolved  \\
+\hline
+\hline
+C0 &  Generator level &  Generator level & Generator level \\
+\hline
+C1a & $N_{\rm jets}^{R}\ge 2$ & $N_{\rm jets}^{r}\ge 2$, $N_{\rm jets}^{R}=1$  &
+ $N_{\rm jets}^{r}\ge 4$ \\
+ C1b & +$p_T$ cuts & +$p_T$ cuts
+ & +$p_T$ cuts \\
+ C1c & + rapidity cuts &  + rapidity cuts &
+ + rapidity cuts \\
+ C1d & + Mass-Drop tag required & $N_{\rm jets}^{R}=1$ with MDT  &
+  Higgs reco possible \\
+C1e & $m_H$ window cut & $m_H$ window cut & $m_H$ window cut  \\
+\hline
+C2 & $b$-tagging  &  $b$-tagging &  $b$-tagging \\
+\hline
   \end{tabular}
-  $\,$\\
-  \vspace{0.4cm}
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Intermediate category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-         {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
-        {\bf C1}  &   1.44    &   $1.1\,10^{7}$  &  $4.3\,10^3$   &  $3.3\,10^{10}$    &  0.024    &  $1.3\,10^{-7}$ \\
-        {\bf C2}  &   0.22    &  722   &  660   &   $2.2\,10^6$   &   0.45   &  $3.1\,10^{-4}$ \\
-        \hline
-  \end{tabular}
-  $\,$\\
-  \vspace{0.4cm}
-  \noindent
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Resolved category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-       {\bf C0}  &  36.9  & $9.9\,10^{9}$ & $1.1\,10^5$ & $3.0\,10^{13}$  &  0.020 & $3.7\,10^{-9}$\\
-        {\bf C1}  &   3.34    & $7.5\,10^{7}$    & $1.1\,10^4$    & $3.3\,10^{10}$     & 0.021     & $4.5\,10^{-8}$  \\
-        {\bf C2}  &   0.54    &  $3.5\,10^{3}$   &  $1.6\,10^{3}$   &   $1.1\,10^{7}$   & 0.50     &  $1.5\,10^{-4}$ \\
-        \hline
-  \end{tabular}
-  \caption{\small Cut-flow for the analysis of the boosted (top),
-    intermediate (middle) and resolved (bottom)
-    categories.
+  \caption{\small Details of the cut-flow of the present analysis in the boosted, intermediate
+    and resolved categories.
     %
-    At each level of the cut-flow, we indicate the cross-sections and the number of
-    expected events at the HL-LHC for $\mathcal{L}_{\rm int}=3$ ab$^{-1}$, both for
-    signal events and for all the backgrounds combined.
-    %
-    We also provide in each case the
-    signal significance $S/\sqrt{B}$ and the signal
-    over background ratio $S/B$.
-    %
-    The first row {\bf C0} is the generator-level result and thus is common
-    to all three categories.
-    %
-    \label{table:cutflow}
+    See text for more details.
+    \label{tab:cutflowdetails}
   }
 \end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-The results for the three categories have been collected in
-Table~\ref{table:cutflow}.
+To begin with,
+in Table~\ref{tab:cutflowdetails}
+we summarize the details of the cut-flow of the present analysis,
+separated into the exclusive boosted, intermediate
+    and resolved categories.
+    %
+    From top to bottom, additional cuts are required in addition
+    to the previous ones.
+    %
+    The various cuts
+    are defined as follows
+    \begin{itemize}
+    \item {\bf C0}: these are the generator level cross-sections, with
+      mild generation cuts in the case of the background processes.
+    \item {\bf C1a}: at this level, we only check that we have at least
+      two large-$R$ jets (in the boosted case),
+      one large-$R$ jet and at least 2 small-$R$ jets (in the intermediate
+      case) and at least four small-$R$ jets (in the resolved case).
+      %
+      No acceptance requirements are imposed here.
+    \item {\bf C1b}: Same as C1a, but now the jets should
+      satisfy the corresponding $p_T$ thresholds:
+      $p_T \ge 200$ GeV for large-$R$ jets,
+      $p_T \ge 50$ GeV for small-$R$ jets.
+    \item {\bf C1c}: in addition, the above jets must satisfy the
+      rapidity acceptance requirement.
+    \item {\bf C1d}: at this level, large-$R$ jets must satisfy the
+      mass-drop tag condition.
+    \item {\bf C1e}: after the two Higgs candidate jets have been reconstructed,
+      their invariant masses are required to lie within the
+      $m_H$ window, namely
+    \item {\bf C2}: finally, this is the level of the analysis
+      after $b$-tagging has been performed.
+      \end{itemize}
+    Signal and background events that survive the C2 level cuts
+    are then used as input for the MVA training, as described
+    in Sect.~\ref{sec:mva}.
+
+
+    %
+    In Table~\ref{tab:cutflow_noPU_1} we provide
+    the values of cross-sections in fb
+     for the signal
+      and the various background
+      components as a function of the
+      cut-flow, for the resolved,
+      boosted and intermediate
+      categories.
+      %
+      We see that although of course
+      $b$-tagging suppressed very substantially the $2b2j$ and
+      $4j$ backgrounds, it does not completely
+      eliminate them.
+    
+
+
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \input{tables/table_noPU_1.tex}
+  $\,$ \\
+  \vspace{0.5cm}
+  \input{tables/table_noPU_2.tex}
+  $\,$ \\
+  \vspace{0.5cm}
+    \input{tables/table_noPU_3.tex}
+    \caption{\small The cross-sections, in pb,
+      for the signal and the various background
+      processes at different points of the
+      cut-flow, for the resolved (upper table),
+      intermediate (middle table) and boosted
+      (lower table) categories, for the analysis
+      without PU.
+      %
+      In each case, we also provide the signal over
+      background ratio, $S/B$, and the signal
+      significance, $S/\sqrt{B}$, considering either
+      the total background or only the $4b$ component.
+ \label{tab:cutflow_noPU_1}}
+\end{table}
+
+
+
 %
 Let us begin with the discussion of the boosted category, the one that
 leads to a higher signal significance.
@@ -151,7 +177,7 @@ since we prefer this optimisation to be performed at the level of
 the MVA.
 
 
-From the results of Table~\ref{table:cutflow}
+From the results of Table~\ref{tab:cutflow_noPU_1}
 it is possible to compute the corresponding numbers
 for the end of Run II at the LHC with
 $\mathcal{L}_{\rm int}=300$ fb$^{-1}$: in the boosted category,
@@ -179,9 +205,10 @@ specially due to the significant suppression of the QCD multi-jet background.
 And we still have not exploited all the rich information contained on the jet
 substructure, as we will do in the next section.
 
-From the results of Table~\ref{table:cutflow}
-we see that after the cut-based analysis, the significance of the Higgs pair production
-observation in the $4b$ channel using the boosted topology
+
+We observe
+that after the cut-based analysis, the significance of the Higgs pair production
+observation in the $b\bar{b}b\bar{b}$ channel using the boosted topology
 is $S/\sqrt{B}=0.99$,
 and that the combination
 of the boosted, intermediate and resolved categories gives a slightly higher
@@ -255,12 +282,8 @@ study how our results are modified if we consider only the QCD $4b$
 multi-jet background, but ignore the $2b2j$ and $4j$ backgrounds,
 that is, we ignore the contribution from the fakes.
 %
-These results are shown in
-Table~\ref{table:cutflow4B}, which is the analog of
-Table~\ref{table:cutflow} but with only the QCD
-$4b$ background taken into account.
-%
-As we can see, these results indicate that given the similarity of the final states
+As we can seen before in Table~\ref{tab:cutflow_noPU_1},
+these results indicate that given the similarity of the final states
 in signal and background events in these cases, the signal significance is
 relatively stable at various stages of the cut-flow.
 %
@@ -285,67 +308,6 @@ Moreover, we find that the effect of the multijet fake background is of
 the same size of the higher-order QCD corrections to $4b$ production~\cite{Binoth:2009rv}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-  \centering
-  \begin{tabular}{c|c|c||c|c||c|c}
-    \hline
-    \multicolumn{7}{c}{Boosted category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c||}{$\sigma$ (fb)}   &  \multicolumn{2}{c||}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
-        {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
-        {\bf C1}  &  0.46    & $1.0\,10^2$    &  $1.4\,10^3$   & $3.1\,10^5$     & 2.48     &  $4.4\,10^{-3}$ \\
-        {\bf C2}  &  0.064     &  7.1     &  193   &  $2.1\,10^4$    &  1.30    &  $9.1\,10^{-3}$ \\
-        \hline
-  \end{tabular}
-   $\,$\\
-  \vspace{0.4cm}
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Intermediate category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
- {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
-        {\bf C1}  &  0.46    & $7.2\,10^2$    &  $1.4\,10^3$   & $2.2\,10^6$     & 2.91     &  $1.9\,10^{-3}$ \\
-        {\bf C2}  &  0.064     &  58.8     &  193   &  $1.8\,10^5$    &  1.57    &  $3.7\,10^{-3}$ \\
-        \hline
-  \end{tabular}
-  $\,$\\
-  \vspace{0.4cm}
-  \noindent
-  \begin{tabular}{c|c|c|c|c|c|c}
-    \hline
-    \multicolumn{7}{c}{Resolved category}\\
-    \hline
-    \hline
-    &    \multicolumn{2}{c|}{$\sigma$ (fb)}   &  \multicolumn{2}{c|}{$N_{\rm ev}$}
-    &   $S/\sqrt{B}$  & $S/B$\\
-      &    Signal & Back   &  Signal  & Back
-    &   & \\
-    \hline
- {\bf C0}  &  36.9  & $1.1\,10^{6}$ & $1.1\,10^5$ & $3.3\,10^{9}$  &  1.90 & $3.3\,10^{-5}$\\
-        {\bf C1}  &  0.46    & $9.0\,10^3$    &  $1.4\,10^3$   & $2.7\,10^7$     & 1.92     &  $3.7\,10^{-4}$ \\
-        {\bf C2}  &  0.064     &  986     &  193   &  $2.9\,10^6$    &  0.95  &  $5.5\,10^{-4}$ \\
-        \hline
-  \end{tabular}
-  \caption{\small Same as Table~\ref{table:cutflow}, but now
-    only with the QCD $4b$ multi-jet background taken into account.
-    %
-    \label{table:cutflow4B}
-  }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 In summary, we find that the results of our cut-based analysis are roughly
 consistent with the results of previous related studies.
@@ -360,20 +322,7 @@ complete modelling of the QCD multijet background.
 
 
 
-
-\subsection{Background decomposition}
-
-Up to now we have considered the effects of all backgrounds added
-together, except in Table~\ref{table:cutflow4B} and the corresponding
-discussion where we have studies how our
-results are modified if only the QCD $4b$ background is included.
-%
-In this section we study the decomposition of the background in each
-of its individual components, for the three different categories
-of events used in this work.
-%
-
-In Table~\ref{table:cutflowBack}   we show the results for the cross-sections for the different
+In Table~\ref{tab:cutflow_noPU_1}   we show the results for the cross-sections for the different
 backgrounds that we consider at the end of the cut-based analysis, for each
 of the three categories.
 %
@@ -384,47 +333,21 @@ As we can see from this comparison, as opposed that what naively one would expec
 the QCD $2b2j$ background turns out not to be negligible as compared to the $4b$
 multijets in any of the categories.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[h]
-  \centering
-  \begin{tabular}{c|c|c|c}
-    \hline
-    Background  &    \multicolumn{3}{c}{$\sigma$ (fb)}   \\
-    \hline
-  &    Resolved  &  Intermediate  &   Boosted \\
-    \hline
-    \hline
-  QCD $4b$   &   $9.9\,10^{2}$       &  $59$       &   $7.1$        \\
-  QCD $2b2j$ &   $2.4\,10^{3}$       &  $6.4\,10^{2}$       &   $3.5$        \\
-  QCD $4j$ &     $1.7\,10^{2}$       &   $22$      &    $2.1$        \\
-  $t\bar{t}$ &   $3.6$       &  $2.2$       &   $4.5\,10^{-2}$        \\
-  \hline
-  \hline
-Total     &    $3.6\,10^{3}$      &   $7.2\,10^{2}$      &     $13$      \\
-\hline
-\end{tabular}
-    \caption{\small The cross-sections for each of the individual background
-      components (and their total sum) at the end of the cut-based
-      analysis, for each of three categories.
-    \label{table:cutflowBack}
-    }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In the boosted case, the sum of the $2b2j$ and $4j$ components is almost as large as the
 irreducible $4b$ background, thus increasing the total background rates by a factor 2 as compared
 to the case where only $4b$ is accounted for.
 %
 This effect is more dramatic in the intermediate and resolved categories: in the former,
-$2b2j$ completely dominates the background (thus the increase in $S/\sqrt{B}$ noted in
-Table~\ref{table:cutflow4B}  when only the $4b$ component is kept), and in the latter
+$2b2j$ completely dominates the background (thus the increase in $S/\sqrt{B}$
+obtained when only the $4b$ component is kept), and in the latter
 it is comparable to $4b$.
 %
 Therefore, we conclude that an accurate estimate of the fake $b$-tag contribution is
 an essential component of this analyses, and that complete QCD multijet samples
 should be included.
 %
-On the other hand, we find that the hadronic $t\bar{t}$ component of the backround
+On the other hand, we find that the hadronic $t\bar{t}$ component of the background
 is smaller than the QCD multijet one.
 
 In Fig.~\ref{fig:histoBack} we show the decomposition of the background for one important kinematical
@@ -468,7 +391,7 @@ in the resolved category, the one that leads to higher signal significance.
 
   One might ask why the $2b2j$ process
   is not subdominant as compared to $4b$: while its generator-level cross-section is
-  much larger, $\sigma_{2b2j} \simeq 240\sigma_{4b}$, one expects a suppression
+  much larger, $\sigma_{2b2j} \simeq 240\cdot \sigma_{4b}$, one expects a suppression
   of the order of $f_l^2 =10^{-4}$ since only with two light jets mistagged as $b$-jets the event
   would be identified as a Higgs candidate.
   %
@@ -477,8 +400,12 @@ in the resolved category, the one that leads to higher signal significance.
   the number of $b$ quarks in the final state, enhancing substantially the $2b2j$ rates as compared
   to the naive parton level expectation.
   %
-  To verify this, we plot the number of $b$-quarks.....
 
-  {\bf compare parton level with hadron level distributions}
+  In the section section we show how Multivariate Analysis can be used
+  to substantially improve the signal significance obtained in the
+  cut-based analysis.
+
+
+
 
 
