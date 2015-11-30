@@ -10,8 +10,8 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_noPU/MVA/nn_12X5X3X1_50000-Gen_noPU_res.dat",
-			"../plotdata/results_noPU/MVA/nn_16X5X3X1_50000-Gen_noPU_int.dat",
+datafiles=[ "../plotdata/results_noPU/MVA/nn_13X5X3X1_50000-Gen_noPU_res.dat",
+			"../plotdata/results_noPU/MVA/nn_17X5X3X1_50000-Gen_noPU_int.dat",
 			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
@@ -148,7 +148,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 50)
+	thresholds = numpy.linspace(0, 1, 100)
 	falsepos = []
 	truepos = []
 

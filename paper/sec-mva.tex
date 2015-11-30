@@ -1,36 +1,35 @@
 
-\section{Results from the multivariate analysis}
+\section{Multivariate analysis}
 \label{sec:mva}
 
 From the cut-based analysis,
 combining the significance of the three categories,
-we end up with a signal significance of $S/\sqrt{B}\simeq 1.2(2.3)$
+we obtain a signal significance of $S/\sqrt{B}\simeq 1.7 (3.5)$
 with all backgrounds (only QCD $4b$) taken into account.
 %
-This does not seem
+This is clearly
 to be enough to be able to claim observation
 of Higgs pair production
 in this channel, and even less to extract the trilinear Higgs  coupling
-$\lambda$ with good precision.
+$\lambda$, in particular
+taking into account the that $S/B$ is at the permille level.
 %
-In this section we show how the signal significance for
-our process can
-be substantially improved when
-applying a multivariate analysis (MVA) to the events
- that survive the cut-based
- analysis.
+In this section we now show how this signal significance for
+ can
+be significance improved when
+applying a multivariate analysis (MVA) subsequently
+to the cut-based analysis.
 
  
 %
-Multivariate techniques are by now a common tool to enhance signal
-significance in HEP analysis, and this is fully justified
-since they open a new window to improve the performance
+Multivariate techniques are by now a mature tool to enhance signal
+significance in HEP analysis, allowing
+to open a new window to improve the performance
 of many physics analysis and searches.
 %
 In particular, the classification of events as arising from either signal or
-background processes via the use of a multivariate analysis is becoming
-a mature
-technique in LHC
+background processes via the use of a multivariate analysis is a
+commonly applied strategy in LHC
 applications~\cite{Baldi:2014pta,Aaltonen:2012qt,
   Wardrope:2014kya,Chatrchyan:2013zna,Dall'Osso:2015aia}.
 %
@@ -48,7 +47,7 @@ variables, and then present the results of $S/\sqrt{B}$ including
 the MVA effects.
 %
 Since we find that jet substructure variables are a crucial input
-to the MVA, we end this section showing various kinematic distributions
+to the MVA, we finally show various kinematic distributions
 of these variables.
 
 
@@ -57,14 +56,15 @@ of these variables.
 
 
 %
-In our work we use a specific type of  MVA to
-disentangle signal and background events in the $hh\to 4b$ process,
+The specific type of  MVA that we use here, to
+disentangle signal and background events in the $hh\to 4b$ process, will be
 a multi-layer feed-forward artificial neural network (ANN),
 also known as a {\it perceptron}.\footnote{This type of ANNs are the same
   as those used to parametrize Parton Distribution Functions
 in the NNPDF global analyses~\cite{DelDebbio:2004qj,Ball:2008by,Ball:2011mu,Ball:2010de}.}
 %
-This family of ANNs is sometimes known as {\it deep} neural networks.
+This family of ANNs is sometimes known as {\it deep} neural networks, since they have
+a richer architecture with hidden layers.
 %
 The basic idea is that the ANN is trained on an input composed on
 all  signal and background
@@ -72,20 +72,23 @@ events which satisfy the requirements of the
 cut-based analysis.
 %
 The main result of the trained ANN is identifying, in a fully automated way,
-which are the most relevant variables to discriminate between the two.
+which are the most relevant variables to discriminate between the two classes
+of events.
 
 In this work, the ANN that we use has the following architecture.
 \be
 \label{eq:nn1}
 N_{\mathrm{var}}\times5\times3\times1 \, ,
 \ee
-where $N_{\mathrm{var}}$ represents the number of input variables for the MVA.
+where $N_{\mathrm{var}}$ represents the number of input variables for the MVA,
+which is specific of the analysis category: resolved, intermediate, or boosted.
+%
 All neural-network layers use a sigmoid activation function, allowing
 for a probabilistic
 interpretation of the neural-network output, including in the final layer.
 %
 In Fig.~\ref{fig:nnarch} we show an example of the ANN that we use in this work, corresponding here
-to the case of the resolved category.
+to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain below).
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -147,30 +150,37 @@ the cross-entropy error, defined as
  Eq.~(\ref{cross-entropy}), which in this work is achieved using a
  Genetic Algorithm.
  %
- Since given the large number of events the probability of
- over-fitting is tiny, we just train the MVA for a very long
- number of generations, in this case $N_{\rm gen}=50k$.
+ The GA training is performed for a very large 
+ number of generations, in this case $N_{\rm gen}=50k$, to avoid
+ under-training.
  %
  We have verified that if a larger number of generations
  are used the results are unchanged.
  %
  We have also verified that using a cross-validation stopping
- criterion (in particular, the same one as
- that used in the NNPDF3.0 fit~\cite{Ball:2014uwa})
+ criterion, in particular, the same one as
+ that used in the NNPDF3.0 analysis~\cite{Ball:2014uwa}
  does not modify the results.
+ %
+ This cross-validation entails dividing the input MC dataset into two disjoint sets,
+ and use one for the training and the other for the validation: the optimal
+ stopping point is then indicated by the minimum of the error function
+ Eq.~(\ref{cross-entropy}) for the validation sub-sample.
 
  
 
  \subsection{Input kinematical variables for the MVA}
  \label{sec:input}
 
- To identify the most discriminatory variables, we have to train
+ To identify the variables with higher discriminatory power,
+ we need to train
  the MVA using a large number of kinematic distributions for
  signal and background events.
 %
 In our $hh\to 4b$ case,
 the input variables for the MVA differ between our three categories,
-and in particular in the case of large-$R$ jets we want to exploit
+and in particular in the case of large-$R$ jets (for the boosted
+and intermediate categories) we want to exploit
 the richness of substructure information.
 
 For the three categories, boosted, intermediate and resolved,
@@ -180,9 +190,10 @@ the following common variables are used as input to the MVA:
 \item The transverse momentum of the reconstructed Higgs pair, $p_{T,hh}$.
 \item The invariant masses of the leading and sub-leading Higgs candidates, $m_{h,1}$ and $m_{h,2}$.
 \item The invariant mass of the reconstructed Higgs pair, $m_{hh}$.
-\item The separation in $R$ between the two Higgs candidates, $\Delta R_{hh}$.
+\item The separation in the $\phi$--$\eta$ plane
+  between the two Higgs candidates, $\Delta R_{hh}$.
+  \item The separation in $\eta$  between the two Higgs candidates, $\Delta \eta_{hh}$.
 \item The separation in $\phi$  between the two Higgs candidates, $\Delta \phi_{hh}$.
-\item The separation in $\eta$  between the two Higgs candidates, $\Delta \eta_{hh}$.
 \end{itemize}
 In addition, in the boosted category we use
   the transverse momenta of the leading, $p_{T,h_{1,1}}$ and $p_{T,h_{1,2}}$ and
@@ -276,6 +287,9 @@ Given that the MVA is able to identify the most discriminatory variables
 and to ignore those that have smaller effect, it is advantageous to
 include as many substructure variables as possible.
 %
+This is one of the main advantages of ANNs in this context: they are inherently redundant, so
+adding additional information, even if carries very little weight, will never degrade
+the classification power of the MVA.
 
 \subsection{Signal significance after the MVA}
 \label{sec:signalsignificance}
@@ -305,13 +319,14 @@ the MVA discrimination will be.
 \includegraphics[width=0.65\textwidth]{plots/Boosted_disc_noPU.pdf}
 \includegraphics[width=0.48\textwidth]{plots/Intermediate_disc_noPU.pdf}
 \includegraphics[width=0.48\textwidth]{plots/Resolved_disc_noPU.pdf}
-\caption{\small The distribution as a function of the ANN output
+\caption{\small The distributions, at the end of the
+  GA training, 
   for the signal and background MC events in the three categories:
   boosted (upper plot), intermediate (lower left plot) and
-  resolved (lower right plot).
+  resolved (lower right plot), as a function of the ANN output.
   %
-  All distributions are normalized so that their integral
-  adds up to one.
+  All distributions are normalized so that their integrals
+  add up to one.
 }
 \label{fig:nnresponse}
 \end{center}
@@ -558,6 +573,84 @@ In addition, we also require when fixing $y_{\rm cut}$
 that the actual number of MC events used for the ANN training
 is large enough to avoid the biases of a small training sample.
 
+These results are summarized in Table~\ref{table:cutflowMVA}, where we indicate
+the value of the optimal ANN output
+cut in each category,
+the number of signal and background events $N_{\rm ev}$ expected
+at the HL-LHC,
+and also $S/\sqrt{B}$ and $S/B$.
+%
+For reference, we also include the results at the end of
+the cut-based
+analysis.
+%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{c|c|c|c||c|c|c|c}
+    \hline
+    \multicolumn{8}{c}{Boosted category}\\
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.82$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+      1070   &  $7.6\cdot 10^5$    &  1.2    &  $1.4\cdot 10^{-3}$  & 790 & $2.2\cdot 10^4$ & 5.4  & 0.034\\
+      \hline
+      \multicolumn{8}{c}{$\quad$}\\
+    \hline
+    \multicolumn{8}{c}{Intermediate category}\\
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.80$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+      670   &   $5.3\cdot 10^5$   &   0.9   &  $1.2\cdot 10^{-3}$ & 360  & $5.5\cdot 10^3$ & 4.8  & $0.06$ \\
+      \hline
+      \multicolumn{8}{c}{$\quad$}\\
+    \hline
+    \multicolumn{8}{c}{Resolved category}\\
+    \hline
+      \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.65$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+    $3700$   &   $1.5\cdot 10^{7}$   & 1.0     &  $3\cdot 10^{-4}$   & $1.3\cdot 10^{3}$ &
+    $8.3\cdot 10^{4}$  & 4.5 & 0.01 \\
+        \hline
+  \end{tabular}
+  \caption{\small Post-MVA results, for the optimal value of the
+    ANN discriminant, in the three categories, compared with the
+    result of the cut-based analysis.
+    %
+    We indicate the number of signal and
+    background events
+    at the HL-LHC, as well as the signal significance $S/\sqrt{B}$ and
+    the signal over background ratio $S/B$.
+    %
+    The value of the ANN output cut $y_{\rm cut}$
+    is optimised separately in the
+    three categories.
+    %
+    The $y_{\rm cut}=0$ value corresponds to row C2 in Table~\ref{tab:cutflow_noPU_1}.
+    \label{table:cutflowMVA}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The post-MVA results for $S/\sqrt{B}$ and $S/B$ as a function of the cut
 in the ANN output for each of the three categories are shown in
@@ -566,14 +659,14 @@ Fig.~\ref{fig:sb_mva}.
 Note that the values of $S/\sqrt{B}$ and $S/B$
 for $y_{\rm cut}=0$ correspond to the values at
 the end of the cut-based analysis, see
-the {\bf C2} row of Table~\ref{tab:cutflow_noPU_1}.
+the C2 row of Table~\ref{tab:cutflow_noPU_1}.
 %
-Indeed, at the end of the cut based analysis $S/\sqrt{B}$ was
-approximately
-1.0, 0.5 and 0.5 for the boosted, intermediate and resolved
-categories, as can be seen from Fig.~\ref{fig:sb_mva}.
+Indeed, at the end of the cut based analysis, the
+signal significance $S/\sqrt{B}$ was
+1.2, 0.9 and 1.0 for the boosted, intermediate and resolved
+categories respectively, consistent with Fig.~\ref{fig:sb_mva}.
 %
-The same applies to $S/B$.
+The same applies to the signal over background ratio $S/B$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -595,20 +688,15 @@ The same applies to $S/B$.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-The results of Fig.~\ref{fig:sb_mva} are interesting in that they show
-that for the resolved and boosted categories the improvement in signal
-significance arising from the MVA is rather moderate, less that a factor two
-in the two cases.
+The results of Fig.~\ref{fig:sb_mva}  show that
+for all categories the  improvement in signal
+significance arising from the MVA is substantial, growing from around 1
+to around 5 in the three cases.
 %
-Even after the MVA, $S/\sqrt{B}$ never grows above 1.0.
-%
-The real power of the MVA can be seen for the boosted category,
-where the signal significance rises from around 1.0 in the cut-based
-analysis to above 3.0 for values of the ANN output cut $y_{\rm cut}\ge0.85$.
-%
-This value of the cut seems reasonable, since we know from Fig.~\ref{fig:nev2}
-that the signal yield at the HL-LHC is still quite substantial,
-of the order of 100 event.
+The optimal values of $y_{\rm cut}$ ensure that the
+number of events at the HL-LHC is still well appreciable: we obtain
+1300, 360 and 800 events in the resolved, intermediate, and
+boosted categories respectively.
 %
 Therefore, thanks to the MVA, we predict that one should be able
 to find evidence for the production of Higgs boson pairs
@@ -627,91 +715,7 @@ from the experimental point of view, since it indicates
 that the measurement is feasible even if the
 systematic uncertainties are not very small.
 
-Our final results are summarized in Table~\ref{table:cutflowMVA}, where we indicate
-the value of the optimal ANN output
-cut in each category,
-the number of signal and background events $N_{\rm ev}$ expected
-at the HL-LHC,
-and also $S/\sqrt{B}$ and $S/B$.
-%
-For reference, we also include the results at the end of
-the cut-based
-analysis.
-%
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-  \centering
-  \begin{tabular}{c|c|c|c||c|c|c|c}
-    \hline
-    \multicolumn{8}{c}{Boosted category}\\
-    \hline
-    \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.86$}\\
-    \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-      193   &  $3.8\,10^4$    &  0.99    &  $5.1\,10^{-3}$  & 107 & 1040 & 3.31  & 0.10\\
-        \hline
-  \end{tabular}
-   $\,$\\
-  \vspace{0.4cm}
-  \noindent
-  \begin{tabular}{c|c|c|c||c|c|c|c}
-    \hline
-    \multicolumn{8}{c}{Intermediate category}\\
-    \hline
-    \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.49$}\\
-    \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-      660   &   $2.2\,10^6$   &   0.45   &  $3.1\,10^{-4}$ & 480  & $3.2\,10^5$ & 0.85  & $1.5\,10^{-3}$ \\
-        \hline
-  \end{tabular}
-    $\,$\\
-  \vspace{0.4cm}
-  \noindent
-  \begin{tabular}{c|c|c|c||c|c|c|c}
-    \hline
-    \multicolumn{8}{c}{Resolved category}\\
-    \hline
-    \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.17$}\\
-    \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-    $1.6\,10^{3}$   &   $1.1\,10^{7}$   & 0.50     &  $1.5\,10^{-4}$   & 968 &
-    $1.2\,10^{6}$  & 0.90 & $8.2\,10^{-4}$ \\
-        \hline
-  \end{tabular}
-  \caption{\small The results for the number of signal and
-    background events
-    at the HL-LHC for both the cut-based analysis and after the
-    optimal MVA cut, as well as the $S/\sqrt{B}$ and $S/B$
-    values in the two cases.
-    %
-    From top to bottom we show the results for boosted,
-    intermediate and resolved categories.
-    %
-    The value of the ANN output cut $y_{\rm cut}$
-    is optimised separately in the
-    three categories.
-    \label{table:cutflowMVA}
-  }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 From Table~\ref{table:cutflowMVA} we see that after the
 MVA the signal significance in the boosted category increases
@@ -739,54 +743,15 @@ $b\bar{b}\gamma\gamma$ and $b\bar{b}\tau\tau$, but in any case
 it is always important to have robust evidence from
 individual channels.
 
-From Table~\ref{fig:sb_mva} it is also possible to
-extract the signal significance that would be obtained
-at the end of Run II with $\mathcal{L}_{\rm int}=300$ fb$^{-1}$:
-in the boosted category we expect 11 signal events and 100 background
-events, leading to a $S\sqrt{B}=1.1$, too small specially accounting
-for realistic systematic experimental uncertainties.
+These remarkable results are however subject to an obvious criticism:
+at the HL-LHC the intense PU is know to substantially affect
+kinematical distributions, and in particular, it is expected to degrade
+in some extent the results of the present analysis.
 %
-So the full luminosity of the HL-LHC is really needed to exploit
-the information contained in this final state, unless of course
-new BSM dynamics enhance the di-Higgs production rates.
-
-The results of Table~\ref{table:cutflowMVA} include
-only the statistical uncertainty in the determination of
-the background number of events.
-%
-We  briefly comment now how these results would be affected
-if we also take into account the systematic experimental
-uncertainty in the measurement
-of the multijet backgrounds distributions.
-%
-While there is no unique definition of how signal significance is modified
-by experimental systematic uncertainties~\cite{Bityukov:2002eq}, here we estimate
-this effect with the simple correction
-\be
-\frac{S}{\sqrt{B}} \, \to \, \frac{S}{\sqrt{B}} \frac{1}{\sqrt{1+\lp \sigma^{\rm sys}\rp^2\cdot B}} \, ,
-\ee
-which corresponds to adding in quadrature to the statistical uncertainty  a single
-uncorrelated systematic uncertainty $\sigma^{\rm sys}$.
-%
-Assuming an aggressive value of $\sigma^{\rm sys}=2\%$,
-we find that the combined signal significance would be
-reduced from 3.51 to 3.03.
-%
-While this quick estimate emphasizes the critical
-importance of an experimentally accurate
-measurement of multijet backgrounds at the LHC to fully exploit the $4b$
-channel,
-it is beyond the scope of this work to estimate realistically
-the systematic uncertainties on QCD multijet distributions (and their bin-by-bin correlation)
-that will be achieved at HL-LHC.
-
-
-In the next section we discuss how the expectations for the HL-LHC
-summarized in  Table~\ref{fig:sb_mva} are modified in different
-conservative and aggressive scenarios for the performance of the
-ATLAS and CMS experiments, in particular how the results depend
-on the $b$-tagging performance and in the detector momentum
-resolution.
+To preempt this criticism, in the next section
+we discuss how the expectations for the HL-LHC
+summarized in  Table~\ref{fig:sb_mva} are modified in the presence
+of PU expected at the HL-LHC.
 %
 But before that let us illustrate how the improvement in $S/\sqrt{B}$
 obtained from the MVA in the boosted
