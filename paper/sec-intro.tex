@@ -28,7 +28,8 @@ a linear or circular electron-positron collider~\cite{Contino:2013gna}.
 
 As in the case of single Higgs production,
 in the SM the dominant mechanism for the production of a pair of Higgs bosons at the LHC is 
-gluon fusion (see Ref.~\cite{baglio} and references therein), analogously to single Higgs production~\cite{Dittmaier:2012vm}.
+gluon fusion (see Ref.~\cite{baglio,Frederix:2014hta} and references therein), analogously to single
+Higgs production~\cite{Dittmaier:2012vm}.
 %
 For a center-of-mass energy $\sqrt{s} = 14\,$TeV, the next-to-next-to-leading order (NNLO)
 total cross section is approximately $40\,$fb~\cite{deFlorian:2013jea},
@@ -123,62 +124,53 @@ However, a measurement in this channel
 needs to deal with an overwhelming QCD multi-jet background.
 %
 Recent studies of Higgs pair production in this
-channel~\cite{Wardrope:2014kya,deLima:2014dta}
-estimate that with a luminosity of
-$\mathcal{L}_{\rm int}$=3000 fb$^{-1}$ a signal significance of around $S/\sqrt{B}\sim 2.0$ could be obtained.
+final state~\cite{Wardrope:2014kya,deLima:2014dta}
+estimate that, for an integrated
+luminosity of
+$\mathcal{L}_{\rm int}$=3000 fb$^{-1}$,
+a signal significance of around $S/\sqrt{B}\sim 2.0$ could be obtained.
 %
 These studies are
 based on exploiting the differences between signal and background
 using techniques that account for a large number of kinematic
 variables, Boosted Decision Trees
-and Shower Reconstruction~\cite{Soper:2011cr} respectively.
+and Shower Deconstruction~\cite{Soper:2011cr} respectively.
 %
-A limitation of these works is that
-they do not account
- for the light-jet background processes $bbjj$ and
+While irreducible backgrounds, such as $4b$ and
+$t\bar{t}$, are included, the contribution
+from reducible processes, such as $bbjj$ and
 $jjjj$, which can fake the signal when 
-some of the light jets are mistagged as $b$-jets.
+light jets are mistagged as $b$-jets, are not accounted for.
 %
-As will show, this is not a good approximation since both due to
+As will show, this approximation is not justified since, both due to
 combinatorics and to $b$-quark radiation in the shower, the
-contribution of $2b2j$ and $4j$ can become comparable
-to that of the irreducible $4b$ component.
+contribution of the $2b2j$ and $4j$ backgrounds can become comparable or even larger
+than the irreducible $4b$ component.
 
-In this work we revisit the feasibility of SM Higgs pair production by gluon-fusion
-in the $4b$ final state.
+In this work, we revisit the feasibility of SM Higgs pair production by gluon-fusion
+in the $b\bar{b}b\bar{b}$ final state.
 %
  Our strategy is based on a combination of traditional cut-based
- methods with modern multivariate analysis (MVA)
- (in particular feed-forward multi-layer neural networks),
- which lead to a substantial
+ methods with modern multivariate analysis (MVA),
+ leading to a substantial
   enhancement of the signal discrimination.
   %
   We account for  all relevant
   backgrounds, including the contribution from light jet fakes.
   %
+  We also model the impact of the pile-up (PU) effects expected at the
+  HL-LHC by means of modern PU subtraction techniques.
+  %
   By combining the contribution from the boosted, intermediate and resolved
-  topologies we achieve a signal significance of $S/\sqrt{B}\simeq 3.2$.
+  topologies we achieve a total signal significance of $S/\sqrt{B}\simeq 4.0$
+  for $\mathcal{L}_{\rm int}$=3000 fb$^{-1}$.
 %
-  Therefore, our strategy allow us to improve the
-  potential of this final state even when considering a
-  more realistic background modeling.
-
-  One of the original motivations of this study was to provide guidance to the
-  LHC experiments
-concerning which aspects of the measurement should be particularly optimized
-to increase the signal significance in the $4b$ channel.
-%
-In this respect, we study the dependence on our results on the $
-b$-tagging mistag
-efficiency, the light-jet mistag rate and the 
-momentum resolution.
-%
-In each of these cases, we determine the signal significance
-$S/\sqrt{B}$ of the
-measurement in both conservative and optimistic assumptions of these
-analysis settings.
-
-
+  These results emphasize the crucial importance that the $b\bar{b}b\bar{b}$ final state
+  has for studies of Higgs pair production and for the determination of
+  $\lambda$, as well as the advantages of the use of modern statistical
+  analysis methods.
+  
+  
 The structure of this paper is the following.
 %
 In Sect.~\ref{mcgeneration} we discuss the modeling of the signal
@@ -198,7 +190,7 @@ The robustness of our results under realistic pile-up
 conditions expected at the HL-LHC is illustrated in
  Sect.~\ref{sec:pileup}.
 %
-Finally in Sect.~\ref{sec:conclusions} we conclude and outline
+Finally, in Sect.~\ref{sec:conclusions} we conclude and outline
 how our results can be extended to estimate the accuracy
-in the determination of $\lambda$ and the constraints on
-BSM scenarios in an EFT framework.
+in the determination of trilinear coupling $\lambda$ and the constraints on
+BSM scenarios.
