@@ -1,16 +1,21 @@
-
+\clearpage
 \section{Impact of pile-up}
 
 \label{sec:pileup}
 
-The discussion so far has not accounted for the effects of
-pile-up (PU), which are known to be very important at the HL-LHC.
+The main limitation of the analysis of the previous section was that
+pile-up (PU) effects were
+not accounted for.
+%
+However, any realistic feasibility study at the HL-LHC, specially
+like the present one that relies on the detailed modeling
+of kinematic distributions, needs to assess the robustness of the conclusions
+with respect to PU.
 %
 In this section, we show how our qualitative results, in particular
-the enhanced discrimination provided by the MVA, are robust
+the enhanced signal significance provided by the MVA, are robust
 in the presence of realistic PU conditions.
-
-
+%
 First of all we describe the simulation of realistic
 PU conditions at the HL-LHC, and discuss the settings of
 the PU subtraction strategy that we adopt.
@@ -21,47 +26,33 @@ with and without PU.
 %
 Finally we revisit the MVA analysis of Sect.~\ref{sec:mva}, and
 show that our qualitative conclusions are robust
-in the presence of realistic PU conditions.
-%
-As we will show now, a signal significance for
-Higgs production in the $4b$ final state
-of up to $S/\sqrt{B}\simeq 4$
-can be achieved at the HL-LHC even accounting for PU.
+in the presence of realistic PU conditions, finding
+a combined
+signal significance of $S/\sqrt{B}\simeq 4$.
 
 
 \subsection{PU subtraction with {\tt SoftKiller}}
 
 To study the impact of PU in our analysis,
-a large number
-of Minimum Bias (MB) events,
-including Multiple Parton Interactions (MPI),
-have been added to the signal
+Minimum Bias (MB) events,
+including Multiple Parton Interactions (MPI), have been generated
+with {\tt Pythia8}, and
+superimposed to the signal
 and background samples described in Sect.~\ref{mcgeneration}.
 %
 We have explored two scenarios for the amount of PU expected
 at the HL-LHC, one with a mean number of
-PU vertices of $\la n_{\rm PU}\ra=80$, and another
+PU vertices per bunch crossing of $\la n_{\rm PU}\ra=80$, and another
 with $\la n_{\rm PU}\ra=150$.
 %
-MB events have been generated with {\tt Pythia8} using
-the Monash 2013 tune.
-%
-We have generated a total of 100M minimum-bias events, which are
-then randomly superimposed to the hard-scattering events.
-
-In order to subtract the PU, a large number of techniques
-have been proposed recently~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba,Ellis:2009me,Bertolini:2014bba,Cacciari:2014gra,Cacciari:2014jta,Berta:2014eza,Larkoski:2014wba}.
+In order to subtract the PU, a number of techniques
+have been developed
+recently~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba,Ellis:2009me,Bertolini:2014bba,Cacciari:2014gra,Cacciari:2014jta,Berta:2014eza,Larkoski:2014wba}.
 %
 In this work, PU  will be subtracted by means
 of the the {\tt SoftKiller} (SK)
 method~\cite{Cacciari:2014gra}, as implemented in {\tt FastJet}.
 %
-Let us note however that
-a systematic optimization of the PU subtraction strategy is beyond
-the scope of this work, and in particular that further
-improvements over the results presented below is feasible
-with further tuning of the PU subtraction.
-
 
 The idea underlying {\tt SoftKiller} is based on eliminating particles
 below a given cut-off in their transverse momentum, $p_T^{\rm (cut)}$, whose
@@ -76,26 +67,23 @@ where the median is computed over all the patches $i$ with area
 $A_i$ and transverse momentum $p_{Ti}$ in which the $\lp \eta,\phi\rp$ plane
 is partitioned.
 %
-From its definition, we observe that the value of $p_T^{(\rm cut)}$
+From its definition in terms of the median,
+we observe that the value of $p_T^{(\rm cut)}$
 will be dynamically raised until half of the patches have $\rho=0$.
-
+%
 The size and number of these patches is a free parameter of the algorithm -
 here we will use square patched with length $a=0.4$.
 %
 We restrict ourselves to the central rapidity interval,
 $\eta \in \lc -2.5, 2.5\rc$, for the estimation of the
-$p_T$ flow density $\rho$, which is the region relevant
-for the present analysis.
+$p_T$ flow density $\rho$.
 %
-In this work, the {\tt SoftKiller} method is applied
+In this analysis, {\tt SoftKiller} method is applied
 to particles at the end of the parton shower, before
 the jet clustering stage.
 
-\subsection{Validation of the PU subtraction}
-
-Now we turn to validate our PU subtraction strategy.
 %
-To this end, we compare different kinematical distributions
+We now compare different kinematical distributions
 in the three relevant cases:
 cases:
 \begin{itemize}
@@ -116,7 +104,8 @@ and without PU, with $\la n_{\rm PU}\ra=80$ in the former
 case.
 %
 In Fig.~\ref{fig:m_H_PU} we show the invariant mass distribution
-of the leading and subleading Higgs candidates. in the boosted
+of the leading and subleading Higgs candidates, corresponding to both
+the boosted
 and resolved categories.
 %
 These distributions are plotted after the $b$-tagging, that is,
@@ -154,8 +143,9 @@ candidate, $p_t^{h_1}$ and the invariant mass of the di-Higgs system
 $m_{hh}$, in Fig.~\ref{fig:mHH_PU}, both for the boosted and
 for the resolved categories.
 %
-In the case of the $p_T$, the differences between the resolved
-and boosted selection cuts can be clearly observed.
+In the case of the $p_T$ distribution, the differences between the selection
+criteria for the resolved
+and boosted categories is reflected in the rightward shift of the latter.
 %
 The effect of PU is negligible in the boosted case, and small
 in the resolved case, except for large $p_T$ values.
@@ -165,6 +155,8 @@ apply.
 %
 Note that this latter observable is particularly sensitive
 of BSM dynamics.
+%
+These results validate the PU subtraction strategy adopted in this work.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,12 +179,13 @@ of BSM dynamics.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-Then we assess the impact of PU in some of the substructure variables
+Next, we assess the impact of PU in representative
+substructure variables
 used as input to the MVA in the boosted category.
 %
 In particular we consider the subjetiness variable,
 $\tau_{21}$, and the ratio
-of energy correlation functions $D_2^{(\beta)}$,
+of energy correlation functions, $D_2^{(\beta)}$,
 corresponding to the the leading Higgs candidate.
 %
 This comparison is illustrated in Fig.~\ref{fig:Substructure_PU}.
@@ -201,14 +194,16 @@ As can be seen, these substructure variables, which
 as demonstrated before carry a very substantial
 discrimination power, are relatively unaffected by PU.
 %
-Therefore, we don't expect a substantial loss of discrimination
+Therefore, we do not expect a substantial loss of discrimination
 power due to PU effects in our analysis.
+%
+Note in particular that $D_2^{(\beta)}$ was constructed to be resilient
+with respect to PU contamination.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-    \vspace{-1cm}
   \includegraphics[width=0.49\textwidth]{plots/D2_h0_bst_comp.pdf}
   \includegraphics[width=0.49\textwidth]{plots/tau21_h0_bst_comp.pdf}
    \caption{\small
@@ -223,11 +218,9 @@ power due to PU effects in our analysis.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-Up to know we have restricted ourselves to the study of the impact of PU
-on signal distributions.
 %
-We now assess how the signal over background discrimination can be affected
-in the presence of realistic PU conditions.
+We now assess how the signal over background discrimination is affected
+in the presence of PU.
 %
 First of all let us consider the boosted category.
 %
@@ -250,7 +243,6 @@ various kinematical distributions for signal and background events,
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-    \vspace{-1cm}
   \includegraphics[width=0.49\textwidth]{plots/m_h0_bst_comp_back.pdf}
   \includegraphics[width=0.49\textwidth]{plots/pt_h0_bst_comp_back.pdf}
    \includegraphics[width=0.49\textwidth]{plots/tau21_h1_bst_comp_back.pdf}
@@ -281,15 +273,20 @@ the kinematical distributions for signal and background events,
      to their no PU counterparts.
      %
      Differences between signal and background distributions are maintained after PU
-     has been accounted for - we have checked that this is the case
+     has been accounted for.
+   %
+     we have indeed that this is the case
      in general.
+     %
+     Therefore, we expect that the broad features of the signal/background
+     discrimination provided by the MVA in Sect.~\ref{sec:mva} will
+     be maintained also in the presence of PU.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-    \vspace{-1cm}
-  \includegraphics[width=0.49\textwidth]{plots/m_h0_res_comp_back.pdf}
+   \includegraphics[width=0.49\textwidth]{plots/m_h0_res_comp_back.pdf}
   \includegraphics[width=0.49\textwidth]{plots/pt_h0_res_comp_back.pdf}
      \caption{\small
        Same as Fig.~\ref{fig:signal-vs-back-boosted} for the resolved category,
@@ -301,15 +298,29 @@ the kinematical distributions for signal and background events,
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-\subsection{Cut-flow}
 
 
 
-The corresponding cut-flow tables in the case
+\subsection{MVA revisited in the presence of PU}
+
+The corresponding version of Table~\ref{tab:cutflow_noPU_1}, the 
+cut-flow for the cross-sections and signal significance at the various
+steps of the cut-based analysis, 
+in the case
 of PU subtracted with SK, for $\la n_{\rm PU}\ra=80$,
-are shown in Table~\ref{tab:cutflow_SKPU80_1},
-for the total cross-sections, number of events expected and
-signal significance at the HL-LHC, respectively.
+is provided in Table~\ref{tab:cutflow_SKPU80_1}.
+%
+We observe that, at the end of the cut-based analysis,
+the signal significance have been  degraded
+as compared to the case without PU.
+%
+We obtain that $S\sqrt{B}$ is now 0.4, 0.3 and 0.9 in the resolved,
+intermediate and boosted categories, respectively.
+%
+The boosted category is the least affected one, since as shown
+before PU contamination is milder given the selection requirements.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
@@ -329,17 +340,13 @@ signal significance at the HL-LHC, respectively.
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-\subsection{MVA revisited in the presence of PU}
-
-After this discussion of the effects 
-of PU in the various kinematic distributions
-that are used
-as input to the MVA, we now revisit the analysis
-of Sect.~\ref{sec:mva} this time with PU included.
+The MC events that satisfy the selection requirements of the cut-based
+analysis, row C2 in Table~\ref{tab:cutflow_SKPU80_1}, are then
+used as input for the MVA, 
+using the same strategy explained 
+in Sect.~\ref{sec:mva}.
 %
-First of all we compare in Fig.~\ref{fig:nnresponse_PU}
+In Fig.~\ref{fig:nnresponse_PU} we represent
 the distribution of the ANN output for the
 signal and background MC events in the boosted and resolved categories --
 the analogous comparison in the case without PU was shown
@@ -521,9 +528,10 @@ We conclude that the qualitative conclusions drawn in
 Sect.~\ref{sec:mva} are robust in the presence
 of realistic PU effects.
 %
-Note that no specific effort has been performed to
+Since no specific effort has been performed to
 optimize PU subtraction, for example by tuning the value
-of the patch length $a$ in {\tt SoftKiller}, so there is
+of the patch length $a$ in {\tt SoftKiller}, we expect that
+there is
 still room for improvement in this respect.
 
 
@@ -560,8 +568,8 @@ As we can see by comparing to the corresponding
 results without PU in Fig.~\ref{fig:nnweights}, we see that
 in the boosted category, the discrimination power of the invariant
 mass of Higgs candidates is decreased and that of the various substructure
-variables, in particular $C_2^{\beta}$ and
-$D^{{\beta}}$, is conversely
+variables, in particular $C_2^{(\beta)}$ and
+$D^{(\beta)}$, is conversely
 increased.
 %
 This reflects the fact that these substructure variables are
