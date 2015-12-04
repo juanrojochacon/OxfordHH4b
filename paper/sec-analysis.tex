@@ -6,152 +6,145 @@ In section we describe our analysis strategy, and in particular
 the classification of each individual event into
 different categories according to its topology.
 %
-First of all, we discuss the settings and nomenclature that
-we will use for jet clustering, and then we move to discuss how $b$-tagging is simulated.
+First of all, we discuss the settings and nomenclature
+for jet clustering, and the strategy for $b$-tagging.
 %
 Then we discuss the categorisation of events between different
-topologies, and how we prioritise among them.
+topologies and how to prioritise among them.
 %
 Finally, we motivate our choice of analysis cuts by comparing signal and background
-for some representative kinematic distributions.
+for representative kinematic distributions.
 
 \subsection{Jet reconstruction}
 
-At the end of the  parton shower, final state particles
+After the  parton shower, final state particles
 are clustered using the
 jet reconstruction algorithms
-are obtained from the
-{\tt FastJet} program~\cite{Cacciari:2011ma,Cacciari:2005hq},
+obtained from
+{\tt FastJet}~\cite{Cacciari:2011ma,Cacciari:2005hq},
 {\tt v3.1.0}.
 %
-In this study we will use different types of jet definitions,
-which we enumerate now:
-%
-
+We will use different types of jet definitions:
 \begin{itemize}
 \item {\it Small-$R$ jets}.
 
   These are jets  reconstructed with the
   anti-$k_T$ clustering algorithm~\cite{Cacciari:2008gp} with $R=0.4$ radius.
   %
-  When reconstructing small-$R$ jets, we keep only
-  those jets with transverse momentum $p_T \ge 40$~GeV
-  and pseudo-rapidity $|\eta|<2.5$, within the central rapidity
-  acceptance of ATLAS and CMS.
-%
-  Jets that fail to satisfy these acceptance
-  requirements are discarded.
-  %
-  The restriction to the central rapidity region is a
-  requisite for $b$-tagging.
-    
+  These small-$R$ jets are required
+  to have transverse momentum $p_T \ge 40$~GeV
+  and pseudo-rapidity $|\eta|<2.5$, within the central 
+  acceptance of ATLAS and CMS, the region
+  where $b$-tagging is possible.
 
 \item {\it Large-$R$ jets}.
 
   These jets are also constructed with the
   anti-$k_T$ clustering algorithm, now using a $R=1.0$ radius.
   %
-  In order to be accepted, these large-$R$ jets should
-  satisfy  $p_T \ge 200$~GeV and lie in a pseudo-rapidity range of
+  Large-$R$ jets are required to have
+  $p_T \ge 200$~GeV and lie in a pseudo-rapidity region of
   $|\eta|<2.0$.
-  %
-  If these conditions are not satisfied, the jet is discarded.
   %
   The more restrictive range  in pseudo-rapidity
   as compared to the small-$R$ jets
   is motivated by mimicking the  experimental requirements
   in ATLAS and CMS
-  related to the track-jet-based calibration~\cite{Aad:2014bia,ATLAS:2012kla}.
+  related to the track-jet based calibration~\cite{Aad:2014bia,ATLAS:2012kla}.
 
   In addition to the basic $p_T$ and $\eta$
   acceptance requirements, large-$R$ jets should also
-  satisfy the  BDRS mass-drop tagger~\cite{Butterworth:2008iy}
-  conditions, required
-  to enhance the discrimination of the signal over the background
-  events.
+  satisfy the  BDRS mass-drop tagger (MDT)(~\cite{Butterworth:2008iy}
+  conditions.
   %
-  For the BDRS mass-drop tagger, we use the {\tt FastJet} default
+  We use the {\tt FastJet} default
   parameters of  $\mu = 0.67$ and $y_{\textrm{cut}}= 0.09$.
   %
-  Before the mass-drop tagger is applied, the large-$R$ jet
-  constituents are reclustered with the Cambridge/Aachen
-  algorithm~\cite{Dokshitzer:1997in,Wobisch:1998wt}.
+  Before applying the MDT, the large-$R$ jet
+  constituents are reclustered with the Cambridge/Aachen (C/A)
+  algorithm~\cite{Dokshitzer:1997in,Wobisch:1998wt}
+  with $R=1.2$.
 
   
 \item {\it Small-$R$ subjets}.
 
-  Once we have reconstructed a suitable large-$R$ jet, important
-  information can be obtained by looking at the kinematics of
-  the small-$R$ subjets.
-  %
-  These subjets will be obtained by reclustering the constituents
-  of the large-$R$ jet, always with the  anti-$k_T$ algorithm,
-  but this time with a smaller radius parameter $R=0.3$.
+  These subjets are constructed by reclustering the constituents
+  of a large-$R$ jet, again with  anti-$k_T$ algorithm,
+  but this time with a smaller radius parameter, namely
+  $R=0.3$.
  %
-  These small-$R$ subjets will be the building blocks of
+  These small-$R$ subjets will be the main input for
   $b$-tagging in the boosted category.
   %
-  Small-$R$ subjets are required to have $p_T > 50$~GeV and $|\eta|<2.5$,
-  else they are discarded.
+  They are required to satisfy $p_T > 50$~GeV and $|\eta|<2.5$.
   %
 \end{itemize}
 
-We have
+In addition, we have
 also explored the possible improvements
-in the analysis from using variable-$R$ jets~\cite{Krohn:2009zg}, but found that these made
+in the analysis from the use
+of variable-$R$ jets~\cite{Krohn:2009zg}, but found that these made
 a small difference as compared to fixed-$R$ jets.
 %
 This is not unexpected, since variable-$R$ jets are more suitable when
 the degree of boost of the final state being reconstructed can span
-a wide range, such as in heavy resonance searches~\cite{Aad:2015fna}.
+a wide range~\cite{Cacciari:2008gd}, such as in heavy resonance searches~\cite{Aad:2015fna},
+where where the degree of boost of the final state
+is {\it a priori} unknown.
 
 
-\subsection{$b$-tagging}
+\subsection{Tagging of $b$-jets}
 \label{sec:btagging}
 
-Given the final state that needs to be reconstructed, the
+It is clear that
 optimisation of the $b$-tagging capabilities of the
-LHC experiments is an essential requirement to improve
-the prospects for the observation of Higgs pair production in this channel.
+LHC experiments is an essential ingredient to improve
+the prospects for the observation of Higgs pair production in the
+$b\bar{b}b\bar{b}$ final state.
 %
-The $b$-tagging strategy used in this feasibility study is inspired
-in the current and projected ATLAS settings~\cite{Aad:2013gja},
-though
-it is not too different from
- the corresponding CMS strategy~\cite{Khachatryan:2011wq,Chatrchyan:2012jua}.
+In this work, we adopt
+a $b$-tagging strategy along the lines
+of current ATLAS performance~\cite{Aad:2013gja,Aad:2015ydr},
+though differences with respect to
+the corresponding CMS strategy~\cite{Khachatryan:2011wq,Chatrchyan:2012jua}
+should not affect qualitatively our results.
 %
-For each type of jet defined above, a different
-$b$-tagging strategy is used:
+For each type of jet definition used, a different
+$b$-tagging strategy is adopted:
 
 \begin{itemize}
 
 \item {\it Small-$R$ jets}.
 
-  These are $b$-tagged as follows.
   %
   If a small-$R$ jet has at least one $b$-quark among their constituents,
   it will be tagged as a $b$-jet with probability $f_b$.
   %
   In order to be considered in the $b$-tagging algorithm,
-   $b$-quarks should satisfy $p_T \ge 15$ GeV.
-  %
-  If no $b$-quarks are found among the constituents
-  of this jet, it can be still be tagged as a $b$-jet with
-  a mistag rate of $f_l$, unless a charm quark is found,
-  and in this case the mistag rate is $f_c$.
-  %
-  Only jets which contain at least one constituent
-  with $p_T \ge 15$ GeV can lead to fake $b$-tags.
+  $b$-quarks inside the small-$R$ jet
+  should satisfy $p_T \ge 15$ GeV.
   %
   The probability of tagging a jet is not modified
   if more than one $b$-quark is found among the jet constituents.
 
-  We only attempt to $b$-tag the four (two) hardest small-$R$ jets
+
+  
+  If no $b$-quarks are found among the constituents
+  of this jet, it can be still be tagged as a $b$-jet with
+  a mistag rate of $f_l$, unless a charm quark is present instead,
+  and in this case the mistag rate is $f_c$.
+  %
+  Only jets which contain at least one (light or charm)
+  constituent
+  with $p_T \ge 15$ GeV will lead to fake $b$-tags.
+
+  
+  We only attempt to $b$-tag only the four (two) hardest small-$R$ jets
   in the resolved (intermediate) category.
   %
-  We find that
-  attempting to $b$-tag all
-  small-$R$ jets that satisfy the acceptance cuts worsens the performance
+  Trying to $b$-tag all the
+  small-$R$ jets that satisfy the acceptance cuts worsens the
+  overall performance
   due to combinatorics.
 
   \item {\it Large-$R$ jets}.
@@ -160,50 +153,45 @@ $b$-tagging strategy is used:
     ghost-associating anti-$k_T$ $R=0.3$
     subjets to the original large-$R$
     jets~\cite{Cacciari:2007fd,Aad:2013gja,
-      ATLAS-CONF-2014-004}.\footnote{The same
-    method was used in the recent ATLAS $hh\to 4b$ search~\cite{Aad:2015uka}.}
+      ATLAS-CONF-2014-004,Aad:2015uka}.
     %
-    In particular,
-    a large-$R$ jet is considered  double-$b$-tagged if both
-    the leading and subleading subjets (where the ordering
-    is done in the subjet $p_T$) are both individually $b$-tagged.
+    A large-$R$ jet will considered $b$-tagged if both
+    the leading and subleading AK03 subjets, where the ordering
+    is done in the subjet $p_T$, are both individually $b$-tagged,
+    with the same criteria as the small-$R$ jets.
 
     
     As in the case
-    of small-$R$ jets, in
-    order to be considered in the $b$-tagging algorithm,
-   $b$-quarks should satisfy $p_T \ge 15$ GeV.
-    %
-    Note that we only attempt to $b$-tag the two leading subjets:
-    trying to $b$-tag all subjets above the $p_T$ cut degrades
-    the signal significance due to the increase in combinatorics.
+    of small-$R$ jets, we only attempt to $b$-tag the two leading subjets,
+    else one finds a degradation of the
+    signal significance due to combinatorics.
 
-    Concerning the $b$-tagging probabilities and the
-    light jet  and charm jet mistag probabilities, there are taken
-    the same as for small-$R$ jets.
     %
     Therefore, a large-$R$ jet where the two leading
     subjets have at least one $b$-quark will be tagged
     with probability $f_b^2$, if only one of the two leading
-    subjets has a $b$-quark then the tagging probability is
-    $2f_bf_l$, and if none of the two have $b$-quarks
-    as constituents, the mistag rate will be
-    $f_l^2$.
+    subjets has a $b$-quark, then the tagging probability is
+    $2f_bf_l$, and if none of the two subjets include $b$-quarks,
+    the mistag rate will be $f_l^2$.
 
 
 \end{itemize}
 
-Concerning the values of the $b$-tag probability $f_b$ and
-the $b$-mistag probability of light and charm jets $f_l$ and  $f_c$, 
-in this work we adopt as baseline the values $f_b=0.8$, $f_l=0.01$
+Concerning the values of the $b$-tag probability, $f_b$, and
+the $b$-mistag probability of light and charm jets, $f_l$ and  $f_c$
+respectively,
+we used the values $f_b=0.8$, $f_l=0.01$
 and  $f_c=0.1$.
 
 
 \subsection{Event categorisation}
 \label{sec:categorisation}
 
-The basic idea of our analysis strategy is similar to that in Ref.~\cite{Gouzevitch:2013qca}:
-rather than concentrating only a specific event topology, such as boosted
+The basic idea of present analysis is similar to the
+scale-invariant resonance tagging introduced
+in Ref.~\cite{Gouzevitch:2013qca}.
+%
+rather than restricting to a specific event topology, such as boosted
 or resolved, we aim to consistently combine the information from
 the three possible event topologies: boosted, intermediate and
 resolved.
