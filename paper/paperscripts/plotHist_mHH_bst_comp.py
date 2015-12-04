@@ -52,8 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([200,650])
-ax.set_ylim([1e-4,0.05])
+ax.set_xlim([350,600])
+ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
 

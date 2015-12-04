@@ -52,7 +52,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([200,650])
+ax.set_xlim([200,600])
 ax.set_ylim([1e-4,0.05])
 
 

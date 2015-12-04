@@ -271,18 +271,19 @@ the presence of PU.
 Considering first of all the boosted category,
 in Fig.~\ref{fig:signal-vs-back-boosted} we compare
 various kinematical distributions for signal and background events,
-     with and without PU: the invariant mass and the $p_T$ of the leading
-     Higgs candidate, the 2-jettiness $\tau_{21}$ and $\sqrt{d_{12}}$,
-     $k_T$ splitting scale, Eq.~(\ref{eq:ktsplitting}),
-     for the leading Higgs candidate.
+     with and without PU: the invariant mass, the $p_T$,
+     the 2-jettiness $\tau_{21}$, and $\sqrt{d_{12}}$,
+     the $k_T$ splitting scale, Eq.~(\ref{eq:ktsplitting}),
+     all corresponding to
+     the leading Higgs candidate.
      %
-     While for signal distributions the effects of PU after SK subtraction are small,
-     differences are more marked for the background distributions, where
-     the shapes of the distributions with and without background can be substantially
-     different.
-     %
-     We note however that the fact that signal and background distribution exhibit
-     rather different behaviors is maintained in the presence of PU.
+      We observe that the most of the relevant
+      qualitative differences between signal
+      and background distributions are maintained in the presence of PU.
+      %
+      This is specially clear for the substructure variables, which
+      show a similar discrimination power both with and without
+      PU.
      
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,18 +316,19 @@ the kinematical distributions for signal and background events,
      with and without PU, for the invariant mass and the $p_T$ of the leading
      Higgs candidate.
      %
-     Here the PU-subtracted background distributions appear reasonably close
+     Also in this
+     case the PU-subtracted background distributions appear reasonably close
      to their no PU counterparts.
      %
-     Differences between signal and background distributions are maintained after PU
-     has been accounted for.
-   %
-     we have indeed that this is the case
-     in general.
+     Therefore, these results
+     suggest that the broad pattern of the signal over background
+     discrimination provided by the MVA in Sect.~\ref{sec:mva},
+     based on the corresponding differences between kinematical
+     distributions,
+will
+     be maintained in the presence of PU.
      %
-     Therefore, we expect that the broad features of the signal/background
-     discrimination provided by the MVA in Sect.~\ref{sec:mva} will
-     be maintained also in the presence of PU.
+     In the next section we verify this expectation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -343,30 +345,39 @@ the kinematical distributions for signal and background events,
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-
 \subsection{MVA revisited in the presence of PU}
 
+The same settings of the cut-based analysis,
+Sects.~\ref{sec:analysis} and~\ref{sec:results}, and
+the subsequent MVA optimization, Sect.~\ref{sec:mva}, have
+been applied to the samples with PU, $\la n_{\rm PU}\ra=80$,
+and SK subtraction.
+%
 The corresponding version of Table~\ref{tab:cutflow_noPU_1}, the 
 cut-flow for the cross-sections and signal significance at the various
 steps of the cut-based analysis, 
 in the case
 of PU subtracted with SK, for $\la n_{\rm PU}\ra=80$,
-is provided in Table~\ref{tab:cutflow_SKPU80_1}.
+is presented in Table~\ref{tab:cutflow_SKPU80_1}.
 %
-We observe that, at the end of the cut-based analysis,
+One immediate observation is that
+at the end of the cut-based analysis,
 the signal significance have been  degraded
 as compared to the case without PU.
 %
-We obtain that $S\sqrt{B}$ is now 0.4, 0.3 and 0.9 in the resolved,
-intermediate and boosted categories, respectively.
+We now obtain values for $S\sqrt{B}$ of 0.4, 0.3 and 0.9, in the resolved,
+intermediate and boosted categories, respectively, to be compared
+with the corresponding values without PU, namely 1.6, 1.6 and 2.7.
 %
-The boosted category is the least affected one, since as shown
-before PU contamination is milder given the selection requirements.
-
-
+Therefore, the pre-MVA signal significance is degraded by a factor 4 in
+the resolved and the intermediate categories,
+and by a factor 3 in the boosted category.
+%
+The fact that the latter is the  least affected one
+can be understood from the previous comparison
+plots, which show that effects of PU contamination
+are milder due to the  selection requirements
+of the boosted category.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
@@ -386,13 +397,8 @@ before PU contamination is milder given the selection requirements.
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The MC events that satisfy the selection requirements of the cut-based
-analysis, row C2 in Table~\ref{tab:cutflow_SKPU80_1}, are then
-used as input for the MVA, 
-using the same strategy explained 
-in Sect.~\ref{sec:mva}.
-%
-In Fig.~\ref{fig:nnresponse_PU} we represent
+
+In Fig.~\ref{fig:nnresponse_PU} we present
 the distribution of the ANN output for the
 signal and background MC events in the boosted and resolved categories --
 the analogous comparison in the case without PU was shown
@@ -435,32 +441,37 @@ compared to the case without PU.
 
 In Table~\ref{table:cutflowMVA_PU}
 we provide the  the number of signal and
-    background events at the HL-LHC, as well as the $S/\sqrt{B}$ and $S/B$,
+    background events expected
+    at the HL-LHC, as well as the
+    corresponding values for $S/\sqrt{B}$ and $S/B$,
     for both the cut-based analysis (corresponding
     to $y_{\rm cut}=0$) and after the
-    optimal MVA cut.
-    %
-    These numbers corresponding to the simulations
+    optimal MVA cut, for the simulations
     with $\la n_{\rm PU}\ra=80$
     and SK subtraction.
     %
-    The corresponding results without PU were collected
-    in Table.~\ref{table:cutflowMVA}.
+    The same results without PU are those of
+    Table.~\ref{table:cutflowMVA}.
     %
     From Table~\ref{table:cutflowMVA_PU} we see that, thanks
 to the MVA, we can improve the signal significance and the
-signal over background ratio from 0.31 and $3\cdot 10^{-4}$
-(0.40 and $1.3\cdot 10^{-4}$) up to 2.9 and 0.034 (2.5 and 0.15)
+signal over background ratio from 0.35 and $4\cdot 10^{-4}$
+(0.25 and $1\cdot 10^{-4}$) up to 2.9 and 0.034 (2.5 and 0.15)
 in the boosted (resolved) category.
 %
-The intermediate category exhibits a lower value of $S/\sqrt{B}$
-for the optimal $y_{\rm cut}$ value, around unity.
+The intermediate category exhibits a rather lower value of $S/\sqrt{B}$
+for the optimal $y_{\rm cut}$ value, around 1.1.
 %
-We thus conclude that the boosted category is the most promising
+We thus conclude that, as was already the case
+without PU,
+the boosted category is the most promising
 one for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
-at the HL-LHC, with however useful information also provided
-by the resolved category.
- 
+final state
+at the HL-LHC, also when PU is included.
+%
+However, important information will also be obtained from
+the resolved category, which has a signal significance
+only slightly smaller than the boosted case.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -506,7 +517,7 @@ by the resolved category.
     & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
         Signal & Back   &     &   &  Signal & Back   &     &    \\
     \hline
-  1123  &    $8.5\cdot 10^6$   & 0.40       &  $1.3\cdot 10^{-4}$       &
+  1123  &    $8.5\cdot 10^6$   & 0.25       &  $1.3\cdot 10^{-4}$       &
   432  &  $3\cdot 10^4$        &   2.5      & 0.15 \\
         \hline
   \end{tabular}
@@ -517,12 +528,27 @@ by the resolved category.
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Next we show the results
-as a function of the optimal ANN cut $y_{\rm cut}$.
+Another important result from Table~\ref{table:cutflowMVA_PU} is that,
+for the optimal MVA cut, the signal over background ratio
+is not unfeasibly small: we obtain that $S/B$ is 3.4\% (1.5\%)
+in the boosted (resolved) categories.
+%
+This is indicates that while this measurement is still very challenging,
+requiring a careful extraction from the data of the QCD
+background, it is certainty within reach.
+%
+Our analysis also indicates a possible way forward to
+further increase $S/B$: reducing the background from light and charm
+fakes, see Table~\ref{tab:cutflow_SKPU80_1}.
+
+Let us now discuss in more detail the results of the MVA
+classification, by showing various estimators as function
+of the cut $y_{\rm cut}$ in the ANN discriminant.
 %
 In Fig.~\ref{fig:nev2_PU}
 we show the number of signal and background events that
-are expected at the HL-LHC as a function of the ANN discriminant -
+are expected at the HL-LHC as a function of
+$y_{\rm cut}$ -
 the corresponding results without PU are those of
 Fig.~\ref{fig:nev2}.
 %
