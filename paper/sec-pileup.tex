@@ -1,4 +1,3 @@
-\clearpage
 \section{Impact of pile-up}
 
 \label{sec:pileup}
@@ -552,23 +551,27 @@ $y_{\rm cut}$ -
 the corresponding results without PU are those of
 Fig.~\ref{fig:nev2}.
 %
-As we can see from Fig.~\ref{fig:nev2_PU}, the trends are
-similar as those in the case without PU.
+As we can see, the general trends are
+similar as those without PU.
 %
 Comparing Figs.~\ref{fig:nev2} and~\ref{fig:nev2_PU}, we also observe
 that the intermediate category is substantially degraded once PU effects
-are accounted for, the reason being a reduction in the number of signal
+are accounted for, the reason being  sizable
+a reduction in the number of signal
 events that are now assigned to this category.
 %
-This shows that the definition of the intermediate category is seriously
-affected by PU, as opposed to the resolved and boosted selections.
+This shows that the selection criteria
+of the intermediate category are less
+resilient against PU contamination,
+as opposed to the resolved and boosted selections.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=0.65\textwidth]{plots/nev2_SKPU80.pdf}
-\caption{\small Same as Fig.~\ref{fig:nev2} now
-  with  $\la n_{\rm PU}\ra=80$ PU events 
+\caption{\small Same as Fig.~\ref{fig:nev2} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
   and SK subtraction.
 }
 \label{fig:nev2_PU}
@@ -579,9 +582,7 @@ affected by PU, as opposed to the resolved and boosted selections.
 
 In Fig.~\ref{fig:sb_mva_PU} we show the signal significance,
 $S/\sqrt{B}$, as well as the signal over background ratio,
-$S/B$, as a function of the ANN discriminant $y_{\rm cut}$, in the case
-of the analysis including the effects of PU
-with $\la n_{\rm PU}\ra=80$.
+$S/B$, including now the effects of PU.
 %
 The corresponding results in the case without PU were shown in
 Fig.~\ref{fig:sb_mva}.
@@ -602,7 +603,7 @@ of realistic PU effects.
 %
 Since no specific effort has been performed to
 optimize PU subtraction, for example by tuning the value
-of the patch length $a$ in {\tt SoftKiller}, we expect that
+of the patch length $a$ in {\tt SoftKiller}, we believe that
 there is
 still room for improvement in this respect.
 
@@ -613,9 +614,10 @@ still room for improvement in this respect.
 \begin{center}
 \includegraphics[width=0.48\textwidth]{plots/ssb_SKPU80.pdf}
 \includegraphics[width=0.48\textwidth]{plots/sb_SKPU80.pdf}
-\caption{\small Same as Fig.~\ref{fig:sb_mva}
-  now
-  with  $\la n_{\rm PU}\ra=80$ PU events 
+\caption{\small 
+Same as Fig.~\ref{fig:sb_mva} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
   and SK subtraction.
 }
 \label{fig:sb_mva_PU}
@@ -623,8 +625,9 @@ still room for improvement in this respect.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-It is illustrative to quantify which of the input variables
-to the MVA are most significant in the case of PU,
+It is important to quantify which of the input variables
+to the MVA carry the highest discrimination power
+in the case of PU,
 and compare it with the corresponding
 results without PU.
 %
@@ -637,7 +640,7 @@ The results for the resolved and boosted categories are shown
 on Fig.~\ref{fig:nnweights_PU}.
 %
 As we can see by comparing to the corresponding
-results without PU in Fig.~\ref{fig:nnweights}, we see that
+results without PU in Fig.~\ref{fig:nnweights}, 
 in the boosted category, the discrimination power of the invariant
 mass of Higgs candidates is decreased and that of the various substructure
 variables, in particular $C_2^{(\beta)}$ and
@@ -646,15 +649,21 @@ increased.
 %
 This reflects the fact that these substructure variables are
 relatively robust against PU contamination.
-
-In the case of the resolved category, in the case without PU the highest
-values of the weight sum were found for the $p_T$ of the leading
+%
+In addition, also the $p_T$ distributions of the AK03
+subjets within the large-$R$
+jets carry important information.
+%
+In the case of the resolved category,  the highest
+values of the ANN weights without PU
+were found for the $p_T$ of the leading
 Higgs and for the Higgs invariant masses.
 %
 This is also true in the case with PU, but now the rapidity difference
 between the two Higgs candidates, $\Delta y_{hh}$ increases its
 importance, again reflecting that this variable is relatively
 insensitive to PU effects.
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -663,29 +672,35 @@ insensitive to PU effects.
 \includegraphics[width=0.49\textwidth]{plots/bst_wgthist_SKPU80.pdf}
 \vspace{-0.5cm}
 \caption{\small
-Same as Fig.~\ref{fig:nnweights} in the case of PU.
+Same as Fig.~\ref{fig:nnweights} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
+  and SK subtraction.
 }
 \label{fig:nnweights_PU}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-Finally, we now combine the three categories, resolved,
-intermediate and boosted, and determine the signal
+At this point, we can finally combine the three categories, resolved,
+intermediate and boosted, and determine the overall signal
 significance taking into account all event topologies.
 %
 Adding in quadrature the signal significance from the three
 (exclusive) categories for the corresponding
-optimal value of $y_{\rm cut}$, our final combined result is
+optimal value of $y_{\rm cut}$, our final combined result, accounting
+for PU effects, is
 \be
 \lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0 \, ,
 \ee
-that is, well
-above the threshold for evidence, and  relatively close to the
-requirement for discovery.
+to be compared to the value $\lp S/\sqrt{B}\rp_{\rm tot} \simeq 8.5$
+that was obtained in the case without PU.
+%
+We conclude that, even when realistic PU effects are accounted
+for, at the HL-LHC the measurement of
+Higgs pair production in the $b\bar{b}b\bar{b}$ final state should be 
+well the threshold for evidence, and even meeting the
+requirement for discovery might be within reach.
 %
 
 In summary, in this section we have demonstrated the robustness
