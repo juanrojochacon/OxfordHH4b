@@ -105,8 +105,43 @@ We  also obtain that the boosted category is less affected
 by PU than the resolved category, as expected from the higher
 $p_T$ threshold in the corresponding selection cuts.
 
-Let us begin by comparing
-representative signal distributions with
+
+First of all, let us validate both the implementation of our
+simulation of PU, as well as the SK subtraction, by comparing the
+invariant mass distributions of Higgs candidates in signal
+events in the resolved category.
+%
+In Fig.~\ref{fig:PUvalidation} we show three curves: without PU,
+with PU $\la n_{PU}\ra=80$ but without any subtraction, and the
+same but now with the SK subtraction.
+%
+As expected, if PU is not subtracted there is a large shift in the Higgs mass
+peak, by about 40 GeV.
+%
+Once SK subtraction is performed, we recover a distribution much closer
+to the original ones, with only a small shift of $\simeq 5$ GeV in the mass
+distribution.
+%
+As we will see below, the performance of SK is even better in the boosted category,
+since the effects of PU are mitigated for high $p_T$ jets.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+  \includegraphics[width=0.68\textwidth]{plots/m_htot_res_signal_PUnoSK.pdf}
+    \caption{\small
+    The invariant mass distributions of Higgs candidates in signal
+events, in the resolved category, comparing the results without PU,
+with PU $\la n_{PU}\ra=80$ but without any subtraction, and the
+corresponding results now with SK subtraction.
+}
+\label{fig:PUvalidation}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+Next, we compare more
+ signal distributions with
 and without PU, with $\la n_{\rm PU}\ra=80$ in the
 former
 case (and SK subtraction).
@@ -237,7 +272,7 @@ Considering first of all the boosted category,
 in Fig.~\ref{fig:signal-vs-back-boosted} we compare
 various kinematical distributions for signal and background events,
      with and without PU: the invariant mass and the $p_T$ of the leading
-     Higgs candidate, the 2-jettines $\tau_{21}$ and $\sqrt{d_{12}}$,
+     Higgs candidate, the 2-jettiness $\tau_{21}$ and $\sqrt{d_{12}}$,
      $k_T$ splitting scale, Eq.~(\ref{eq:ktsplitting}),
      for the leading Higgs candidate.
      %
