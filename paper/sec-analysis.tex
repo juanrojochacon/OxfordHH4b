@@ -187,91 +187,74 @@ and  $f_c=0.1$.
 \subsection{Event categorisation}
 \label{sec:categorisation}
 
-The basic idea of present analysis is similar to the
+The basic idea of the present analysis is similar to the
 scale-invariant resonance tagging introduced
 in Ref.~\cite{Gouzevitch:2013qca}.
 %
-rather than restricting to a specific event topology, such as boosted
-or resolved, we aim to consistently combine the information from
+Rather than restricting to a specific event topology,
+we aim to consistently combine the information from
 the three possible event topologies: boosted, intermediate and
 resolved.
 %
-However, an important difference compared to~\cite{Gouzevitch:2013qca}
-is that here each category is optimised separately, and then
+The optimal cuts for each category will be determined
+separately, and then
 a exclusive categorisation is defined starting from the category
 with the highest signal significance.
 %
-An advantage of our approach is that the analysis strategy would be unchanged
-if the underlying production model of Higgs pairs is modified, for example in the case of
-BSM dynamics, which can substantially increase the degree of boost of the final state.
-
-Let us therefore define the three event categories that
-we use:
+An advantage of our approach is that the analysis strategy
+is robust under variations of
+the underlying production model of Higgs pairs is modified,
+for instance in the case of
+BSM dynamics, which can substantially increase
+the degree of boost of the final state.
+%
+These three categories are defined as follows:
 \begin{itemize}
 \item {\it Boosted category}.
 
-  An event is assigned to the {\it boosted} category if it
-  contains at least two large-$R$ jets, defined as above,
-  and where  the two leading large-$R$ jets have been
-   double-$b$-tagged.
-  %
- Therefore, each of these two large-$R$ double-$b$-tagged jets corresponds to the
- decay products of one Higgs boson candidate.
+  An event which
+  contains at least two large-$R$ jets, with the two leading
+ being $b$-tagged.
+ %
+ Each of these two large-$R$ $b$-tagged jets are is this
+ a candidate
+ to contain the decay products of a Higgs boson.
 
 \item {\it Intermediate category}.
 
-  An event is assigned to the {\it intermediate} category if
-  one and only one large $R$ double-$b$-tagged jet is present,
-  which corresponds to the the first Higgs candidate.
+  An event with only one large-$R$ $b$-tagged jet, which
+  is assigned to be the leading Higgs candidate.
   %
-  In addition, we require at least two small-$R$ jets,
-  which must be separated with respect to the large-$R$
-  jet by at least an angular separation of $\Delta R\ge 1.0$.
+  In addition, we require at least two small-$R$ $b$-tagged jets,
+  which must be separated with respect to the large-$R$ jet
+  by $\Delta R\ge 1.0$.
   %
-  These small-$R$ jets must be $b$-tagged as well.
-
-  
-  The second Higgs boson candidate is reconstructed
+    
+  The subleading Higgs boson candidate is then reconstructed
   by selecting the two $b$-tagged small-$R$ jets that minimize the difference
-  between the invariant mass of the large-$R$ jet,
+  between the invariant mass of the large-$R$ jet
   with the invariant mass of the dijet obtained
   from the sum of the two small-$R$ jets.
   
 \item {\it Resolved category}.
+
+  
+ An event with at least
+  four $b$-tagged small-$R$ jets.
   %
-  An event is assigned to the {\it resolved} category
-  if at least
-  four $b$-tagged small-$R$ jets are present.
-  %
-  The two Higgs candidates are then reconstructed out of the
+  The two Higgs candidates are reconstructed out of the
   leading four small-$R$ jets in the event
   by considering all possibilities of forming two pairs of jets
   and then choosing the configuration that minimizes the relative difference of
   dijet masses.
   %
-  The requirement of restricting this selection to only the four
-  leading small-$R$ jets arises from the need to reducing the
-  combinatorics from  fakes.
-\end{itemize}
-These three categories are in principle not exclusive:
-a given even can be assigned to more than one category, for
-example, satisfying both the requirements of the boosted and resolved
-categories at the same time.
-%
-The exception is the boosted and intermediate categories, which have
-orthogonal jet selection requirements.
-%
-The separate optimisation of the three categories needs to be performed in
-a inclusive analysis.
-%
-Since in general there will be a certain degree of overlap between categories,
-a priorisation needs to be introduced in a exclusive analysis.
-%
 
+  
+\end{itemize}
 
 
 Once a Higgs boson candidate has been identified,
-its invariant mass is required to be within a fixed window
+its invariant mass is required to lie within a fixed window
 around the nominal Higgs boson mass.
 %
 In particular we require the condition
@@ -287,63 +270,34 @@ analyses~\cite{Aad:2012gxa,Chatrchyan:2013zna}: the motivation
 for this choice is that the MVA will take care of the optimisation of these
 and other cuts that are not explicitly performed.
 %
-Only events where the two Higgs candidates satisfy the
-condition in Eq.~(\ref{higgsmasswindow}) are classified as signal events.
-%
-In Table~\ref{sec:categorisation} we summarize the definitions of each
-category.
+Only events where the two Higgs candidates satisfy
+Eq.~(\ref{higgsmasswindow}) are classified as signal events.
 %
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[h]
-  \centering
-  \small
-  \begin{tabular}{c|c|c|c}
-    \hline
-    &  Boosted  &  Intermediate  &  Resolved \\
-    \hline
-    \hline 
-    Jet selection  &  $\ge 2$ large-$R$ jets  & 1 large-$R$ jet, $\ge 2$ small-$R$
-    jets  &  $\ge$ 4 small-$R$ jets \\[0.2cm]
-    \hline
-    Jet cuts  & $p_T \ge 200$ GeV   &  $p_T \ge 200$ GeV (large-$R$ jet)
-    &  $p_T \ge 40$ GeV \\
-    &  & $p_T \ge 40$ GeV (small-$R$ jets)   &    \\
-    &   $|\eta|<2.0$  & $|\eta|<2.0$ (large-$R$ jet) & $|\eta|<2.5$ \\
-    &        & $|\eta|<2.5$ (small-$R$ jet)  &  \\[0.2cm]
-    \hline
-    $b$-tagging  & 2 double-$b$-tags  & 1 double-$b$-tag & 4 single-$b$-tags \\
-    &  & and 2 single-$b$-tags  &  \\
-    & and $\ge 2$ small-$R$ subjets  &  and $\ge 2$ small-$R$ subjets  &  \\
-     &  in large-$R$ jets  &  in large-$R$ jet &  \\
-    &  $p_T^{\rm sj}\ge 50$ GeV & $p_T^{\rm sj}\ge 50$ GeV   &  \\[0.2cm]
-    \hline
-    Mass-Drop Tag  &  Two leading large-$R$ jets  &  Large-$R$ jet &   \\
-    \hline
-    \end{tabular}
-  \caption{\small Definition of the three event categories used in this
-    work, together with the corresponding basic kinematical cuts.
-    %
-    The categories are not exclusive, and each event can satisfy the
-    requirements of more than one category at the same time.  
-\label{sec:categorisationTable}
-  }
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The selection requirements and the kinematic cuts
-for each of the categories in Table~\ref{sec:categorisationTable} have
-been optimised separately.
+These three categories are not exclusive:
+a given event can be assigned to more than one category, for
+example, satisfying the requirements of both the intermediate
+and resolved
+categories at the same time.
 %
-First of all we have performed a inclusive analysis, and optimised the
+The exception is the boosted and intermediate categories, which have
+orthogonal jet selection requirements.
+%
+The separate optimisation of the three categories needs to be performed in
+a inclusive analysis, and then we introduce a
+ priorisation starting with the category of highest signal significance.
+
+
+ This is achieved as follows.
+ %
+First of all we perform an inclusive analysis, and optimise the
 signal significance
 $S/\sqrt{B}$ in each of the three categories separately, including
 the MVA.
 %
 We find that the category with higher significance turns out to be the boosted,
-followed by the intermediate and the resolved ones.
+followed by the intermediate and the resolved ones, the two latter
+with similar significance.
 %
 Therefore for the final analysis we turn to an exclusive approach:
 if an event satisfies the boosted requirements, it is kept for
@@ -355,9 +309,8 @@ resolved category.
 The resulting exclusive event samples are then separately processes
 through the MVA.
 %
-This allows us to combine the significance of the dominant topology
-(boosted) with that of the sub-leading categories, intermediate
-and resolved, without the problem of the double counting.
+This allows a consistent combination
+of the significance of the three event categories.
 
 
 
