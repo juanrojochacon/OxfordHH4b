@@ -5,17 +5,15 @@
 \label{sec:results}
 
 In this section we present the results of the 
-cut-based analysis.
-%
-We present a detailed cut-flow for the various steps
-of the analysis.
-%
+cut-based analysis, including the corresponding
+cut-flow.
 We
-compare our results with other recent related studies, in particular
+compare our results with other recent studies,
+and in particular
 we study how the signal significance
-is modified if only the $4b$ component of the
+is affected if only the $4b$ component of the
 QCD multi-jet background is taken into account,
-but the $2b2j$ and $4j$ components are neglected.
+while the $2b2j$ and $4j$ components are neglected.
 %
 
 
@@ -31,17 +29,28 @@ component is kept.
 %
 At each stage of the cut-flow, we also provide the
 the signal significance, $S/\sqrt{B}$, and the signal
-over background ratio, $S/B$, corresponding to the case of the
+over background ratio, $S/B$, corresponding to the
  HL-LHC with
-an integrated luminosity of $\mathcal{L}_{\rm int}
+an integrated luminosity of $\mathcal{L}
 =3000$ fb$^{-1}$.
 %
-We emphasize that it is important not only to achieve a good signal
-significance, $S/\sqrt{B}$, but also a good signal over background ratio $S/B$:
-if the latter is too small, a very accurate
-measurement of the background with an infeasible small
-systematic uncertainty would be required.
-
+For this type of analysis,
+it is crucial not only to achieve a good signal
+significance, $S/\sqrt{B}$, but also a good signal over background ratio $S/B$.
+%
+If the latter is too small, an unrealistically precise
+measurement of the background would be required.
+%
+In Table~\ref{tab:cutflowdetails}
+we describe this cut-flow,
+separated into the (exclusive) boosted, intermediate,
+    and resolved categories.
+    %
+    From top to bottom, additional cuts are required in addition
+    to the previous ones.
+    %
+    The various cuts
+    are defined as follows:
 
    
 
@@ -62,16 +71,16 @@ $N_{\rm jets}^{R04}\ge 4$ \\
 {\bf  C1b} & \multicolumn{3}{c|}{+$p_T$ cuts} \\
 {\bf C1c} & \multicolumn{3}{c|}{+rapidity cuts}\\
 \hline
- {\bf C1d} & +$N_{\rm MDT}\ge 2$ & $N_{\rm jets}^{R10}=1$ with MDT  &
- Higgs reconstruction \\
+ {\bf C1d} & +$N_{\rm MDT}\ge 2$ & +$N_{\rm jets}^{R10}=1$ with MDT  &
+ +Higgs reconstruction \\
  \hline
-{\bf C1e} & \multicolumn{3}{c|}{ $m_H$ window cut} \\
+{\bf C1e} & \multicolumn{3}{c|}{ +$m_H$ window cut} \\
 \hline
-{\bf C2} & \multicolumn{3}{c|}{$b$-tagging}    \\
+{\bf C2} & \multicolumn{3}{c|}{+$b$-tagging}    \\
 \hline
   \end{tabular}
-  \caption{\small Details of the cut-flow of the present analysis in the boosted, intermediate
-    and resolved categories.
+  \caption{\small Cut-flow of the present analysis for the boosted, intermediate
+    and resolved selections.
     %
       \label{tab:cutflowdetails}
   }
@@ -80,49 +89,40 @@ $N_{\rm jets}^{R04}\ge 4$ \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-To begin with,
-in Table~\ref{tab:cutflowdetails}
-we summarize the details of the cut-flow of the present analysis,
-separated into the exclusive boosted, intermediate
-    and resolved categories.
-    %
-    From top to bottom, additional cuts are required in addition
-    to the previous ones.
-    %
-    The various cuts
-    are defined as follows
     \begin{itemize}
     \item {\bf C0}: these are the generator level cross-sections, with
-      mild generation cuts in the case of the background processes, and no cuts
+      mild generation cuts in the case of the background processes, and no
+      generation cuts
       for the signal events.
       %
-    \item {\bf C1a}: at this level, we only check that we have at least
+    \item {\bf C1a}:  we only check that we have at least
       two large-$R$ jets (in the boosted case),
       one large-$R$ jet and at least 2 small-$R$ jets (in the intermediate
       case) and at least four small-$R$ jets (in the resolved case).
       %
-      No acceptance requirements are imposed here.
-    \item {\bf C1b}: in addition, now the jets should
-      satisfy the corresponding $p_T$ thresholds:
-      $p_T \ge 200$ GeV for large-$R$ jets,
+      No acceptance requirements are imposed.
+    \item {\bf C1b}: require that the above jets should
+      satisfy the corresponding $p_T$ thresholds,
+      $p_T \ge 200$ GeV for large-$R$ jets and
       $p_T \ge 50$ GeV for small-$R$ jets.
-    \item {\bf C1c}: in addition, the above jets must satisfy the
+    \item {\bf C1c}: same for the
       rapidity acceptance requirement.
-    \item {\bf C1d}: at this level, the two leading large-$R$ jets must
+    \item {\bf C1d}: the two leading large-$R$ jets must
       be mass-drop tagged in the boosted category.
       %
       In the intermediate category, the large-$R$ jet must also be mass-drop tagged.
       %
-    \item {\bf C1e}: after the two Higgs candidate jets have been reconstructed,
+    \item {\bf C1e}: after the two Higgs candidates  have been reconstructed,
       their invariant masses are required to lie a window around $m_H$,
-      in particular between 100 and 150 GeV.
-          \item {\bf C2}: This is the level of the analysis
-            after $b$-tagging has been performed, using the strategy discussed
-            in Sect.~\ref{sec:btagging}.
+      in particular between 85 and 165 GeV.
+          \item {\bf C2}: finally, the
+            $b$-tagging conditions are
+            imposed, see
+            Sect.~\ref{sec:btagging}.
       \end{itemize}
-    The signal and background events that satisfy all the analysis cut up to the
+    Signal and background events satisfying all the analysis cut up to the
     C2 level
-    are then used as input for the MVA training, as described next
+    are then used as input for the MVA training, to be described next
     in Sect.~\ref{sec:mva}.
 
     %
@@ -140,18 +140,17 @@ separated into the exclusive boosted, intermediate
       significance, $S/\sqrt{B}$, at the HL-LHC, considering either
       the total background or only the $4b$ component.
      %
-      A first important observation from Table~\ref{tab:cutflow_noPU_1}
-      is the role of the fake component of the QCD background.
+      This separation emphasizes
+      the  importance of the reducible component of the QCD background.
       %
-      We see that, even after $b$-tagging, the reducible $2b2j$ background
-      is comparable or even larger, than the irreducible
+      Even after $b$-tagging, the reducible $2b2j$ background
+      is comparable, or even larger, than the irreducible
       $4b$ component.
       %
-      This is specially marked in the boosted category.
       %
-      Therefore, at this level of the analysis, the signal significance
-      can be artificially increased by up to a factor 2 if only the
-      $4b$ background is considered.
+      So at the end of the cut-based analysis, signal significance
+      are overestimated by up to a factor 2 if the light
+      and charm jet background is neglected.
 
       
     
@@ -189,210 +188,181 @@ separated into the exclusive boosted, intermediate
 
 
 %
-In the boosted category, we see that after all the cuts, including $b$-tagging,
-we end up with more than 1000 signal events at the HL-LHC, however swamped in a total
-background of almost 1M QCD events.
+In the boosted category, after all cuts,
+one ends
+up with more than 1K signal events expected
+at the HL-LHC, swamped  however in a almost 1M background events,
+leading to $S/\sqrt{B}=1.2$ and $S/B=0.0014$.
 %
-This leads to a signal significance of around 1.0 at the end of the
-cut-based analysis.
+It should have been possible to somewhat increase this significance
+but using more aggressive cuts,
+but this is not needed due to the subsequent
+optimisation  performed with the MVA.
 %
-While it should have been possible to increase this significance
-but using more aggressive cuts, we have refrained doing so
-since we prefer this optimisation to be performed at the level of
-the MVA.
-%
-We also note that $S/B$ is at the per-mille level, requiring a extremely accurate
-measurement of the QCD background.
-
-
-From the results of Table~\ref{tab:cutflow_noPU_1}
-it is possible to compute the corresponding numbers
-for the end of Run II at the LHC with
-$\mathcal{L}_{\rm int}=300$ fb$^{-1}$: in the boosted category,
-we have only
-120 signal events, and the signal significance drops down to
+From  Table~\ref{tab:cutflow_noPU_1}
+it is also possible to compute the corresponding pre-MVA
+expectations for the LHC Run II with
+$\mathcal{L}=300$ fb$^{-1}$: one expects
+120 signal events, with signal significance dropping down to
 $S/\sqrt{B}\sim 0.3$.
 %
-We will discuss in the next section what are the Run II prospects
-once we include the effects of the MVA in the analysis, but
-it is clear already at this level that one really needs the full
-integrated luminosity of the HL-LHC to be able to observe
-the Higgs pair production process, unless  of course production rates are
-increased by new BSM dynamics
 
 Both the intermediate and resolved categories benefit from higher signal yields,
-specially in the resolved category, but this enhancement is compensated by the stronger
+specially in the resolved category, but this enhancement is compensated by the
+corresponding
 increase in the QCD multi-jet background.
 %
-In both cases the signal significance is similar to that of the boosted category,
-with the additional drawback in the resolved case that the signal over background ratio
+In both categories
+the signal significance is similar to that of the boosted category,
+$S\sqrt{B}=0.97(0.92)$ in the resolved
+(intermediate) categories,
+with the drawback, in the resolved case,
+that $S/B$
 is one order to magnitude smaller.
 %
-Overall, we observe that 
-that after the cut-based analysis,
-the combination
-of the boosted, intermediate and resolved categories yields
-to total significance for the observation of the Higgs pair production
-observation in the $b\bar{b}b\bar{b}$ final
-state of around $S/\sqrt{B}=1.70$.
+Combining the pre-MVA results
+from the
+of the boosted, intermediate and resolved categories,
+we obtain a significance for the observation of the Higgs pair production
+in the $b\bar{b}b\bar{b}$ final
+state at the HL-LHC of  $S/\sqrt{B}=1.8$.
 
-\subsection{The role of light jet mistags}
+\subsection{The role of light  and charm jet mistags}
 
 One of the main differences of the present study as compared
-to previous works is the simulation of both irreducible
+to previous works is the inclusion of both irreducible
 and reducible background components, which allows
 to study the impact of the modeling of light and charm jet mistags. 
 %
-Now we compare our results with two recent studies that have also studied the
-feasibility of SM Higgs pair production in the $4b$ final state,
-those of the UCL group~\cite{Wardrope:2014kya} and of the
+Two recent studies that have also studied the
+feasibility of SM Higgs pair production in the $b\bar{b}b\bar{b}$
+final state are from the UCL group~\cite{Wardrope:2014kya} and from
+the
 Durham group~\cite{deLima:2014dta}.
 %
-In the UCL group study~\cite{Wardrope:2014kya} is based
+The UCL study based
 on requiring at least four $b$-tagged $R=0.4$ anti-$k_T$ jets
-in the central acceptance with $p_T \ge 40$ GeV, which are
-then used to form dijets (Higgs candidates) with
+in central acceptance with $p_T \ge 40$ GeV, which are
+then used to construct dijets (Higgs candidates) with
 $p_T \ge 150$ GeV, $85 \le m_{\rm dijet} \le 140$ GeV
-and $\Delta R \le 1.5$ between the two jets that form
-each dijet system.
+and $\Delta R \le 1.5$ between the two components
+of the dijet.
 %
-In addition to the basic selection cuts, a large number
-of additional variables are combined using a
+In addition to the basic selection cuts, the discriminating
+power of
+additional variables is included by means of a 
 Boosted Decision Tree (BDT) discriminant.
 %
-This study considers the $b\bar{b}b\bar{b}$ and
-$b\bar{b}c\bar{c}$ QCD multijets as well as
-$t\bar{t}$, $Zh$, $t\bar{t}h$ and $hb\bar{b}$.
-%
-Their final significance is found to the $S/\sqrt{B}=2.1$ at the HL-LHC.
+The backgrounds included are the $4b$ and
+$2b2c$ QCD multijets, as well as
+$t\bar{t}$, $Zh$, $t\bar{t}h$ and $hb\bar{b}$,
+and a signal significance of $S/\sqrt{B}=2.1$ for the HL-LHC
+is obtained.
 
 The Durham group study~\cite{deLima:2014dta} requires events
 to have two $R=1.2$ C/A jets with $p_T\ge 200$ GeV, with
 two $b$-tagged subjets inside each large-$R$ jet with
-$p_T \ge$ 40 GeV.
+$p_T \ge$ 40 GeV each.
 %
-To improve the signal over background separation, both the BDRS
+To improve the separation between
+signal over background separation, both the BDRS
 method and the Shower Deconstruction (SD)~\cite{Soper:2011cr,Soper:2012pb}
-technique are applied.
+technique are used.
 %
 The background considered are QCD $4b$ as well as $Zb\bar{b}$, $hZ$ and
-$hW$, but no $t\bar{t}$, $2b2j$ or $4j$.
+$hW$.
 %
-At the HL-LHC, the best performance is obtained by requiring two
-SD-tagged large-$R$ jets, which leads to $S/\sqrt{B}\sim 2.1$,
-with BDRS similar but slightly inferior performance.
-%
-Therefore, both the Durham and the UCL groups conclude that a signal
-significance $S/\sqrt{B}$ slightly above two can  be obtained
-in this channel at the HL-LHC.
+At the HL-LHC, the best result is obtained by requiring two
+SD-tagged large-$R$ jets, which leads to $S/\sqrt{B}\sim 2.1$, with
+ slightly inferior performance with the BDRS tagger.
+ %
+ 
 
-Since we find that the $2b2j$ and $4j$ backgrounds cannot
-be neglected, and previous works did not considered them,
-it is interesting to
-study how our results are modified if we consider only the QCD $4b$
-multi-jet background, but ignore the $2b2j$ and $4j$ backgrounds,
-that is, we ignore the contribution from the fakes.
 %
-As we can seen before in Table~\ref{tab:cutflow_noPU_1},
-these results indicate that given the similarity of the final states
-in signal and background events in these cases, the signal significance is
-relatively stable at various stages of the cut-flow.
-%
-As compared to the case in which all backgrounds are taken into account, we
-now get a factor two smaller backgrounds: we conclude that in the boosted category
-the effect of the fakes is non-negligible, with their contribution being
-comparable to that of the irreducible $4b$ QCD multi-jet background.
+ From the results of Table~\ref{tab:cutflow_noPU_1}, we observe
+ that the signal significance in the boosted, intermediate,
+ and resolved categories is 2.7, 1.6 and 1.6 respectively,
+ when only the QCD $4b$ background is included.
+ %
+ Combining the signal significance in the three categories,
+ we
+ obtain  a total $S/\sqrt{B_{\rm 4b}}=3.5$, which is a factor
+ 2 improvement as compared to the result found when
+ all background components are included.
+ %
+ This should be taken into account when comparing
+ the results of this work with previous analysis.
+ %
 
-Concerning the other categories, we see that that ignoring the fakes can lead to a substantial
-distortion of the results.
-%
-In the intermediate category, the signal significance is now much better, with $S/\sqrt{B}$ increasing from
-0.5 with all the backgrounds to $1.57$ if only $4b$ are accounted for, a factor 3 improvement.
-%
-Also the resolved category improves substantially, with signal significance increasing by a factor 2.
-%
-Therefore, we conclude that a careful modeling of the fakes is very important to truly quantify
-the feasibility of Higgs pair production in the $4b$ channel, though for the most
-important category, the boosted category, the results are relatively stable.
-%
-Moreover, we find that the effect of the multijet fake background is of
-the same size of the higher-order QCD corrections to $4b$ production~\cite{Binoth:2009rv}.
-
-
-
-In summary, we find that the results of our cut-based analysis are roughly
-consistent with the results of previous related studies.
-%
-Indeed, combining the signal significance in the three categories, we end
-up with a final $S/\sqrt{B}\simeq 2.3$.
-%
-As we show next, once the MVA is used, we achieve a substantial
-improvement
-over previous works, even after taking into account our rather more
-complete modelling of the QCD multijet background.
+ It is interesting to compare in each category the interplay
+ between the reducible and irreducible components of the
+ QCD backgrounds.
+ %
+ In the resolved case, the $4b$ and $2b2j$ have a similar
+ magnitude, with the latter being larger by a factor of two,
+ with $4j$ being smaller by an order of magnitude.
+ %
+ The situation is similar in the intermediate category, while
+ in the boosted category the importance of the $2b2j$ component
+ is even more marked, being a factor four larger than the
+ $4b$ one.
+ %
+ Therefore, we conclude that, while the $4j$ component can be safely
+ neglected (given the theory uncertainties associated to the
+ modelling of the QCD background), the inclusion of the
+ $2b2j$ component is essential to robustly assess the feasibility
+ of measuring Higgs pairs in this final state.
+ %
+ This indicates that a promising avenue to improve the prospects
+ of this measurement would be to reduce, as much as possible,
+ the light and charm jet mistag rate, in addition to achieving
+ a higher $b$-tag efficiency.
 
 
-
-In Table~\ref{tab:cutflow_noPU_1}   we show the results for the cross-sections for the different
-backgrounds that we consider at the end of the cut-based analysis, for each
-of the three categories.
+ In Fig.~\ref{fig:histoBack} we show a
+ comparison
+    of the shapes of the $4b$ and $2b2j$
+components of the QCD background for the $p_T$ of the leading
+Higgs candidate in the resolved
+and boosted  categories, and the same
+ for the invariant
+mass $m_{hh}$ of the
+    reconstructed di-Higgs system.
+    %
+    The two components lead to a rather similar shape
+    for the two distributions, with some interesting
+    differences, for instance in the boosted
+    category the $4b$ component is harder for the
+    $p_T^h$ distribution, while the $2b2j$ leads to a longer
+    tail at small values of the $m_{hh}$ invariant
+    mass distribution.
 %
-Recall that all the backgrounds have been normalized to known higher-order results,
-as summarized in Table~\ref{tab:samples}.
+    We also observe that the $2b2j$ distributions
+    are affected by somewhat larger
+    MC fluctuations as compared to $4b$, despite the large size
+of the initial sample.
 %
-As we can see from this comparison, as opposed that what naively one would expect,
-the QCD $2b2j$ background turns out not to be negligible as compared to the $4b$
-multijets in any of the categories.
-
-
-In the boosted case, the sum of the $2b2j$ and $4j$ components is almost as large as the
-irreducible $4b$ background, thus increasing the total background rates by a factor 2 as compared
-to the case where only $4b$ is accounted for.
-%
-This effect is more dramatic in the intermediate and resolved categories: in the former,
-$2b2j$ completely dominates the background (thus the increase in $S/\sqrt{B}$
-obtained when only the $4b$ component is kept), and in the latter
-it is comparable to $4b$.
-%
-Therefore, we conclude that an accurate estimate of the fake $b$-tag contribution is
-an essential component of this analyses, and that complete QCD multijet samples
-should be included.
-%
-On the other hand, we find that the hadronic $t\bar{t}$ component of the background
-is smaller than the QCD multijet one.
-
-In Fig.~\ref{fig:histoBack} we show the decomposition of the background for one important kinematical
-distribution, the $p_T$ of the leading reconstructed Higgs candidate, various background
-components, for both the boosted and the resolved categories.
-%
-In the same figure we also show the results of the corresponding comparison
-at the level of the $p_T^{hh}$ of the
-reconstructed di-Higgs system.
-%
-The histograms correspond to the distributions at the end of the cut-based
-analysis.
-%
-The results are consistent with those summarized
-before in the boosted case we see how $4b$ is the most important
-component of the background, with $2b2j$ being of the same order of magnitude, while
-for the resolved category we see that $2b2j$ dominates instead.
-%
-So the effect of the fakes is certainly important, but fortunately it is not a limiting factor
-in the resolved category, the one that leads to higher signal significance.
+This is a consequence of the
+difficulties of an accurate modelling of the effects
+of $b$-jet mistags from a QCD multi-jets process, requiring
+very large MC samples.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
- \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_res_back.pdf}
- \includegraphics[width=0.49\textwidth]{plots/pt_H0_C2_boost_back.pdf}
-   \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_res_back.pdf}
-  \includegraphics[width=0.49\textwidth]{plots/pt_HH_C2_boost_back.pdf}
+ \includegraphics[width=0.49\textwidth]{plots/pt_h0_C2_res_back_noPU.pdf}
+ \includegraphics[width=0.49\textwidth]{plots/pt_h0_C2_bst_back_noPU.pdf}
+  \includegraphics[width=0.49\textwidth]{plots/m_hh_C2_res_back_noPU.pdf}
+  \includegraphics[width=0.49\textwidth]{plots/m_hh_C2_bst_back_noPU.pdf}
   \caption{\small
-    Upper plots: the decomposition of the QCD multijet background in its various
-    components, $4b$, $2b2j$ and $4j$, for the $p_T$ of the leading
-    Higgs candidate in the boosted (left plot) and resolved (right plot) categories.
+    Upper plots: comparison
+    of the shapes of the $4b$ and $2b2j$
+components of the QCD background for the $p_T$ of the leading
+Higgs candidate in the resolved
+(left plot) and boosted (right plot) categories.
     %
-    Lower plots: the same comparison this time for the $p_T^{hh}$ of the
+Lower plots: the same comparison this time for the invariant
+mass $m_{hh}$ of the
     reconstructed di-Higgs system.
 }
 \label{fig:histoBack}
@@ -400,19 +370,33 @@ in the resolved category, the one that leads to higher signal significance.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-  One might ask why the $2b2j$ process
-  is not subdominant as compared to $4b$: while its generator-level cross-section is
-  much larger, $\sigma_{2b2j} \simeq 240\cdot \sigma_{4b}$, one expects a suppression
-  of the order of $f_l^2 =10^{-4}$ since only with two light jets mistagged as $b$-jets the event
-  would be identified as a Higgs candidate.
+The reason why the  $2b2j$ process
+is not negligible as compared to the $4b$ component
+is the following.
+%
+In the boosted category, for example,
+the cross-sections at the C1e
+level, that is, after the mass-drop tagging but before
+$b$-tagging, is a factor 300 larger in the $2b2j$
+sample as compared to the $4b$ sample.
+%
+Now, after $b$-tagging, the naive expectation would
+be a suppression of the former by a factor $f_l^2 =10^{-4}$,
+since a total of four $b$-tags are required to classify the
+event as a Higgs candidate.
+%
+So the ratio of $2b2j$ over $4b$ should be
+around $\simeq 3\%$.
   %
-  We have checked that this expectation is true only at parton level: once parton shower effects
-  are accounted for, both the radiation of $b\bar{b}$ pairs from the shower and combinatorics increase
-  the number of $b$ quarks in the final state, enhancing substantially the $2b2j$ rates as compared
-  to the naive parton level expectation.
-  %
-
-
-
+While  we have checked that this expectation is borne
+out at parton level, before showering,
+we find that  when parton shower effects
+are accounted for, due to the radiation of $b\bar{b}$ pairs from the
+light jets as well as due to combinatorics, the
+number of  $b$ quarks in the  final state is
+increased substantially in the $2b2j$ component as compared
+to the parton level content,
+enhancing the signal efficiency and making
+it comparable to the $4b$ component.
 
 
