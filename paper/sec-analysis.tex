@@ -2,7 +2,7 @@
 \section{Analysis strategy}
 \label{sec:analysis}
 
-In section we describe our analysis strategy.
+In this section we describe our analysis strategy.
 %
 First of all, we discuss the settings
 for jet clustering  and the strategy for $b$-tagging.
@@ -72,7 +72,7 @@ We use different types of jet definitions:
   These subjets are constructed by reclustering the constituents
   of a large-$R$ jet, again with  anti-$k_T$ algorithm,
   but this time with a smaller radius parameter, namely
-  $R=0.3$.
+  $R=0.3$~\cite{Aad:2015uka}.
  %
   These small-$R$ subjets will be the main input for
   $b$-tagging in the boosted category.
@@ -84,12 +84,14 @@ We use different types of jet definitions:
 In addition, we have
 also explored the possible improvements
 in the analysis from the use
-of variable-$R$ jets~\cite{Krohn:2009zg}, but found that these made
-a small difference as compared to fixed-$R$ jets.
+of variable-$R$ jets~\cite{Krohn:2009zg}, finding
+a similar performance as in the case of fixed-$R$ jets.
 %
-This is not unexpected, since variable-$R$ jets are more suitable when
+This is explained by the fact that
+variable-$R$ jets are more suitable when
 the degree of boost of the final state being reconstructed can span
-a wide range~\cite{Cacciari:2008gd}, such as in heavy resonance searches~\cite{Aad:2015fna},
+a wide range~\cite{Cacciari:2008gd}, such as in heavy resonance
+searches~\cite{Aad:2015fna},
 where where the degree of boost of the final state
 is {\it a priori} unknown.
 
@@ -117,7 +119,7 @@ $b$-tagging strategy is adopted:
   %
   In order to be considered in the $b$-tagging algorithm,
   $b$-quarks inside the small-$R$ jet
-  should satisfy $p_T \ge 15$ GeV.
+  should satisfy $p_T \ge 15$ GeV~\cite{Aad:2015ydr}.
   %
   The probability of tagging a jet is not modified
   if more than one $b$-quark is found among the jet constituents.
@@ -164,11 +166,10 @@ $b$-tagging strategy is adopted:
     else one finds a degradation of the
     signal significance due to combinatorics.
     %
-    The simulation of the fakes from light and charm jets
-    is the same as in the small-$R$ jets.
+    The treatment of the $b$-jet mis-identification
+    from light and charm jets
+    is the same as for the small-$R$ jets.
   
-
-
 \end{itemize}
 
 Concerning the values of the $b$-tag probability, $f_b$, and
@@ -217,7 +218,7 @@ These three categories are defined as follows:
 
 \item {\it Intermediate category}.
 
-  An event with only one large-$R$, $b$-tagged, jet, which
+  An event with exactly one large-$R$, $b$-tagged, jet, which
   is assigned to be the leading Higgs candidate.
   %
   In addition, we require at least two small-$R$, $b$-tagged, jets,
@@ -249,7 +250,8 @@ These three categories are defined as follows:
 
 Once a Higgs boson candidate has been identified,
 its invariant mass is required to lie within a fixed window
-around the nominal Higgs boson mass~\cite{Aad:2015zhl}.
+around the nominal Higgs boson mass $m_h\simeq 125$
+GeV~\cite{Aad:2015zhl}.
 %
 In particular we require the condition
 \be
@@ -601,6 +603,11 @@ In this work, PU  will be subtracted by means
 of the {\tt SoftKiller} (SK)
 method~\cite{Cacciari:2014gra}, as implemented in {\tt FastJet}.
 %
+This recently developed method has been shown to improve~\cite{Cacciari:2014gra} on the
+performance of the commonly used area-based subtraction~\cite{Cacciari:2009dp}.
+%
+
+
 The idea underlying {\tt SoftKiller} is based on eliminating particles
 below a given cut-off in their transverse momentum, $p_T^{\rm (cut)}$, whose
 value is dynamically determined in a way that makes the event-wide

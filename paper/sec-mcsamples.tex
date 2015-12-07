@@ -120,8 +120,8 @@ Factorisation and renormalisation scales are set as $\mu_F=\mu_R=H_T/2$ for all
 the background processes.
 
 We consider the most relevant background
-processes that contribute to the identification of
- $hh\to 4b$ candidate events.
+processes that can mimic the
+ $hh\to 4b$ signal process.
 %
 This includes  QCD $4b$ multi-jet production, as well as
 QCD $2b2j$ and $4j$ multi-jet samples.
@@ -130,21 +130,21 @@ The latter can lead to the event being identified
 as signal in the case of light or charm
 jets being mistagged as $b$-jets.
 %
-While the light jet mistag probability is small, we find that
+Although the light jet mistag probability is small, we find that
 in general the $2b2j$ and $4j$ backgrounds cannot be neglected because
 of their large cross-sections and enhancement from combinatorics, that
 increase their contribution as compared to a naive estimate.
 %
 In addition, we find that there is an important contribution from the radiation
 of $b$-quarks off light partons during the parton shower, which enhances the contribution
-of parton-level $2b2j$ and $4j$ events being tagged as signal events.
+of parton-level $2b2j$ and $4j$ events being identified as signal events.
 %
 
 In addition to the QCD multijet processes,
 we also generate $t\bar{t}$ samples
 in the fully hadronic final state, which lead to a
 $2b4j$ signature that can
-contribute due to light jet mistags.
+contribute due to light jet mis-identification.
 %
 This background processes leads a similar topology that
 the corresponding QCD sample.
@@ -192,7 +192,7 @@ $| \eta | \le 3.0$.
 In addition, at the matrix-element level
 all final state particles must be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
 %
-We have checked that the generator-level cuts are loose enough to have
+We have checked that these generator-level cuts are loose enough to have
 no influence over the analysis cuts.
 %
 
@@ -211,7 +211,7 @@ of magnitude larger as compared to the
 $4b$ result, however, as we will show,
 due both to combinatorics and to $b$-quark radiation
 during the parton shower it can be comparable or larger
-than the irreducible QCD background.
+than the irreducible $4b$ QCD background.
 %
  For top quark production, only the hadronic final state is generated.
  %
@@ -229,13 +229,13 @@ than the irreducible QCD background.
 Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{LO}}$ (pb)  & $K$-factor \\
 \hline
 \hline
-$pp \to hh$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $1.71\times10^{-2}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
+$pp \to hh$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $1.7\cdot10^{-2}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
 \hline
 \hline
-$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.12 \times10^3$  & 1.6 (NLO~\cite{Alwall:2014hca}) \\
-$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.66 \times 10^5$ & 1.3 (NLO~\cite{Alwall:2014hca}) \\
-$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.71\times 10^6$ &  0.6 (NLO~\cite{Bern:2011ep})\\
-$pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.51\times 10^3$   & 1.4 (NNLO+NNLL~\cite{Czakon:2013goa})\\
+$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.1 \cdot10^3$  & 1.6 (NLO~\cite{Alwall:2014hca}) \\
+$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.7 \cdot 10^5$ & 1.3 (NLO~\cite{Alwall:2014hca}) \\
+$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.7\cdot 10^6$ &  0.6 (NLO~\cite{Bern:2011ep})\\
+$pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.5\cdot 10^3$   & 1.4 (NNLO+NNLL~\cite{Czakon:2013goa})\\
 \hline
 \end{tabular}
 \caption{\small Details of the signal and background Monte
@@ -307,16 +307,17 @@ which falls in each of these cells is set of have the same $\eta$
 and $\phi$ values of the center of the cell.
 %
 Finally, the particle's energy is recalculated from the smeared $p_T^\prime$,
-$\eta^\prime$ and $\phi^\prime$ values to satisfy the mass-shell
-condition.
+$\eta^\prime$ and $\phi^\prime$ values to ensure that the resulting
+four-momentum is that of a light-like particle, since we neglect all
+hadron masses in this analysis.
 
 
 Our modelling of detector simulation has been motivated
 to lead to a mass resolution of
 reconstructed Higgs candidates of around 10 GeV, consistent
-with the hadronic mass resolutions of ATLAS and CMS.
+with the hadronic mass resolutions of ATLAS and CMS~\cite{Aad:2012gxa,Chatrchyan:2013zna,Aad:2014xzb}.
 %
-In  Fig.~\ref{fig:higgs-mass-resolution} we show the
+In Fig.~\ref{fig:higgs-mass-resolution} we show the
 invariant mass distributions of the leading
 Higgs candidate in signal events for the
 resolved category (see Sects.~\ref{sec:analysis}
