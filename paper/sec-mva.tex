@@ -85,7 +85,7 @@ which is specific of the analysis category: resolved, intermediate, or boosted.
 %
 All neural-network layers use a sigmoid activation function, allowing
 for a probabilistic
-interpretation of the neural-network output, including in the final layer.
+interpretation of the neural-network output.
 %
 In Fig.~\ref{fig:nnarch} we show an example of the ANN that we use in this work, corresponding here
 to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain below).
@@ -97,7 +97,7 @@ to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain b
   \includegraphics[width=0.90\textwidth]{plots/bst_nnarch_noPU.pdf}
   \vspace{-2cm}
   \caption{\small Architecture of the Artificial
-    Neural Network
+    Neural Network (ANN)
     used for the analysis of the
     boosted
     category, with $N_{\rm var}=21$ input variables and thus
@@ -157,7 +157,9 @@ the cross-entropy error, defined as
  We have verified that if a larger number of generations
  are used the results are unchanged.
  %
- We have also verified that using a cross-validation stopping
+
+ In order to avoid overfitting,
+ we have used a cross-validation stopping
  criterion, in particular, the same one as
  that used in the NNPDF3.0 analysis~\cite{Ball:2014uwa}
  does not modify the results.
@@ -260,7 +262,7 @@ it here since it is only relevant for three-prong decays.
 \item The ratios of energy correlation functions (ECFs)  $C^{(\beta)}_2$~\cite{Larkoski:2013eya} and
   $D_2^{(\beta)}$~\cite{Larkoski:2014gra}.
 
-  The ratio of energy correlation functions $C_2^{\beta}$ is defined as
+  The ratio of energy correlation functions $C_2^{(\beta)}$ is defined as
   \be
   \label{eq:c2}
 C_2^{(\beta)} \equiv \frac{ {\rm ECF}(3,\beta) {\rm ECF}(1,\beta)}{\lc {\rm ECF}(2,\beta)\rc ^2} \, ,
@@ -280,16 +282,21 @@ The energy correlation functions ${\rm ECF}(N,\beta)$ are defined
   as recommended by the authors of Refs.~\cite{Larkoski:2013eya,Larkoski:2014gra}.
 \end{itemize}
 %
-Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the resolved analysis,
-17 for the semi-resolved, and 21 for the boosted category.
+Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the
+resolved analysis,
+17 for the intermediate,
+and 21 for the boosted category.
 %
 Given that the MVA is able to identify the most discriminatory variables
 and to ignore those that have smaller effect, it is advantageous to
 include as many substructure variables as possible.
 %
-This is one of the main advantages of ANNs in this context: they are inherently redundant, so
-adding additional information, even if carries very little weight, will never degrade
-the classification power of the MVA.
+This is one of the main advantages of ANNs in this context: they are
+inherently redundant, so
+adding additional information, even if carries very little weight,
+should not degrade
+the classification power of the MVA (other than making the GA
+minimization less efficient).
 
 \subsection{Signal significance after the MVA}
 \label{sec:signalsignificance}
@@ -366,15 +373,11 @@ rejection.
 Conversely, using a higher value of the cut will increase background rejection at the
 cost of dropping signal efficiency.
 %
-The usefulness of ROC curves is that they allow to determine and
-optimal cut value that removes enough background without degrading too much the signal efficiency.
-%
 Another important requirement on the value of $y_{\rm cut}$ is that
 the  number of expected  signal events (the physical
 events for a given integrated
 luminosity, not the MC events used for the ANN training)
 after the cut is large enough.
-
 
 In Fig.~\ref{fig:exampleroc} the
 we show the ROC curve for the background rejection rate as a function of the signal
@@ -455,7 +458,7 @@ we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and backgroun
 As can be seen from Fig.~\ref{fig:nev2}, in the boosted category
 event with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$
 we are still left
-with around 100 events at the HL-LHC, which is a reasonable number,
+with around 100 events at the HL-LHC, 
 which the background being reduced substantially to around
 1000 events.
 %
@@ -585,67 +588,41 @@ the cut-based
 analysis.
 %
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
   \centering
-  \small
-  \begin{tabular}{c|c|c|c||c|c|c|c}
+  \begin{tabular}{|c|l|c|c|c|c|}
     \hline
-    \multicolumn{8}{c}{Boosted category}\\
+    Category  &   &  $N_{\rm ev}$ signal &  $N_{\rm ev}$ back  &  $S/\sqrt{B}$ & $S/B$ \\ 
     \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.82$}\\
     \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \multirow{2}{*}{Boosted} &  $y_{\rm cut}=0$  & 1070 & $7.6\cdot 10^5$  & 1.2  & $1.4\cdot 10^{-3}$  \\
+    &  $y_{\rm cut}=0.82$ & 790  & $2.2\cdot 10^4$   & 5.4  & 0.034 \\
     \hline
-      1070   &  $7.6\cdot 10^5$    &  1.2    &  $1.4\cdot 10^{-3}$  & 790 & $2.2\cdot 10^4$ & 5.4  & 0.034\\
-      \hline
-      \multicolumn{8}{c}{$\quad$}\\
     \hline
-    \multicolumn{8}{c}{Intermediate category}\\
+    \multirow{2}{*}{Intermediate} &  $y_{\rm cut}=0$  & 670   & $5.3\cdot 10^5$
+    & 0.9 & $1.2\cdot 10^{-3}$ \\
+    &  $y_{\rm cut}=0.80$ & 360  & $5.5\cdot 10^3$  & 4.8 & 0.06\\
     \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.80$}\\
     \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
+      \multirow{2}{*}{Resolved} &  $y_{\rm cut}=0$  & 3700 &  $1.5\cdot 10^{7}$ &  1.0 &$3\cdot 10^{-4}$ \\
+    &  $y_{\rm cut}=0.65$ & 1300  & $8.3\cdot 10^{4}$ & 4.5 & 0.01 \\
     \hline
-      670   &   $5.3\cdot 10^5$   &   0.9   &  $1.2\cdot 10^{-3}$ & 360  & $5.5\cdot 10^3$ & 4.8  & $0.06$ \\
-      \hline
-      \multicolumn{8}{c}{$\quad$}\\
-    \hline
-    \multicolumn{8}{c}{Resolved category}\\
-    \hline
-      \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.65$}\\
-    \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-    $3700$   &   $1.5\cdot 10^{7}$   & 1.0     &  $3\cdot 10^{-4}$   & $1.3\cdot 10^{3}$ &
-    $8.3\cdot 10^{4}$  & 4.5 & 0.01 \\
-        \hline
-  \end{tabular}
+      \end{tabular}
   \caption{\small Post-MVA results, for the optimal value of the
-    ANN discriminant, in the three categories, compared with the
-    result of the cut-based analysis.
+    ANN discriminant $y_{\rm cut}$ in the three categories, compared with the
+    corresponding
+    pre-MVA results $y_{\rm cut}=0$.
     %
     We indicate the number of signal and
     background events
-    at the HL-LHC, as well as the signal significance $S/\sqrt{B}$ and
+    at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$,
+    the signal significance $S/\sqrt{B}$ and
     the signal over background ratio $S/B$.
     %
-    The value of the ANN output cut $y_{\rm cut}$
-    is optimised separately in the
-    three categories.
-    %
-    The $y_{\rm cut}=0$ value corresponds to row C2 in Table~\ref{tab:cutflow_noPU_1}.
+    The pre-MVA results ($y_{\rm cut}=0$) corresponds to row C2 in
+    Table~\ref{tab:cutflow_noPU_1}.
     \label{table:cutflowMVA}
   }
 \end{table}
@@ -698,10 +675,6 @@ number of events at the HL-LHC is still well appreciable: we obtain
 1300, 360 and 800 events in the resolved, intermediate, and
 boosted categories respectively.
 %
-Therefore, thanks to the MVA, we predict that one should be able
-to find evidence for the production of Higgs boson pairs
-at the HL-LHC using the $4b$ channel alone.
-
 Another important benefit of the MVA applied to the boosted
 category is that fact that the background is substantially
 reduced so that $S/B$ can be as large as 10\% for the optimal
@@ -977,47 +950,6 @@ of the boosted category.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-In Fig.~\ref{fig:nnresponse_PU} we present
-the distribution of the ANN output for the
-signal and background MC events in the boosted and resolved categories --
-the analogous comparison in the case without PU was shown
-in Fig.~\ref{fig:nnresponse}.
-%
-We observe that the clear MVA discrimination
-between signal and background events in the two categories is robust
-when PU is included.
-%
-However, by comparing with Fig.~\ref{fig:nnresponse}, we see
-that some of the most distinguishing features that separate signal
-and background in the ANN output are reduced when PU effects
-are included.
-%
-For instance, in the boosted category, there is a trend of the distribution
-for signal events to move towards smaller values of the
-ANN discriminant.
-%
-This in turn will entail a reduction of the signal significance as
-compared to the case without PU.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-  \begin{center}
-\includegraphics[width=0.49\textwidth]{plots/Resolved_disc_SKPU80.pdf}
-\includegraphics[width=0.49\textwidth]{plots/Boosted_disc_SKPU80.pdf}
-\caption{\small Same as Fig.~\ref{fig:nnresponse},
-  this time with $\la n_{\rm PU}\ra=80$ PU events per bunch crossing
-  and SK subtraction, for the resolved (left) and boosted
-  (right) categories.
-  %
-  The corresponding comparison without PU was shown in
-  Fig.~\ref{fig:nnresponse}.
-}
-\label{fig:nnresponse_PU}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
-
-
 In Table~\ref{table:cutflowMVA_PU}
 we provide the  the number of signal and
     background events expected
@@ -1053,59 +985,38 @@ the resolved category, which has a signal significance
 only slightly smaller than the boosted case.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
   \centering
-  \small
-  \begin{tabular}{c|c|c|c||c|c|c|c}
+  \begin{tabular}{|c|l|c|c|c|c|}
     \hline
-    \multicolumn{8}{c}{Boosted category, $\la n_{\rm PU}\ra=80$+SK}\\
+    Category  &   &  $N_{\rm ev}$ signal &  $N_{\rm ev}$ back  &  $S/\sqrt{B}$ & $S/B$ \\ 
     \hline
-     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.84$}\\
     \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \multirow{2}{*}{Boosted} &  $y_{\rm cut}=0$  & 360   &  $1.4\cdot 10^6$ & 0.31   &
+     $3\cdot 10^{-4}$  \\
+    &  $y_{\rm cut}=0.82$ &  250 & 7300  & 2.9    & 0.034  \\
     \hline
-    362  &  $1.4\cdot 10^6$     & 0.31       &  $3\cdot 10^{-4}$ &
-    248     &   7250             &  2.9       & 0.034 \\
     \hline
-       \multicolumn{8}{c}{$\quad$}\\
+    \multirow{2}{*}{Intermediate} &  $y_{\rm cut}=0$  &  150  & $9\cdot 10^5$    & 0.15    &
+     $2\cdot 10^{-4}$ \\
+    &  $y_{\rm cut}=0.80$ & 50 & 2600  &  1.1   & 0.02 \\
     \hline
-    \multicolumn{8}{c}{Intermediate category,  $\la n_{\rm PU}\ra=80$+SK}\\
     \hline
-    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.72$}\\
+    \multirow{2}{*}{Resolved} &  $y_{\rm cut}=0$  &  1100  & $8.5\cdot 10^6$
+    & 0.25    &  $1.3\cdot 10^{-4}$  \\
+    &  $y_{\rm cut}=0.65$ & 430  & $3\cdot 10^4$  &  2.5   & 0.15  \\
     \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-    146  &    $9\cdot 10^5$   & 0.15        &  $2\cdot 10^{-4}$      &
-  53  &  2547        & 1.1        &  0.02 \\
-  \hline
-  \multicolumn{8}{c}{$\quad$}\\
-    \hline
-    \multicolumn{8}{c}{Resolved category,  $\la n_{\rm PU}\ra=80$+SK}\\
-    \hline
-     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
-    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.49$}\\
-    \hline
-    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
-    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
-        Signal & Back   &     &   &  Signal & Back   &     &    \\
-    \hline
-  1123  &    $8.5\cdot 10^6$   & 0.25       &  $1.3\cdot 10^{-4}$       &
-  432  &  $3\cdot 10^4$        &   2.5      & 0.15 \\
-        \hline
-  \end{tabular}
-  \caption{\small Same as Table~\ref{table:cutflowMVA} in the case
+      \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflowMVA}, now for the case
     of PU+SK, with $\la n_{\rm PU}\ra=80$.
         \label{table:cutflowMVA_PU}
   }
 \end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Another important result from Table~\ref{table:cutflowMVA_PU} is that,
 for the optimal MVA cut, the signal over background ratio

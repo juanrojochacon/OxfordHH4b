@@ -39,19 +39,23 @@ We use a tailored {\tt MadGraph5\_aMC@NLO} model~\cite{Maltoni:2014eza} that sim
 gluon-gluon-fusion Higgs boson pair production including the effects
 of the
 exact form factors for the top triangle and box loops at leading
-order, the latter taken from from~\cite{Plehn:1996wb}.\footnote{We note that since recently it is possible to compute also
-loop-induced processes in {\tt MadGraph5\_aMC@NLO} without the need of using specific
+order, the latter taken from from~\cite{Plehn:1996wb}.\footnote{We note that
+  since recently it is possible to compute also
+  loop-induced processes in {\tt MadGraph5\_aMC@NLO} without the need of
+  using specific
 models~\cite{Hirschi:2015iia}.}
 %
 We use the default settings of the renormalization and factorization
 scale of the model.
 %
-The Higgs boson parameters are also the same in the default model,
+The Higgs boson parameters are also the same as in the default model,
 in particular we use $m_h=125$ GeV, consistent with the latest
 measurements from ATLAS and CMS~\cite{Aad:2014aba,Khachatryan:2014jba}.
 %
 The value of the Higgs trilinear coupling $\lambda$ is set to its
-Standard Model value.
+Standard Model value, $\lambda=m_h^2/2v^2$, with $m_h=125$ GeV
+the Higgs boson mass and $v\simeq 246$ GeV the Higgs vacuum expectation
+value (vev).
 %
 The calculation is performed in the
 $n_f$=4 scheme and thus
@@ -84,7 +88,8 @@ leading to a moderate enhancement of the order of
 few percent as compared to the fixed-order NNLO calculation.
 %
 Therefore, to achieve the correct higher-order value of the  integrated cross-section, we rescale our LO signal sample to match the
-NNLO+NNLO inclusive cross-section.
+NNLO+NNLL
+inclusive cross-section.
 %
 This corresponds to using a $K$-factor $\sigma_{\rm NNLO+NNLL}/\sigma_{\rm LO}=2.4$, as indicated
 in Table~\ref{tab:samples}.
@@ -144,11 +149,16 @@ contribute due to light jet mistags.
 This background processes leads a similar topology that
 the corresponding QCD sample.
 %
-In this case,
-we have used a value of the top quark mass of $m_t=173.2$ GeV.
-%
 Leptonic decays of top quarks can be removed by requiring
 a lepton veto, and thus are not included here.
+%
+Single Higgs production processes, such as $Z(\to b\bar{b})h(\to b\bar{b})$
+and $t\bar{t}h(\to b\bar{b})$, and electroweak backgrounds, such $Z(\to b\bar{b})b\bar{b}$,
+are much smaller than the QCD backgrounds~\cite{Wardrope:2014kya,deLima:2014dta}
+and thus not included in the present analysis.
+%
+
+
 
 The LO cross-sections for
 the background samples have been rescaled so that the integrated
@@ -170,7 +180,7 @@ The $K$-factors that we use to rescale all the background samples have been coll
 Table~\ref{tab:samples}.
 
 
-At the generation level, the following mild
+At the generation level, the following loose selection 
 cuts are applied to
 background events.
 %
@@ -196,7 +206,8 @@ We see that the $t\bar{t}$ and QCD $4b$ samples are of
 the same order of magnitude, however, the former can be efficiently
 reduced by using top quark reconstruction criteria.
 %
-The $bbjj$ cross-section is around factor 200 as compared to the
+The $bbjj$ cross-section is more than two orders
+of magnitude larger as compared to the
 $4b$ result, however, as we will show,
 due both to combinatorics and to $b$-quark radiation
 during the parton shower it can be comparable or larger
@@ -259,7 +270,6 @@ backgrounds.
 
 \subsection{Modelling of detector resolution}
 
-
 While it is beyond the scope of this work to perform a full
 detector simulation, it is still important to include an estimate of detector
 effects in the analysis, in particular for the finite resolution
@@ -270,8 +280,7 @@ For example, in the absence of any four-momentum smearing, the impact of the $m_
 distributions of the Higgs candidates in the MVA
 would be unrealistically large.
 
-
-In this work, we simulate the finite momentum resolution of the ATLAS and CMS
+In this work, we simulate the finite energy resolution of the ATLAS and CMS
 hadronic calorimeters by applying a Gaussian smearing of the transverse
 momentum $p_T$ of all
 final-state particles, before jet clustering,
@@ -323,7 +332,8 @@ We indeed  find a mass resolution of about 8\%, corresponding
     in the case of $\la n_{\rm PU}\ra=80$ PU events
     subtracted with {\tt SoftKiller} (see Sect.~\ref{sec:pileup}).
     %
-    In the case of PU, the mass resolution is increased to around 11\%, corresponding to
+    In the case of PU, the mass resolution is degraded down to
+    around 11\%, corresponding to 
     14 GeV.
     %
         

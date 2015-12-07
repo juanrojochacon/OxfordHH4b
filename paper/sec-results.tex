@@ -381,7 +381,7 @@ $b$-tagging, is a factor 300 larger in the $2b2j$
 sample as compared to the $4b$ sample.
 %
 Now, after $b$-tagging, the naive expectation would
-be a suppression of the former by a factor $f_l^2 =10^{-4}$,
+be a suppression of the former by a factor $f_l^2/f_b^2 =3\cdot 10^{-4}$,
 since a total of four $b$-tags are required to classify the
 event as a Higgs candidate.
 %
@@ -400,3 +400,98 @@ enhancing the signal efficiency and making
 it comparable to the $4b$ component.
 
 
+We can make this statement more quantitative in the following way.
+%
+To first approximation, and neglecting the contribution from charm mistags, the
+overall efficiency of the $b$-tagging requirements in the resolved category will be
+given by the following expression:
+\be
+\label{btaggingeff}
+{\rm EFF}_{\rm b-tag}\simeq \sum_{j=0}^{4}n^{\rm (b-jet)}_j\cdot f_b^{j}\cdot f_l^{4-j} \, ,
+\ee
+with $n^{\rm (b-jet)}_j$ the fraction of events, satisfying all the selection cuts,
+where $j$ jets, out of the leading four jets, of the event contain $b$ quarks (with $p_T^b\ge 15$
+GeV).
+%
+Similar expressions can be derived to the boosted and intermediate categories.
+%
+The naive expectation is that all events in the $4b$ sample have $n^{\rm (b-jet)}_4\simeq 1$
+and $n^{\rm (b-jet)}_j\simeq 0$ for $j\ne 4$, while the events in the $2b2j$ sample
+should have $n^{\rm (b-jet)}_2\simeq 1$ and zero otherwise.
+%
+This leads to a ratio of overall $b$-tagging selection efficiencies
+\be
+\label{eq:naive}
+\frac{ {\rm EFF}_{\rm b-tag} \lc 2b2j \rc}{{\rm EFF}_{\rm b-tag} \lc 4b\rc}
+  \simeq
+ \lp \frac{f_l}{f_b}\rp^2 \simeq 1.6\cdot 10^{-4} \, .
+\ee
+However, the actual situation is more complicated.
+%
+First of all, we will have a non-negligible fractions $n^{\rm (b-jet)}_j$
+with $j=3,4$ also in the $2b2j$ sample, due to $b$-quark pair radiation
+during the shower.
+%
+Secondly, not all events in the $4b$ sample will lead to four small-$R$ $b$-jets,
+due to a combination of selection cuts and
+parton shower effects.
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+  \multicolumn{2}{|c|}{}   &  $n^{\rm (b-jet)}_0$  &  $n^{\rm (b-jet)}_1$  &  $n^{\rm (b-jet)}_2$  & $n^{\rm (b-jet)}_3$ &
+    $n^{\rm (b-jet)}_4$ & ${\rm EFF}_{\rm b-tag}$ \\
+    \hline
+    \hline
+    Signal  &  $hh\to 4b$  &   0.1\%    & 3\%     &  25\%     & 53\%     & 20\%      & 8.5\%  \\
+    \hline
+    \multirow{3}{*}{Background}  &  QCD $4b$  & 1\%      &  8\%    &   27\%   &  44\%     & 20\%       &  8.4\% \\
+     &  QCD $2b2j$  &   9\%    & 42\%     &  49\%    & 1\%     &  0.1\%     & 0.04\%  \\
+    &  QCD $4j$  &   96\%    &  3.5\%     & 0.5\%     &  0.01\%    & $3\cdot 10^{-4}$\%      &
+    $2\cdot 10^{-4}$\%\\
+    \hline
+  \end{tabular}
+  \caption{\small
+    The relative fractions  $n^{\rm (b-jet)}_j$ of events for the resolved selection
+    for which, out of the four leading small-$R$ jets, $j$ jets
+    contain at least one $b$-quark with $p_T^b\ge 15$ GeV,
+    both for signal events and for the three QCD background samples.
+    %
+    The last column indicates the overall predicted
+    selection efficiency of the $b$-tagging procedure,
+    Eq.~(\ref{btaggingeff})
+    \label{tab:btaggingcheck}
+  }
+  \end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Table~\ref{tab:btaggingcheck} we collect
+the values of $n^{\rm (b-jet)}_j$ for the signal and the three QCD background samples.
+%
+Therefore, we find that, rather than the estimate Eq.~(\ref{eq:naive}),
+the correct ratio of $b$-tagging selection efficiencies is instead
+\be
+\frac{{\rm EFF}_{\rm b-tag} \lc 2b2j\rc}{{\rm EFF}_{\rm b-tag} \lc 4b\rc}=
+  \frac{0.04\%}{8.4\%} \simeq 5\cdot 10^{-3} \, .
+  \ee
+  This suppression factor is of the same order of the ratio of $4b$ to $2b2j$ cross-sections
+  in the resolved category before $b$-tagging, see Table~\ref{tab:cutflow_noPU_1}.
+    %
+    This explains why the $2b2j$ contribution cannot be neglected as compared
+    to the irreducible $4b$ component of the QCD background.
+    %
+    A similar calculation from the numbers of Table~\ref{tab:btaggingcheck} shows
+    that, on the other hand, the $4j$ component of the background can safely
+    be neglected.
+    
+
+
+
+
+
+
+%
