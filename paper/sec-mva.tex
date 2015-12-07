@@ -886,3 +886,422 @@ realistically detector resolution.
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\subsection{MVA revisited in the presence of PU}
+
+The main limitation of our analysis so far is the fact that
+pile-up (PU) effects have not been accounted for
+not accounted for.
+%
+However, any realistic feasibility study at the HL-LHC, specially
+one 
+such the present that relies on the careful modeling
+of kinematic distributions,
+requires assessing the robustness of the conclusions
+with respect to the inclusion of PU.
+%
+In this section, we show how our qualitative results, in particular
+the enhanced signal significance provided by the MVA, are robust
+in the presence of  PU.
+
+
+First of all, we describe the simulation of the 
+PU conditions  expected at the HL-LHC, and discuss the settings of
+the PU subtraction strategy that we adopt.
+%
+Then we present the validation of the PU subtraction,
+and compare a number of distributions, including substructure variables,
+with and without PU.
+%
+Finally we revisit the MVA analysis of Sect.~\ref{sec:mva}, and
+show that our qualitative conclusions are robust
+in the presence of realistic PU conditions, finding
+a combined
+signal significance of $S/\sqrt{B}\simeq 4$.
+
+
+The same settings of the cut-based analysis,
+Sects.~\ref{sec:analysis} and~\ref{sec:results}, and
+the subsequent MVA optimization, Sect.~\ref{sec:mva}, have
+been applied to the samples with PU, $\la n_{\rm PU}\ra=80$,
+and SK subtraction.
+%
+The corresponding version of Table~\ref{tab:cutflow_noPU_1}, the 
+cut-flow for the cross-sections and signal significance at the various
+steps of the cut-based analysis, 
+in the case
+of PU subtracted with SK, for $\la n_{\rm PU}\ra=80$,
+is presented in Table~\ref{tab:cutflow_SKPU80_1}.
+%
+One immediate observation is that
+at the end of the cut-based analysis,
+the signal significance have been  degraded
+as compared to the case without PU.
+%
+We now obtain values for $S\sqrt{B}$ of 0.4, 0.3 and 0.9, in the resolved,
+intermediate and boosted categories, respectively, to be compared
+with the corresponding values without PU, namely 1.6, 1.6 and 2.7.
+%
+Therefore, the pre-MVA signal significance is degraded by a factor 4 in
+the resolved and the intermediate categories,
+and by a factor 3 in the boosted category.
+%
+The fact that the latter is the  least affected one
+can be understood from the previous comparison
+plots, which show that effects of PU contamination
+are milder due to the  selection requirements
+of the boosted category.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \input{tables/table_SKPU80_1.tex}
+  $\,$ \\
+  \vspace{0.5cm}
+  \input{tables/table_SKPU80_2.tex}
+  $\,$ \\
+  \vspace{0.5cm}
+    \input{tables/table_SKPU80_3.tex}
+    \caption{\small
+      Same as Table~\ref{tab:cutflow_noPU_1}, for the analysis
+      including PU with $\la n_{\rm PU}\ra=80$ and SK subtraction.
+      \label{tab:cutflow_SKPU80_1}}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+In Fig.~\ref{fig:nnresponse_PU} we present
+the distribution of the ANN output for the
+signal and background MC events in the boosted and resolved categories --
+the analogous comparison in the case without PU was shown
+in Fig.~\ref{fig:nnresponse}.
+%
+We observe that the clear MVA discrimination
+between signal and background events in the two categories is robust
+when PU is included.
+%
+However, by comparing with Fig.~\ref{fig:nnresponse}, we see
+that some of the most distinguishing features that separate signal
+and background in the ANN output are reduced when PU effects
+are included.
+%
+For instance, in the boosted category, there is a trend of the distribution
+for signal events to move towards smaller values of the
+ANN discriminant.
+%
+This in turn will entail a reduction of the signal significance as
+compared to the case without PU.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+\includegraphics[width=0.49\textwidth]{plots/Resolved_disc_SKPU80.pdf}
+\includegraphics[width=0.49\textwidth]{plots/Boosted_disc_SKPU80.pdf}
+\caption{\small Same as Fig.~\ref{fig:nnresponse},
+  this time with $\la n_{\rm PU}\ra=80$ PU events per bunch crossing
+  and SK subtraction, for the resolved (left) and boosted
+  (right) categories.
+  %
+  The corresponding comparison without PU was shown in
+  Fig.~\ref{fig:nnresponse}.
+}
+\label{fig:nnresponse_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+In Table~\ref{table:cutflowMVA_PU}
+we provide the  the number of signal and
+    background events expected
+    at the HL-LHC, as well as the
+    corresponding values for $S/\sqrt{B}$ and $S/B$,
+    for both the cut-based analysis (corresponding
+    to $y_{\rm cut}=0$) and after the
+    optimal MVA cut, for the simulations
+    with $\la n_{\rm PU}\ra=80$
+    and SK subtraction.
+    %
+    The same results without PU are those of
+    Table.~\ref{table:cutflowMVA}.
+    %
+    From Table~\ref{table:cutflowMVA_PU} we see that, thanks
+to the MVA, we can improve the signal significance and the
+signal over background ratio from 0.35 and $4\cdot 10^{-4}$
+(0.25 and $1\cdot 10^{-4}$) up to 2.9 and 0.034 (2.5 and 0.15)
+in the boosted (resolved) category.
+%
+The intermediate category exhibits a rather lower value of $S/\sqrt{B}$
+for the optimal $y_{\rm cut}$ value, around 1.1.
+%
+We thus conclude that, as was already the case
+without PU,
+the boosted category is the most promising
+one for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
+final state
+at the HL-LHC, also when PU is included.
+%
+However, important information will also be obtained from
+the resolved category, which has a signal significance
+only slightly smaller than the boosted case.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{c|c|c|c||c|c|c|c}
+    \hline
+    \multicolumn{8}{c}{Boosted category, $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.84$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+    362  &  $1.4\cdot 10^6$     & 0.31       &  $3\cdot 10^{-4}$ &
+    248     &   7250             &  2.9       & 0.034 \\
+    \hline
+       \multicolumn{8}{c}{$\quad$}\\
+    \hline
+    \multicolumn{8}{c}{Intermediate category,  $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+    \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.72$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+    146  &    $9\cdot 10^5$   & 0.15        &  $2\cdot 10^{-4}$      &
+  53  &  2547        & 1.1        &  0.02 \\
+  \hline
+  \multicolumn{8}{c}{$\quad$}\\
+    \hline
+    \multicolumn{8}{c}{Resolved category,  $\la n_{\rm PU}\ra=80$+SK}\\
+    \hline
+     \multicolumn{4}{c||}{no MVA cut} & \multicolumn{4}{c}{optimal MVA cut}\\
+    \multicolumn{4}{c||}{$y_{\rm cut}=0$} & \multicolumn{4}{c}{$y_{\rm cut}=0.49$}\\
+    \hline
+    \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$
+    & \multicolumn{2}{c|}{$N_{\rm ev}$} &  $S/\sqrt{B}$  & $S/B$\\
+        Signal & Back   &     &   &  Signal & Back   &     &    \\
+    \hline
+  1123  &    $8.5\cdot 10^6$   & 0.25       &  $1.3\cdot 10^{-4}$       &
+  432  &  $3\cdot 10^4$        &   2.5      & 0.15 \\
+        \hline
+  \end{tabular}
+  \caption{\small Same as Table~\ref{table:cutflowMVA} in the case
+    of PU+SK, with $\la n_{\rm PU}\ra=80$.
+        \label{table:cutflowMVA_PU}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Another important result from Table~\ref{table:cutflowMVA_PU} is that,
+for the optimal MVA cut, the signal over background ratio
+is not unfeasibly small: we obtain that $S/B$ is 3.4\% (1.5\%)
+in the boosted (resolved) categories.
+%
+This is indicates that while this measurement is still very challenging,
+requiring a careful extraction from the data of the QCD
+background, it is certainty within reach.
+%
+Our analysis also indicates a possible way forward to
+further increase $S/B$: reducing the background from light and charm
+fakes, see Table~\ref{tab:cutflow_SKPU80_1}.
+
+Let us now discuss in more detail the results of the MVA
+classification, by showing various estimators as function
+of the cut $y_{\rm cut}$ in the ANN discriminant.
+%
+In Fig.~\ref{fig:nev2_PU}
+we show the number of signal and background events that
+are expected at the HL-LHC as a function of
+$y_{\rm cut}$ -
+the corresponding results without PU are those of
+Fig.~\ref{fig:nev2}.
+%
+As we can see, the general trends are
+similar as those without PU.
+%
+Comparing Figs.~\ref{fig:nev2} and~\ref{fig:nev2_PU}, we also observe
+that the intermediate category is substantially degraded once PU effects
+are accounted for, the reason being  sizable
+a reduction in the number of signal
+events that are now assigned to this category.
+%
+This shows that the selection criteria
+of the intermediate category are less
+resilient against PU contamination,
+as opposed to the resolved and boosted selections.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.65\textwidth]{plots/nev2_SKPU80.pdf}
+\caption{\small Same as Fig.~\ref{fig:nev2} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
+  and SK subtraction.
+}
+\label{fig:nev2_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+In Fig.~\ref{fig:sb_mva_PU} we show the signal significance,
+$S/\sqrt{B}$, as well as the signal over background ratio,
+$S/B$, including now the effects of PU.
+%
+The corresponding results in the case without PU were shown in
+Fig.~\ref{fig:sb_mva}.
+%
+As can be seen, the MVA-driven enhancement is robust in the
+presence of PU.
+%
+While unsurprisingly there us a degradation as compared to the case wo PU,
+we still manage to achieve a signal significance of
+around $S/\sqrt{B}\simeq 2.5$ separately for the boosted and resolved
+categories.
+%
+On the other hand, the intermediate category becomes irrelevant.
+%
+We conclude that the qualitative conclusions drawn in
+Sect.~\ref{sec:mva} are robust in the presence
+of realistic PU effects.
+%
+Since no specific effort has been performed to
+optimize PU subtraction, for example by tuning the value
+of the patch length $a$ in {\tt SoftKiller}, we believe that
+there is
+still room for improvement in this respect.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.48\textwidth]{plots/ssb_SKPU80.pdf}
+\includegraphics[width=0.48\textwidth]{plots/sb_SKPU80.pdf}
+\caption{\small 
+Same as Fig.~\ref{fig:sb_mva} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
+  and SK subtraction.
+}
+\label{fig:sb_mva_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+It is important to quantify which of the input variables
+to the MVA carry the highest discrimination power
+in the case of PU,
+and compare it with the corresponding
+results without PU.
+%
+We use the same estimator as in Sect.~\ref{sec:signalsignificance},
+namely the sum
+of the absolute value of all the weights connected to a given
+input neuron $i$, Eq.~(\ref{eq:totweight}).
+%
+The results for the resolved and boosted categories are shown
+on Fig.~\ref{fig:nnweights_PU}.
+%
+As we can see by comparing to the corresponding
+results without PU in Fig.~\ref{fig:nnweights}, 
+in the boosted category, the discrimination power of the invariant
+mass of Higgs candidates is decreased and that of the various substructure
+variables, in particular $C_2^{(\beta)}$ and
+$D^{(\beta)}$, is conversely
+increased.
+%
+This reflects the fact that these substructure variables are
+relatively robust against PU contamination.
+%
+In addition, also the $p_T$ distributions of the AK03
+subjets within the large-$R$
+jets carry important information.
+%
+In the case of the resolved category,  the highest
+values of the ANN weights without PU
+were found for the $p_T$ of the leading
+Higgs and for the Higgs invariant masses.
+%
+This is also true in the case with PU, but now the rapidity difference
+between the two Higgs candidates, $\Delta y_{hh}$ increases its
+importance, again reflecting that this variable is relatively
+insensitive to PU effects.
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{plots/res_wgthist_SKPU80.pdf}
+\includegraphics[width=0.49\textwidth]{plots/bst_wgthist_SKPU80.pdf}
+\vspace{-0.5cm}
+\caption{\small
+Same as Fig.~\ref{fig:nnweights} in the
+case of events with PU, for
+ $\la n_{\rm PU}\ra=80$ 
+  and SK subtraction.
+}
+\label{fig:nnweights_PU}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+At this point, we can finally combine the three categories, resolved,
+intermediate and boosted, and determine the overall signal
+significance taking into account all event topologies.
+%
+Adding in quadrature the signal significance from the three
+(exclusive) categories for the corresponding
+optimal value of $y_{\rm cut}$, our final combined result, accounting
+for PU effects, is
+\be
+\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0 \, ,
+\ee
+to be compared to the value $\lp S/\sqrt{B}\rp_{\rm tot} \simeq 8.5$
+that was obtained in the case without PU.
+%
+We conclude that, even when realistic PU effects are accounted
+for, at the HL-LHC the measurement of
+Higgs pair production in the $b\bar{b}b\bar{b}$ final state should be 
+well the threshold for evidence, and even meeting the
+requirement for discovery might be within reach.
+%
+
+In summary, in this section we have demonstrated the robustness
+of our results under the presence of PU conditions as those
+expected at the HL-LHC.
+%
+With a signal significance of $S/\sqrt{B}\sim 4$, is clear that
+the $b\bar{b}b\bar{b}$ final state can be used to claim evidence
+for Higgs pair production at the HL-LHC without the need
+to combine with any other final state.
+%
+Our analysis certainly contains
+room for improvement, in particular by means of a tailored
+study dedicated to optimize PU subtraction in this process.
+%
+It will be important now to quantify the precision of
+a extraction of the Higgs trilinear coupling $\lambda$ using
+the techniques presented here, but this is left for future work.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
