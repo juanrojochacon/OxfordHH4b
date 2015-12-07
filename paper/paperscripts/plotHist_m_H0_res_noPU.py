@@ -10,26 +10,25 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_smallRjets_res_noPU"
+outfile = "m_H0_res_C1d_noPU"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_smallR_res_C1a.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_pt_smallR_res_C1a.dat")
-
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H0_res_C1d.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_m_H0_res_C1d.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Small-$R$ jet $p_{T}$ (GeV)"
+xLabel = "Invariant Mass of Leading Higgs Candidate (GeV)"
 yLabel = "a. u."
 
 # Log axes
 xLog = False
-yLog = True
+yLog = False
 
 # Normalise histograms
 normalise = True
@@ -53,8 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([0,240])
-ax.set_ylim([1e-4,0.05])
+ax.set_xlim([50,180])
+ax.set_ylim([1e-4,0.035])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -125,7 +124,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.26,0.93,"Resolved category, $n_{PU}=0$", fontsize=20)
+fig.text(0.28,0.93,"Resolved category, $n_{PU}=0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

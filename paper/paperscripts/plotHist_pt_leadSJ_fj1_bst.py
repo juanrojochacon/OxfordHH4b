@@ -10,21 +10,21 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_leadSJ_fj1_noPU"
+outfile = "pt_leadSJ_fj2_noPU"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_leadSJ_fj1_boost_C1e.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_pt_leadSJ_fj1_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_leadSJ_fj2_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_pt_leadSJ_fj2_boost_C1e.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Leading AKT03 subjet $p_{T}$ in Higgs candidates (GeV)"
-yLabel = "A. U."
+xLabel = "Leading AKT03 subjet $p_{T}$ for subleading large-$R$ jet (GeV)"
+yLabel = "a. u."
 
 # Log axes
 xLog = False
@@ -52,7 +52,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([40,500])
+ax.set_xlim([33,400])
 ax.set_ylim([1e-4,0.05])
 
 for idat in xrange(0,len(datafiles)):
@@ -124,7 +124,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.23,0.93,"Boosted category", fontsize=20)
+fig.text(0.29,0.93,"Boosted category, $n_{PU}=0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

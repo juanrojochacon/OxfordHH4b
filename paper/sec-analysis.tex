@@ -359,34 +359,33 @@ of the
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-Also in the boosted category we require the two
-leading subjets of the large-$R$ jet to be relatively
-hard, in particular that should satisfy $p_T \ge $ 50 GeV.
+Another selection requirement for the boosted category is that the two
+leading AKT03 subjets of the large-$R$ jet must be relatively hard,
+in particular they should satisfy $p_T \ge $ 50 GeV.
 %
 To motivate this cut, in Fig.~\ref{fig:cutplots22}
 we show the distribution in $p_T$ of the leading
-and subleading sub-jets in the leading large-$R$ jet in events
-of the boosted category.
+and subleading AKT03 subjets in the subleading large-$R$ jet in events
+corresponding to the boosted category.
 %
 It is clear from the comparison that the subjet $p_T$ spectrum is
-relatively harder in the signal with respect to the background,
-motivating our choice of subjet $p_T$ cut.
+relatively harder in the signal with respect to the background.
+%
+On the other hand, considering the subleading AKT03 subjet, one needs that
+the cut in its  $p_T$ should not bee too large, to keep most of the signal events.
+%
+So as in the case of the $p_T$ cut in the large-$R$ jets, also in this case there
+is a compromise between suppressing backgrounds but keeping a large fraction of
+signal events.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
- \includegraphics[width=0.48\textwidth]{plots/pt_leadSJ_fj1_noPU.pdf}
- \includegraphics[width=0.48\textwidth]{plots/pt_subleadSJ_fj1_noPU.pdf}
-\caption{\small  The $p_T$ distribution of the
-  leading (left plot) and
-  subleading (right plot) AKT03 subjets within the leading
-  Higgs candidate in the boosted category.
-  %
-  We comparing
-  the shapes of the distribution in signal and background events,
-  where both
-  distributions have been normalized to their total integral.
+ \includegraphics[width=0.48\textwidth]{plots/pt_leadSJ_fj2_noPU.pdf}
+ \includegraphics[width=0.48\textwidth]{plots/pt_subleadSJ_fj2_noPU.pdf}
+ \caption{\small  Same as Fig.~\ref{fig:cutplots1} for the two leading AKT03
+   subjets in the subleading Higgs candidate large-$R$ jet.
 }
 \label{fig:cutplots22}
 \end{center}
@@ -394,60 +393,59 @@ motivating our choice of subjet $p_T$ cut.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-In the resolved category,
-it is important to understand the $p_T$ distribution
-of the four leading small-$R$ jets of the event.
+Turning to the resolved category, an important aspect to account
+in the corresponding selection
+cuts is the fact that the $p_T$ distribution
+of the four leading small-$R$ jets of the event can be relatively soft,
+specially for the subleading jets.
 %
-As noted in~\cite{deLima:2014dta}
-given that in general the boost from the Higgs decays is moderate,
-the two subleading jets might be not too hard, and thus it
-should be important to ensure that our $p_T^{\rm min}$ cut
-is not too strong.
+As noted in~\cite{deLima:2014dta}, this is a consequence of the fact
+that in general the boost from the Higgs decays is moderate.
 %
-This also has important implications for the experimental
-trigger requirements in this category.
+These considerations lead to the requirement that the $p_T$ cut
+for the small-$R$ jets cannot be too strong.
 %
 In Fig.~\ref{fig:cutplots23}
 we show the distribution in $p_T$ of the four leading
-small-$R$ jets in signal and background events.
+small-$R$ jets in signal and background events: we observe that both
+distributions are peaked at $p_T \le 50$ GeV, with the signal distribution
+eventually becoming dominant at large $p_T$.
 %
-We see that the third and four leading jets are relatively soft.
+The feasibility to being able to trigger on four small-$R$ jets with a relatively
+soft $p_T$ distribution is one of the experimental challenges of
+exploiting the resolved category in this final state.
 %
-Therefore, we can conclude that....
+In  Fig.~\ref{fig:cutplots23} we also show the
+rapidity distribution of the the small-$R$
+jets in the resolved category: as well know, the production
+is mostly central (more from signal since backgrounds are dominated by
+QCD $t$-channel exchange) and thus the standard rapidity cuts
+are relatively harmless.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
  \includegraphics[width=0.48\textwidth]{plots/pt_smallRjets_res_noPU.pdf}
  \includegraphics[width=0.48\textwidth]{plots/eta_smallRjets_res_noPU.pdf}
- \caption{\small Same as Fig.~\ref{fig:cutplots23}, now for the
+ \caption{\small Same as Fig.~\ref{fig:cutplots1}, now for the
    $p_T$ and rapidity distributions of the small-$R$
-   jets in the boosted category.
+   jets corresponding to the resolved selection.
 }
 \label{fig:cutplots23}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-
-Another important distribution is the rapidity of the large-$R$
-(in the boosted category) and the small-$R$ (in the resolved
-category) jets.
+One of the selection cuts with highest discrimination power is the requirement
+that the invariant mass of the Higgs candidate (di)jets must lie within a window
+around the nominal Higgs value.
 %
-We want to understand by how much the signal efficiency is reduced
-by the restriction of the central region, and how would
-the signal yield be enhanced if tracking could be extended
-to forward rapidities in ATLAS and CMS.
-%
-Also, it is useful to show the distribution in rapidity of the
-individual jets in the resolved category.
-%
-
-Next, in Fig.~\ref{fig:mHHinv} we show the invariant mass
+In Fig.~\ref{fig:mHHinv} we show the invariant mass
 of the leading reconstructed Higgs candidates, before the Higgs mass window
 cut Eq.~(\ref{higgsmasswindow})
-  is applied, for the resolved and boosted categories.
+  is applied, both for the resolved and boosted categories.
 %
 The signal distribution is of course peaked at the
 nominal Higgs mass of $m_h=125$ GeV.
@@ -469,11 +467,11 @@ distribution will still be exploited by the MVA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.48\textwidth]{plots/m_H0_res_C1.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/m_H0_boost_C1.pdf}
-  \caption{\small The invariant mass distribution of the leading
-    Higgs candidates on the resolved (left plot) and boosted (right
-    plot) categories. 
+  \includegraphics[width=0.48\textwidth]{plots/m_H0_res_C1d_noPU.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/m_H0_bst_C1d_noPU.pdf}
+  \caption{\small Same as   Fig.~\ref{fig:cutplots1} for the invariant
+    mass distribution of the leading Higgs candidates in the resolved
+    (left plot) and boosted (right plot) selections.
 }
 \label{fig:mHHinv}
 \end{center}

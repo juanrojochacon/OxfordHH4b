@@ -24,12 +24,12 @@ plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Small-R jet rapidity"
+xLabel = "Small-$R$ jet rapidity"
 yLabel = "a. u."
 
 # Log axes
 xLog = False
-yLog = True
+yLog = False
 
 # Normalise histograms
 normalise = True
@@ -53,8 +53,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([-4,4])
-ax.set_ylim([1e-2,1])
+ax.set_xlim([-3.4,3.4])
+ax.set_ylim([0,0.4])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -125,7 +125,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.32,0.93,"Resolved category", fontsize=20)
+fig.text(0.26,0.93,"Resolved category, $n_{PU}=0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
