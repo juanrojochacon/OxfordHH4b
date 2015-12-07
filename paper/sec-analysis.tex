@@ -443,23 +443,22 @@ around the nominal Higgs value.
 In Fig.~\ref{fig:mHHinv} we show the invariant mass
 of the leading reconstructed Higgs candidates, before the Higgs mass window
 cut Eq.~(\ref{higgsmasswindow})
-  is applied, both for the resolved and boosted categories.
+  is applied, for the resolved and boosted categories.
 %
-The signal distribution is of course peaked at the
-nominal Higgs mass of $m_h=125$ GeV.
+While the signal distribution is of course peaked at the
+nominal Higgs mass, the background distributions
+show no particular
+structure.
 %
-In the boosted category, the background shows no particular
-structure, while remarkable in the resolved category the background
-also shows a peak-like structure, artificially induced by the
-acceptance kinematical cuts on the jets.
+As discussed in Sect.~\ref{sec:detectormodeling}, the
+width of the Higgs mass peak arises both from QCD effects
+like ISR and out-of-cone radiation, as well
+as from the smearing applied to final state particles.
 %
-Note that the applied smearing, which mimics detector resolution effects,
-leads to a rather broad distribution which reduces the usefulness
-of the Higgs mass window cut.
-%
-While our Higgs mass window cut is relatively loose,
+While the Higgs mass window requirements
+in the cut-based analysis are relatively loose, the
 information of the different shape of the $m_{h}$
-distribution will still be exploited by the MVA.
+distribution will still be fully exploited by the MVA.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -480,77 +479,75 @@ distribution will still be exploited by the MVA.
 Another important kinematical distribution of this process is the invariant mass
 of the di-Higgs system.
 %
-First of all because this is a direct measure of the boost of the system,
-and also because in many BSM scenarios this distribution can be substantially
-modified as compared to the SM case, for example in the presence
-of certain dimension-6 EFT operators~\cite{Azatov:2015oxa}.
+This is a direct measure of the boost of the system,
+which in  BSM scenarios can be substantially
+enhanced, for example due to
+of certain $d=6$ EFT operators~\cite{Azatov:2015oxa}.
 %
-Indeed, one important advantage of the $4b$ final state for
+One important advantage of the $b\bar{b}b\bar{b}$ final state for
 di-Higgs production is that it significantly increases the reach
 in $m_{hh}$ as compared to other channels with smaller branching
-ration,
-such as $2b2\gamma$.
+ratios,
+such as $2b2\gamma$ or $2b2\tau$.
 %
 With this motivation, we show in
 Fig.~\ref{fig:mhh} the invariant mass distribution of the
 reconstructed Higgs pairs,
-comparing the resolved category (left) with the boosted category (right).
+comparing the resolved and the boosted categories.
 
-
-In the resolved case, we see that the distribution
-in $m_{hh}$ is rather harder for the signal as for the background,
-and thus one expects that cutting in $m_{hh}$ would help signal
-discrimination: we will verify this with the help of the MVA.
-%
-For the boosted category the trend of the $m_{hh}$ distribution
-is different because of the jet selection cuts, with the
-distribution now peaking at higher values.
-%
-In this case signal and background distributions
-look reasonably similar.
-%
-Note that at parton-level the $m_{hh}$ distribution as a kinematical
-cut-off at $m_{hh}^{\rm min}=250$ GeV, which is modified by both
-shower effects and by detector resolution effects.
-%
-While we don not cut in this quantity, it is
-one of the inputs for the MVA to help to improve signal discrimination.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
   \includegraphics[width=0.48\textwidth]{plots/m_HH_C2_res_noPU.pdf}
   \includegraphics[width=0.48\textwidth]{plots/m_HH_C2_bst_noPU.pdf}
-  \caption{\small Left plot: the invariant mass distribution of the Higgs
-    pair candidates, $m_{hh}$, comparing signal and background events,
-    in the resolved category.
-    %
-    Right plot: same for the boosted category.
+  \caption{\small
+Same as   Fig.~\ref{fig:cutplots1} for the invariant
+mass distribution of the di-Higgs system $m_{hh}$, in
+the resolved (left plot) and boosted (right plot) categories.
 }
 \label{fig:mhh}
 \end{center}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-Another interesting distribution is the transverse momentum of
-the di-Higgs system.
+In the resolved case, we see that the distribution
+in $m_{hh}$ is rather harder for the signal as compared
+to the background,
+and thus one expects that cutting in $m_{hh}$ would help signal
+discrimination: we will verify this with the MVA.
 %
-In Fig.~\ref{fig:pthh} we show the $p_T^{hh}$
-distribution
+For the boosted category the overall trend of the $m_{hh}$ distribution
+is different because of the jet selection cuts, with the
+distribution now peaking at higher values of the invariant mass.
+%
+In this case signal and background distributions
+look reasonably similar.
+%
+Note that at parton-level the $m_{hh}$ distribution
+for signal events has a kinematical
+cut-off at $m_{hh}^{\rm min}=250$ GeV, which is modified due to both
+the parton shower and to detector resolution effects.
+%
+
+
+Finally, in Fig.~\ref{fig:pthh} we show the transverse momentum of
+the di-Higgs system, $p_T^{hh}$,
 for the resolved and boosted categories.
 %
 Again we see that the background has a steeper $p_T^{hh}$ distribution
 that the signal, in both categories, thus this variable
-should provide some additional discrimination power, and therefore
+should provide additional discrimination power, and therefore
 we will use it as another of the MVA inputs.
 %
-Note that in our LO simulation this distribution is generated purely
-by the parton shower - a more refined calculation would require
-either the matching with higher-multiplicity matrix elements~\cite{Maierhofer:2013sha} or
-the full NLO calculation~\cite{Frederix:2014hta}, to treat properly the first hard emission.
+Note that in our LO simulation the $p_T^{hh}$ distribution is generated
+purely
+by the parton shower - a more refined treatment would require
+either the matching with higher-multiplicity
+matrix elements~\cite{Maierhofer:2013sha} or
+the full NLO calculation~\cite{Frederix:2014hta},
 %
-Nevertheless, the MVA shows only limited sensitivity to this variable, so its
+Nevertheless, as we will show,
+the MVA shows only limited sensitivity to this variable, so its
 modelling appears not to be crucial in our case.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -567,9 +564,12 @@ modelling appears not to be crucial in our case.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-\subsection{PU subtraction with {\tt SoftKiller}}
+\subsection{The impact of pile-up}
 \label{sec:pileup}
 
+The results shown so far did not accounted for the
+effects of PU.
+%
 To study the impact of PU in our analysis,
 Minimum Bias (MB) events,
 including Multiple Parton Interactions (MPI), have been generated
@@ -583,6 +583,12 @@ one with a mean number of
 PU vertices per bunch crossing of $\la n_{\rm PU}\ra=80$, and another
 with $\la n_{\rm PU}\ra=150$.
 %
+While the latter is closer to the HL-LHC forecasts, since it
+is beyond the scope of this paper to fully optimize
+PU subtraction, we will adopt $\la n_{\rm PU}\ra=80$ as our baseline.
+
+
+%
 In order to subtract the PU, a number of techniques
 have been developed
 recently~\cite{Cacciari:2009dp,TheATLAScollaboration:2013pia,Butterworth:2008iy,Cacciari:2007fd,Krohn:2009th,Krohn:2013lba,Ellis:2009me,Bertolini:2014bba,Cacciari:2014gra,Cacciari:2014jta,Berta:2014eza,Larkoski:2014wba}.\footnote{
@@ -592,10 +598,9 @@ in heavy ion collisions~\cite{Cacciari:2010te}.
 }
 %
 In this work, PU  will be subtracted by means
-of the the {\tt SoftKiller} (SK)
+of the {\tt SoftKiller} (SK)
 method~\cite{Cacciari:2014gra}, as implemented in {\tt FastJet}.
 %
-
 The idea underlying {\tt SoftKiller} is based on eliminating particles
 below a given cut-off in their transverse momentum, $p_T^{\rm (cut)}$, whose
 value is dynamically determined in a way that makes the event-wide
@@ -629,25 +634,22 @@ we now compare different kinematical distributions
 in the case without PU and in the case
 with PU subtracted with {\tt SoftKiller}.
 %
-Then we will also compare some specific distributions
-also in the case where PU has not been subtracted.
-%
-We find that
-{\tt SoftKiller} exhibits a reasonable
-performance for the PU subtraction.
+We will find that
+{\tt SoftKiller} exhibits a good
+performance for the PU subtraction in the present case.
 %
 We  also obtain that the boosted category is less affected
 by PU than the resolved category, as expected from the higher
 $p_T$ threshold in the corresponding selection cuts.
 
 
-First of all, let us validate both the implementation of our
-simulation of PU, as well as the SK subtraction, by comparing the
-invariant mass distributions of Higgs candidates in signal
+First of all, we compare
+in Fig.~\ref{fig:PUvalidation} the
+invariant mass distributions of Higgs candidates for signal
 events in the resolved category.
 %
-In Fig.~\ref{fig:PUvalidation} we show three curves: without PU,
-with PU $\la n_{PU}\ra=80$ but without any subtraction, and the
+We show three curves: without PU,
+with PU $\la n_{\rm PU}\ra=80$ but without any subtraction, and the
 same but now with the SK subtraction.
 %
 As expected, if PU is not subtracted there is a large shift in the Higgs mass
@@ -657,7 +659,7 @@ Once SK subtraction is performed, we recover a distribution much closer
 to the original ones, with only a small shift of $\simeq 5$ GeV in the mass
 distribution.
 %
-As we will see below, the performance of SK is even better in the boosted category,
+The performance of SK is even better in the boosted category,
 since the effects of PU are mitigated for high $p_T$ jets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -667,7 +669,7 @@ since the effects of PU are mitigated for high $p_T$ jets.
     \caption{\small
     The invariant mass distributions of Higgs candidates in signal
 events, in the resolved category, comparing the results without PU,
-with PU $\la n_{PU}\ra=80$ but without any subtraction, and the
+with PU $\la n_{\rm PU}\ra=80$ but without any subtraction, and the
 corresponding results now with SK subtraction.
 }
 \label{fig:PUvalidation}
@@ -675,7 +677,7 @@ corresponding results now with SK subtraction.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-Next, we compare more
+Next, we compare additional
  signal distributions with
 and without PU, with $\la n_{\rm PU}\ra=80$ in the
 former
@@ -690,7 +692,7 @@ These distributions are plotted after the $b$-tagging, that is,
 before they are used as input to the MVA.
 %
 As we can see, in the boosted category, the residual effects of PU
-after the {\tt SoftKiller} subtraction are rather mild,
+after the {\tt SoftKiller} subtraction are rather moderate,
 with the position of the Higgs mass peaks essentially
 unchanged, and only a moderate distortion of the
 distribution found.
@@ -854,17 +856,9 @@ the kinematical distributions for signal and background events,
      Also in this
      case the PU-subtracted background distributions appear reasonably close
      to their no PU counterparts.
-     %
-     Therefore, these results
-     suggest that the broad pattern of the signal over background
-     discrimination provided by the MVA in Sect.~\ref{sec:mva},
-     based on the corresponding differences between kinematical
-     distributions,
-will
-     be maintained in the presence of PU.
-     %
-     In the next section we verify this expectation.
 
+     
+     
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -879,3 +873,12 @@ will
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+These results validate our strategy for PU subtraction and indicate
+that, while there is some distortion in the shape of kinematical
+distributions as compared to the case without PU, it is certainly
+not enough to wash out the most important differences between
+signal and background events.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

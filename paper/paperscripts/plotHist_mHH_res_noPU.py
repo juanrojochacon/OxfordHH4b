@@ -124,7 +124,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.25,0.93,"Boosted category, $n_{PU}=0$", fontsize=20)
+fig.text(0.28,0.93,"Resolved category, $n_{PU}=0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
