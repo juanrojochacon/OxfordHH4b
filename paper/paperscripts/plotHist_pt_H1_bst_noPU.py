@@ -10,20 +10,20 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_HH_C2_bst_noPU"
+outfile = "pt_H1_bst_C1d_noPU"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_HH_boost_C1e.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_m_HH_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_H1_boost_C1d.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_pt_H1_boost_C1d.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "di-Higgs $m_{hh}$ (GeV)"
+xLabel = "Sub-leading Higgs Candidate $p^{h}_T$ (GeV)"
 yLabel = "a. u."
 
 # Log axes
@@ -52,7 +52,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([400,600])
+ax.set_xlim([190,600])
 ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):

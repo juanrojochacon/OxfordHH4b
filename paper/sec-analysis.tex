@@ -2,18 +2,19 @@
 \section{Analysis strategy}
 \label{sec:analysis}
 
-In section we describe our analysis strategy, and in particular
-the classification of each individual event into
-different categories according to its topology.
+In section we describe our analysis strategy.
 %
-First of all, we discuss the settings and nomenclature
-for jet clustering, and the strategy for $b$-tagging.
+First of all, we discuss the settings
+for jet clustering  and the strategy for $b$-tagging.
 %
-Then we discuss the categorisation of events between different
+Then we discuss the categorisation of events in different
 topologies and how to prioritise among them.
 %
-Finally, we motivate our choice of analysis cuts by comparing signal and background
-for representative kinematic distributions.
+We motivate our choice of analysis cuts by comparing signal and background
+for representative kinematical distributions.
+%
+Finally, we describe the simulation of PU and validate
+the PU subtraction strategy that we adopt.
 
 \subsection{Jet reconstruction}
 
@@ -24,7 +25,7 @@ obtained from
 {\tt FastJet}~\cite{Cacciari:2011ma,Cacciari:2005hq},
 {\tt v3.1.0}.
 %
-We will use different types of jet definitions:
+We use different types of jet definitions:
 \begin{itemize}
 \item {\it Small-$R$ jets}.
 
@@ -40,7 +41,7 @@ We will use different types of jet definitions:
 \item {\it Large-$R$ jets}.
 
   These jets are also constructed with the
-  anti-$k_T$ clustering algorithm, now using a $R=1.0$ radius.
+  anti-$k_T$ clustering algorithm, now using a $R=1.2$ radius.
   %
   Large-$R$ jets are required to have
   $p_T \ge 200$~GeV and lie in a pseudo-rapidity region of
@@ -54,7 +55,7 @@ We will use different types of jet definitions:
 
   In addition to the basic $p_T$ and $\eta$
   acceptance requirements, large-$R$ jets should also
-  satisfy the  BDRS mass-drop tagger (MDT)(~\cite{Butterworth:2008iy}
+  satisfy the  BDRS mass-drop tagger (MDT)~\cite{Butterworth:2008iy}
   conditions.
   %
   We use the {\tt FastJet} default
@@ -96,18 +97,12 @@ is {\it a priori} unknown.
 \subsection{Tagging of $b$-jets}
 \label{sec:btagging}
 
-It is clear that
-optimisation of the $b$-tagging capabilities of the
-LHC experiments is an essential ingredient to improve
-the prospects for the observation of Higgs pair production in the
-$b\bar{b}b\bar{b}$ final state.
-%
-In this work, we adopt
+In this analysis we adopt
 a $b$-tagging strategy along the lines
 of current ATLAS performance~\cite{Aad:2013gja,Aad:2015ydr},
 though differences with respect to
-the corresponding CMS strategy~\cite{Khachatryan:2011wq,Chatrchyan:2012jua}
-should not affect qualitatively our results.
+the corresponding CMS case~\cite{Khachatryan:2011wq,Chatrchyan:2012jua}
+do not modify qualitatively our results.
 %
 For each type of jet definition used, a different
 $b$-tagging strategy is adopted:
@@ -134,12 +129,12 @@ $b$-tagging strategy is adopted:
   a mistag rate of $f_l$, unless a charm quark is present instead,
   and in this case the mistag rate is $f_c$.
   %
-  Only jets which contain at least one (light or charm)
+  Only jets that contain at least one (light or charm)
   constituent
-  with $p_T \ge 15$ GeV will lead to fake $b$-tags.
+  with $p_T \ge 15$ GeV can induce a fake $b$-tag.
 
   
-  We only attempt to $b$-tag only the four (two) hardest small-$R$ jets
+  We attempt to $b$-tag only the four (two) hardest small-$R$ jets
   in the resolved (intermediate) category.
   %
   Trying to $b$-tag all the
@@ -150,7 +145,7 @@ $b$-tagging strategy is adopted:
   \item {\it Large-$R$ jets}.
 
     Large-$R$ jets are $b$-tagged by
-    ghost-associating anti-$k_T$ $R=0.3$
+    ghost-associating anti-$k_T$ $R=0.3$ (AKT03)
     subjets to the original large-$R$
     jets~\cite{Cacciari:2007fd,Aad:2013gja,
       ATLAS-CONF-2014-004,Aad:2015uka}.
@@ -159,20 +154,19 @@ $b$-tagging strategy is adopted:
     the leading and subleading AK03 subjets, where the ordering
     is done in the subjet $p_T$, are both individually $b$-tagged,
     with the same criteria as the small-$R$ jets.
-
+    %
+     Therefore, a large-$R$ jet where the two leading
+    subjets have at least one $b$-quark will be tagged
+    with probability $f_b^2$.
     
     As in the case
     of small-$R$ jets, we only attempt to $b$-tag the two leading subjets,
     else one finds a degradation of the
     signal significance due to combinatorics.
-
     %
-    Therefore, a large-$R$ jet where the two leading
-    subjets have at least one $b$-quark will be tagged
-    with probability $f_b^2$, if only one of the two leading
-    subjets has a $b$-quark, then the tagging probability is
-    $2f_bf_l$, and if none of the two subjets include $b$-quarks,
-    the mistag rate will be $f_l^2$.
+    The simulation of the fakes from light and charm jets
+    is the same as in the small-$R$ jets.
+  
 
 
 \end{itemize}
@@ -193,7 +187,7 @@ in Ref.~\cite{Gouzevitch:2013qca}.
 %
 Rather than restricting to a specific event topology,
 we aim to consistently combine the information from
-the three possible event topologies: boosted, intermediate and
+the three possible topologies: boosted, intermediate and
 resolved.
 %
 The optimal cuts for each category will be determined
@@ -201,39 +195,40 @@ separately, and then
 a exclusive categorisation is defined starting from the category
 with the highest signal significance.
 %
-An advantage of our approach is that the analysis strategy
-is robust under variations of
+An advantage of our approach
+the robustness under variations of
 the underlying production model of Higgs pairs is modified,
 for instance in the case of
 BSM dynamics, which can substantially increase
 the degree of boost of the final state.
-%
+
+
 These three categories are defined as follows:
 \begin{itemize}
 \item {\it Boosted category}.
 
   An event which
-  contains at least two large-$R$ jets, with the two leading
+  contains at least two large-$R$ jets, with the two leading jets
  being $b$-tagged.
  %
- Each of these two large-$R$ $b$-tagged jets are is this
- a candidate
+ Each of these two large-$R$, $b$-tagged, jets are 
+ thus candidates
  to contain the decay products of a Higgs boson.
 
 \item {\it Intermediate category}.
 
-  An event with only one large-$R$ $b$-tagged jet, which
+  An event with only one large-$R$, $b$-tagged, jet, which
   is assigned to be the leading Higgs candidate.
   %
-  In addition, we require at least two small-$R$ $b$-tagged jets,
+  In addition, we require at least two small-$R$, $b$-tagged, jets,
   which must be separated with respect to the large-$R$ jet
-  by $\Delta R\ge 1.0$.
+  by an angular distance of $\Delta R\ge 1.2$.
   %
     
-  The subleading Higgs boson candidate is then reconstructed
+  The subleading Higgs boson candidate is reconstructed
   by selecting the two $b$-tagged small-$R$ jets that minimize the difference
   between the invariant mass of the large-$R$ jet
-  with the invariant mass of the dijet obtained
+  with that of the dijet obtained
   from the sum of the two small-$R$ jets.
   
 \item {\it Resolved category}.
@@ -248,14 +243,13 @@ These three categories are defined as follows:
   and then choosing the configuration that minimizes the relative difference of
   dijet masses.
   %
-
   
 \end{itemize}
 
 
 Once a Higgs boson candidate has been identified,
 its invariant mass is required to lie within a fixed window
-around the nominal Higgs boson mass.
+around the nominal Higgs boson mass~\cite{Aad:2015zhl}.
 %
 In particular we require the condition
 \be
@@ -267,8 +261,8 @@ where $m_{h,j}$ is the invariant mass of each of the two reconstructed  Higgs ca
 This cut is substantially looser as the corresponding
 cut used in the typical ATLAS and CMS $h\to b\bar{b}$
 analyses~\cite{Aad:2012gxa,Chatrchyan:2013zna}: the motivation
-for this choice is that the MVA will take care of the optimisation of these
-and other cuts that are not explicitly performed.
+for this choice is that the MVA will take care of the optimisation of this,
+as well as of other cuts that are not explicitly performed.
 %
 Only events where the two Higgs candidates satisfy
 Eq.~(\ref{higgsmasswindow}) are classified as signal events.
@@ -288,7 +282,7 @@ a inclusive analysis, and then we introduce a
  priorisation starting with the category of highest signal significance.
 
 
- This is achieved as follows.
+ This has been achieved as follows.
  %
 First of all we perform an inclusive analysis, and optimise the
 signal significance
@@ -299,83 +293,65 @@ We find that the category with higher significance turns out to be the boosted,
 followed by the intermediate and the resolved ones, the two latter
 with similar significance.
 %
-Therefore for the final analysis we turn to an exclusive approach:
-if an event satisfies the boosted requirements, it is kept for
-these category, else we check if it suits the intermediate
+Therefore, for the final analysis, we turn to an exclusive approach:
+if an event satisfies the boosted requirements, it is assigned to
+this category, else we check if it suits the intermediate
 requirements, and failing also this, the event is attempted to
 be classified in the
 resolved category.
 %
-The resulting exclusive event samples are then separately processes
-through the MVA.
-%
-This allows a consistent combination
+The resulting exclusive event samples are then separately processed
+through the MVA, allowing a consistent combination
 of the significance of the three event categories.
 
 
-
-
-
-
-
-\subsection{Optimisation of kinematical cuts}
+\subsection{Motivation for kinematical cuts}
 
 We now motivate the values of
-kinematical cuts applied to the different categories.
+kinematical cuts applied to the different categories, 
+comparing representative kinematic distributions between
+signal and background events.
 %
-These cuts have been separately
-optimised in an inclusive analysis, since it is only
-once we have determined
-the dominant category that the analysis is made exclusive.
+First to all we present results without PU, and in the next
+subsection we discuss what is the impact of PU
+on the description of the various kinematical
+distributions.
 %
-Here we show the various kinematic distributions 
-before the corresponding cut has been applied.
-%
-For illustration purposes,
-only a representative subset of
-all available kinematic distributions will be shown here.
-%
-For simplicity,
-we restrict to the discussion of the
-kinematic distributions of the boosted
-and resolved categories.
+In the following, all
+distributions will be normalized to their total integral.
 
 
-First of all,
+%
+To begin with,
 in Fig.~\ref{fig:cutplots1} we show
 the $p_T$ distribution of the 
 of the
   leading and subleading large-$R$ jets in the boosted category, comparing
   the shapes of the distribution in signal and background events.
   %
-  Distributions have been normalized to their total integral.
-  %
   We see that the background distribution
   falls off rather steeply than the signal at large $p_T$
-  values, therefore
-  providing evidence that exploiting the boosted region will be
-  advantageous to enhance the signal over background ratio.
+  for the two Higgs candidates.
   %
-  This is true both for the leading and the subleading
-  large-$R$ jets.
+  On the other hand, the cut in $p_T$ cannot be too strong to avoid
+  a substantial degradation of signal selection efficiency,
+  specially taking into account the subleading large-$R$ jet.
   %
-  These distributions justify our choice of $p_T \ge 200$ GeV
-  for the large-$R$ jets in the boosted category.
+  This comparison justifies the cut of $p_T \ge 200$ GeV
+  for the large-$R$ jets that we impose in the boosted category.
   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
- \includegraphics[width=0.48\textwidth]{plots/pt_H0_boost_C1.pdf}
- \includegraphics[width=0.48\textwidth]{plots/pt_H1_boost_C1.pdf}
-\caption{\small  The $p_T$ distribution of the
+ \includegraphics[width=0.48\textwidth]{plots/pt_H0_bst_C1d_noPU.pdf}
+ \includegraphics[width=0.48\textwidth]{plots/pt_H1_bst_C1d_noPU.pdf}
+\caption{\small  Comparison of the $p_T$ distributions of the
   leading (left plot) and
-  subleading (right plot) large-$R$ jets in the boosted category.
+  subleading (right plot) large-$R$ jets in the boosted category,
+  in in signal and background events.
   %
-  We comparing
-  the shapes of the distribution in signal and background events,
-  where both
-  distributions have been normalized to their total integral.
+  Distributions have been normalized to unity.
 }
 \label{fig:cutplots1}
 \end{center}
@@ -383,7 +359,7 @@ of the
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-In the boosted category we require the two
+Also in the boosted category we require the two
 leading subjets of the large-$R$ jet to be relatively
 hard, in particular that should satisfy $p_T \ge $ 50 GeV.
 %
@@ -547,8 +523,8 @@ one of the inputs for the MVA to help to improve signal discrimination.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.48\textwidth]{plots/m_HH_res_C1.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/m_HH_boost_C1.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/m_HH_C2_res_noPU.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/m_HH_C2_bst_noPU.pdf}
   \caption{\small Left plot: the invariant mass distribution of the Higgs
     pair candidates, $m_{hh}$, comparing signal and background events,
     in the resolved category.
@@ -584,8 +560,8 @@ modelling appears not to be crucial in our case.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.48\textwidth]{plots/pt_HH_res_C1.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/pt_HH_boost_C1.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/pt_HH_C2_res_noPU.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/pt_HH_C2_bst_noPU.pdf}
   \caption{\small Same as Fig.~\ref{fig:mhh} for the transverse momentum
     distribution of the di-Higgs system $p_T^{hh}$.
 }
@@ -596,6 +572,7 @@ modelling appears not to be crucial in our case.
 
 
 \subsection{PU subtraction with {\tt SoftKiller}}
+\label{sec:pileup}
 
 To study the impact of PU in our analysis,
 Minimum Bias (MB) events,

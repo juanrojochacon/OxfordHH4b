@@ -10,20 +10,20 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_HH_C2_bst_noPU"
+outfile = "pt_HH_C2_res_noPU"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_HH_boost_C1e.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_m_HH_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_HH_res_C1e.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_pt_HH_res_C1e.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "di-Higgs $m_{hh}$ (GeV)"
+xLabel = "di-Higgs $p^{hh}_{T}$ (GeV)"
 yLabel = "a. u."
 
 # Log axes
@@ -52,7 +52,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([400,600])
+ax.set_xlim([0,250])
 ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
@@ -124,7 +124,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.25,0.93,"Boosted category, $n_{PU}=0$", fontsize=20)
+fig.text(0.25,0.93,"Resolved category, $n_{PU}=0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

@@ -10,13 +10,13 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_HH_C2_bst_noPU"
+outfile = "m_HH_C2_res_noPU"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_HH_boost_C1e.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_m_HH_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_HH_res_C1e.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_m_HH_res_C1e.dat")
 
 # Plot labels
 plotnames.append("Signal")
@@ -52,7 +52,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([400,600])
+ax.set_xlim([200,600])
 ax.set_ylim([1e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
