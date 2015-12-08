@@ -55,7 +55,7 @@ def plotDiscriminantHisto(name, signal, background,title):
 	legend.get_frame().set_alpha(0.8)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
-	fig.text(0.33,0.93,title, fontsize=19)
+	fig.text(0.28,0.93,title, fontsize=19)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -94,7 +94,7 @@ nevax2.set_ylabel("Number of background events")
 nevax.set_xlabel("ANN output cut")
 
 nev3, nevax3 = plt.subplots()
-nevax3.set_ylabel("$N_{ev}$ at HL-LHC after MVA cut")
+nevax3.set_ylabel("$N_{ev}$ at HL-LHC",fontsize=18)
 nevax3.set_xlabel("ANN output cut")
 
 # Gridlines
@@ -209,7 +209,7 @@ for idat in xrange(0,len(datafiles)):
 ################################### Finish up ########################################
 
 # Legends
-plt.rcParams.update({'font.size': 19})
+plt.rcParams.update({'font.size': 18})
 rlegend = rocax.legend(loc='best')
 rlegend.get_frame().set_alpha(0.8)
 slegend = sbax.legend(loc='best')
@@ -224,10 +224,11 @@ nev3legend.get_frame().set_alpha(0.8)
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))
 
+roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 roc.savefig(ROCout+'.pdf')
 sb.savefig(SBout+'.pdf')
 ssb.savefig(SSBout+'.pdf')
-nev.savefig(NeVout+'.pdf')
+roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 nev3.savefig(NeV2out+'.pdf')
 
 
