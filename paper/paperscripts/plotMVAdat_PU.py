@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 from matplotlib import pyplot as plt
 from operator import add, sub
 from math import sqrt
@@ -10,8 +10,8 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_12X5X3X1_50000-Gen_SKPU80_res.dat",
-            "../plotdata/results_SK_PU80/MVA/nn_16X5X3X1_50000-Gen_SKPU80_int.dat",
+datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_13X5X3X1_50000-Gen_SKPU80_res.dat",
+            "../plotdata/results_SK_PU80/MVA/nn_17X5X3X1_50000-Gen_SKPU80_int.dat",
             "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
@@ -67,8 +67,8 @@ def plotDiscriminantHisto(name, signal, background,title):
 roc, rocax = plt.subplots()
 rocax.plot([0,1],[1,0], color='grey')
 
-rocax.set_ylabel("Background rejection rate")
-rocax.set_xlabel("Signal efficiency")
+rocax.set_ylabel("Background rejection rate",fontsize=17)
+rocax.set_xlabel("Signal efficiency",fontsize=17)
 
 # Gridlines
 rocax.xaxis.grid(True)
@@ -83,7 +83,7 @@ sbax.set_xlim([0,0.95])
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
-ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=20)
+ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=19)
 ssbax.set_xlabel("ANN output cut")
 ssbax.set_xlim([0,0.95])
 
@@ -149,7 +149,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 100)
+	thresholds = numpy.linspace(0, 1, 25)
 	falsepos = []
 	truepos = []
 
@@ -225,17 +225,16 @@ nev3legend.get_frame().set_alpha(0.8)
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))
 
+roc.text(0.30,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 roc.savefig(ROCout+'.pdf')
 
-sb.text(0.35,0.94,"$n_{PU}=80$+SK", fontsize=20)
+sb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 sb.savefig(SBout+'.pdf')
 
-ssb.text(0.35,0.94,"$n_{PU}=80$+SK", fontsize=20)
+ssb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 ssb.savefig(SSBout+'.pdf')
 
-
-
-nev3.text(0.35,0.94,"$n_{PU}=80$+SK", fontsize=20)
+nev3.text(0.20,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 nev3.savefig(NeV2out+'.pdf')
 
 
