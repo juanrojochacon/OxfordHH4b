@@ -148,7 +148,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 50)
+	thresholds = numpy.linspace(0, 1, 25)
 	falsepos = []
 	truepos = []
 
@@ -226,7 +226,9 @@ ssbax.axis((x1,x2,0,8))
 
 roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 roc.savefig(ROCout+'.pdf')
+sb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 sb.savefig(SBout+'.pdf')
+ssb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 ssb.savefig(SSBout+'.pdf')
 roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 nev3.savefig(NeV2out+'.pdf')

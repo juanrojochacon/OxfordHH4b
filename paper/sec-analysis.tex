@@ -643,6 +643,74 @@ modelling is not crucial in this specific application.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
+We now study the discrimination power to separate signal
+and background events contained in the jet substructure
+variables.
+%
+In Fig.~\ref{fig:mva_substructure_1}
+we show the distributions of some of
+these substructure variables for the boosted category: the
+$k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}), for
+the subleading Higgs,
+the energy correlation double ratio $D_2^{(\beta)}$,
+Eq.~(\ref{eq:d2}), for the leading Higgs,
+and then 
+the 2--to--1 subjettiness ratio $\tau_{12}$,
+Eq.~(\ref{eq:tau21}),
+for both the leading and subleading Higgs candidates.
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{plots/split12_h1_C1_boost.pdf} 
+  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_h0_C1_boost.pdf}
+  \includegraphics[width=0.48\textwidth]{plots/tau21_h1_C1_boost.pdf}
+  \caption{\small Distribution of representative substructure variables
+    in the boosted category at the end of the cut-based
+    analysis, used as input to the MVA.
+    %
+    From top to bottom and from left to right we show  the
+$k_t$ splitting scale for
+the subleading Higgs, the subjettiness ratio $\tau_{12}$
+for the leading Higgs,
+and the energy correlation double ratio $D_2$
+for the leading and subleading Higgs.
+%
+}
+\label{fig:mva_substructure_1}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+From Fig.~\ref{fig:mva_substructure_1}
+we can observe that for these substructure variables the shapes of the signal
+and background distributions show important differences,
+reflecting the inherent differences in the internal structure of jets
+between QCD jets and jets originated from the Higgs decays.
+%
+Importantly, we observe that signal and background distributions peak
+in different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
+peaks around 80 GeV (50 GeV) for signal (background) events, while
+the ECF ratio $D_2^{(\beta)}$ peaks at much smaller
+values for signal than
+for background events.
+%
+From Fig.~\ref{fig:mva_substructure_1} we also see
+the distributions of the subjettiness ratio $\tau_{12}$ are similar
+in the leading and in the subleading jets, therefore the information
+contained in
+$\tau_{12}$ from each of the two Higgs candidates  will be to some
+extent redundant.
+
+Therefore, while we don't explicitely have cuts in the substructure
+variables, their discrimination power between signal and
+background events is the motivation to include them
+as input to the MVA, as we will explain in Sect.~\ref{sec:mva}.
+
+
 \subsection{Impact of pile-up}
 \label{sec:pileup}
 

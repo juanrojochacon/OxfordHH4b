@@ -334,59 +334,42 @@ Fig.~\ref{fig:nnresponse}.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-From Fig.~\ref{fig:exampleroc} we see that, always starting from the signal
-and background events that survive the basic cut-based analysis,
-one can achieve a  signal
-efficiency of $\sim 90\%$ while reducing the background by
-$80\%$, $60\%$ and $50\%$ in the boosted, intermediate and resolved
-categories respectively.
-%
-It is easy to translate these factors into an  improvement factor of the pre-MVA
-signal significance $S/\sqrt{B}$.
-%
-As an illustration, if a signal efficiency of 90\%
-is required, we find that the MVA improves $S/\sqrt{B}$
-by  approximately 2.0, 1.4 and 1.3  in the three categories respectively.
 
-As mentioned above, an
- important restriction on the range of allowed cuts in the ANN output
- is that $y_{\rm cut}$
- cannot be so hard that the actual number of signal events expected
-at the HL-LHC becomes unreasonably small.
+It important to verify, for each value of
+the cut in the ANN output $y_{\rm cut}$, how many
+signal and background events are expected at the HL-LHC,
+with an integrated luminosity of $\mathcal{L}=3$ ab$^{-1}$.
 %
-To verify how many signal and background events are left after the MVA cut,
-we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and background (solid lines)
-  events expected at the HL-LHC as a function of $y_{\rm cut}$,
-  for the three exclusive categories.
-  %
-  Note that the value of the cut in the ANN cut is separately optimised in the three
-  categories.
+This comparison is shown in 
+Fig.~\ref{fig:nev2}.
+%
+As can be seen,
+in the boosted category, for a value $y_{\rm cut}\simeq 0.8$
+we end up with 800 signal events and around $2\cdot 10^4$ background
+events.
+%
+Similar results are obtained in the intermediate and resolved
+categories: in the former we find 700 ($6\cdot 10^3$) signal (background)
+events for $y_{\rm cut}\simeq 0.8$, and in the latter
+1300 ($8\cdot 10^4$) signal (background) events for
+$y_{\rm cut}\simeq 0.65$.
+%
+Note that the MVA achieves a very substantial background suppression
+with only a
+moderate reduction of signal efficiency in exchange.
 
-
-As can be seen from Fig.~\ref{fig:nev2}, in the boosted category
-events, with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$,
-we are still left
-with around 100 events at the HL-LHC, 
-which the background being reduced substantially to around
-1000 events.
-%
-A similar cut would work fine for the intermediate category, though here
-the backgrounds are much larger and thus the expected signal significance smaller.
-%
-For the resolved case, the signal significance would be only slightly
-improved for any value of the cut.
 
 A useful property of MVAs such as the one used in this work
 is that they provide direct  physical insight about which of the
-input variables contribute the most to the separation of
-signal over background.
+input variables contribute the most to the separation between
+signal and background.
 %
 In the case of ANNs, this can be quantified by computing the sum
-of the absolute value of al the weights connected to a given
+of the absolute value of all the weights connected to a given
 input neuron $i$, that is
 \be
 \label{eq:totweight}
-\omega^{\rm tot}_i \equiv \sum_{k=1}^{n^{(2)}} \Big|\omega^{(2)}_{ki}\Big| \, ,
+\omega^{\rm (tot)}_i \equiv \sum_{k=1}^{n^{(2)}} \Big|\omega^{(2)}_{ki}\Big| \, ,
 \qquad i=1,\ldots,N_{\rm var} \, ,
 \ee
 with $\omega^{(2)}_{ki}$ the value of the weight connecting
@@ -394,36 +377,9 @@ the $k$-th neutron of the second layer with the $i$-th neuron of
 the first (input) layer, and $n^{(2)}=5$ the number of
 neurons in the second layer.
 %
-The input variables with a larger value of $\omega^{\rm tot}_i$ will be those
+Those input variables with a larger value of $\omega^{\rm (tot)}_i$ will be those
 that play a dominant role in enhancing the signal
 discrimination using the MVA.
-
-%
-In Fig.~\ref{fig:nnweights} we show
-the distribution of the total associated weight,
-Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
-variables of the resolved (left plot) and boosted (right plot) categories.
-%
-The notation for the various kinematic variables is the same
-as in Sect.~\ref{sec:input}.
-%
-The important information
-is contained in the relative strengths of the total associated weight
-for each of the input variables.
-%
-The results of Fig.~\ref{fig:nnweights} illustrate which variables
-are more discriminative between the signal and the background.
-%
-For instance, in the 
-resolved category, the variables that lead to
-a higher discrimination power
-are the $p_T$ of the two reconstructed Higgs candidates, and then on a similar
-footing other variables like the $p_T$ of the individual jets
-and the mass of the di-Higgs system $m_{hh}$.
-%
-The only variable which seems to contain no information at all
-is the $\Delta \phi_{hh}$ separation between the two
-Higgs candidates.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -436,64 +392,107 @@ Higgs candidates.
 \caption{\small
 Distribution of the total associated weight,
 Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
-variables of the resolved (upper left plot),  intermediate (upper right plot)
+variables of the resolved (upper left),  intermediate (upper right)
 and boosted (lower plot)
 categories.
-%
-See Sect.~\ref{sec:input} for a description of each of the input
-variables to the MVA.
 }
 \label{fig:nnweights}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+%
+In Fig.~\ref{fig:nnweights} we show
+the distribution of the total associated weight,
+Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
+variables of the three categories, using the
+notation for the various kinematic variables
+as in Sect.~\ref{sec:input}.
+%
+The important information
+is contained in the relative strengths of the total associated weight
+for each of the input variables.
+%
+In the 
+resolved category, the variables that carry 
+a higher discrimination power
+are the $p_T$ of the two reconstructed Higgs candidates and
+their invariant masses $m_{h1}$ and $m_{h2}$.
+%
+In the case of the boosted category, the invariant mass distribution
+of the Higgs candidates is also the most discriminatory
+variable, followed by the subjet $p_T$ distributions and
+substructure variables such as $C_2^{(\beta)}$ and
+$D_2^{(\beta)}$.
 
 
 
-For the boosted category, we see that substructure variables
-are the most helpful ones, in particular the $k_t$-splitting scale
-$\sqrt{d_{12}}$ and the subjettiness ratio $\tau_{12}$.
-%
-The ratios of ECFs $D_2^{(\beta)}$ and
-$C_2^{(\beta)}$ also seems to provide
-useful discrimination power.
-%
-Concerning other kinematic variables, the angular
-separation between the two large-$R$ jets $\Delta R_{hh}$,
-the invariant mass of the di-Higgs system $m_{hh}$ and the various
-$p_T$ also have discrimination power.
-%
-Other variables provide limited information, in particular the invariant
-mass of the Higgs candidates, $m_{h_1}$ and $m_{h_2}$: this
-is due to the realistic
-simulation of detector resolution introduced with the smearing.
-%
-We have verified that the post-MVA
-signal significance in the boosted category is substantially
-degraded if substructure variables are not used.
 
-At this point we have all the
-information needed to determine the optimal
-value of the MVA output cuts $y_{\rm cut}$
-and quantify the final values of the signal
-significance $S/\sqrt{B}$ and $S/B$ in the three categories.
-%
-These optimal values are determined from the maximisation of $S/\sqrt{B}$,
-ensuring that the number of events $N_{\rm ev}$
-which would be expected at the HL-LHC is large
-enough.
-%
-In addition, we also require when fixing $y_{\rm cut}$
-that the actual number of MC events used for the ANN training
-is large enough to avoid the biases of a small training sample.
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.48\textwidth]{plots/ssb_noPU.pdf}
+\includegraphics[width=0.48\textwidth]{plots/sb_noPU.pdf}
+\caption{\small
+  The values of the signal significance, $S/\sqrt{B}$, and of the
+  signal over background ratio, $S/B$, for the boosted, intermediate
+  and resolved categories as  function of the cut
+  $y_{\rm cut}$ in the ANN output.
+  %
+  The $y_{\rm cut}=0$
+  values correspond to the  cut-based analysis
+  results from Table~\ref{tab:cutflow_noPU_1}.
+}
+\label{fig:sb_mva}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
 
-These results are summarized in Table~\ref{table:cutflowMVA}, where we indicate
+The results for the signal significance $S/\sqrt{B}$ and
+the signal over background ratio
+$S/B$ as a function of $y_{\rm cut}$
+for the three categories are
+Fig.~\ref{fig:sb_mva}.
+%
+The values 
+for $y_{\rm cut}=0$ correspond to those
+the end of the cut-based analysis, see
+Table~\ref{tab:cutflow_noPU_1}.
+%
+We observe how in the three
+ categories there is a marked  improvement in signal
+significance as compared to the pre-MVA results.
+%
+We also observe a substantial enhancement in $S/B$, arising
+from the background suppression indeed by the MVA, reaching
+values of 1\%, 6\% and 3.5\% in the resolved,
+intermediate and boosted categories.
+%
+This improvement in $S/B$ is crucial to ensure the feasibility
+of this measurement, since it allows systematic
+uncertainties in the background determination to
+be at the same level of a few percent level.
+
+We now have all the
+information needed to determine a suitable
+value of the MVA output cut $y_{\rm cut}$ in each
+of the three categories.
+%
+These values can be determined from the maximisation of $S/\sqrt{B}$,
+ensuring that the number of signal events $N_{\rm ev}$
+expected at the HL-LHC is not too small.
+%
+In  addition, we require
+that the number of MC events used to define the signal
+category (events with $y_i \ge y_{\rm cut}$)
+is large enough to avoid the biases and statistical
+fluctuations associated to a small training sample.
+%
+In Table~\ref{table:cutflowMVA} where we indicate
 the value of the optimal ANN output
 cut in each category,
 the number of signal and background events $N_{\rm ev}$ expected
-at the HL-LHC,
-and also $S/\sqrt{B}$ and $S/B$.
+at the HL-LHC as well as $S/\sqrt{B}$ and $S/B$.
 %
 For reference, we also include the results at the end of
 the cut-based
@@ -505,6 +504,9 @@ analysis.
 \begin{table}[t]
   \centering
   \begin{tabular}{|c|l|c|c|c|c|}
+    \hline
+    \multicolumn{6}{|c|}{No PU} \\
+    \hline
     \hline
     Category  &   &  $N_{\rm ev}$ signal &  $N_{\rm ev}$ back  &  $S/\sqrt{B}$ & $S/B$ \\ 
     \hline
@@ -541,239 +543,33 @@ analysis.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The post-MVA results for $S/\sqrt{B}$ and $S/B$ as a function of the cut
-in the ANN output for each of the three categories are shown in
-Fig.~\ref{fig:sb_mva}.
-%
-Note that the values of $S/\sqrt{B}$ and $S/B$
-for $y_{\rm cut}=0$ correspond to the values at
-the end of the cut-based analysis, see
-the C2 row of Table~\ref{tab:cutflow_noPU_1}.
-%
-Indeed, at the end of the cut based analysis, the
-signal significance $S/\sqrt{B}$ was
-1.2, 0.9 and 1.0 for the boosted, intermediate and resolved
-categories respectively, consistent with Fig.~\ref{fig:sb_mva}.
-%
-The same applies to the signal over background ratio $S/B$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.48\textwidth]{plots/ssb_noPU.pdf}
-\includegraphics[width=0.48\textwidth]{plots/sb_noPU.pdf}
-\caption{\small
-  The values of the signal significance $S/\sqrt{B}$ and of the
-  signal over background ratio $S/B$ for the boosted, intermediate
-  and resolved categories as  function of the cut
-  $y_{\rm cut}=0$ in the ANN output.
-  %
-  The $y_{\rm cut}=0$
-  values correspond to the  cut-based analysis
-  results from Table~\ref{tab:cutflow_noPU_1}.
-}
-\label{fig:sb_mva}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
-
-The results of Fig.~\ref{fig:sb_mva}  show that
-for all categories the  improvement in signal
-significance as compared to the pre-MVA results
-is substantial, growing from around 1
-to around 5 in the three cases.
-%
-The optimal values of $y_{\rm cut}$ ensure that the
-number of events at the HL-LHC is still well appreciable: we obtain
-1300, 360 and 800 events in the resolved, intermediate, and
-boosted categories respectively.
-%
-Another important benefit of the MVA applied to the boosted
-category is that fact that the background is substantially
-reduced so that $S/B$ can be as large as 10\% for the optimal
-values of the ANN output cut.
-%
-Note that this is not true for the other two categories,
-where $S/B$ is roughly constant.
-%
-A reasonably large value of $S/B$ is beneficial
-from the experimental point of view, since it indicates
-that the measurement is feasible even if the
-systematic uncertainties are not very small.
 
 
 
-From Table~\ref{table:cutflowMVA} we see that after the
+From Table~\ref{table:cutflowMVA} we see that at the end of the
 MVA the signal significance in the boosted category increases
-from 0.99 to 3.31, with $S/B$ increasing from $0.005$ to $0.10$,
-with still more that 100 signal events at the HL-LHC.
+from 1.2 to 5.4, with $S/B$ increasing from $0.14\%$ to $3.4\%$,
+with almost 800 signal events expected at the HL-LHC.
 %
-Table~\ref{table:cutflowMVA} also shows that for the intermediate
-and resolved categories, the improvement due to the use
-of the MVA is rather moderate, and signal significance is always
-small since backgrounds are still  large.
+For the intermediate and resolved category, $S/\sqrt{B}$
+increases from 0.9 and 1.0 to 4.8 and 4.5, with
+the signal over background ratio raising from
+$0.12\%$ and $0.03\%$ to 6\% and 1\$, respectively.
 %
-The combination of the signal significance of the
-three categories leads to a $S/\sqrt{B}=3.53$, and compared
-to 3.31 using only the boosted category.
+The overall combined significance is thus $S\sqrt{B}\simeq 8$,
+well above the threshold for discovery.
+%
+These remarkable results are however subject to a justified
+criticism:
+the HL-LHC will be a high-PU environment,
+which will affect the description of the various
+kinematical distributions used as input to the MVA.
+%
+Therefore, next we quantify the robustness of the
+results summarized Table~\ref{fig:sb_mva}
+in a realistic high-PU environment.
 
-
-Table~\ref{fig:sb_mva} contains the main result of this paper:
-at the HL-LHC, it should be possible to claim evidence of
-Higgs pair production using only the $4b$ final state.
-%
-Needless to say, to claim discovery and to improve the accuracy
-of the measurement of the trilinear coupling it would still
-be needed to combine this channel with others like
-$b\bar{b}\gamma\gamma$ and $b\bar{b}\tau\tau$, but in any case
-it is always important to have robust evidence from
-individual channels.
-
-These remarkable results are however subject to an obvious criticism:
-at the HL-LHC the intense PU is know to substantially affect
-kinematical distributions, and in particular, it is expected to degrade
-in some extent the results of the present analysis.
-%
-To preempt this criticism, in the next section
-we discuss how the expectations for the HL-LHC
-summarized in  Table~\ref{fig:sb_mva} are modified in the presence
-of PU expected at the HL-LHC.
-%
-But before that let us illustrate how the improvement in $S/\sqrt{B}$
-obtained from the MVA in the boosted
-category arises from the information contained in the
-jet substructure variables.
-
-\subsection{Another look at jet substructure variables}
-
-%
-From the distribution of total associated ANN weights in the
-boosted category, shown in Fig.~\ref{fig:nnweights}, we see that
-all substructure variables contain useful information:
-the $k_t$-splitting scales $\sqrt{d_{12}}$,
-the $\tau_{21}$ subjettiness ratio, and the ECF ratios
-$C_2^{(\beta)}$ and $D_2^{(\beta)}$.
-%
-Interestingly, for some substructure variables, such as $\tau_{21}$,
-the total associated weight turns out to be stronger in the leading
-than in the sub-leading Higgs candidate (or vice-versa), indicating some
-degree of redundancy when the same variable is used for the two Higgs candidates
-at the same time.
-
-
-The information reflected in Fig.~\ref{fig:nnweights} should also be
-apparent from the corresponding distributions of these substructure
-variables: those with a higher discrimination power should show
-clear differences in shape between the signal and background events,
-while those that carry less information should have similar
-shapes for signal and background.
-%
-The third possibility is that of of redundant variables, where signal
-and background exhibit different shapes but the same information
-is already provided by other input variables.
-%
-To illustrate these points,
-in Fig.~\ref{fig:mva_substructure_1}
-we show the distributions of some of
-these substructure variables for the boosted category: the
-$k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}), for
-the subleading Higgs,
-the energy correlation double ratio $D_2^{(\beta)}$,
-Eq.~(\ref{eq:d2}), for the leading Higgs,
-and then 
-the subjettiness ratio $\tau_{12}$,
-Eq.~(\ref{eq:tau21}),
-for both the leading and subleading Higgs candidates.
-%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-  \begin{center}
-    \includegraphics[width=0.48\textwidth]{plots/split12_h1_C1_boost.pdf} 
-  \includegraphics[width=0.48\textwidth]{plots/EEC_C2_h0_C1_boost.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/tau21_h0_C1_boost.pdf}
-  \includegraphics[width=0.48\textwidth]{plots/tau21_h1_C1_boost.pdf}
-  \caption{\small Distribution of substructure variables
-    in the boosted category at the end of the cut-based
-    analysis, used as input to the MVA.
-    %
-    From top to bottom and from left to right we show  the
-$k_t$ splitting scale for
-the subleading Higgs, the subjettiness ratio $\tau_{12}$
-for the leading Higgs,
-and the energy correlation double ratio $D_2$
-for the leading and subleading Higgs.
-%
-All distributions have been normalized to unity.
-}
-\label{fig:mva_substructure_1}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-From Fig.~\ref{fig:mva_substructure_1}
-we can observe that for these substructure variables the shapes of the signal
-and background distributions show important differences,
-reflecting the inherent differences in the internal structure of jets
-between QCD jets and jets originated from the Higgs decays.
-%
-Importantly, we observe that signal and background distributions peak
-in different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
-peaks around 80 GeV (50 GeV) for signal (background) events, while
-the ECF ratio $D_2^{(\beta)}$ peaks at much lower values for signal than
-for background events.
-%
-From Fig.~\ref{fig:mva_substructure_1} we also see
-the distributions of the subjettiness ratio $\tau_{12}$ are quite similar
-in the leading and in the subleading jets, therefore adding
-$\tau_{12}$ from the two Higgs candidates to the MVA at the same time
-is redundant, explaining why in these cases either one or the other
-variable from a Higgs candidate is assigned higher weight.
-
-
-It is also interesting to show the distributions of kinematic variables
-that according to the MVA provide a small amount of discrimination
-between signal and background, and where the should not be an issue
-of redundancy.
-%
-In Fig.~\ref{fig:mva_substructure_2}
-we show the kinematic variable that carries less weight in the MVA,
-    the azimuthal angle separation between the two Higgs candidates
-    $\Delta\phi_{hh}$, for the resolved and boosted categories:
-    according to Fig.~\ref{fig:nnweights}, essentially no discrimination power
-    should be obtained from this variable, and indeed the shapes of the two signal
-    and background
-    are very similar here.
-    %
-    From Fig.~\ref{fig:nnweights} we also saw that the
-    invariant mass distributions $m_h$ carry little information
-    to discriminate signal over background:
-    this was already verified from 
-the corresponding
-distributions in Fig.~\ref{fig:mHHinv}.
-%
-As explained before, the reduced discrimination power arises
-from 
-the  smearing of jet four-momenta introduced to mimic
-realistically detector resolution.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-  \begin{center}
-  \includegraphics[width=0.48\textwidth]{plots/DeltaPhi_HH_C1_res.pdf} 
-  \includegraphics[width=0.48\textwidth]{plots/DeltaPhi_HH_C1_boosted.pdf} 
-  \caption{\small Same as Fig.~\ref{fig:mva_substructure_1},
-    now for the kinematic variable that carries less weight in the MVA,
-    the azimuthal angle separation between the two Higgs candidates
-    $\Delta\phi_{hh}$, for the resolved and boosted categories.
-}
-\label{fig:mva_substructure_2}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Impact of PU}
+\subsection{Impact of PU in the MVA}
 
 The main limitation of our analysis so far is the fact that
 pile-up (PU) effects have not been accounted for
@@ -890,12 +686,12 @@ the resolved category, which has a signal significance
 only slightly smaller than the boosted case.
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
   \centering
   \begin{tabular}{|c|l|c|c|c|c|}
+     \multicolumn{6}{|c|}{$\la n_{\rm PU}\ra=80$+SK} \\
     \hline
     Category  &   &  $N_{\rm ev}$ signal &  $N_{\rm ev}$ back  &  $S/\sqrt{B}$ & $S/B$ \\ 
     \hline
