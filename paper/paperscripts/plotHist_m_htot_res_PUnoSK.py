@@ -22,8 +22,8 @@ datafiles.append("../plotdata/20K_PU80/histo_m_H_res_C2.0.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append("$n_{PU}=80$ + SK")
-plotnames.append("$n_{PU}=80$")
+plotnames.append(r"$\langle n_{PU} \rangle =80$ + SK")
+plotnames.append(r"$\langle n_{PU} \rangle =80$")
 
 
 # Axis labels
