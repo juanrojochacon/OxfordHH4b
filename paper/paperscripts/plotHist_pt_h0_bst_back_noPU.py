@@ -125,8 +125,8 @@ for idat in xrange(0,len(datafiles)):
 ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
-plt.rcParams.update({'font.size': 14})
-fig.text(0.33,0.93,"Resolved category", fontsize=20)
+plt.rcParams.update({'font.size': 17})
+fig.text(0.28,0.93,"Resolved category, no PU", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
