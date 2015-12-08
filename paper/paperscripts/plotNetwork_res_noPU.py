@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 import matplotlib.pyplot as plt
 import networkx as nx
 import os
@@ -130,7 +130,7 @@ plt.xticks(numpy.arange(len(kinematics)) + 2.5, kinematics,fontsize=11)
 plt.xlabel('ANN Input Variable',fontsize=17)
 plt.ylabel('Total associated weight',fontsize=17)
 
-plt.text(4,12.5,"Resolved category, no PU", fontsize=20)
+plt.text(5,10.5,"Resolved category, no PU", fontsize=20)
 
 plt.savefig(histout+".pdf")
 plt.clf()

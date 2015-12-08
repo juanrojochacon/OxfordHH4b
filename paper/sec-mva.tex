@@ -50,10 +50,7 @@ Since we find that jet substructure variables are a crucial input
 to the MVA, we finally show various kinematic distributions
 of these variables.
 
-
-
 \subsection{Deep artificial neural networks}
-
 
 %
 The specific type of  MVA that we use here, to
@@ -104,8 +101,9 @@ to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain b
     the same number of neurons
   in the first layer.
   %
-  The color code in the neuron connections (the weights) is a heat map,
-  with red indicating large values and black small values.
+  The color code in the neuron connections (the weights) is a heat map obtained
+  at the end of the GA training,
+  with red indicating larger values and black smaller values.
 }
 \label{fig:nnarch}
 \end{center}
@@ -121,16 +119,19 @@ as the probability that the event $i$ originates from the signal process,
 \be
 y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} )\, ,
 \ee
-where $y_i^\prime$ represents the true classification of the event $i$, i.e $y^\prime_{\text{signal}} = 1$ and $y^\prime_{\text{background}} = 0$. With this interpretation, our general classification probability including background events is given by
+where $y_i^\prime$ represents the true classification of the event $i$, {\it i.e},
+$y^\prime = 1$ for signal and $y^\prime = 0$ for background events.
+%
+With this interpretation, our general classification probability including background events is given by
 \be
 P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i} \, ,
 \ee
-which implies that the  negative log-likelihood cost function
+which implies that the  negative log-likelihood error function $E(\{\omega\})$
 that needs to be minimized during the ANN training is 
 the cross-entropy error, defined as
  \bea
- E(\{\omega\}) &=& -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right)\nonumber\\
- &=&
+ &&E(\{\omega\}) = -\log\left(\prod_i^{N_{\text{evt}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right)\nonumber\\
+ &&=
  \sum_i^{N_{\text{evt}}} y^\prime_i\log{y_i} + (1-y^\prime_i)\log{(1-y_i)} \, ,
  \label{cross-entropy}
  \eea
@@ -148,7 +149,7 @@ the cross-entropy error, defined as
  Therefore, the training of the neural networks consist on the
  minimization of the cross-entropy error,
  Eq.~(\ref{cross-entropy}), which in this work is achieved using a
- Genetic Algorithm.
+ Genetic Algorithm (GA).
  %
  The GA training is performed for a very large 
  number of generations, in this case $N_{\rm gen}=50k$, to avoid
@@ -179,11 +180,12 @@ the cross-entropy error, defined as
  the MVA using a large number of kinematic distributions for
  signal and background events.
 %
-In our $hh\to 4b$ case,
-the input variables for the MVA differ between our three categories,
-and in particular in the case of large-$R$ jets (for the boosted
-and intermediate categories) we want to exploit
-the richness of substructure information.
+In this work we use different sets of
+input variables for the MVA for the three categories.
+%
+In particular, in the case of large-$R$ jets (for the boosted
+and intermediate categories) we are exploiting the jet
+substructure information.
 
 For the three categories, boosted, intermediate and resolved,
 the following common variables are used as input to the MVA:
@@ -212,23 +214,21 @@ In addition, in the boosted category we use
  transverse momenta $p_{T,i}$ of the two leading 
   $b$-tagged small-$R$ jets.
   %
-Therefore, we have a total of 13 variables which are common to the three categories.
-%
-Therefore, there are in total $N_{\mathrm{var}}=13$ variables for the
-resolved analysis,
-17 for the intermediate,
-and 21 for the boosted category.
-%
+ Therefore, we have 13 variables which are common to the three categories,
+ and a total of $N_{\mathrm{var}}=13,17$ and 21 variables for the
+resolvedm intermediate and boosted categories.
+
+
 Given that the MVA is able to identify the most discriminatory variables
-and to ignore those that have smaller effect, it is advantageous to
-include as many substructure variables as possible.
+and to ignore those that have smaller effects, it is advantageous to
+include as many input variables as possible.
 %
 This is one of the main advantages of ANNs in this context: they are
 inherently redundant, so
 adding additional information, even if carries very little weight,
 should not degrade
-the classification power of the MVA (other than making the GA
-minimization less efficient).
+the classification power of the MVA, other than making the GA
+minimization less efficient.
 
 \subsection{Post-MVA signal significance}
 \label{sec:signalsignificance}
@@ -240,8 +240,8 @@ boosted, intermediate and resolved categories.
 The distributions are normalized so that their integral
   adds up to one.
 %
-The  separation between signal and background is achieving by introducing
-a cut, $y_{\rm cut}$, in the ANN output, so that MC events with $y_i\ge
+The  separation between signal and background is achieved by introducing
+a cut, $y_{\rm cut}$, on the ANN output, so that MC events with $y_i\ge
 y_{\rm cut}$ are classified as signal events, and those with
  $y_i <
 y_{\rm cut}$ as background events.
@@ -249,8 +249,6 @@ y_{\rm cut}$ as background events.
 Therefore,
 the more separated that the two distributions are, the more efficient
 the MVA discrimination will be.
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -289,8 +287,6 @@ in the boosted and intermediate categories, whose use substantially
 improves the
 discrimination between signal and background events.
 
-
-
 The results for the signal selection efficiency and the 
 background rejection rate as a function of the cut in the ANN output
 $y_{\rm cut}$
@@ -328,8 +324,6 @@ decreasing then for the intermediate and finally for the
 resolved categories, consistent with the distributions in
 Fig.~\ref{fig:exampleroc}.
 %
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -388,7 +382,7 @@ we show in Fig.~\ref{fig:nev2} the number of signal (dashed lines) and backgroun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As can be seen from Fig.~\ref{fig:nev2}, in the boosted category
-event with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$
+events, with a cut in the ANN output as hard as $y_{\rm cut}\simeq 0.9$,
 we are still left
 with around 100 events at the HL-LHC, 
 which the background being reduced substantially to around
@@ -418,8 +412,8 @@ the $k$-th neutron of the second layer with the $i$-th neuron of
 the first (input) layer, and $n^{(2)}=5$ the number of
 neurons in the second layer.
 %
-The input variables with a larger value of $\omega^{\rm tot}_i$ will those
-be the ones that play a dominant role in enhancing the signal
+The input variables with a larger value of $\omega^{\rm tot}_i$ will be those
+that play a dominant role in enhancing the signal
 discrimination using the MVA.
 
 %
@@ -445,21 +439,24 @@ are the $p_T$ of the two reconstructed Higgs candidates, and then on a similar
 footing other variables like the $p_T$ of the individual jets
 and the mass of the di-Higgs system $m_{hh}$.
 %
-The only variable which seems to contain to information at all
+The only variable which seems to contain no information at all
 is the $\Delta \phi_{hh}$ separation between the two
 Higgs candidates.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.49\textwidth]{plots/res_wgthist_noPU.pdf}
-\includegraphics[width=0.49\textwidth]{plots/bst_wgthist_noPU.pdf}
+  \begin{center}
+    \includegraphics[width=0.49\textwidth]{plots/res_wgthist_noPU.pdf}
+\includegraphics[width=0.49\textwidth]{plots/int_wgthist_noPU.pdf}
+\includegraphics[width=0.75\textwidth]{plots/bst_wgthist_noPU.pdf}
 \vspace{-0.5cm}
 \caption{\small
 Distribution of the total associated weight,
 Eq.~(\ref{eq:totweight}) for each of the $N_{\rm var}$ input
-variables of the resolved (left plot) and boosted (right plot) categories.
+variables of the resolved (upper left plot),  intermediate (upper right plot)
+and boosted (lower plot)
+categories.
 %
 See Sect.~\ref{sec:input} for a description of each of the input
 variables to the MVA.
@@ -494,7 +491,8 @@ We have verified that the post-MVA
 signal significance in the boosted category is substantially
 degraded if substructure variables are not used.
 
-At this point we have all the ingredients that we need to determine the optimal
+At this point we have all the
+information needed to determine the optimal
 value of the MVA output cuts $y_{\rm cut}$
 and quantify the final values of the signal
 significance $S/\sqrt{B}$ and $S/B$ in the three categories.
@@ -599,7 +597,8 @@ The same applies to the signal over background ratio $S/B$.
 
 The results of Fig.~\ref{fig:sb_mva}  show that
 for all categories the  improvement in signal
-significance arising from the MVA is substantial, growing from around 1
+significance as compared to the pre-MVA results
+is substantial, growing from around 1
 to around 5 in the three cases.
 %
 The optimal values of $y_{\rm cut}$ ensure that the
@@ -809,7 +808,6 @@ In this section, we show how our qualitative results, in particular
 the enhanced signal significance provided by the MVA, are robust
 in the presence of  PU.
 
-
 First of all, we describe the simulation of the 
 PU conditions  expected at the HL-LHC, and discuss the settings of
 the PU subtraction strategy that we adopt.
@@ -823,7 +821,6 @@ show that our qualitative conclusions are robust
 in the presence of realistic PU conditions, finding
 a combined
 signal significance of $S/\sqrt{B}\simeq 4$.
-
 
 The same settings of the cut-based analysis,
 Sects.~\ref{sec:analysis} and~\ref{sec:results}, and

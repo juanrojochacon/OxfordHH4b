@@ -46,7 +46,7 @@ def plotDiscriminantHisto(name, signal, background,title):
 	ax.hist(signal, bins, color='r', alpha=0.8, normed=True, label = "Signal",linewidth=2)
 	ax.hist(background, bins, color='b',fill=False, alpha=0.8, edgecolor='b',normed=True, label = "Background",hatch="//",linewidth=2)
 
-	ax.set_ylim([0,10])
+	ax.set_ylim([0,12])
 	ax.set_xlabel("ANN Output")
         ax.set_ylabel("a. u.")
 
