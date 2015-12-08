@@ -5,27 +5,28 @@
 \label{sec:results}
 
 In this section we present the results of the 
-cut-based analysis, including the corresponding
-cut-flow.
+cut-based analysis and provide a
+cut-flow for the different analysis steps.
+%
 We
 compare our results with other recent studies,
-and in particular
-we study how the signal significance
+and assess how the signal significance
 is affected if only the $4b$ component of the
-QCD multi-jet background is taken into account,
-while the $2b2j$ and $4j$ components are neglected.
+QCD multi-jet background is taken into account but not 
+the $2b2j$ and $4j$ components.
 %
+We present now the results in the no PU scenario, the impact
+of PU will be discussed in the next section.
 
 
 \subsection{Cut-flow and signal significance}
 
-First of all, we compare the cross-sections at various
-stages of the selection
-for the three categories, for signal and background events,
-by providing a detailed cut-flow.
+We now compare the cross-sections for
+signal and background events at various
+stages of the analysis.
 %
-We consider all backgrounds enumerated in Sect.~\ref{mcgeneration},
-and also discuss how results are modified if only the $4b$
+We consider all relevant backgrounds (see Sect.~\ref{mcgeneration}),
+and discuss how results are modified if only the $4b$
 component is kept.
 %
 At each stage of the cut-flow, we also provide the
@@ -34,25 +35,18 @@ over background ratio, $S/B$, corresponding to the
  HL-LHC with
 an integrated luminosity of $\mathcal{L}
 =3000$ fb$^{-1}$.
-%
-For this type of analysis,
-it is crucial not only to achieve a good signal
-significance, $S/\sqrt{B}$, but also a good signal over background ratio $S/B$.
-%
-If the latter is too small, an unrealistically precise
-measurement of the background would be required.
-%
+
+
 In Table~\ref{tab:cutflowdetails}
-we describe this cut-flow,
-separated into the (exclusive) boosted, intermediate,
+we summarize the definition of the different
+levels of the cut-flow of the present analysis,
+separated into the boosted, intermediate,
     and resolved categories.
     %
     From top to bottom, additional cuts are required in addition
     to the previous ones.
     %
-    The various cuts
-    are defined as follows:
-
+    In more details, these different analysis levels are the following:
    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,7 +74,7 @@ $N_{\rm jets}^{R04}\ge 4$ \\
 {\bf C2} & \multicolumn{3}{c|}{+$b$-tagging}    \\
 \hline
   \end{tabular}
-  \caption{\small Cut-flow of the present analysis for the boosted, intermediate
+  \caption{\small Definition of the cut-flow levels for the boosted, intermediate
     and resolved selections.
     %
       \label{tab:cutflowdetails}
@@ -91,12 +85,12 @@ $N_{\rm jets}^{R04}\ge 4$ \\
 
 
     \begin{itemize}
-    \item {\bf C0}: these are the generator level cross-sections, with
+    \item {\bf C0}:  generator level cross-sections, with
       mild generation cuts in the case of the background processes, and no
       generation cuts
       for the signal events.
       %
-    \item {\bf C1a}:  we only check that we have at least
+    \item {\bf C1a}:  check that we have at least
       two large-$R$ jets (in the boosted case),
       one large-$R$ jet and at least 2 small-$R$ jets (in the intermediate
       case) and at least four small-$R$ jets (in the resolved case).
@@ -116,7 +110,7 @@ $N_{\rm jets}^{R04}\ge 4$ \\
     \item {\bf C1e}: after the two Higgs candidates  have been reconstructed,
       their invariant masses are required to lie a window around $m_H$,
       in particular between 85 and 165 GeV.
-          \item {\bf C2}: finally, the
+          \item {\bf C2}: the
             $b$-tagging conditions are
             imposed, see
             Sect.~\ref{sec:btagging}.
@@ -125,35 +119,29 @@ $N_{\rm jets}^{R04}\ge 4$ \\
     C2 level
     are then used as input for the MVA training, to be described next
     in Sect.~\ref{sec:mva}.
-
     %
-    In Table~\ref{tab:cutflow_noPU_1} we provide
-    the values of cross-sections, in femtobarns,
-     for the signal
-      and the various background
-      components as a function of the
-      cut-flow, for the resolved,
-      boosted and intermediate
-      categories.
-      %
-       In each case, we also provide the signal over
-      background ratio, $S/B$, and the signal
-      significance, $S/\sqrt{B}$, at the HL-LHC, considering either
-      the total background or only the $4b$ component.
-     %
-      This separation emphasizes
-      the  importance of the reducible component of the QCD background.
-      %
-      Even after $b$-tagging, the reducible $2b2j$ background
-      is comparable, or even larger, than the irreducible
-      $4b$ component.
-      %
-      %
-      So at the end of the cut-based analysis, signal significance
-      are overestimated by up to a factor 2 if the light
-      and charm jet background is neglected.
+    In Table~\ref{tab:cutflow_noPU_1} we collect
+    the values for cross-sections for signal and background processes
+    for different levels of the cut flow.
+    %
+    Results are divided into the resolved, intermediate and boosted categories,
+    and are inclusive up to the C2 level, where exclusivity is imposed.
+    %
 
-      
+In Table~\ref{tab:cutflow_noPU_1} we also  provide the signal over
+      background ratio, $S/B$, and the signal
+      significance, $S/\sqrt{B}$, corresponding to an integrated
+      luminosity of $\mathcal{L}=3$ ab$^{-1}$.
+      %
+      This is done both taking into account all the background components and only
+      the $4b$ QCD background.
+        %
+      We find that after $b$-tagging, the  $2b2j$ component is
+      of the same order of magnitude as the $4b$ component.
+      %
+      This means that the signal significance at the end of the cut-based
+      analysis is degraded by about a factor two due to the contribution
+      of light and charm jets being mis-identified as $b$-jets.
     
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,7 +166,8 @@ $N_{\rm jets}^{R04}\ge 4$ \\
       In each case, we also provide the signal over
       background ratio, $S/B$, and the signal
       significance, $S/\sqrt{B}$, considering either
-      the total background or only the $4b$ component.
+      the total background or only the $4b$ component, for
+      a total integrated luminosity of $\mathcal{L}=3$ ab$^{-1}$.
       %
       The different levels of the cut-flow are summarized
       in Table~\ref{tab:cutflowdetails}.

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 from matplotlib import pyplot as plt
 from operator import add, sub
 from math import sqrt
@@ -15,8 +15,8 @@ datafiles=[ "../plotdata/results_noPU/MVA/nn_13X5X3X1_50000-Gen_noPU_res.dat",
 			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
-titlenames=[ "Resolved Category","Intermediate Category",\
-             "Boosted Category"]
+titlenames=[ "Resolved Category, no PU","Intermediate Category, no PU",\
+             "Boosted Category, no PU"]
 
 
 # HL-LHC luminosity
