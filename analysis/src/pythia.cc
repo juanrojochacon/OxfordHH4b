@@ -10,9 +10,9 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
 {
   // Random seed
   pythiaRun.readString("Random:setSeed = on");
-  ostringstream o;
+  std::ostringstream o;
   o<<"Random:seed = "<<int(pythiaSeed());
-  cout<<o.str()<<endl;
+  std::cout<<o.str()<<std::endl;
   pythiaRun.readString(o.str());
 
   // Initialize Les Houches Event File run. List initialization information.
@@ -57,7 +57,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   pythiaRun.readString("-5:mayDecay = no");
 
   // Read the Les Houches Event File
-  string ofile;
+  std::string ofile;
   ofile="Beams:LHEF = "+eventfile;
   pythiaRun.readString(ofile.c_str());
 
@@ -91,7 +91,7 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
   if (!pythiaRun.next()) 
     if (pythiaRun.info.atEndOfFile()) // Stop showering when the end of the LHE file is reached
     {
-      cerr << "Info: end of input lhe file reached" << endl;
+      std::cerr << "Info: end of input lhe file reached" << std::endl;
       exit(-1);
     }
 
