@@ -15,9 +15,9 @@ datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_13X5X3X1_50000-Gen_SKPU80_res.da
             "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
-titlenames=[ "Resolved Category,  $n_{PU}=80$+SK",
-             "Intermediate Category,  $n_{PU}=80$+SK",\
-             "Boosted Category,  $n_{PU}=80$+SK"]
+titlenames=[ r"Resolved Category,  $\langle n_{PU}\rangle =80$+SK",
+             r"Intermediate Category,  $\langle n_{PU}\rangle =80$+SK",\
+             r"Boosted Category,  $\langle n_{PU}\rangle=80$+SK"]
 
 
 # HL-LHC luminosity
