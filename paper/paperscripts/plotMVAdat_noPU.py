@@ -55,7 +55,7 @@ def plotDiscriminantHisto(name, signal, background,title):
 	legend.get_frame().set_alpha(0.8)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
-	fig.text(0.28,0.93,title, fontsize=19)
+	fig.text(0.24,0.93,title, fontsize=19)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -230,7 +230,7 @@ sb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 sb.savefig(SBout+'.pdf')
 ssb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 ssb.savefig(SSBout+'.pdf')
-roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
+nev3.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
 nev3.savefig(NeV2out+'.pdf')
 
 

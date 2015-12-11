@@ -10,25 +10,27 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "pt_H1_bst_C1d_noPU"
+outfile = "tau21_h0_C1_boost"
 
-linestyles = [ 'solid', 'dashed']
+linestyles = [ 'solid', 'dashed','solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_H1_boost_C1d.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_pt_H1_boost_C1d.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_tau21_fj1_boost_C1e.dat")
+datafiles.append("../plotdata/results_noPU/background/histo_tau21_fj1_boost_C1e.dat")
+
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
+
 # Axis labels
-xLabel = "Sub-leading Higgs Candidate $p^{h}_T$ (GeV)"
+xLabel = r"Subjettiness ratio $\tau_{21}$ in leading Higgs candidate"
 yLabel = "a. u."
 
 # Log axes
 xLog = False
-yLog = True
+yLog = False
 
 # Normalise histograms
 normalise = True
@@ -39,7 +41,7 @@ if len(datafiles)!=len(plotnames):
   print "Error: datafile and plotname arrays are different lengths!"
   exit()
 
-colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
+colours = ['r', 'b', 'b', 'b']
 icol = 0
 
 # Setup figure
@@ -52,8 +54,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([190,600])
-ax.set_ylim([1e-4,0.02])
+ax.set_xlim([0,1.0])
+ax.set_ylim([0,3])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -123,8 +125,8 @@ for idat in xrange(0,len(datafiles)):
 ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 
-plt.rcParams.update({'font.size': 16})
-fig.text(0.25,0.93,r"Boosted category, $\langle n_{PU}\rangle =0$", fontsize=20)
+plt.rcParams.update({'font.size': 14})
+fig.text(0.28,0.93,"Boosted category, no PU", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

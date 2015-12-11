@@ -644,21 +644,20 @@ modelling is not crucial in this specific application.
 
 
 We now study the discrimination power to separate signal
-and background events contained in the jet substructure
+and background events contained in
+jet substructure
 variables.
 %
 In Fig.~\ref{fig:mva_substructure_1}
-we show the distributions of some of
-these substructure variables for the boosted category: the
-$k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}), for
-the subleading Higgs,
-the energy correlation double ratio $D_2^{(\beta)}$,
-Eq.~(\ref{eq:d2}), for the leading Higgs,
-and then 
-the 2--to--1 subjettiness ratio $\tau_{12}$,
-Eq.~(\ref{eq:tau21}),
-for both the leading and subleading Higgs candidates.
-%
+we show the distributions of representative
+ substructure variables for the boosted category: the
+$k_t$ splitting scale $\sqrt{d_{12}}$, Eq.~(\ref{eq:ktsplitting}), 
+the ECF ratio $C_2^{(\beta)}$,
+Eq.~(\ref{eq:c2}), and
+the 2--to--1 subjettiness ratio $\tau_{12}$, Eq.~(\ref{eq:tau21}),
+all for the leading
+Higgs candidates, as we as also $\tau_{12}$ for the subleading
+Higgs candidates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -669,15 +668,12 @@ for both the leading and subleading Higgs candidates.
   \includegraphics[width=0.48\textwidth]{plots/tau21_h1_C1_boost.pdf}
   \caption{\small Distribution of representative substructure variables
     in the boosted category at the end of the cut-based
-    analysis, used as input to the MVA.
+    analysis, to be used as input to the MVA.
     %
     From top to bottom and from left to right we show  the
-$k_t$ splitting scale for
-the subleading Higgs, the subjettiness ratio $\tau_{12}$
-for the leading Higgs,
-and the energy correlation double ratio $D_2$
-for the leading and subleading Higgs.
-%
+    $k_t$ splitting scale, the energy correlation ratio $C_2^{(\beta)}$
+    and the  subjettiness ratio $\tau_{21}$ for the leading
+    Higgs, as well as $\tau_{21}$ also for the subleading Higgs.
 }
 \label{fig:mva_substructure_1}
 \end{center}
@@ -686,26 +682,29 @@ for the leading and subleading Higgs.
 
 
 From Fig.~\ref{fig:mva_substructure_1}
-we can observe that for these substructure variables the shapes of the signal
-and background distributions show important differences,
-reflecting the inherent differences in the internal structure of jets
+we can observe how for these substructure variables the shapes of the signal
+and background distributions reflect
+the inherent differences in the internal structure of jets
 between QCD jets and jets originated from the Higgs decays.
 %
-Importantly, we observe that signal and background distributions peak
-in different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
-peaks around 80 GeV (50 GeV) for signal (background) events, while
-the ECF ratio $D_2^{(\beta)}$ peaks at much smaller
-values for signal than
-for background events.
+Crucially, signal and background distributions peak
+in rather
+different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
+peaks around 80 GeV (40 GeV) for signal (background) events, while
+the distribution of the
+ECF ratio $C_2^{(\beta)}$ is concentrated at small values
+for signal but is much broader for background events.
 %
 From Fig.~\ref{fig:mva_substructure_1} we also see
-the distributions of the subjettiness ratio $\tau_{12}$ are similar
-in the leading and in the subleading jets, therefore the information
+the distributions of the subjettiness ratio $\tau_{12}$ are
+reasonably similar
+for both the leading and in the subleading jets, therefore the information
 contained in
-$\tau_{12}$ from each of the two Higgs candidates  will be to some
+this (and other substructure variables)
+from each of the two Higgs candidates  will be to some
 extent redundant.
 
-Therefore, while we don't explicitely have cuts in the substructure
+Therefore, while we do not explicitly have cuts in the substructure
 variables, their discrimination power between signal and
 background events is the motivation to include them
 as input to the MVA, as we will explain in Sect.~\ref{sec:mva}.
@@ -735,8 +734,7 @@ While the latter is closer to the HL-LHC forecasts,
 we adopt $\la n_{\rm PU}\ra=80$ as our baseline,
 given that it
 is beyond the scope of this paper to fully optimize
-PU subtraction,
-
+the PU subtraction.
 
 %
 In order to subtract PU in hadronic collisions, a number of techniques
@@ -981,7 +979,7 @@ momentum distribution $p_T$,
 
 
 
-Finally, can perform a similar comparison for
+We can also perform a similar comparison for
 the resolved category.
 %
 In Fig.~\ref{fig:signal-vs-back-resolved} we compare
@@ -1006,6 +1004,68 @@ the kinematic distributions for signal and background events,
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+To complete this discussion, it is illustrative to determine
+which is the mass resolution obtained for the
+reconstructed Higgs candidates in various cases.
+%
+In Table~\ref{tab:massresolution}
+we indicate the shift of the invariant mass peak as compared
+to the nominal Higgs mass, $\delta m_h$, as well as the
+corresponding width of the distribution, $\sigma_{m_h}$,
+obtained from fitting a Gaussian to the mass distributions
+of both the leading and subleading Higgs candidates in
+the resolved category.
+        %
+        We show results for three cases: without PU, with PU $\la n_{\rm PU}\ra=80$
+        but without subtraction, and the same with SK subtraction.
+%
+        We find a mass resolution of around 9 GeV in the case
+        without PU, which is only slightly degraded
+        to around 11 GeV in the case of $\la n_{\rm PU}\ra=80$ PU
+        with SK subtraction.
+        %
+        We also note that, after subtraction, the peak of
+        the invariant mass distributions of Higgs candidates
+        coincides with the nominal values of $m_h$ within a few GeV.
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{|c|c|c|c|}
+        \hline
+        &   &   $\delta m_h$  &  $\sigma_{m_h}$  \\
+        \hline
+        \hline
+        \multirow{2}{*}{no PU}  & leading Higgs  &  -3.8 GeV   & 8 GeV   \\
+          & subleading Higgs   & -5.8 GeV  &  9 GeV \\
+        \hline
+          \multirow{2}{*}{$\la n_{\rm PU}\ra=80$}  & leading Higgs  &  +33 GeV   & 9 GeV   \\
+          & subleading Higgs   & +31 GeV  &  12 GeV \\
+          \hline
+            \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK}  & leading Higgs  &  +3.9 GeV   & 11 GeV   \\
+          & subleading Higgs   & +2.1 GeV  &  11 GeV \\
+        \hline
+        \end{tabular}
+      \caption{\label{tab:massresolution}
+        Resolution of the invariant mass distribution of
+        reconstructed Higgs candidates in the resolved
+        category.
+        %
+        We show three cases: without PU, with PU $\la n_{\rm PU}\ra=80$
+        but without subtraction, and the same with SK subtraction.
+        %
+        We indicate the shift of the invariant mass peak as compared
+        to the nominal Higgs mass, $\delta m_h$, as well as the width
+        of a Gaussian fitted to the mass distribution, $\sigma_{m_h}$,
+        for both the leading and subleading Higgs candidates.
+      }
+      \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
