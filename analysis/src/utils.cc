@@ -26,10 +26,24 @@ double SplittingScales( fastjet::PseudoJet const& jet )
   }
    
   vector<fastjet::PseudoJet> const& constits = jet.constituents();
+
+  if (constits.size() == 0 )
+  {
+    std::cerr << "ERROR! Splittingscales must have >0 constituents!"<< std::endl;
+    exit(-1);
+  }
       
   fastjet::JetDefinition ekt_jd = fastjet::JetDefinition( fastjet::kt_algorithm, 1.5, fastjet::E_scheme, fastjet::Best);
   const fastjet::ClusterSequence kt_seq_excl = fastjet::ClusterSequence( constits, ekt_jd);
-  fastjet::PseudoJet kt_jet = sorted_by_pt( kt_seq_excl.inclusive_jets())[0];
+  std::vector<fastjet::PseudoJet> excl_cluster = sorted_by_pt( kt_seq_excl.inclusive_jets());
+
+  if (excl_cluster.size() == 0 )
+  {
+    std::cerr << "ERROR! Splittingscales must have >0 excl_cluster!"<< std::endl;
+    exit(-1);
+  }
+
+  fastjet::PseudoJet kt_jet = excl_cluster[0];
   
   const double split12 = 1.5*sqrt( kt_seq_excl.exclusive_subdmerge( kt_jet, 1));
   return split12; 
