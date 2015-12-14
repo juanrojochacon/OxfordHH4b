@@ -18,6 +18,9 @@ datanames=[ "Resolved","Intermediate","Boosted"]
 titlenames=[ "Resolved Category, no PU","Intermediate Category, no PU",\
              "Boosted Category, no PU"]
 
+datanamessignal=[ "Signal Res","Signal Int","Signal Boost"]
+datanamesback=[ "Background Res","Background Int","Background Boost"]
+
 
 # HL-LHC luminosity
 hl_lhc_lumi=3000
@@ -69,10 +72,6 @@ rocax.plot([0,1],[1,0], color='grey')
 rocax.set_ylabel("Background rejection rate")
 rocax.set_xlabel("Signal efficiency")
 
-# Gridlines
-rocax.xaxis.grid(True)
-rocax.yaxis.grid(True)
-
 # Setup s/b plot
 sb, sbax = plt.subplots()
 sbax.set_ylabel("$S/B$",fontsize=19)
@@ -98,18 +97,7 @@ nevax3.set_ylabel("$N_{ev}$ at HL-LHC",fontsize=18)
 nevax3.set_xlabel("ANN output cut")
 
 # Gridlines
-sbax.xaxis.grid(True)
-sbax.yaxis.grid(True)
 sbax.set_yscale('log')
-
-
-ssbax.xaxis.grid(True)
-ssbax.yaxis.grid(True)
-nevax.xaxis.grid(True)
-nevax.yaxis.grid(True)
-nevax3.xaxis.grid(True)
-nevax3.yaxis.grid(True)
-
 nevax3.set_yscale('log')
 
 nevax3.set_ylim([1,1e7])
@@ -120,6 +108,8 @@ for idat in xrange(0,len(datafiles)):
 	infilenm = os.path.expanduser(datafiles[idat])
 	basename = datanames[idat]
         titlename = titlenames[idat]
+        basenamesignal = datanamessignal[idat]
+        basenameback = datanamesback[idat]
 
 	# Verify paths
 	if os.path.exists(infilenm) == False:
@@ -148,7 +138,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 25)
+	thresholds = numpy.linspace(0, 1, 30)
 	falsepos = []
 	truepos = []
 
@@ -203,8 +193,8 @@ for idat in xrange(0,len(datafiles)):
 	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename,linewidth=2.4)
 	nevax2.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
 
-	nevax3.plot(thresholds, nsig, color=colours[idat], linestyle='--',linewidth=2.4)
-	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
+	nevax3.plot(thresholds, nsig, color=colours[idat], label=basenamesignal, linestyle='--',linewidth=2.4)
+	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basenameback,linewidth=2.4)
 
 ################################### Finish up ########################################
 
@@ -218,8 +208,8 @@ sslegend = ssbax.legend(loc='best')
 sslegend.get_frame().set_alpha(0.8)
 nevlegend = nevax2.legend(loc='best')
 nevlegend.get_frame().set_alpha(0.8)
-nev3legend = nevax3.legend(loc='best')
-nev3legend.get_frame().set_alpha(0.8)
+nev3legend = nevax3.legend(loc='best',fontsize=13)
+nev3legend.get_frame().set_alpha(0.5)
 
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))

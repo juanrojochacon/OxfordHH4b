@@ -19,6 +19,9 @@ titlenames=[ r"Resolved Category,  $\langle n_{PU}\rangle =80$+SK",
              r"Intermediate Category,  $\langle n_{PU}\rangle =80$+SK",\
              r"Boosted Category,  $\langle n_{PU}\rangle=80$+SK"]
 
+datanamessignal=[ "Signal Res","Signal Int","Signal Boost"]
+datanamesback=[ "Background Res","Background Int","Background Boost"]
+
 
 # HL-LHC luminosity
 hl_lhc_lumi=3000
@@ -71,8 +74,6 @@ rocax.set_ylabel("Background rejection rate",fontsize=17)
 rocax.set_xlabel("Signal efficiency",fontsize=17)
 
 # Gridlines
-rocax.xaxis.grid(True)
-rocax.yaxis.grid(True)
 
 # Setup s/b plot
 sb, sbax = plt.subplots()
@@ -98,21 +99,8 @@ nev3, nevax3 = plt.subplots()
 nevax3.set_ylabel("$N_{ev}$ at HL-LHC after MVA cut")
 nevax3.set_xlabel("ANN output cut")
 
-# Gridlines
-sbax.xaxis.grid(True)
-sbax.yaxis.grid(True)
 sbax.set_yscale('log')
-
-
-ssbax.xaxis.grid(True)
-ssbax.yaxis.grid(True)
-nevax.xaxis.grid(True)
-nevax.yaxis.grid(True)
-nevax3.xaxis.grid(True)
-nevax3.yaxis.grid(True)
-
 nevax3.set_yscale('log')
-
 nevax3.set_ylim([1,1e7])
 
 ######################## Reading data ##############################
@@ -121,6 +109,8 @@ for idat in xrange(0,len(datafiles)):
 	infilenm = os.path.expanduser(datafiles[idat])
 	basename = datanames[idat]
         titlename = titlenames[idat]
+        basenamesignal = datanamessignal[idat]
+        basenameback = datanamesback[idat]
 
 	# Verify paths
 	if os.path.exists(infilenm) == False:
@@ -149,7 +139,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 100)
+	thresholds = numpy.linspace(0, 1, 30)
 	falsepos = []
 	truepos = []
 
@@ -204,8 +194,9 @@ for idat in xrange(0,len(datafiles)):
 	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename,linewidth=2.4)
 	nevax2.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
 
-	nevax3.plot(thresholds, nsig, color=colours[idat], linestyle='--',linewidth=2.4)
-	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
+        nevax3.plot(thresholds, nsig, color=colours[idat], label=basenamesignal, linestyle='--',linewidth=2.4)
+	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basenameback,linewidth=2.4)
+        
 
 ################################### Finish up ########################################
 
@@ -219,13 +210,13 @@ sslegend = ssbax.legend(loc='best')
 sslegend.get_frame().set_alpha(0.8)
 nevlegend = nevax2.legend(loc='best')
 nevlegend.get_frame().set_alpha(0.8)
-nev3legend = nevax3.legend(loc='best')
+nev3legend = nevax3.legend(loc='best',fontsize=13)
 nev3legend.get_frame().set_alpha(0.8)
 
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))
 
-roc.text(0.30,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+roc.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 roc.savefig(ROCout+'.pdf')
 
 sb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
@@ -234,7 +225,7 @@ sb.savefig(SBout+'.pdf')
 ssb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 ssb.savefig(SSBout+'.pdf')
 
-nev3.text(0.20,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+nev3.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 nev3.savefig(NeV2out+'.pdf')
 
 
