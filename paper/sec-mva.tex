@@ -810,39 +810,103 @@ case of events with PU, for
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-We can finally combine the three categories, resolved,
-intermediate and boosted, and determine the overall signal
+
+
+
+Combining the three categories, resolved,
+intermediate and boosted, we determine the overall signal
 significance, finding
 \be
-\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0 \, ,\quad
-\mathcal{L}=3\,{\rm ab}^{-1}\, .
+\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0~(1.3) \, ,\quad
+\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, .
 \ee
 %
 We thus conclude that the measurement of
-Higgs pair production in the $b\bar{b}b\bar{b}$ final state
+Higgs pair production in the $b\bar{b}b\bar{b}$ final state at the HL-LHC
 should be 
 well above the threshold for evidence.
 %
-Even
-discovery might be within reach if the
-misidentification of light and charm jets as b-jets can be  reduced.
-%
-Extrapolating the above results
-to total integrated luminosity expected at the end of
-LHC Run II, one finds
-instead
-\be
-\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 1.3(2.6) \, ,\quad
-\mathcal{L}=300\,{\rm fb}^{-1}\, ,
+On the other hand, such measurement seems to be out of reach
+for the total integrated luminosity expected by the end of Run II.
+
+In Table~\ref{table:cutflowMVA_fakes} we compare,
+after the MVA is applied,
+the total
+number of background events, $N_{\rm ev}^{\rm tot}$,
+    expected at the HL-LHC, with
+     $N_{\rm ev}^{\rm 4b}$, the corresponding number
+    from the QCD $4b$ component, in the cases with and without
+    PU.
+    %
+    The MVA has been trained to the total background sample,
+    though differences
+    in the kinematic distributions of the $4b$ and $2b2j$ processes are small,
+    see Fig.~\ref{fig:histoBack}.
+    %
+    The major improvement of eliminating the contamination
+    of light and charm jet mis-identification is in the boosted category.
+
+    
+    In the case of PU+SK, combining the three categories but assuming that
+    the only relevant background is the irreducible QCD $4b$ component,
+    we obtain
+    \be
+\lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 7.4(2.4) \, ,\quad
+\mathcal{L}=3000 (300)\,{\rm fb}^{-1}\, ,
 \ee
-where the number in brackets corresponds to neglecting all backgrounds
-except for the QCD $4b$ multijets.
+Therefore, a discovery of Higgs pair production at the
+HL-LHC might be possible if the
+mis-identification of light and charm jets as
+$b$-jets can be  reduced.
 %
-This suggest that, remarkably, accessing Higgs pair production at Run II
-might not be completely impossible, specially accounting
-for the fact that the mean number of PU events per
-bunch crossing is much smaller
-that at the HL-LHC.
+With these assumptions, and provided
+the signal efficiency can be further enhanced,
+this measurement might even be feasible
+by the end of Run II.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+  \centering
+  \small
+  \begin{tabular}{|c|c|c|c||c|c||c|c|}
+        \hline
+        Category  &    &  $N_{\rm ev}^{\rm tot}$  &  $N_{\rm ev}^{\rm 4b}$   &
+        $S/\sqrt{B_{\rm tot}}$ & $S/\sqrt{B_{\rm 4b}}$  
+        &  $S/B_{\rm tot}$ & $S/B_{\rm 4b}$\\ 
+    \hline
+    \hline
+    \multirow{2}{*}{Boosted} &  no PU  & $2.2\cdot 10^4$  & 4800    & 
+      5.4 &  11.6 & 0.034 & 0.16 \\
+    & PU+SK & 7300  &  1600  &  2.9  & 6.2 &  0.034 & 0.16 \\
+    \hline
+    \hline
+    \multirow{2}{*}{Intermediate} &  no PU   & $5.5\cdot 10^3$  & 2000    &
+    4.8  &  7.9 &  0.06  &  0.16 \\
+    & PU+SK  & 2600   &  1000  & 1.1  & 1.8 & 0.02 & 0.05 \\
+    \hline
+    \hline
+    \multirow{2}{*}{Resolved} &   no PU  & $8\cdot 10^4$   &
+    $3.7\cdot 10^4$
+    & 4.5  & 6.7  & 0.01 & 0.02 \\
+    & PU+SK  &  $3\cdot 10^4$   &   $1.3\cdot 10^4$ & 2.5    & 3.7  & 0.015 & 0.03 \\
+    \hline
+      \end{tabular}
+  \caption{\small Post-MVA number of total background events, $N_{\rm ev}^{\rm tot}$,
+    expected at the HL-LHC, compared
+    with $N_{\rm ev}^{\rm 4b}$,
+    the number of QCD $4b$ background events.
+    %
+    We also indicate the corresponding signal significance and signal over background
+    ratios.
+        \label{table:cutflowMVA_fakes}
+  }
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
