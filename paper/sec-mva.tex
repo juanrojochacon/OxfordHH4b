@@ -87,7 +87,7 @@ to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain b
   %
   The color code in the neuron connections (the weights) is a heat map obtained
   at the end of the GA training,
-  with red indicating larger values and black smaller values.
+  with red indicating larger values and black indicating smaller values.
 }
 \label{fig:nnarch}
 \end{center}
@@ -484,7 +484,7 @@ category (events with $y_i \ge y_{\rm cut}$)
 is large enough to avoid the biases and statistical
 fluctuations associated to a small training sample.
 %
-In Table~\ref{table:cutflowMVA} where we indicate
+In Table~\ref{table:cutflowMVA} where we quote
 the value of the optimal ANN output
 cut in each category,
 the number of signal and background events $N_{\rm ev}$ expected
@@ -525,7 +525,7 @@ analysis.
     corresponding
     pre-MVA results $y_{\rm cut}=0$.
     %
-    We indicate the number of signal and
+    we quote the number of signal and
     background events
     at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$,
     the signal significance $S/\sqrt{B}$ and
@@ -702,8 +702,8 @@ as opposed to the resolved and boosted selections.
 \includegraphics[width=0.49\textwidth]{plots/nev2_SKPU80.pdf}
 \caption{\small Same as Fig.~\ref{fig:nev2} in the
 case of events with PU, for
- $\la n_{\rm PU}\ra=80$ 
-  and SK subtraction.
+$\la n_{\rm PU}\ra=80$ using
+{\tt SoftKiller} for PU subtraction.
 }
 \label{fig:nev2_PU}
 \end{center}
@@ -752,8 +752,9 @@ there could be still room for further  improvement.
 \caption{\small 
 Same as Fig.~\ref{fig:sb_mva} in the
 case of events with PU, for
- $\la n_{\rm PU}\ra=80$ 
-  and SK subtraction.
+$\la n_{\rm PU}\ra=80$
+using
+{\tt SoftKiller} for PU subtraction.
 }
 \label{fig:sb_mva_PU}
 \end{center}
@@ -802,15 +803,14 @@ this is the case also with PU.
 \caption{\small
 Same as Fig.~\ref{fig:nnweights} in the
 case of events with PU, for
- $\la n_{\rm PU}\ra=80$ 
-  and SK subtraction.
+$\la n_{\rm PU}\ra=80$
+using
+{\tt SoftKiller} for PU subtraction.
 }
 \label{fig:nnweights_PU}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 Combining the three categories, resolved,
@@ -844,15 +844,14 @@ number of background events, $N_{\rm ev}^{\rm tot}$,
     see Fig.~\ref{fig:histoBack}.
     %
     The major improvement of eliminating the contamination
-    of light and charm jet mis-identification is in the boosted category.
-
-    
+    of light and charm jet mis-identification is for the boosted and resolved categories.
+%
     In the case of PU+SK, combining the three categories but assuming that
     the only relevant background is the irreducible QCD $4b$ component,
     we obtain
     \be
-\lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 7.4(2.4) \, ,\quad
-\mathcal{L}=3000 (300)\,{\rm fb}^{-1}\, ,
+\lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 5.3~(1.8) \, ,\quad
+\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, ,
 \ee
 Therefore, a discovery of Higgs pair production at the
 HL-LHC might be possible if the
@@ -863,6 +862,8 @@ With these assumptions, and provided
 the signal efficiency can be further enhanced,
 this measurement might even be feasible
 by the end of Run II.
+%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -877,19 +878,19 @@ by the end of Run II.
         &  $S/B_{\rm tot}$ & $S/B_{\rm 4b}$\\ 
     \hline
     \hline
-    \multirow{2}{*}{Boosted} &  no PU  & $2.2\cdot 10^4$  & 4800    & 
-      5.4 &  11.6 & 0.034 & 0.16 \\
-    & PU+SK & 7300  &  1600  &  2.9  & 6.2 &  0.034 & 0.16 \\
+    \multirow{2}{*}{Boosted} &  no PU  & $2.2\cdot 10^4$  & $1.5\cdot 10^4$     & 
+      5.4 &  6.5 & 0.034 & 0.05 \\
+    & PU+SK & 7300  &  500  &  2.9  & 3.6 &  0.034 & 0.04 \\
     \hline
     \hline
-    \multirow{2}{*}{Intermediate} &  no PU   & $5.5\cdot 10^3$  & 2000    &
-    4.8  &  7.9 &  0.06  &  0.16 \\
-    & PU+SK  & 2600   &  1000  & 1.1  & 1.8 & 0.02 & 0.05 \\
+    \multirow{2}{*}{Intermediate} &  no PU   & 4500  & 2000    &
+    4.8  &  5.3 &  0.06  &  0.08 \\
+    & PU+SK  & 2600   &  1500  & 1.1  & 1.2 & 0.02 & 0.03 \\
     \hline
     \hline
     \multirow{2}{*}{Resolved} &   no PU  & $8\cdot 10^4$   &
-    $3.7\cdot 10^4$
-    & 4.5  & 6.7  & 0.01 & 0.02 \\
+    $4.5\cdot 10^4$
+    & 4.5  & 6.6  & 0.01 & 0.03 \\
     & PU+SK  &  $3\cdot 10^4$   &   $1.3\cdot 10^4$ & 2.5    & 3.7  & 0.015 & 0.03 \\
     \hline
       \end{tabular}

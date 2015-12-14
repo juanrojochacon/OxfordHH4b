@@ -429,11 +429,14 @@ falls off more rapidly as a function of $p_T$ than the di-Higgs signal.
  \includegraphics[width=0.48\textwidth]{plots/pt_H0_bst_C1d_noPU.pdf}
  \includegraphics[width=0.48\textwidth]{plots/pt_H1_bst_C1d_noPU.pdf}
 \caption{\small  Comparison of the $p_T$ distributions of the
-  leading (left plot) and
-  subleading (right plot) large-$R$ jets in the boosted category,
-  in in signal and background events.
+  leading (left) and
+  subleading (right) large-$R$ jets in the boosted category,
+  in signal and background events.
   %
   Distributions have been normalized to unity.
+  %
+  The total background is the sum of all components
+  listed in Table~\ref{tab:samples}.
 }
 \label{fig:cutplots1}
 \end{center}
@@ -556,7 +559,7 @@ as from the four-momenta smearing applied to final state particles.
   \includegraphics[width=0.48\textwidth]{plots/m_H0_bst_C1d_noPU.pdf}
   \caption{\small Same as   Fig.~\ref{fig:cutplots1} for the invariant
     mass distribution of the leading Higgs candidates in the resolved
-    (left plot) and boosted (right plot) selections.
+    (left) and boosted (right) selections.
 }
 \label{fig:mHHinv}
 \end{center}
@@ -591,7 +594,7 @@ comparing the resolved and the boosted categories.
   \caption{\small
 Same as   Fig.~\ref{fig:cutplots1} for the invariant
 mass distribution of the di-Higgs system $m_{hh}$, in
-the resolved (left plot) and boosted (right plot) categories.
+the resolved (left) and boosted (right) categories.
 }
 \label{fig:mhh}
 \end{center}
@@ -644,7 +647,7 @@ modelling is not crucial in this specific application.
 \begin{center}
   \includegraphics[width=0.48\textwidth]{plots/pt_HH_C2_res_noPU.pdf}
   \includegraphics[width=0.48\textwidth]{plots/pt_HH_C2_bst_noPU.pdf}
-  \caption{\small Same as Fig.~\ref{fig:mhh} for the transverse momentum
+  \caption{\small Same as Fig.~\ref{fig:cutplots1} for the transverse momentum
     distribution of the di-Higgs system $p_T^{hh}$.
 }
 \label{fig:pthh}
@@ -683,8 +686,11 @@ Higgs candidates.
     From top to bottom and from left to right we show  the
     $k_t$ splitting scale, the energy correlation ratio $C_2^{(\beta)}$
     and the  subjettiness ratio $\tau_{21}$ for the leading
-    Higgs, as well as $\tau_{21}$ also for the subleading Higgs.
-}
+    Higgs.
+    %
+    In the case of 
+    $\tau_{21}$  the distributions for the subleading Higgs are also given.
+ }
 \label{fig:mva_substructure_1}
 \end{center}
 \end{figure}
@@ -841,8 +847,8 @@ mass distribution.
       \includegraphics[width=0.49\textwidth]{plots/m_H0_bst_comp.pdf}
       \includegraphics[width=0.49\textwidth]{plots/m_H1_bst_comp.pdf}
   \caption{\small
-    Comparison of the invariant mass distributions of the leading (left plot)
-    and subleading (right plot) Higgs candidates
+    Comparison of the invariant mass distributions of the leading (left)
+    and subleading (right) Higgs candidates
     in the boosted category,
     both without PU and with
     PU, $\la n_{PU}\ra=80$, subtracted with {\tt SoftKiller}.
@@ -882,7 +888,7 @@ further optimisation should be possible.
     Comparison of the transverse momentum $p_T^h$ of the leading
     Higgs candidate (upper plots) and of the invariant mass $m_{hh}$
     of the di-Higgs system (lower plots) in the resolved
-    (left plots) and boosted (right plots) categories,
+    (left) and boosted (right) categories,
     without PU and with $\la n_{PU}\ra=80$ subtracted with {\tt SoftKiller}.
 }
 \label{fig:mHH_PU}
@@ -1025,29 +1031,44 @@ the resolved category.
       \centering
       \begin{tabular}{|c|c|c|c|}
         \hline
-        &   &   $\delta m_h$  &  $\sigma_{m_h}$  \\
+        \multicolumn{4}{|c|}{Resolved category}\\
         \hline
         \hline
-        \multirow{2}{*}{no PU}  & leading Higgs  &  -3.8 GeV   & 8 GeV   \\
-          & subleading Higgs   & -5.8 GeV  &  9 GeV \\
+        &   &   $\la m_h^{\rm reco}\ra-m_h$  &  $\sigma_{m_h}$  \\
+              \hline
+        \multirow{2}{*}{no PU}  & leading Higgs  &  -3.8 GeV   & $\lp 8.5\pm 0.2\rp$ GeV   \\
+          & subleading Higgs   & -5.8 GeV  &  $\lp 9.1\pm 0.3\rp$ GeV \\
         \hline
-          \multirow{2}{*}{$\la n_{\rm PU}\ra=80$}  & leading Higgs  &  +33 GeV   & 9 GeV   \\
-          & subleading Higgs   & +31 GeV  &  12 GeV \\
+          \multirow{2}{*}{$\la n_{\rm PU}\ra=80$}  & leading Higgs  &  +33 GeV   & $\lp 8.8\pm 1.5\rp$ GeV   \\
+          & subleading Higgs   & +31 GeV  &  $\lp 11.7\pm 3.3\rp$ GeV \\
           \hline
-            \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK}  & leading Higgs  &  +3.9 GeV   & 11 GeV   \\
-          & subleading Higgs   & +2.1 GeV  &  11 GeV \\
+            \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK}  & leading Higgs  &  +3.9 GeV   & $\lp 10.7\pm 0.3\rp$ GeV   \\
+          & subleading Higgs   & +2.1 GeV  &  $\lp 10.5\pm 0.3\rp$ GeV \\
+            \hline
+            \multicolumn{4}{c}{}\\
+             \hline
+        \multicolumn{4}{|c|}{Boosted category}\\
+        \hline
+        \hline
+        &   &   $\la m_h^{\rm reco}\ra-m_h$  &  $\sigma_{m_h}$  \\
+              \hline
+        \multirow{2}{*}{no PU}  & leading Higgs  &  +2 GeV   & $\lp 8.2\pm 0.5\rp$ GeV   \\
+          & subleading Higgs   & +1 GeV  &  $\lp 8.8\pm 0.5\rp$ GeV \\
+        \hline
+              \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK}  & leading Higgs  &  --   & --   \\
+          & subleading Higgs   & --  &  -- \\
         \hline
         \end{tabular}
       \caption{\label{tab:massresolution}
         Resolution of the invariant mass distribution of
-        reconstructed Higgs candidates in the resolved
-        category.
+        reconstructed Higgs candidates in the resolved (upper table)
+        and boosted (categories) category.
         %
         We show three cases: without PU, with PU $\la n_{\rm PU}\ra=80$
         but without subtraction, and the same with SK subtraction.
         %
-        We indicate the shift of the invariant mass peak as compared
-        to the nominal Higgs mass, $\delta m_h$, as well as the width
+        We indicate the shift of the invariant mass peak $\la m_h^{\rm reco}\ra$ as compared
+        to the nominal Higgs mass $m_h=125$ GeV, as well as the width
         of a Gaussian fitted to the mass distribution, $\sigma_{m_h}$,
         for both the leading and subleading Higgs candidates.
       }

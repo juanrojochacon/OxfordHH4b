@@ -60,15 +60,17 @@ value (vev).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
-  \includegraphics[width=0.90\textwidth]{plots/hhFeyn.pdf}
+  \includegraphics[width=0.96\textwidth]{plots/hhFeyn.pdf}
   \caption{\small Representative Feynman diagrams
     for Higgs pair production in gluon fusion at
     leading order.
     %
-    Only the quark triangle diagram (left) is sensitive to the Higgs trilinear coupling
+    Only the fermion triangle loop diagram (right) is
+    directly sensitive to the Higgs trilinear coupling
     $\lambda$.
     %
-    In the SM, the fermion loops are dominated by the top quark contribution.
+    In the SM, the fermion loops are dominated by the
+    contribution from the top quark.
 }
 \label{fig:hhFeyn}
 \end{center}
@@ -184,7 +186,7 @@ Table~\ref{tab:samples}.
 Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{LO}}$ (pb)  & $K$-factor \\
 \hline
 \hline
-$pp \to hh$ &  {\tt MadGraph5\_aMC@NLO} & 100K & $1.7\cdot10^{-2}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
+$pp \to hh$ &  {\tt MadGraph5\_aMC@NLO} & 1M & $1.7\cdot10^{-2}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
 \hline
 \hline
 $pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.1 \cdot10^3$  & 1.6 (NLO~\cite{Alwall:2014hca}) \\
@@ -194,11 +196,11 @@ $pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.5\cdot 10^3$  
 \hline
 \end{tabular}
 \caption{\small Details of the signal and background Monte
-  Carlo samples using in this work.
+  Carlo samples used in this work.
   %
   For top quark production, only the hadronic final state is generated.
   %
-We also provide in each case the corresponding inclusive $K$-factor
+We also provide the corresponding inclusive $K$-factor
   that is applied to reproduce the known
   higher-order results. \label{tab:samples}
 } 

@@ -10,13 +10,14 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_noPU/MVA/nn_13X5X3X1_50000-Gen_noPU_res_4b.dat",
-			"../plotdata/results_noPU/MVA/nn_17X5X3X1_50000-Gen_noPU_int_4b.dat",
-			"../plotdata/results_noPU/MVA/nn_21X5X3X1_50000-Gen_noPU_bst_4b.dat"]
+datafiles=[ "../plotdata/results_SK_PU80/MVA/nn_13X5X3X1_50000-Gen_SKPU80_res_4b.dat",
+            "../plotdata/results_SK_PU80/MVA/nn_17X5X3X1_50000-Gen_SKPU80_int_4b.dat",
+            "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst_4b.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
-titlenames=[ "Resolved Category, no PU","Intermediate Category, no PU",\
-             "Boosted Category, no PU"]
+titlenames=[ r"Resolved Category,  $\langle n_{PU}\rangle =80$+SK",
+             r"Intermediate Category,  $\langle n_{PU}\rangle =80$+SK",\
+             r"Boosted Category,  $\langle n_{PU}\rangle=80$+SK"]
 
 datanamessignal=[ "Signal Res","Signal Int","Signal Boost"]
 datanamesback=[ "Background Res","Background Int","Background Boost"]
@@ -30,12 +31,12 @@ colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k']
 linestyles = ['dashed','dotted','solid']
 
 # Histogram names
-Histout = "disc_noPU"  # Histograms for discriminant
-ROCout = "roc_noPU"	  # ROC curve
-SBout = "sb_noPU"	  # S/B curve
-SSBout = "ssb_noPU"	  # S/Sqrt(B) curve
-NeVout = "nev_noPU"	  # Number of events (twin axes)
-NeV2out = "nev2_noPU"  # Number of events (single axis)
+Histout = "disc_SKPU80"  # Histograms for discriminant
+ROCout = "roc_SKPU80"	  # ROC curve
+SBout = "sb_SKPU80"	  # S/B curve
+SSBout = "ssb_SKPU80"	  # S/Sqrt(B) curve
+NeVout = "nev_SKPU80"	  # Number of events (twin axes)
+NeV2out = "nev2_SKPU80"  # Number of events (single axis)
 
  
 #############################################################################
@@ -49,7 +50,7 @@ def plotDiscriminantHisto(name, signal, background,title):
 	ax.hist(signal, bins, color='r', alpha=0.8, normed=True, label = "Signal",linewidth=2)
 	ax.hist(background, bins, color='b',fill=False, alpha=0.8, edgecolor='b',normed=True, label = "Background",hatch="//",linewidth=2)
 
-	ax.set_ylim([0,12])
+	ax.set_ylim([0,10])
 	ax.set_xlabel("ANN Output")
         ax.set_ylabel("a. u.")
 
@@ -58,7 +59,7 @@ def plotDiscriminantHisto(name, signal, background,title):
 	legend.get_frame().set_alpha(0.8)
 
 	numpoints = str( len(background) + len(signal) ) + " events: " + str(len(signal)) + " signal, " + str(len(background)) + " background."
-	fig.text(0.24,0.93,title, fontsize=19)
+	fig.text(0.23,0.93,title, fontsize=19)
 
 	figname = name + "_"+Histout+".pdf"
 	fig.savefig(figname)
@@ -69,8 +70,10 @@ def plotDiscriminantHisto(name, signal, background,title):
 roc, rocax = plt.subplots()
 rocax.plot([0,1],[1,0], color='grey')
 
-rocax.set_ylabel("Background rejection rate")
-rocax.set_xlabel("Signal efficiency")
+rocax.set_ylabel("Background rejection rate",fontsize=17)
+rocax.set_xlabel("Signal efficiency",fontsize=17)
+
+# Gridlines
 
 # Setup s/b plot
 sb, sbax = plt.subplots()
@@ -81,7 +84,7 @@ sbax.set_xlim([0,0.95])
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
-ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=20)
+ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=19)
 ssbax.set_xlabel("ANN output cut")
 ssbax.set_xlim([0,0.95])
 
@@ -93,13 +96,11 @@ nevax2.set_ylabel("Number of background events")
 nevax.set_xlabel("ANN output cut")
 
 nev3, nevax3 = plt.subplots()
-nevax3.set_ylabel("$N_{ev}$ at HL-LHC",fontsize=18)
+nevax3.set_ylabel("$N_{ev}$ at HL-LHC after MVA cut")
 nevax3.set_xlabel("ANN output cut")
 
-# Gridlines
 sbax.set_yscale('log')
 nevax3.set_yscale('log')
-
 nevax3.set_ylim([1,1e7])
 
 ######################## Reading data ##############################
@@ -193,13 +194,14 @@ for idat in xrange(0,len(datafiles)):
 	nevax.plot(thresholds, nsig, color=colours[idat], linestyle='--', label=basename,linewidth=2.4)
 	nevax2.plot(thresholds, nbkg, color=colours[idat], label=basename,linewidth=2.4)
 
-	nevax3.plot(thresholds, nsig, color=colours[idat], label=basenamesignal, linestyle='--',linewidth=2.4)
+        nevax3.plot(thresholds, nsig, color=colours[idat], label=basenamesignal, linestyle='--',linewidth=2.4)
 	nevax3.plot(thresholds, nbkg, color=colours[idat], label=basenameback,linewidth=2.4)
+        
 
 ################################### Finish up ########################################
 
 # Legends
-plt.rcParams.update({'font.size': 18})
+plt.rcParams.update({'font.size': 19})
 rlegend = rocax.legend(loc='best')
 rlegend.get_frame().set_alpha(0.8)
 slegend = sbax.legend(loc='best')
@@ -209,18 +211,21 @@ sslegend.get_frame().set_alpha(0.8)
 nevlegend = nevax2.legend(loc='best')
 nevlegend.get_frame().set_alpha(0.8)
 nev3legend = nevax3.legend(loc='best',fontsize=13)
-nev3legend.get_frame().set_alpha(0.5)
+nev3legend.get_frame().set_alpha(0.8)
 
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))
 
-roc.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
+roc.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 roc.savefig(ROCout+'.pdf')
-sb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
+
+sb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 sb.savefig(SBout+'.pdf')
-ssb.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
+
+ssb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 ssb.savefig(SSBout+'.pdf')
-nev3.text(0.35,0.93,"HL-LHC, no PU", fontsize=19)
+
+nev3.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
 nev3.savefig(NeV2out+'.pdf')
 
 
