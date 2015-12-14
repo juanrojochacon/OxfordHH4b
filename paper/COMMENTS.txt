@@ -1,0 +1,127 @@
+Katharina 2015/12/11
+********************
+
+Dear Cigdem, Juan,
+
+Regarding the mass resolution, I was wondering whether we should also give the equivalent of Table 2 for the boosted case (new version attached).
+
+Based on these results, I am wondering how to interpret the weights for m_H0 and m_H1 in Figures 19 (no PU) and 23 (PU80+SK):
+
+For the resolved case, the weights are almost unchanged, despite the slight worsening of the resolution.
+
+For the boosted case, on the other hand, the importance of m_H0 and m_H1 is reduced if PU is added.
+
+Obviously, the large-R jet mass is more susceptible to PU than the mass in the reconstructed case which mostly depends on the angle between jets.
+
+Should we comment on this?
+
+A couple of minor comments on Table 2:
+
+- It might be worth quoting errors for the mass resolution values as these are clearly not significant, e.g. PU80 no SK yields a 9 GeV resolution for H0, whereas the resolution is 11 GeV if SK is applied. Physics-wise, we would expect the opposite so this is probably limited by the fit precision.
+
+- I found the column label "dm_h" a bit confusing as I needed to look for the definition. I would replace it by "m_h^{reco} - 126 GeV". This is more explicit.
+
+Hi Juan,
+
+Oh, sorry, your are right: 125 GeV is indeed the value we use in the code.
+
+A few more comments on the new draft - more specifically on all figures and tables - below.
+
+Best,
+
+Katharina
+
+
+Figure 1: Swap plots or correct caption (triangle diagram is the one on the right)
+
+Table 1: We have 1M signal events now.
+
+Caption of Table 1:
+- "samples using" --> "samples used"
+- "provide in each case" --> "The corresponding inclusive K-factors... are also given." (drop "in each case")
+
+Caption of Figure 2:
+- "(left/right plot)" --> "(left/right)". Same in the captions of all the following figures.
+- "in in" --> "in"
+- Mention explicitly that ALL background components are used (since we also quote numbers for 4b only)
+
+Figure 3:
+- Put n_PU in brackets as in Figure 2. Fix this also in all the following figures.
+- Why are we showing only the distributions for the subleading large-R jet?
+
+Caption of Figure 3:
+- AKT03 --> anti-kT ... (as in the main text)
+
+Figure 7:
+- "same as Fig. 6" --> shouldn't this say "same as Fig. 2" or is this intended as you are now referring to the di-Higgs system?
+
+Figure 8:
+- "no PU" --> "<n_PU> = 0" (same notation as in previous figures)
+- Why is tau_21 shown for subleading Higgs but the others are not?
+
+Caption of Figure 8:
+- Split last sentence. "... for the leading Higgs. In the case of \tau_{21}, the distributions for the subleading Higgs are also given."
+
+Figure 9 and all following:
+- Legend: "no PU" --> "<n_PU> = 0" (same notation as in previous figures)
+
+Caption of Figure 9:
+- "now with SK subtraction" --> "now using \texttt{SoftKiller} (SK) for PU subtraction"
+
+Table 2:
+- "no PU" --> "<n_PU> = 0" (same notation as in previous figures)
+- see further comments in my previous e-mail
+
+Caption of Table 3:
+- "cut-flow levels" (too colloquial) --> "selection criteria at different stages in the cut-based analysis" or something similar (maybe ask James/Nathan)
+
+Caption of Table 4:
+- adapt according to changes in caption of Table 3
+
+Figure 15:
+- Legend: "no PU" --> "<n_PU> = 0" (same notation as in previous figures)
+
+Caption of Figure 16:
+- "and black smaller" --> "and black indicating smaller"
+
+Figure 19:
+- Is the boosted plot bigger on purpose?
+
+Caption of Table 6:
+- "We indicate" --> "We quote"
+
+Captions of Figure 21 and 22 and 23:
+- "SK subtraction" --> "using \texttt{SoftKiller} (SK) for PU subtraction"
+
+- "pre-MVA results corresponds" --> "pre-MVA results correspond" (plural) 
+
+***************************************************************
+****************************************************************
+
+
+Cigdem 2015/12/13
+
+Dear Juan, 
+would it be possible to add to table 5 and table 7 the number of background events for just the 4b backgrounds and also the corresponding S/sqrt(B) and S/B values for this scenario. It would be good to have these also for the MVA analysis in order to have a feel by how much we could gain in significance if we could get the fake backgrounds under control....
+
+Cigdem
+
+***************************************************************
+****************************************************************
+
+Daniela
+
+Hi Juan
+I have read the paper on flight from LA to NYC. It is really good but I still have many comments on the text. 
+There are a few thing that are not defined or clear in a few places.
+ I have put all of my comments in the  annotated the PDF file, which I attach
+A couple of general comments on the  Figures:
+1) the layout with the grid is not really good for a publication in my opinion.
+2) Figures 13 and 14 showing the background and the signal with PU and PU +SK are very busy. Since the figures are really to show that even with PU we are able to maintain discrimination between S and B when we apply SK, I was wondering if it would be better to remove the lines showing the background and signal without PU. I think the simpler plots would make the point more clearly.
+
+It would be great if Nathan (and James) if he is available could go over the final text before we submit.
+    Best wsihes 
+
+
+******************************
+******************************
