@@ -1,4 +1,3 @@
-
 \section{Multivariate analysis}
 \label{sec:mva}
 
@@ -568,48 +567,39 @@ in a realistic high-PU environment.
 
 \subsection{Impact of PU in the MVA}
 
-In this section we study how the MVA results are modified when
-signal and background events are embedded in a high-PU environment.
-%
-The simulation of PU and the corresponding subtraction with
-{\tt SoftKiller} have been performed as described
-in Sect.~\ref{sec:pileup}.
+In this section we study how the MVA results are modified
+when the analysis is performed in a high-PU environment.
 %
 The cut-based analysis and the subsequent
-MVA optimization have been performed using exactly the same
+MVA optimization have been performed using the same
 settings as in the case without PU.
 %
 In Table~\ref{table:cutflowMVA_PU} we provide the results
   at the end of the cut-based analysis,
   for the case with $\la n_{\rm PU}\ra=80$ with SK
-  subtraction.
-%
-It is clear that the pre-MVA 
-signal significance has been degraded
+  subtraction,
+  as well as the post-MVA results for the
+  corresponding optimal values of $y_{\rm cut}$.
+  %
+  In addition, we also quote in
+  both cases the number of signal and
+    background events expected
+    at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$
+    and the values of $S/\sqrt{B}$ and $S/B$
+
+  
+We observe how the pre-MVA 
+signal significance is degraded
 as compared to the case without PU.
 %
 We now find values for $S/\sqrt{B}$ of 0.25, 0.15 and 0.31, in the resolved,
 intermediate and boosted categories, respectively, to be compared
-with the corresponding values without PU, namely 1.0, 0.9 and 1.0,
-see Table~\ref{table:cutflowMVA}. 
+with the corresponding values without PU, namely 1.0, 0.9 and 1.0.
 %
-
-Subsequently to 
- the cut-based analysis, the signal and background
- MC events in the case of PU satisfying all selection cuts
-  are used to re-train the MVA.
+Once the MVA is applies, the signal significance in the three
+categories is increased to 2.5, 1.1 and 2.9 respectively.
 %
-In Table~\ref{table:cutflowMVA_PU}
-we also provide  the number of signal and
-    background events expected
-    at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$,
-    as well as the
-    corresponding values for $S/\sqrt{B}$ and $S/B$,
-    for both the cut-based analysis (corresponding
-    to $y_{\rm cut}=0$) and after the
-    optimal MVA cut.
-    %
-    From Table~\ref{table:cutflowMVA_PU} we observe that, thanks
+We also observe that, thanks
 to the MVA, the signal significance and the
 signal over background ratio is improved from 0.31 and $3\cdot 10^{-4}$
 (0.25 and $10^{-4}$) up to 2.9 and 3.4\% (2.5 and 1.5\%)
@@ -813,58 +803,27 @@ using
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-Combining the three categories, resolved,
-intermediate and boosted, we determine the overall signal
-significance, finding
-\be
-\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0~(1.3) \, ,\quad
-\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, .
-\ee
-%
-We thus conclude that the measurement of
-Higgs pair production in the $b\bar{b}b\bar{b}$ final state at the HL-LHC
-should be 
-well above the threshold for evidence.
-%
-On the other hand, such measurement seems to be out of reach
-for the total integrated luminosity expected by the end of Run II.
-
 In Table~\ref{table:cutflowMVA_fakes} we compare,
 after the MVA is applied,
-the total
-number of background events, $N_{\rm ev}^{\rm tot}$,
-    expected at the HL-LHC, with
-     $N_{\rm ev}^{\rm 4b}$, the corresponding number
-    from the QCD $4b$ component, in the cases with and without
-    PU.
+the 
+number of background events  expected at the HL-LHC,
+both the total number, $N_{\rm ev}^{\rm tot}$,
+and those from the  QCD $4b$ component
+$N_{\rm ev}^{\rm 4b}$, for the analyses without and
+with PU.
+%
+ We also quote the corresponding values of the signal 
+    significance and the signal over background ratio.
     %
-    The MVA has been trained to the total background sample,
+    Note that the MVA has been trained to the total background sample,
     though differences
     in the kinematic distributions of the $4b$ and $2b2j$ processes are small,
     see Fig.~\ref{fig:histoBack}.
     %
-    The major improvement of eliminating the contamination
-    of light and charm jet mis-identification is for the boosted and resolved categories.
+    The major improvement from eliminating the contamination
+    from light and charm jet mis-identification arises
+    for the boosted and resolved categories.
 %
-    In the case of PU+SK, combining the three categories but assuming that
-    the only relevant background is the irreducible QCD $4b$ component,
-    we obtain
-    \be
-\lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 5.3~(1.8) \, ,\quad
-\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, ,
-\ee
-Therefore, a discovery of Higgs pair production at the
-HL-LHC might be possible if the
-mis-identification of light and charm jets as
-$b$-jets can be  reduced.
-%
-With these assumptions, and provided
-the signal efficiency can be further enhanced,
-this measurement might even be feasible
-by the end of Run II.
-%
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -894,18 +853,60 @@ by the end of Run II.
     & PU+SK  &  $3\cdot 10^4$   &   $1.3\cdot 10^4$ & 2.5    & 3.7  & 0.015 & 0.03 \\
     \hline
       \end{tabular}
-  \caption{\small Post-MVA number of total background events, $N_{\rm ev}^{\rm tot}$,
-    expected at the HL-LHC, compared
-    with $N_{\rm ev}^{\rm 4b}$,
-    the number of QCD $4b$ background events.
-    %
-    We also indicate the corresponding signal significance and signal over background
-    ratios.
+  \caption{\small Post-MVA number of background events
+    expected at the HL-LHC, comparing the total number, $N_{\rm ev}^{\rm tot}$,
+    with those from the QCD $4b$ background
+    component only, $N_{\rm ev}^{\rm 4b}$.
+     %
+    We also quote the values of the signal 
+    significance and signal over background ratios in each case.
         \label{table:cutflowMVA_fakes}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    
+Combining the three categories, taking into
+account all background components, we obtain the overall signal
+significance:
+\be
+\lp \frac{S}{\sqrt{B}}\rp_{\rm tot} \simeq 4.0~(1.3) \, ,\quad
+\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, ,
+\ee
+%
+indicating  that the measurement of
+Higgs pair production in the $b\bar{b}b\bar{b}$ final state at the HL-LHC
+should be 
+well above the threshold for evidence.
+%
+On the other hand, such measurement seems to be
+extremely challenging
+for the total integrated luminosity expected by the end of Run II.
+%
+Under the  assumption that
+    the only relevant background would be the irreducible QCD $4b$ component,
+    we obtain instead:
+    \be
+\lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 5.3~(1.8) \, ,\quad
+\mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, ,
+\ee
+Therefore, a discovery of Higgs pair production at the
+HL-LHC might be possible if the
+mis-identification of light and charm jets as
+$b$-jets can be  reduced.
+%
+With these assumptions, and provided
+the signal efficiency can be further enhanced,
+this measurement might even be possible
+by the end of Run II.
+%
+The smaller value of $\la n_{\rm PU}\ra$ at Run II as compared
+to the HL-LHC enviroment should be beneficial in this
+respect.
+
+
+
 
 
 
