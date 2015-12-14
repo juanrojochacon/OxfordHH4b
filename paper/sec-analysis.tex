@@ -719,7 +719,7 @@ as input to the MVA, as discussed in Sect.~\ref{sec:mva}.
 \subsection{Impact of pile-up}
 \label{sec:pileup}
 
-Now we turn to discuss how the description of kinematic
+Here we turn to discuss how the description of kinematic
 distributions for $hh\to 4b$ signal
 and background processes are
 modified in a high pile-up (PU) environment.
@@ -750,8 +750,8 @@ of the UE/MPI contamination for jet reconstruction
 in heavy ion collisions~\cite{Cacciari:2010te}.
 }
 %
-In this work, PU  will be subtracted by means
-of the {\tt SoftKiller} (SK)
+In this work, PU  is subtracted
+with the {\tt SoftKiller} (SK)
 method~\cite{Cacciari:2014gra}, as implemented in {\tt FastJet},
 whose performance has been shown to
 improve the commonly used area-based subtraction~\cite{Cacciari:2009dp}.
@@ -765,17 +765,17 @@ This $p_T$ flow density is defined as
 \be
 \rho\equiv{\rm median}_i \Bigg\{ \frac{p_{Ti}}{A_i}\Bigg\} \, ,
 \ee
-where the median is computed over all the patches $i$ with area
+where the median is computed over all the regions $i$ with area
 $A_i$ and transverse momentum $p_{Ti}$ in which the $\lp \eta,\phi\rp$ plane
 is partitioned.
 %
 From its definition in terms of the median,
 it follows that the value of $p_T^{(\rm cut)}$
-will be dynamically raised until half of the patches have
+will be dynamically raised until half of the regions have
 $p_{Ti}=0$.
 %
-The size and number of these patches is a free parameter of the algorithm -
-here we will use square patches with length $a=0.4$.
+The size and number of these regions is a free parameter of the algorithm -
+here we will use square regions with length $a=0.4$.
 %
 We restrict ourselves to the central rapidity region,
 $|\eta| \le 2.5$, for the estimation of the
@@ -802,47 +802,35 @@ corresponding results now with SK subtraction.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 To validate PU subtraction,
-we now compare representative kinematic distributions
-in the case without PU and in the case
-with PU subtracted with {\tt SoftKiller}.
+we compare representative kinematic distributions
+without PU, with PU, and with PU after SK subtraction.
 %
-We compare first
-in Fig.~\ref{fig:PUvalidation} the
+In Fig.~\ref{fig:PUvalidation} we show the
 invariant mass distributions of Higgs candidates for signal
 events in the resolved category.
-%
-We show three curves: without PU,
-with PU $\la n_{\rm PU}\ra=80$ but without any subtraction, and the
-same but now with the SK subtraction.
 %
 If PU is not subtracted there is a large shift in the Higgs mass
 peak, by about 40 GeV.
 %
 Once SK subtraction is performed, we recover a distribution much closer
-to the original ones, with only a small shift of $\simeq 5$ GeV
+to the ones without PU, with only a small shift of $\simeq 5$ GeV
 and a broadening of the mass
 distribution.
 %
 
-
-Next, we compare additional
- distributions with
-and without PU, with $\la n_{\rm PU}\ra=80$ in the
-former
-case (and SK subtraction).
-%
 In Fig.~\ref{fig:m_H_PU} we show the invariant mass distribution
 of the leading and subleading Higgs candidates,
 this time corresponding
 to the boosted category.
 %
-These distributions are plotted after the $b$-tagging, that is,
+These distributions are plotted after
+$b$-tagging, that is,
 before they are used as input to the MVA.
 %
-As we can see, the residual effects of PU
+The residual effects of PU
 after the {\tt SoftKiller} subtraction are smaller
 in the boosted selection as compared to the resolved case,
-with the position of the Higgs mass peaks essentially
+with the position of the Higgs mass peak essentially
 unchanged, and only a moderate broadening of the
 mass distribution.
 %
@@ -877,14 +865,11 @@ and boosted categories is reflected in the rightward shift of the latter.
 The effect of PU is small in the boosted case, and generally moderate
 in the resolved case, except for large $p_T$ values.
 %
-Similar observation can be derived for the case of
-the di-Higgs invariant mass $m_{hh}$ distribution, similar 
-apply.
+A similar behaviour is observed in the di-Higgs invariant mass distribution.
 %
 Therefore, we can consider the PU subtraction strategy
 as validated for the purposes of this study, although
-there could still be room for optimisation.
-
+further optimisation should be possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -912,8 +897,7 @@ used as input to the MVA in the boosted category.
 In Fig.~\ref{fig:Substructure_PU} we show the 2-to-1 subjettiness ratio
 $\tau_{21}$, Eq.~(\ref{eq:tau21}), and the ratio
 of energy correlation functions, $D_2^{(\beta)}$,
-Eq.~(\ref{eq:d2}), in both cases
-corresponding to the leading Higgs candidate.
+Eq.~(\ref{eq:d2}), for the leading Higgs candidate.
 %
 Comparing the signal distributions in the cases without PU and
 with PU subtracted with SK, we observe that both substructure variables
@@ -921,8 +905,7 @@ are reasonably robust in a high-PU environment.
 %
 The ratio of energy correlation functions $D_2^{(\beta)}$ 
 was indeed constructed~\cite{Larkoski:2013eya}
-to be resilient
-with respect to PU contamination.
+to be robust against PU contamination.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -966,16 +949,18 @@ momentum distribution $p_T$,
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-  \includegraphics[width=0.49\textwidth]{plots/m_h0_bst_comp_back.pdf}
   \includegraphics[width=0.49\textwidth]{plots/pt_h0_bst_comp_back.pdf}
    \includegraphics[width=0.49\textwidth]{plots/tau21_h1_bst_comp_back.pdf}
-  \includegraphics[width=0.49\textwidth]{plots/split12_h0_bst_comp_back.pdf}
+   \includegraphics[width=0.49\textwidth]{plots/split12_h0_bst_comp_back.pdf}
+   \includegraphics[width=0.49\textwidth]{plots/m_h0_bst_comp_back.pdf}
    \caption{\small
      Comparison of kinematic distributions, in
      the boosted category, for signal and background events
-     with and without PU: the invariant mass,  $p_T$,
+    in the case of PU subtracted with SK:
+     the transverse momentum  $p_T$ and
      and the substructure variables $\tau_{21}$ and $\sqrt{d_{12}}$
-    for the leading Higgs candidate.
+     for the leading Higgs candidate, and the invariant
+     mass of the di-Higgs system $m_{hh}$.
      %
  }
 \label{fig:signal-vs-back-boosted}

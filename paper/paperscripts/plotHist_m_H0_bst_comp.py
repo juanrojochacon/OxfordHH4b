@@ -21,7 +21,7 @@ datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H0_boost_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append("$n_{PU}=80$ + SK")
+plotnames.append(r"$\langle n_{PU}\rangle =80$ + SK")
 
 # Axis labels
 xLabel = "Leading Higgs Candidate Invariant Mass (GeV)"
@@ -53,7 +53,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([90,175])
+ax.set_xlim([90,170])
 ax.set_ylim([1e-3,0.1])
 
 for idat in xrange(0,len(datafiles)):
@@ -121,8 +121,6 @@ for idat in xrange(0,len(datafiles)):
   icol=icol+1
 
 # Gridlines
-ax.xaxis.grid(True)
-ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
 fig.text(0.23,0.93,"Signal events, Boosted category", fontsize=20)

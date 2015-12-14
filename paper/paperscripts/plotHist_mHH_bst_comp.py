@@ -20,7 +20,7 @@ datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_HH_boost_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append("$n_{PU}=80$ + SK")
+plotnames.append(r"$\langle n_{PU}\rangle =80$ + SK")
 
 # Axis labels
 xLabel = "di-Higgs Invariant Mass $m_{hh}$ (GeV)"
@@ -118,10 +118,6 @@ for idat in xrange(0,len(datafiles)):
 
   ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
-
-# Gridlines
-ax.xaxis.grid(True)
-ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
 fig.text(0.23,0.93,"Signal events, Boosted category", fontsize=20)

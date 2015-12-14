@@ -15,24 +15,20 @@ outfile = "m_h0_res_comp_back"
 linestyles = [ 'solid', 'dashed','solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H0_res_C1e.dat")
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H0_res_C1e.dat")
-datafiles.append("../plotdata/results_noPU/background/histo_m_H0_res_C1e.dat")
-datafiles.append("../plotdata/results_SK_PU80/background/histo_m_H0_res_C1e.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_HH_res_C1e.dat")
+datafiles.append("../plotdata/results_SK_PU80/background/histo_m_HH_res_C1e.dat")
 
 # Plot labels
-plotnames.append("Signal, no PU")
-plotnames.append("Signal, $n_{PU}=80$ + SK")
-plotnames.append("Background, no PU")
-plotnames.append("Background, $n_{PU}=80$ + SK")
+plotnames.append("Signal")
+plotnames.append("Background")
 
 # Axis labels
-xLabel = "Leading Higgs Candidate Invariant Mass (GeV)"
+xLabel = "d-Higgs Invariant Mass $m_hh$ (GeV)"
 yLabel = "a. u."
 
 # Log axes
 xLog = False
-yLog = True
+yLog = False
 
 # Normalise histograms
 normalise = True
@@ -43,7 +39,7 @@ if len(datafiles)!=len(plotnames):
   print "Error: datafile and plotname arrays are different lengths!"
   exit()
 
-colours = ['r', 'r', 'b', 'b']
+colours = ['r', 'b', 'b', 'b']
 icol = 0
 
 # Setup figure
@@ -57,8 +53,8 @@ ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
 
-ax.set_xlim([90,175])
-ax.set_ylim([1e-3,0.1])
+ax.set_xlim([90,600])
+ax.set_ylim([0,0.007])
 
 
 
@@ -127,12 +123,9 @@ for idat in xrange(0,len(datafiles)):
   ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
 
-# Gridlines
-ax.xaxis.grid(True)
-ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 14})
-fig.text(0.33,0.93,"Resolved category", fontsize=20)
+fig.text(0.20,0.93,r"Resolved category,  $\langle n_{PU}\rangle =80$ + SK", fontsize=19)
 
 # Legend
 legend = ax.legend(loc='best')

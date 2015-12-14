@@ -10,20 +10,20 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_HH_C2_res_comp"
+outfile = "pt_H0_C2_res_comp"
 
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_HH_res_C2.dat")
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_HH_res_C2.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_pt_H0_res_C2.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_pt_H0_res_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
 plotnames.append(r"$\langle n_{PU}\rangle=80$ + SK")
 
 # Axis labels
-xLabel = "di-Higgs Invariant Mass $m_{hh}$ (GeV)"
+xLabel = "Leading Higgs Candidate $p_{T}$ (GeV)"
 yLabel = "A. U."
 
 # Log axes
@@ -52,9 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([200,600])
+ax.set_xlim([0,700])
 ax.set_ylim([1e-4,0.05])
-
 
 for idat in xrange(0,len(datafiles)):
 
