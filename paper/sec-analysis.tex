@@ -70,7 +70,8 @@ We use different types of jet definitions:
 \item {\it Small-$R$ subjets}.
 
   These subjets are constructed by reclustering the constituents
-  of a large-$R$ jet, again with  anti-$k_T$ algorithm,
+  of a large-$R$ jet, again with the
+  anti-$k_T$ algorithm,
   but this time with a smaller radius parameter, namely
   $R=0.3$~\cite{Aad:2015uka}.
  %
@@ -89,20 +90,21 @@ a similar performance as in the case of fixed-$R$ jets.
 %
 This is explained by the fact that
 variable-$R$ jets are more suitable when
-the degree of boost of the final state being reconstructed can span
-a wide range~\cite{Cacciari:2008gd}, such as in heavy resonance
+the degree of boost of the final state being reconstructed can
+differ substantially~\cite{Cacciari:2008gd},
+such as in heavy resonance
 searches~\cite{Aad:2015fna},
-where where the degree of boost of the final state
+where the degree of boost of the final state
 is {\it a priori} unknown.
 
 
 For the   boosted and intermediate categories,
 which involve the use of large-$R$ jets,
-we will use jet substructure variables~\cite{Salam:2009jx,Aad:2013gja} to
+we use jet substructure variables~\cite{Salam:2009jx,Aad:2013gja} to
 improve the significance of the discrimination between signal and background
 events in the MVA.
 %
-In particular we will consider the following jet
+In particular we  consider the following jet
 substructure variables:
 \begin{itemize}
 \item The $k_T$-splitting scale~\cite{Butterworth:2002tt,Butterworth:2008iy}.
@@ -137,7 +139,7 @@ angular separation.
   \label{eq:tau21}
 \tau_{21} \equiv \frac{\tau_2}{\tau_1} \, ,
   \ee
-  which provides good discrimination power
+  which provides good discrimination 
   between QCD jets and jets arising from the decay of
   a heavy resonance.
   
@@ -223,7 +225,7 @@ $b$-tagging strategy is adopted:
     jets~\cite{Cacciari:2007fd,Aad:2013gja,
       ATLAS-CONF-2014-004,Aad:2015uka}.
     %
-    A large-$R$ jet will considered $b$-tagged if both
+    A large-$R$ jet is considered $b$-tagged if both
     the leading and subleading AK03 subjets, where the ordering
     is done in the subjet $p_T$, are both individually $b$-tagged,
     with the same criteria as the small-$R$ jets.
@@ -256,29 +258,24 @@ and  $f_c=0.1$.
 \subsection{Event categorisation}
 \label{sec:categorisation}
 
-The basic idea of the present analysis is similar to the
-scale-invariant resonance tagging introduced
-in Ref.~\cite{Gouzevitch:2013qca}.
+The present analysis follows a strategy similar to the
+scale-invariant resonance tagging of Ref.~\cite{Gouzevitch:2013qca}.
 %
 Rather than restricting to a specific event topology,
 we aim to consistently combine the information from
 the three possible topologies: boosted, intermediate and
-resolved.
+resolved, with the optimal cuts for each category being determined
+separately.
 %
-The optimal cuts for each category will be determined
-separately, and then
-a exclusive categorisation is defined starting from the category
-with the highest signal significance.
-%
-An advantage of our approach
-the robustness under variations of
+This approach is robust
+under variations of
 the underlying production model of Higgs pairs is modified,
 for instance in the case of
 BSM dynamics, which can substantially increase
 the degree of boost of the final state.
 
 
-These three categories are defined as follows:
+The three categories are defined as follows:
 \begin{itemize}
 \item {\it Boosted category}.
 
@@ -334,11 +331,14 @@ In particular we require the condition
 \ee
 where $m_{h,j}$ is the invariant mass of each of the two reconstructed  Higgs candidates.
 %
-This cut is substantially looser as the corresponding
+This cut is substantially looser than the corresponding
 cut used in the typical ATLAS and CMS $h\to b\bar{b}$
-analyses~\cite{Aad:2012gxa,Chatrchyan:2013zna}: the motivation
-for this choice is that the MVA will take care of the optimisation of this,
-as well as of other cuts that are not explicitly performed.
+analyses~\cite{Aad:2012gxa,Chatrchyan:2013zna}.
+%
+The motivation
+for this choice 
+is that further improvements of the
+signal significance will be obtained using an MVA.
 %
 Only events where the two Higgs candidates satisfy
 Eq.~(\ref{higgsmasswindow}) are classified as signal events.
@@ -353,6 +353,12 @@ categories at the same time.
 The exception is the boosted and intermediate categories, which have
 orthogonal jet selection requirements.
 %
+The optimization of the analysis
+of the three categories is performed inclusively, and
+then events are exclusively assigned to specific category
+starting with the one with the highest signal significance.
+
+
 The separate optimisation of the three categories needs to be performed in
 a inclusive analysis, and then we introduce a
  priorisation starting with the category of highest signal significance.
@@ -365,7 +371,7 @@ signal significance
 $S/\sqrt{B}$ in each of the three categories separately, including
 the MVA.
 %
-We find that the category with higher significance turns out to be
+We find that the category with higher significance is
 the boosted one,
 followed by the intermediate and the resolved ones, the latter two
 with similar significance.
@@ -373,9 +379,11 @@ with similar significance.
 Therefore, for the final analysis, we turn to an exclusive approach:
 if an event satisfies the boosted requirements, it is assigned to
 this category, else we check if it suits the intermediate
-requirements, and failing also this, the event is attempted to
-be classified in the
-resolved category.
+requirements.
+%
+It the event also fails the intermediate category
+requirements, we
+then check if it pass the resolved selection criteria.
 %
 The resulting exclusive event samples are then separately processed
 through the MVA, allowing a consistent combination
@@ -388,25 +396,24 @@ kinematic cuts applied to the different categories,
 comparing representative kinematic distributions between
 signal and background events.
 %
-First to all, we present results without PU, and in the next
-subsection we discuss the impact of PU
+We first present results without PU, and then
+discuss
+the impact of PU
 on the description of the various kinematic
 distributions.
 %
 In the following, all
 distributions will be normalized to their total integral.
 
-%
-To begin with,
-in Fig.~\ref{fig:cutplots1} we show
+
+In Fig.~\ref{fig:cutplots1} we show
 the $p_T$ distributions
 of the
   leading and subleading large-$R$ jets in the boosted category, comparing
   the shapes of the distribution in signal and background events.
   %
-  We see that the background distribution
-  falls off rather steeply than the signal at large $p_T$
-  for the two Higgs candidates.
+  We observe that the background distribution
+falls off more rapidly as a function of $p_T$ than the di-Higgs signal.
   %
   On the other hand, the cut in $p_T$ cannot be too strong to avoid
   a substantial degradation of signal selection efficiency,
@@ -447,7 +454,7 @@ It is clear from the comparison that the subjet $p_T$ spectrum is
 relatively harder in the signal with respect to the background.
 %
 On the other hand, considering the subleading AKT03 subjet,
-this cut in its  $p_T$
+this cut in $p_T$
 cannot be too harsh, to maintain a high signal selection
 efficiency.
 %
@@ -480,8 +487,9 @@ specially for the subleading jets.
 As noted in~\cite{deLima:2014dta}, this is a consequence of the fact
 that in general the boost from the Higgs decays is moderate.
 %
-These considerations lead to the requirement that the $p_T$ cut
-for the small-$R$ jets cannot be too strong.
+These considerations lead to the requirement that the $p_T$
+selection
+for the small-$R$ jets cannot be too large.
 %
 In Fig.~\ref{fig:cutplots23}
 we show the distribution in $p_T$ of the four leading
@@ -490,19 +498,20 @@ distributions are peaked at $p_T \le 50$ GeV, with the signal distribution
 eventually becoming dominant at large $p_T$.
 %
 The feasibility to being able to trigger on four small-$R$ jets with a relatively
-soft $p_T$ distribution is one of the experimental challenges of
+soft $p_T$ distribution is one of the experimental challenges for
 exploiting the resolved category in this final state,
 and hence the requirement that $p_T \ge 40$ GeV for
 the small-$R$ jets.
 %
 In  Fig.~\ref{fig:cutplots23} we also show the
 rapidity distribution of the the small-$R$
-jets in the resolved category: as well know, the production
-is mostly central (more in the case
+jets in the resolved category.
+%
+As expected, the production
+is mostly central, more in the case
 of signal events, since backgrounds are dominated by
-QCD $t$-channel exchange) and thus the standard rapidity cuts
-are relatively harmless.
-
+QCD $t$-channel exchange, and thus the
+selection criteria on the jet rapidity  are highly efficient.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -525,7 +534,7 @@ around the nominal Higgs value, Eq.~(\ref{higgsmasswindow}).
 %
 In Fig.~\ref{fig:mHHinv} we show the invariant mass
 of the leading reconstructed Higgs candidates, before the Higgs mass window
-cut 
+selection
   is applied, for the resolved and boosted categories.
 %
 While the signal distribution is of course peaked at the
@@ -555,13 +564,14 @@ as from the four-momenta smearing applied to final state particles.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-Another important kinematic distribution of this process is the invariant mass
+Another important kinematic distribution for
+this process is the invariant mass
 of the di-Higgs system.
 %
 This is a direct measure of the boost of the system,
 which in  BSM scenarios can be substantially
 enhanced, for instance due to
-of specific $d=6$ EFT operators~\cite{Azatov:2015oxa}.
+specific $d=6$ EFT operators~\cite{Azatov:2015oxa}.
 %
 One important advantage of the $b\bar{b}b\bar{b}$ final state for
 di-Higgs production is that it significantly increases the reach
@@ -595,11 +605,11 @@ and thus one expects that cutting in $m_{hh}$ would help signal
 discrimination: we will verify this using the MVA.
 %
 For the boosted category the overall trend of the $m_{hh}$ distribution
-is different because of the jet selection cuts, with the
-distribution now peaking at higher values of the invariant mass.
+is different because of the jet selection criteria, and the
+distribution now peaks at higher values of the invariant mass.
 %
 In this case, signal and background distributions
-look reasonably similar.
+look similar.
 %
 Note that at parton-level the $m_{hh}$ distribution
 for signal events has a kinematic
@@ -616,10 +626,10 @@ for the resolved and boosted categories.
 Again we see that the background has a steeper $p_T^{hh}$ distribution
 that the signal, in both categories, thus this variable
 should provide additional discrimination power, and therefore
-this distribution will be another of the inputs for the MVA.
+this distribution is one of the inputs for the MVA.
 %
 In our LO simulation the $p_T^{hh}$ distribution is generated
-by the parton shower, and and improved theoretical
+by the parton shower, and improved theoretical
 description would require
 either the matching with higher-multiplicity
 matrix elements~\cite{Maierhofer:2013sha} or
@@ -656,7 +666,7 @@ the ECF ratio $C_2^{(\beta)}$,
 Eq.~(\ref{eq:c2}), and
 the 2--to--1 subjettiness ratio $\tau_{12}$, Eq.~(\ref{eq:tau21}),
 all for the leading
-Higgs candidates, as we as also $\tau_{12}$ for the subleading
+Higgs candidates, and also $\tau_{12}$ for the subleading
 Higgs candidates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -687,7 +697,7 @@ and background distributions reflect
 the inherent differences in the internal structure of jets
 between QCD jets and jets originated from the Higgs decays.
 %
-Crucially, signal and background distributions peak
+Signal and background distributions peak
 in rather
 different regions: for example, the $k_t$ splitting scale $\sqrt{d_{12}}$
 peaks around 80 GeV (40 GeV) for signal (background) events, while
@@ -698,16 +708,12 @@ for signal but is much broader for background events.
 From Fig.~\ref{fig:mva_substructure_1} we also see
 the distributions of the subjettiness ratio $\tau_{12}$ are
 reasonably similar
-for both the leading and in the subleading jets, therefore the information
-contained in
-this (and other substructure variables)
-from each of the two Higgs candidates  will be to some
-extent redundant.
-
+for both the leading and the subleading jets.
+%
 Therefore, while we do not explicitly have cuts in the substructure
 variables, their discrimination power between signal and
 background events is the motivation to include them
-as input to the MVA, as we will explain in Sect.~\ref{sec:mva}.
+as input to the MVA, as discussed in Sect.~\ref{sec:mva}.
 
 
 \subsection{Impact of pile-up}

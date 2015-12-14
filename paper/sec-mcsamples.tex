@@ -32,7 +32,13 @@ in {\tt MadGraph5\_aMC@NLO}~\cite{Hirschi:2015iia}.
 The calculation is performed in the
 $n_f$=4 scheme,  accounting for  $b$-quarks mass effects,
 and the renormalization and factorization
-scales are taken to be $\mu_F=\mu_R=H_T/2$.
+scales are taken to be $\mu_F=\mu_R=H_T/2$,
+with
+\be
+H_T\equiv \sum_i \sqrt{p_{T,i}^2+m_i^2} \, ,
+\ee
+the scalar sum of the
+transverse masses of all final state particles.
 %
 For the input parton distribution functions (PDFs), we 
 adopt the NNPDF 3.0 $n_f = 4$ LO set~\cite{Ball:2014uwa} with
@@ -74,7 +80,8 @@ In Fig.~\ref{fig:hhFeyn} we show representative Feynman diagrams
     for LO Higgs pair production in gluon fusion.
     %
     The non-trivial interplay between the diagram with a heavy quark box
-    and that of the triangle, that can lead to either
+    and that of the triangle loop,
+    that can lead to either
     constructive or destructive interference,
     complicates the extraction of
     the trilinear coupling
@@ -155,7 +162,7 @@ respectively.
 %
 For the $4j$ sample, we rescale the LO
 using the {\tt BLACKHAT}~\cite{Bern:2011ep}
-calculation, that indicate
+calculation, that indicates
 a NLO/LO $K$-factor of 0.6.
 %
 Finally, the LO cross-section for $t\bar{t}$ production has been rescaled
@@ -261,7 +268,7 @@ the invariant mass of the Higgs candidates.
 %
 In this work, we simulate the finite energy resolution of the ATLAS and CMS
 hadronic calorimeters by applying a Gaussian smearing of the transverse
-momentum $p_T$ of all
+momentum $p_T$ for all
 final-state particles, before jet clustering,
 with mean zero and standard deviation $\sigma_E$, that is,
 %

@@ -119,12 +119,9 @@ for idat in xrange(0,len(datafiles)):
   ax.plot(xhi,yval/norm,drawstyle = "steps-pre", color = colours[icol], label=plotnames[idat],linestyle=linestyles[idat],linewidth=2.4)
   icol=icol+1
 
-# Gridlines
-ax.xaxis.grid(True)
-ax.yaxis.grid(True)
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.28,0.93,"Boosted category, $n_{PU}=0$", fontsize=20)
+fig.text(0.28,0.93,r"Boosted category, $\langle n_{PU}\rangle =0$", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')
