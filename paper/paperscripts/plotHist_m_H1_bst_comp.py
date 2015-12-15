@@ -10,7 +10,7 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_H_bst_comp"
+outfile = "m_H1_bst_comp"
 
 linestyles = [ 'solid', 'dashed']
 
@@ -54,7 +54,7 @@ ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
 ax.set_xlim([90,170])
-ax.set_ylim([1e-3,0.1])
+ax.set_ylim([1e-3,0.2])
 
 for idat in xrange(0,len(datafiles)):
 

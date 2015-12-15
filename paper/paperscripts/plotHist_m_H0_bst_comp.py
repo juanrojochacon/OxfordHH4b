@@ -54,7 +54,7 @@ ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
 ax.set_xlim([90,170])
-ax.set_ylim([1e-3,0.1])
+ax.set_ylim([1e-3,0.2])
 
 for idat in xrange(0,len(datafiles)):
 

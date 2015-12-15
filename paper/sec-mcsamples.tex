@@ -40,7 +40,7 @@ the scalar sum of the
 transverse masses of all final state particles.
 %
 For the input parton distribution functions (PDFs) we 
-adopt the NNPDF 3.0 $n_f = 4$ LO set~\cite{Ball:2014uwa} with
+adopt the NNPDF 3.0 $n_f=4$ LO set~\cite{Ball:2014uwa} with
 $\alpha_s(m_Z^2)=0.118$,
 interfaced via {\tt LHAPDF6}~\cite{Buckley:2014ana}.
 %
@@ -50,9 +50,9 @@ and its mass is taken to be
 $m_h=125$ GeV~\cite{Aad:2014aba,Khachatryan:2014jba,Aad:2015zhl}.
 %
 In the SM, the Higgs trilinear coupling
-is given by $\lambda=m_h^2/2v^2$, with $m_h=125$ GeV
-the Higgs boson mass and $v\simeq 246$ GeV the Higgs vacuum expectation
-value (vev).
+is given by $\lambda=m_h^2/2v^2$, with
+$v\simeq 246$ GeV the Higgs vacuum expectation
+value.
 %
 
 
@@ -87,7 +87,7 @@ In Fig.~\ref{fig:hhFeyn} we show representative Feynman diagrams
     $\lambda$ from the measurement of the Higgs pair
     production cross-section.
     %
-    Higher order corrections~\cite{deFlorian:2013jea,Frederix:2014hta}
+    Higher-order corrections~\cite{deFlorian:2013jea,Frederix:2014hta}
     are dominated by gluon radiation
     from either the initial state gluons or from the heavy quark loops.
 
@@ -107,22 +107,23 @@ inclusive calculation.
 This corresponds to
 a $K$-factor $\sigma_{\rm NNLO+NNLL}/\sigma_{\rm LO}=2.4$, as indicated
 in Table~\ref{tab:samples}.
-%
+
+
 Parton level signal events are then showered with the {\tt Pythia8} Monte
 Carlo~\cite{Sjostrand:2007gs,Sjostrand:2014zea}, version {\tt v8.201}.
 %
 We use the default settings for the modeling
 of the underlying event (UE), multiple parton
-interactions (MPI), and pile-up (PU), by means
+interactions (MPI), and PU, by means
 of the Monash 2013 tune~\cite{Skands:2014pea},
 based on the NNPDF2.3LO PDF set~\cite{Ball:2012cx,Ball:2013hta}.
 %
 
 
-\subsection{Backgrounds: QCD multijet and $t\bar{t}$ production}
+\subsection{Backgrounds}
 
 Background samples are generated at leading order
-with the {\tt SHERPA} event generator~\cite{Gleisberg:2008ta}, {\tt v2.1.1}.
+with {\tt SHERPA}~\cite{Gleisberg:2008ta} {\tt v2.1.1}.
 %
 As in the case of the signal generation,
 the NNPDF 3.0 $n_f = 4$ LO set with strong coupling
@@ -169,7 +170,7 @@ to match the NNLO+NNLL calculation of Ref.~\cite{Czakon:2013goa}, leading
 to a $K$-factor of 1.4.
 %
 The $K$-factors that we use to rescale
-the signal background samples are summarised in
+the signal and background samples are summarised in
 Table~\ref{tab:samples}.
 
 
@@ -197,8 +198,8 @@ $pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.5\cdot 10^3$  
   %
   For top quark production, only the hadronic final state is generated.
   %
-We also provide the corresponding inclusive $K$-factor
-  which is applied to reproduce the known
+  Also provided are the inclusive $K$-factors
+  which are applied to reproduce the known
   higher-order results. \label{tab:samples}
 } 
 \end{center}
@@ -211,13 +212,13 @@ At the generation level, the following loose selection
 cuts are applied to
 background events.
 %
-Each final state particle in the hard process must have $p_T \ge 20$ GeV, and be located
+Each final-state particle in the hard process must have $p_T \ge 20$ GeV, and be located
 in the central  rapidity
 region with
 $| \eta | \le 3.0$.
 %
 At the matrix-element level
-all final state particles must also be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
+all final-state particles must also be separated by a minimum $\Delta R_{\mathrm{min}} =0.1$.
 %
 We have checked that these generator-level cuts are loose enough to have
 no influence over the analysis cuts.
@@ -281,7 +282,7 @@ factor of $\sigma_E=5\%$.
 %
 
 To account for the finite angular resolution of the calorimeter,
-the $\eta$-$\phi$ plane is divided into regions of
+the $\lp \eta,\phi\rp$ plane is divided into regions of
 $\Delta \eta \times \Delta \phi=0.1$, and each final state particle
 which falls in each of these cells is set to the same $\eta$
 and $\phi$ values of the center of the

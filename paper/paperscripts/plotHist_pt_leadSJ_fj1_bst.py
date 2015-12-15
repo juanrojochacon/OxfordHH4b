@@ -23,7 +23,7 @@ plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Leading AKT03 subjet $p_{T}$ for subleading large-$R$ jet (GeV)"
+xLabel = "Leading AKT03 subjet $p_{T}$ for leading large-$R$ jet (GeV)"
 yLabel = "a. u."
 
 # Log axes
