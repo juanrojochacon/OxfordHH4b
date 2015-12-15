@@ -2,20 +2,20 @@
 \label{sec:mva}
 
 At the end of the cut-based analysis,
-combining the three categories,
+by combining the three event topologies,
 we obtain a signal significance of $S/\sqrt{B}\simeq 1.7 (3.5)$
 with all backgrounds (only QCD $4b$) taken into account.
 %
 We now show how this signal significance
  can be enhanced when the cut-based analysis
- is complemented with a multivariate analysis (MVA).
+ is complemented by a multivariate analysis (MVA).
 %
  Multivariate techniques are by now a mature tool
  in high-energy physics data analysis, opening
  new avenues for improving the performance
 of many measurements and searches at high-energy colliders.
 %
-In particular, the classification of events between signal and
+In particular, the classification of events into signal and
 background processes by means of MVAs is a
 commonly applied strategy in LHC
 applications~\cite{Baldi:2014pta,Aaltonen:2012qt,
@@ -29,8 +29,8 @@ used in the MVA, including the jet substructure
 variables, and then present the signal significance obtained
 by applying the MVA.
 %
-Then we assess the robustness of the MVA strategy in
-high-PU environments.
+Finally we assess the robustness of the MVA strategy in
+the case of significant contamination from pileup.
 
 \subsection{Deep artificial neural networks}
 
@@ -42,16 +42,15 @@ known as a {\it perceptron}.\footnote{This type of ANNs are the same
   as those used to parametrize Parton Distribution Functions
 in the NNPDF global analyses~\cite{DelDebbio:2004qj,Ball:2008by,Ball:2011mu,Ball:2010de}.}
 %
-This family of ANNs is also known as {\it deep} neural networks, since they have
-a richer architecture with hidden layers.
+This family of ANNs are also known as {\it deep} neural networks, due to their multi-layered architecture.
 %
-The input to the MVA are the
+The MVA inputs are a set of kinematic variables describing the
 signal and background
 events which satisfy the requirements of the
 cut-based analysis.
 %
-The output of the trained ANNs allows the identification, in a fully automated way,
-of the most relevant variables to discriminate between 
+The output of the trained ANNs also allows for the identification, in a fully automated way,
+of the most relevant variables in the discrimination between 
 signal and background.
 
 In this work, the ANN that we use has the following architecture.
@@ -76,7 +75,7 @@ to the case of the boosted category (thus $N_{\mathrm{var}}=21$, as we explain b
       \vspace{-1cm}
   \includegraphics[width=0.90\textwidth]{plots/bst_nnarch_noPU.pdf}
   \vspace{-2cm}
-  \caption{\small Architecture of the Artificial
+  \caption{\small Schematic of the Artificial
     Neural Network (ANN)
     used for the analysis of the
     boosted
@@ -111,8 +110,8 @@ With this interpretation, our general classification probability including backg
 \be
 P(y_i^\prime|\{k\}_i, \{\omega\}) = y_i^{y^\prime_i}(1-y_i)^{1-y^\prime_i} \, ,
 \ee
-which implies that the  error function $E(\{\omega\})$
-that needs to be minimized during the ANN training is 
+consequently we can define an error function $E(\{\omega\})$
+to be minimized during the ANN training. In this case, the error function is
 the cross-entropy function, defined as
  \bea
  &&E(\{\omega\}) \equiv -\log\left(\prod_i^{N_{\text{ev}}} P(y_i^\prime|\{k\}_i, \{\omega\})\right)\nonumber\\
@@ -125,10 +124,10 @@ the cross-entropy function, defined as
  %
  The ANN is trained both on the signal and background MC events,
  so it is crucial to ensure that the input MC sample is large enough
- to avoid the contamination from MC statistical fluctuations.
+ to avoid contamination from MC statistical fluctuations.
 
  
- The training of the neural networks thus consist on the
+ The training of the neural networks therefore consists of the
  minimization of the cross-entropy error,
  Eq.~(\ref{cross-entropy}), which in this work is achieved using a
  Genetic Algorithm (GA).
@@ -155,10 +154,10 @@ the cross-entropy function, defined as
  criterion, in particular the same one as
  that used in the NNPDF3.0 analysis~\cite{Ball:2014uwa}.
  %
- This cross-validation entails dividing the input MC dataset into two disjoint sets,
- and use one for the training and the other for the validation: the optimal
- stopping point is then indicated by the minimum of the error function
- Eq.~(\ref{cross-entropy}) for the validation sub-sample.
+ This cross-validation proceeds by dividing the input MC dataset into two disjoint sets,
+ using one for training the ANN and the other for validation: the optimal
+ stopping point is then given by the minimum of the error function
+ Eq.~(\ref{cross-entropy}) to the validation sub-sample.
  %
  This indicates the point where we are training on the statistical fluctuations
  of the input MC samples, rather than in the underlying (smooth) physical
@@ -168,16 +167,16 @@ the cross-entropy function, defined as
  \subsection{Input kinematical variables}
  \label{sec:input}
 
- To ensure that we include the variables with higher discriminatory power,
+ To ensure that we include the variables with the most discriminating power,
  we need to train
- the MVA on a large number of kinematic distributions.
+ the MVA on a broad array of kinematic variables.
 %
 In this work we use different sets of
 input variables for the three categories.
 %
 In particular, in the case of large-$R$ jets (for the boosted
-and intermediate categories), we are fully exploiting the jet
-substructure information.
+and intermediate categories), we are fully exploiting the available information 
+on jet substructure.
 
 For the three categories, boosted, intermediate and resolved,
 the following common variables are used as input to the MVA:
@@ -215,21 +214,21 @@ In addition, in the boosted category we use
  and the ratios of energy correlation functions $C^{(\beta)}_2$ and
  $D_2^{(\beta)}$.
  %
- Therefore, we end up with
+ This leads to
  a total of $N_{\mathrm{var}}=13,17$ and 21 variables for the
 resolved, intermediate, and boosted categories, respectively.
 
 
 Given that the MVA is able to identify the most discriminatory variables
 in an automated way,
-and to ignore those that have little effect, it is advantageous to
-include as many input variables as possible.
+and to suppress those which have little effect, it is advantageous to
+include a wide array of input variables.
 %
-This is one of the main advantages of ANNs in this context: they are
-inherently redundant, so
+This is one of the main advantages of ANNs in this context: 
+their inherent redundancy means that 
 adding additional information, even if carries very little weight,
 should not degrade
-the classification power of the MVA, other than making the GA
+the classification power of the MVA, aside from making the GA
 minimization somewhat less efficient.
 
 \subsection{MVA results}
@@ -252,7 +251,7 @@ y_{\rm cut}$ are classified as signal events, and those with
 y_{\rm cut}$ as background events.
 %
 Therefore,
-the more differentiated is the distribution of the ANN output
+the more differentiated the distribution of the ANN output is
 for signal and background events, the more efficient
 the MVA discrimination will be.
 
@@ -273,16 +272,16 @@ the MVA discrimination will be.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-From Fig.~\ref{fig:nnresponse} we see that in the boosted category the MVA manages
-to achieve a clear discrimination between signal and background, with the two distributions
-nicely peaking at 1 and at 0 respectively.
+From Fig.~\ref{fig:nnresponse} we see that in the boosted category the MVA can produce
+a clear discrimination between signal and background, with the two distributions
+forming peaks at their respective optimal limits.
 %
 This indicates that introducing a suitable cut
 $y_{\rm cut}$
 in the ANN output will substantially reduce the background,
 while keeping a reasonable signal efficiency.
 %
-The performance of the MVA discrimination is similar though slightly worse in the intermediate
+The performance of the MVA discrimination is similar, although slightly worse in the intermediate
 and resolved categories.
 %
 The results for the signal selection efficiency and the 
@@ -292,8 +291,8 @@ define the so-called  Receiver-Operating Characteristic (ROC)
 curve, shown in Fig.~\ref{fig:exampleroc}.
 %
 It is clear that we can achieve  high signal efficiency by using
-a small value of $y_{\rm cut}$, but this choice will be
-affected from a poor background
+a small value of $y_{\rm cut}$, but such a choice would be
+affected by poor background
 rejection.
 %
 Conversely, using a higher value of the cut will increase background rejection at the
@@ -330,7 +329,7 @@ Fig.~\ref{fig:nnresponse}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-It important to verify, for each value of
+It is important to verify for each value of
 the cut in the ANN output $y_{\rm cut}$, how many
 signal and background events are expected at the HL-LHC,
 with an integrated luminosity of $\mathcal{L}=3$ ab$^{-1}$.
@@ -354,9 +353,9 @@ with only a
 moderate reduction of signal efficiency.
 
 
-A useful property of MVAs, as the one used in our
+A useful property of MVAs such as the one used in our
 analysis,
-is that they provide direct  physical insight about which of the
+is that they can provide direct  physical insight about which of the
 input variables contribute the most to the separation between
 signal and background.
 %
@@ -374,7 +373,7 @@ the first (input) layer, and $n^{(2)}=5$ the number of
 neurons in the second layer.
 %
 Those input variables with a larger value of $\omega^{\rm (tot)}_i$ will be those
-that play a dominant role in enhancing the signal
+that play a more significant role in enhancing the signal
 discrimination using the MVA.
 
 
@@ -405,9 +404,9 @@ variables of the three categories, using the
 notation for the various kinematic variables
 as in Sect.~\ref{sec:input}.
 %
-The important information
-is contained in the relative strengths of the total associated weight
-for each of the input variables.
+% The important information
+% is contained in the relative strengths of the total associated weight
+% for each of the input variables.
 %
 In the 
 resolved category, the variables that carry 
@@ -432,7 +431,7 @@ $D_2^{(\beta)}$.
 \caption{\small
   The values of the signal significance, $S/\sqrt{B}$, and of the
   signal over background ratio, $S/B$, for the boosted, intermediate
-  and resolved categories as  function of the cut
+  and resolved categories as a function of the cut
   $y_{\rm cut}$ in the ANN output.
   %
   The $y_{\rm cut}=0$
@@ -447,7 +446,7 @@ $D_2^{(\beta)}$.
 The results for the signal significance $S/\sqrt{B}$ and
 the signal over background ratio
 $S/B$ as a function of $y_{\rm cut}$
-for the three categories are
+for the three categories are given in 
 Fig.~\ref{fig:sb_mva}.
 %
 The values 
@@ -466,7 +465,7 @@ intermediate and boosted categories.
 This improvement in $S/B$ is crucial to ensure the feasibility
 of this measurement, since it allows systematic
 uncertainties in the background determination to
-be at the same level of a few percent level.
+be at the same level of a few percent.
 
 We now have all the
 information needed to determine a suitable
@@ -475,15 +474,15 @@ of the three categories.
 %
 These values can be determined from the maximisation of $S/\sqrt{B}$,
 ensuring that the number of signal events $N_{\rm ev}$
-expected at the HL-LHC is not too small.
+expected at the HL-LHC does not become too low.
 %
-In  addition, we require
+In  addition we require
 that the number of MC events used to define the signal
 category (events with $y_i \ge y_{\rm cut}$)
-is large enough to avoid the biases and statistical
+is sufficiently large in order to avoid the biases and statistical
 fluctuations associated to a small training sample.
 %
-In Table~\ref{table:cutflowMVA} where we quote
+In Table~\ref{table:cutflowMVA} we quote
 the value of the optimal ANN output
 cut in each category,
 the number of signal and background events $N_{\rm ev}$ expected
@@ -524,7 +523,7 @@ analysis.
     corresponding
     pre-MVA results $y_{\rm cut}=0$.
     %
-    we quote the number of signal and
+    We quote the number of signal and
     background events
     at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$,
     the signal significance $S/\sqrt{B}$ and
@@ -542,33 +541,30 @@ analysis.
 
 
 From Table~\ref{table:cutflowMVA} we see that
-after we apply the MVA
+after the application of the MVA, 
 the signal significance in the boosted category increases
 from 1.2 to 5.4, with $S/B$ increasing from $0.14\%$ to $3.4\%$,
 with almost 800 signal events expected at the HL-LHC.
 %
-For the intermediate and resolved category, $S/\sqrt{B}$
+For the intermediate and resolved categories, $S/\sqrt{B}$
 increases from 0.9 and 1.0 to 4.8 and 4.5, with
 the signal over background ratio raising from
 $0.12\%$ and $0.03\%$ to 6\% and 1\$, respectively.
 %
 The overall combined significance is thus $S\sqrt{B}\simeq 8$,
-well above the threshold for discovery.
-%
-These remarkable results are however subject to a justified
-criticism:
-the HL-LHC will be a high-PU environment,
+well above the threshold for discovery. However such a significance
+is unrealistic given that the HL-LHC will be a high-PU environment,
 which will affect the description of the various
 kinematical distributions used as input to the MVA.
 %
-Therefore, next we quantify the robustness of the
+Therefore we shall now quantify the robustness of the
 results summarized Table~\ref{fig:sb_mva}
-in a realistic high-PU environment.
+in a realistic environment including the effects of PU.
 
 \subsection{Impact of PU in the MVA}
 
 In this section we study how the MVA results are modified
-when the analysis is performed in a high-PU environment.
+when the analysis is performed including PU.
 %
 The cut-based analysis and the subsequent
 MVA optimization have been performed using the same
@@ -581,7 +577,7 @@ In Table~\ref{table:cutflowMVA_PU} we provide the results
   as well as the post-MVA results for the
   corresponding optimal values of $y_{\rm cut}$.
   %
-  In addition, we also quote in
+  Additionally we quote in
   both cases the number of signal and
     background events expected
     at the HL-LHC with $\mathcal{L}=3$ ab$^{-1}$
@@ -596,10 +592,10 @@ We now find values for $S/\sqrt{B}$ of 0.25, 0.15 and 0.31, in the resolved,
 intermediate and boosted categories, respectively, to be compared
 with the corresponding values without PU, namely 1.0, 0.9 and 1.0.
 %
-Once the MVA is applies, the signal significance in the three
-categories is increased to 2.5, 1.1 and 2.9 respectively.
+Once the MVA is applied, the signal significance in the three
+categories increases to 2.5, 1.1 and 2.9 respectively.
 %
-We also observe that, thanks
+We also observe that, due
 to the MVA, the signal significance and the
 signal over background ratio is improved from 0.31 and $3\cdot 10^{-4}$
 (0.25 and $10^{-4}$) up to 2.9 and 3.4\% (2.5 and 1.5\%)
@@ -609,13 +605,13 @@ The intermediate category, on the other hand, exhibits a
 significantly lower post-MVA value of $S/\sqrt{B}\simeq
 1.1$.
 %
-We thus conclude that, as was already the case
+We can therefore conclude that, as was already the case
 without PU,
 the boosted category is the most promising
-one for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
+topology for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
 final state
-at the HL-LHC, also for the case of a high-PU environment, but that
-important information will also be obtained from
+at the HL-LHC, also in the case of a high-PU environment.
+However important information can also be obtained from
 the resolved category, which has a comparable significance.
 
 
@@ -675,7 +671,7 @@ are expected at the HL-LHC as a function of
 $y_{\rm cut}$, as well as the corresponding ROC curve.
 %
 Comparing Figs.~\ref{fig:nev2} and~\ref{fig:nev2_PU}, we observe
-that the intermediate category is substantially degraded once PU effects
+that the intermediate category is substantially worsened once PU effects
 are accounted for due to a sizable
 reduction in the number of signal
 events that are now classified in this category.
@@ -708,7 +704,7 @@ $S/B$, accounting now for the effects of PU.
 The corresponding results in the case without PU were shown in
 Fig.~\ref{fig:sb_mva}.
 %
-As can be seen, the MVA-driven enhancement is robust in the
+As can be seen, the MVA-driven enhancement remains robust in the
 presence of PU.
 %
 While
@@ -716,16 +712,16 @@ there is some degradation as compared to the case
 without PU,
 it is still possible to
 achieve a signal significance of
-around $S/\sqrt{B}$ between 2.5 and 3.0 (depending on the
+ $S/\sqrt{B}$ between 2.5 and 3.0 (depending on the
 specific choice of $y_{\rm cut}$)
 separately for the boosted and resolved
 categories.
 %
-On the other hand, the intermediate category is now marginal.
+On the other hand, the significance obtainable from the intermediate category is now marginal.
 %
 We conclude that the qualitative conclusions drawn
 in the case without PU also hold when the analysis
-is performed in a high-PU environment.
+is performed in an environment including pileup.
 %
 Since no specific effort has been performed to
 optimize PU subtraction, for instance by tuning the value
@@ -751,8 +747,8 @@ using
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-It is useful to quantify which of the input variables
-to the MVA carry the highest discrimination power
+It is useful to quantify which of the MVA input variables
+carry the highest discrimination power
 in the case of PU,
 and compare this with the corresponding
 results without PU, by means of
@@ -782,7 +778,7 @@ as the for invariant mass of the di-Higgs system
 and the $p_T$ of the small-$R$ jets.
 %
 As we can see in Fig.~\ref{fig:nnweights_PU},
-this is the case also with PU.
+this remains the case under the addition of PU.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -806,8 +802,8 @@ using
 In Table~\ref{table:cutflowMVA_fakes} we compare,
 after the MVA is applied,
 the 
-number of background events  expected at the HL-LHC,
-both the total number, $N_{\rm ev}^{\rm tot}$,
+number of background events  expected at the HL-LHC.
+Both the total number, $N_{\rm ev}^{\rm tot}$,
 and those from the  QCD $4b$ component
 $N_{\rm ev}^{\rm 4b}$, for the analyses without and
 with PU.
@@ -820,7 +816,7 @@ with PU.
     in the kinematic distributions of the $4b$ and $2b2j$ processes are small,
     see Fig.~\ref{fig:histoBack}.
     %
-    The major improvement from eliminating the contamination
+    The largest improvement from eliminating the contamination
     from light and charm jet mis-identification arises
     for the boosted and resolved categories.
 %
@@ -858,7 +854,7 @@ with PU.
     with those from the QCD $4b$ background
     component only, $N_{\rm ev}^{\rm 4b}$.
      %
-    We also quote the values of the signal 
+    Also provided are the values of the signal 
     significance and signal over background ratios in each case.
         \label{table:cutflowMVA_fakes}
   }
@@ -880,7 +876,7 @@ Higgs pair production in the $b\bar{b}b\bar{b}$ final state at the HL-LHC
 should be 
 well above the threshold for evidence.
 %
-On the other hand, such measurement seems to be
+On the other hand, such a measurement seems to be
 extremely challenging
 for the total integrated luminosity expected by the end of Run II.
 %
