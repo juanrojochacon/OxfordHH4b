@@ -3,21 +3,22 @@
 
 At the end of the cut-based analysis,
 by combining the three event topologies,
-we obtain a signal significance of $S/\sqrt{B}\simeq 1.7 (3.5)$
+we obtain a signal significance of $S/\sqrt{B}\simeq 1.8~(3.5)$
 with all backgrounds (only QCD $4b$) taken into account.
 %
 We now show how this signal significance
  can be enhanced when the cut-based analysis
- is complemented by a multivariate analysis (MVA).
+ is complemented by a multivariate analysis.
 %
  Multivariate techniques are by now a mature tool
  in high-energy physics data analysis, opening
  new avenues for improving the performance
 of many measurements and searches at high-energy colliders.
 %
-In particular, the classification of events into signal and
-background processes by means of MVAs is a
-commonly applied strategy in LHC
+In particular, the classification of events into
+signal and
+background processes by means of MVAs is
+commonly used in LHC
 applications~\cite{Baldi:2014pta,Aaltonen:2012qt,
   Wardrope:2014kya,Chatrchyan:2013zna,Dall'Osso:2015aia}.
 
@@ -29,7 +30,7 @@ used in the MVA, including the jet substructure
 variables, and then present the signal significance obtained
 by applying the MVA.
 %
-Finally we assess the robustness of the MVA strategy in
+Then we assess the robustness of the MVA strategy in
 the case of significant contamination from pileup.
 
 \subsection{Deep artificial neural networks}
@@ -42,7 +43,8 @@ known as a {\it perceptron}.\footnote{This type of ANNs are the same
   as those used to parametrize Parton Distribution Functions
 in the NNPDF global analyses~\cite{DelDebbio:2004qj,Ball:2008by,Ball:2011mu,Ball:2010de}.}
 %
-This family of ANNs are also known as {\it deep} neural networks, due to their multi-layered architecture.
+This family of ANNs are also known as {\it deep neural networks},
+due to their multi-layered architecture.
 %
 The MVA inputs are a set of kinematic variables describing the
 signal and background
@@ -104,7 +106,7 @@ as the probability that the event $i$ originates from the signal process,
 y_i = P(y^\prime_i=1|\{k\}_i, \{\omega\} )\, ,
 \ee
 where $y_i^\prime$ represents the true classification of the event $i$, {\it i.e},
-$y^\prime = 1$ for signal and $y^\prime = 0$ for background events.
+$y^\prime_i = 1$ for signal and $y^\prime_i = 0$ for background events.
 %
 With this interpretation, our general classification probability including background events is given by
 \be
@@ -123,7 +125,7 @@ the cross-entropy function, defined as
  Monte Carlo events that are used for the ANN training.
  %
  The ANN is trained both on the signal and background MC events,
- so it is crucial to ensure that the input MC sample is large enough
+ so it is important to ensure that the input MC sample is large enough
  to avoid contamination from MC statistical fluctuations.
 
  
@@ -149,7 +151,8 @@ the cross-entropy function, defined as
  are used, the results are unchanged.
  %
 
- In order to avoid over-fitting,
+ In addition,
+ in order to avoid the possibility of over-fitting,
  we have used a cross-validation stopping
  criterion, in particular the same one as
  that used in the NNPDF3.0 analysis~\cite{Ball:2014uwa}.
@@ -159,25 +162,21 @@ the cross-entropy function, defined as
  stopping point is then given by the minimum of the error function
  Eq.~(\ref{cross-entropy}) to the validation sub-sample.
  %
- This indicates the point where we are training on the statistical fluctuations
- of the input MC samples, rather than in the underlying (smooth) physical
- distributions.
+ This indicates the point where
+the ANN begins to train upon  statistical fluctuations
+in the input MC samples, rather than learning
+the underlying (smooth) physical  distributions.
  
 
  \subsection{Input kinematical variables}
  \label{sec:input}
 
- To ensure that we include the variables with the most discriminating power,
- we need to train
- the MVA on a broad array of kinematic variables.
-%
 In this work we use different sets of
 input variables for the three categories.
 %
-In particular, in the case of large-$R$ jets (for the boosted
-and intermediate categories), we are fully exploiting the available information 
-on jet substructure.
-
+In the case of large-$R$ jets, we  exploit the available
+information  on jet substructure.
+%
 For the three categories, boosted, intermediate and resolved,
 the following common variables are used as input to the MVA:
 \begin{itemize}
