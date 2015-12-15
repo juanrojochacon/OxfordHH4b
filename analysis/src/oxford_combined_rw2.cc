@@ -276,7 +276,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
     const fastjet::ClusterSequence cs_sub( largeRJets_etacut[i].constituents(), CA10);
     std::vector<fastjet::PseudoJet> ca_jets = sorted_by_pt( cs_sub.inclusive_jets() );
     if( ca_jets.size() == 0 ) continue;
-    const fastjet::PseudoJet ca_jet = sorted_by_pt(cs_sub.inclusive_jets())[0];
+    const fastjet::PseudoJet ca_jet = ca_jets[0];
     const fastjet::PseudoJet tagged_jet = md_tagger(ca_jet);
     if ( tagged_jet != 0 )
       MDTJets.push_back(largeRJets_etacut[i]);
