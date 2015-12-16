@@ -22,7 +22,7 @@ double SplittingScales( fastjet::PseudoJet const& jet )
   if (!jet.has_constituents())
   {
     std::cerr << "ERROR! Splittings (d12, d23, ...) can only be calculated on jets for which the constituents are known."<< std::endl;
-    return 0;
+    return -1;
   }
    
   vector<fastjet::PseudoJet> const& constits = jet.constituents();
@@ -30,7 +30,7 @@ double SplittingScales( fastjet::PseudoJet const& jet )
   if (constits.size() == 0 )
   {
     std::cerr << "ERROR! Splittingscales must have >0 constituents!"<< std::endl;
-    return 0;
+    return -1;
   }
       
   fastjet::JetDefinition ekt_jd = fastjet::JetDefinition( fastjet::kt_algorithm, 1.5, fastjet::E_scheme, fastjet::Best);
@@ -40,7 +40,7 @@ double SplittingScales( fastjet::PseudoJet const& jet )
   if (excl_cluster.size() == 0 )
   {
     std::cerr << "ERROR! Splittingscales must have >0 excl_cluster!"<< std::endl;
-    return 0;
+    return -1;
   }
 
   fastjet::PseudoJet kt_jet = excl_cluster[0];

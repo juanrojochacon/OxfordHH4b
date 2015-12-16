@@ -284,6 +284,16 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 
   const std::vector<fastjet::PseudoJet> largeRJets = sorted_by_pt(MDTJets);
 
+  // ************ Splitting scales check (HORRIBLE) ***********************************************************
+
+  const std::vector<double> split_test = SplittingScales( largeRJets );
+  for (size_t i=0; i<split_test.size(); i++)
+    if (fabs(split_test[i] + 1) < 1E-4) // detects for split=-1 (i.e error)
+    {
+      std::cerr << " --------------- SplittingScales bug detected, vetoing " <<std::endl;
+      return Cut (event_weight);
+    }
+
   // ***************************************** Initial histograms **********************************************
 
   FillHistogram("CF_res", event_weight, 0.1);
