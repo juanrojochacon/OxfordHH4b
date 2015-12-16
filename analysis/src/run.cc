@@ -30,7 +30,7 @@ const bool pileup = true;
 const int npileup = 80;
 const int npileup_total = 989999;
 
-const int samplesize = 3E5; //!< Size of individual subsamples
+const int samplesize = 3E4; //!< Size of individual subsamples
 
 const std::string minbias = "PYTHIA_MinBias_14TEV.";
 
