@@ -36,6 +36,7 @@ void AddPileup( int const& nPileup, finalState& particles )
 		 {
 			delete pileupStream;
 			pileupStream = 0;
+			pileupCount = 0;
 		 }
 
 		 if (!pileupStream)
