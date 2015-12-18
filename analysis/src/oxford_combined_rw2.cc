@@ -6,11 +6,13 @@
 #include "oxford_combined_rw2.h"
 #include "utils.h"
 #include "settings.h"
+#include "run.h"
 
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/contrib/VariableRPlugin.hh"
+#include "fastjet/tools/Filter.hh"
 
 #include <algorithm>
 
@@ -237,7 +239,21 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Cluster large-R jets
   const fastjet::JetDefinition akt_boost(fastjet::antikt_algorithm, BoostJetR);
   const fastjet::ClusterSequence cs_akt_bst(fs, akt_boost);
-  const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( cs_akt_bst.inclusive_jets()  ); 
+  const std::vector<fastjet::PseudoJet> largeRJets_noTrim = sorted_by_pt( cs_akt_bst.inclusive_jets()  ); 
+
+  // Jet trimming function
+  const double Rfilt = 0.2; const double pt_fraction_min = 0.05;
+  const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
+  std::vector<fastjet::PseudoJet> largeRJets_Trim;
+  for (size_t i=0; i<largeRJets_noTrim.size(); i++)
+  {
+    if (pileupSimulated())
+      largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
+    else
+      largeRJets_Trim.push_back(largeRJets_noTrim[i]);
+  }
+
+  const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
   const std::vector<fastjet::PseudoJet> largeRJets_pTcut = sorted_by_pt( cs_akt_bst.inclusive_jets( LR_minPT ) ); 
 
   // Eta cut
