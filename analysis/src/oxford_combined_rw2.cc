@@ -239,7 +239,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   // Cluster large-R jets
   const fastjet::JetDefinition akt_boost(fastjet::antikt_algorithm, BoostJetR);
   const fastjet::ClusterSequence cs_akt_bst(fs, akt_boost);
-  const std::vector<fastjet::PseudoJet> largeRJets_noTrim = sorted_by_pt( cs_akt_bst.inclusive_jets()  ); 
+  const std::vector<fastjet::PseudoJet> largeRJets_noTrim = cs_akt_bst.inclusive_jets(); 
 
   // Jet trimming function
   const double Rfilt = 0.2; const double pt_fraction_min = 0.05;
