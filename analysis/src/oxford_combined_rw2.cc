@@ -246,13 +246,8 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
   std::vector<fastjet::PseudoJet> largeRJets_Trim;
   for (size_t i=0; i<largeRJets_noTrim.size(); i++)
-  {
-    if (pileupSimulated())
       largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
-    else
-      largeRJets_Trim.push_back(largeRJets_noTrim[i]);
-  }
-
+    
   const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
   const std::vector<fastjet::PseudoJet> largeRJets_pTcut = sorted_by_pt( cs_akt_bst.inclusive_jets( LR_minPT ) ); 
 
