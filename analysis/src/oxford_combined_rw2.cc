@@ -247,9 +247,14 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
   std::vector<fastjet::PseudoJet> largeRJets_Trim;
   for (size_t i=0; i<largeRJets_noTrim.size(); i++)
       largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
-    
   const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
-  const std::vector<fastjet::PseudoJet> largeRJets_pTcut = sorted_by_pt( cs_akt_bst.inclusive_jets( LR_minPT ) ); 
+
+  // pT cut and resort
+    std::vector<fastjet::PseudoJet> largeRJets_pTcut;
+    for (size_t i=0; i<largeRJets_noCut.size(); i++)
+      if ( largeRJets_noCut[i].pt() > LR_minPT )
+        largeRJets_pTcut.push_back(largeRJets_noCut[i]);
+  largeRJets_pTcut = sorted_by_pt( largeRJets_pTcut ); // Shouldn't be needed, but im not taking any chances at this stage
 
   // Eta cut
   std::vector<fastjet::PseudoJet> largeRJets_etacut;
