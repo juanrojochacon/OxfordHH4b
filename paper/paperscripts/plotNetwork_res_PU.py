@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 import matplotlib.pyplot as plt
 import networkx as nx
 import os

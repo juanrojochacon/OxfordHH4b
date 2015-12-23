@@ -739,6 +739,33 @@ $p_T$ flow density $\rho$.
 The {\tt SoftKiller} subtraction is applied to particles at the end of the parton shower, before
 jet clustering.
 
+In addition, trimming~\cite{Krohn:2009th}, as implemented in {\tt FastJet}, is applied to all large-$R$ jets in the event.
+The trimming parameters are chosen such that the constituents of a given jet are reclustered into $k_T$~\cite{Ellis:1993tq} 
+subjets with $R_{\textrm{sub}} = 0.2$.
+Subjets with tranverse momentum less than 5\% of the tranverse momentum of the large-$R$ jet are removed.
+The use of trimming in addition to PU removal with {\tt SoftKiller} is necessary to correct the jet mass, which is particularly susceptible
+to soft, wide-angle contaminations. This is illustrated in Fig.~\ref{fig:m_H_PU_MitiCompare}. The mass distributions for jets to which no trimming
+is applied (red) peaks at around 160~GeV (after PU subtraction with {\tt SoftKiller}). If trimming is applied in addition to {\tt SoftKiller}, 
+the distributions (green) peak close to the Higgs mass of 125~GeV. For comparison, the distributions for trimmed jets are shown for events 
+in which {\tt SoftKiller} is not applied (blue).
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \begin{center}
+      \includegraphics[width=0.49\textwidth]{plots/histo_m_H0_boost.pdf}
+      \includegraphics[width=0.49\textwidth]{plots/histo_m_H1_boost.pdf}
+  \caption{\small
+    Comparison of the invariant mass distributions of the leading (left)
+    and subleading (right) Higgs candidates in the boosted category.
+    The distributions are shown for the cases without PU, and with
+    PU, $\la n_{PU}\ra=80$, and applying either only {\tt SoftKiller},
+    or only trimming, or both {\tt SoftKiller} and trimming.
+}
+\label{fig:m_H_PU_MitiCompare}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -1021,6 +1048,10 @@ the resolved category.
       }
       \end{table}
 
+
+
+
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
