@@ -506,7 +506,7 @@ analysis.
     \hline
     \hline
     \multirow{2}{*}{Boosted} &  $y_{\rm cut}=0$  & 1070 & $7.6\cdot 10^5$  & 1.2  & $1.4\cdot 10^{-3}$  \\
-    &  $y_{\rm cut}=0.82$ & 790  & $2.2\cdot 10^4$   & 5.4  & 0.034 \\
+    &  $y_{\rm cut}=0.82$ & 790  & $2.2\cdot 10^4$   & 5.4  & 0.03 \\
     \hline
     \hline
     \multirow{2}{*}{Intermediate} &  $y_{\rm cut}=0$  & 670   & $5.3\cdot 10^5$
@@ -572,7 +572,7 @@ settings as in the case without PU.
 %
 In Table~\ref{table:cutflowMVA_PU} we provide the results
   at the end of the cut-based analysis,
-  for the case with $\la n_{\rm PU}\ra=80$ with SK
+  for the case with $\la n_{\rm PU}\ra=80$ with SK+Trim
   subtraction,
   as well as the post-MVA results for the
   corresponding optimal values of $y_{\rm cut}$.
@@ -584,36 +584,44 @@ In Table~\ref{table:cutflowMVA_PU} we provide the results
     and the values of $S/\sqrt{B}$ and $S/B$
 
   
-We observe how the pre-MVA 
-signal significance is degraded
-as compared to the case without PU.
+We observe that the pre-MVA 
+signal significance is close
+to the case without PU for the three categories.
 %
-We now find values for $S/\sqrt{B}$ of 0.25, 0.15 and 0.31, in the resolved,
+We now find values for $S/\sqrt{B}$ of 0.9, 0.7 and 1.5, in the resolved,
 intermediate and boosted categories, respectively, to be compared
 with the corresponding values without PU, namely 1.0, 0.9 and 1.0.
 %
-Once the MVA is applied, the signal significance in the three
-categories increases to 2.5, 1.1 and 2.9 respectively.
+Likewise, the number of selected
+signal events in each category, at the
+end of the cut-based analysis, is only mildly affected
+by PU.
+%
+The slight pre-MVA improvement in $S/\sqrt{B}$ for the
+boosted case arises from a reduction in the number
+of background events that are classified in this category
+as compared to the case without PU.
+
+
+Once the MVA is applied, the signal significance in the 
+resolved, intermediate and boosted
+categories increases to 4.6, 4.1 and 3.7 respectively,
+to be compared with 4.5, 4.8 and 5.4 in the case
+without PU.
+%
+Therefore, the post-MVA effects of PU on $S/\sqrt{B}$ is
+a moderate degradation of the boosted and intermediate categories,
+while the resolved category is largely unchanged.
 %
 We also observe that, due
-to the MVA, the signal significance and the
-signal over background ratio is improved from 0.31 and $3\cdot 10^{-4}$
-(0.25 and $10^{-4}$) up to 2.9 and 3.4\% (2.5 and 1.5\%)
-in the boosted (resolved) category.
+to the MVA, the
+signal over background ratio is increased from 0.02\%, 0.08\% and
+0.2\% up to 1\%, 4\% and 2\% in the resolved, intermediate
+and boosted categories respectively.
 %
-The intermediate category, on the other hand, exhibits a
-significantly lower post-MVA value of $S/\sqrt{B}\simeq
-1.1$.
-%
-We can therefore conclude that, as was already the case
-without PU,
-the boosted category is the most promising
-topology for the study of Higgs pair production in the $b\bar{b}b\bar{b}$
-final state
-at the HL-LHC, also in the case of a high-PU environment.
-However important information can also be obtained from
-the resolved category, which has a comparable significance.
-
+This indicates that while this measurement is still highly challenging,
+requiring a careful extraction of the QCD
+background from the data, it is certainty within reach.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -649,36 +657,9 @@ the resolved category, which has a comparable significance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Another important result from Table~\ref{table:cutflowMVA_PU} is that,
-for the optimal MVA cut, the signal over background ratio
-is 3.4\% (1.5\%)
-in the boosted (resolved) categories.
-%
-This indicates that while this measurement is still highly challenging,
-requiring a careful extraction of the QCD
-background from the data, it is certainty within reach.
-%
-As in the case without PU, 
-our analysis  points out that both
-$S/B$ and $S/\sqrt{B}$ could be increased  by reducing the background component
-that arises from the mis-identification of light and charm
-jets as $b$-jets.
 
-In Fig.~\ref{fig:nev2_PU}
-we show the number of signal and background events that
-are expected at the HL-LHC as a function of
-$y_{\rm cut}$, as well as the corresponding ROC curve.
-%
-Comparing Figs.~\ref{fig:nev2} and~\ref{fig:nev2_PU}, we observe
-that the intermediate category is substantially worsened once PU effects
-are accounted for due to a sizable
-reduction in the number of signal
-events that are now classified in this category.
-%
-This shows that the selection criteria
-of the intermediate category are less
-resilient against PU contamination,
-in contrast to the resolved and boosted selections.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -694,7 +675,15 @@ $\la n_{\rm PU}\ra=80$ with SK+Trim.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+In Fig.~\ref{fig:nev2_PU}
+we show the number of signal and background events that
+are expected at the HL-LHC as a function of
+$y_{\rm cut}$, as well as the corresponding ROC curve.
+%
+The slight degradation of the boosted category in the case
+of PU can be seen by comparing with the corresponding
+results without PU in Fig.~\ref{fig:nev2}.
+%
 In Fig.~\ref{fig:sb_mva_PU} we show the signal significance,
 $S/\sqrt{B}$, and the signal over background ratio,
 $S/B$, accounting now for the effects of PU.
@@ -710,20 +699,19 @@ there is some degradation as compared to the case
 without PU,
 it is still possible to
 achieve a signal significance of
- $S/\sqrt{B}$ between 2.5 and 3.0 (depending on the
-specific choice of $y_{\rm cut}$)
-separately for the boosted and resolved
-categories.
-%
-On the other hand, the significance obtainable from the intermediate category is now marginal.
+ $S/\sqrt{B}$ between 3.0 and 4.5, depending on the
+specific choice of $y_{\rm cut}$,
+separately for the three categories.
 %
 We conclude that the qualitative conclusions drawn
 in the case without PU also hold when the analysis
 is performed in an environment including pileup.
 %
 Since no specific effort has been performed to
-optimize PU subtraction, for instance by tuning the value
-of the patch length $a$ in {\tt SoftKiller}, we believe that
+optimize PU subtraction, for instance by tuning the values
+of the patch length $a$ in {\tt SoftKiller}
+and of the $p_T$ threshold in jet trimming.
+we believe that
 there could be still room for further  improvement.
 
 
@@ -755,26 +743,18 @@ results for the resolved and boosted categories are shown
 on Fig.~\ref{fig:nnweights_PU}.
 %
 As we can see by comparing with Fig.~\ref{fig:nnweights}, 
-in the boosted category, the discrimination power of the invariant
-mass of Higgs candidates is decreased, while
-that of  substructure
-variables such as $C_2^{(\beta)}$ and
-$D^{(\beta)}_2$ is conversely
-increased.
+the relative weight of the different input variables to the MVA
+is mostly unchanged in the case of PU.
 %
-In addition, also the $p_T$ distributions of the AKT03
-subjets within the large-$R$
-jets carry important information.
+In the resolved category, the highest total associated weight is carried
+by the Higgs candidates $p_T$ and invariant mass, as well
+as by the $p_T$ of the individual small-$R$ jets.
 %
-In the case of the resolved category,  the highest
-values of the ANN weights without PU
-were found for the $p_T$ of the 
-Higgs candidates and their invariant masses, as well
-as the for invariant mass of the di-Higgs system
-and the $p_T$ of the small-$R$ jets.
-%
-As we can see in Fig.~\ref{fig:nnweights_PU},
-this remains the case under the addition of PU.
+For the boosted category, the highest weight is carried by the
+Higgs invariant mass, followed by
+the Higgs $p_T$, $m_{hh}$, the $p_T$ of the AKT03 subjets and the
+substructure variables, with a similar weighting among them.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -793,9 +773,11 @@ $\la n_{\rm PU}\ra=80$ with SK+Trim.
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-In Table~\ref{table:cutflowMVA_fakes} we compare,
-number of background events  expected at the HL-LHC, after the MVA is applied.
-Both the total number, $N_{\rm ev}^{\rm tot}$,
+In Table~\ref{table:cutflowMVA_fakes} we compare
+the  number of background events  expected for
+$\mathcal{L}=3$ ab$^{-1}$,
+after the MVA is applied, both
+the total number, $N_{\rm ev}^{\rm tot}$,
 and those from the  QCD $4b$ component
 $N_{\rm ev}^{\rm 4b}$, for the analyses without and
 with PU.
@@ -810,7 +792,10 @@ with PU.
     %
     The largest improvement from eliminating the contamination
     from light and charm jet mis-identification arises
-    for the boosted and resolved categories.
+    for the boosted category, the one where the relative size of the
+    $2b2j$ over the $4b$ background components is higher
+    (see Table~\ref{tab:cutflow_noPU_1}), where
+    $S/\sqrt{B}$ increases from 3.7 to 5.9.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -847,7 +832,8 @@ with PU.
     component only, $N_{\rm ev}^{\rm 4b}$.
      %
     Also provided are the values of the signal 
-    significance and signal over background ratios in each case.
+    significance and signal over background ratios in each case
+    for $\mathcal{L}=3$ ab$^{-1}$.
         \label{table:cutflowMVA_fakes}
   }
 \end{table}
@@ -866,29 +852,24 @@ significance:
 indicating  that the measurement of
 Higgs pair production in the $b\bar{b}b\bar{b}$ final state at the HL-LHC
 should be 
-well above the threshold for evidence.
+well above the threshold for discovery.
 %
-On the other hand, such a measurement seems to be
-extremely challenging
+Interestingly, such a measurement might also be within reach
 for the total integrated luminosity expected by the end of Run II.
 %
 Under the  assumption that
     the only relevant background would be the irreducible QCD $4b$ component,
-    we obtain instead:
+    we obtain
     \be
 \lp \frac{S}{\sqrt{B_{\rm 4b}}}\rp_{\rm tot} \simeq 10.2~(3.2) \, ,\quad
 \mathcal{L}=3000~(300)\,{\rm fb}^{-1}\, ,
 \ee
-Therefore, a discovery of Higgs pair production at the
-HL-LHC might be possible if the
-mis-identification of light and charm jets as
-$b$-jets can be  reduced.
+Therefore, observation of Higgs pair production
+in the $b\bar{b}b\bar{b}$ final state might be possible
+already by the end of Run II, provided
+the effects due to mis-identification of light and charm jets as
+$b$-jets can be reduced.
 %
-With these assumptions, and provided
-the signal efficiency can be further enhanced,
-this measurement might even be possible
-by the end of Run II.
-%
-The smaller value of $\la n_{\rm PU}\ra$ at Run II as compared
-to the HL-LHC environment should be beneficial in this
-respect.
+The smaller value of $\la n_{\rm PU}\ra$ expected
+at Run II as compared
+to the HL-LHC environment should be beneficial in this respect.

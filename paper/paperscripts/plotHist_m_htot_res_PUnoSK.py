@@ -15,8 +15,8 @@ outfile = "m_htot_res_signal_PUnoSK"
 linestyles = [ 'solid', 'dashed','dotted', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/20K_noPU/histo_m_H_res_C2.0.dat")
-datafiles.append("../plotdata/20K_PU80SK/histo_m_H_res_C2.0.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_m_H0_res_C1e.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_H0_res_C1e.dat")
 datafiles.append("../plotdata/20K_PU80/histo_m_H_res_C2.0.dat")
 
 
