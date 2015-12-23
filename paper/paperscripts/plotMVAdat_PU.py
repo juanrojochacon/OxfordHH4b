@@ -80,13 +80,13 @@ sb, sbax = plt.subplots()
 sbax.set_ylabel("$S/B$",fontsize=19)
 sbax.set_xlabel("ANN output cut")
 sbax.set_ylim([0.0001,1])
-sbax.set_xlim([0,0.95])
+sbax.set_xlim([0,0.9])
 
 # Setup s/sqrt(b) plot
 ssb, ssbax = plt.subplots()
 ssbax.set_ylabel("$S/\sqrt{B}$",fontsize=19)
 ssbax.set_xlabel("ANN output cut")
-ssbax.set_xlim([0,0.95])
+ssbax.set_xlim([0,0.9])
 
 # Setup N_evt plots
 nev, nevax = plt.subplots()
@@ -98,6 +98,7 @@ nevax.set_xlabel("ANN output cut")
 nev3, nevax3 = plt.subplots()
 nevax3.set_ylabel("$N_{ev}$ at HL-LHC after MVA cut")
 nevax3.set_xlabel("ANN output cut")
+nevax3.set_xlim([0,0.9])
 
 sbax.set_yscale('log')
 nevax3.set_yscale('log')
@@ -139,7 +140,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 30)
+	thresholds = numpy.linspace(0, 1, 40)
 	falsepos = []
 	truepos = []
 
@@ -216,16 +217,16 @@ nev3legend.get_frame().set_alpha(0.8)
 x1,x2,y1,y2 = ssbax.axis()
 ssbax.axis((x1,x2,0,8))
 
-roc.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+roc.text(0.28,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK+Trim", fontsize=20)
 roc.savefig(ROCout+'.pdf')
 
-sb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+sb.text(0.28,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK+Trim", fontsize=20)
 sb.savefig(SBout+'.pdf')
 
-ssb.text(0.35,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+ssb.text(0.28,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK+Trim", fontsize=20)
 ssb.savefig(SSBout+'.pdf')
 
-nev3.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK", fontsize=20)
+nev3.text(0.28,0.94,r"HL-LHC, $\langle n_{PU}\rangle =80$+SK+Trim", fontsize=20)
 nev3.savefig(NeV2out+'.pdf')
 
 

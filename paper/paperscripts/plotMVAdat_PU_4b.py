@@ -139,7 +139,7 @@ for idat in xrange(0,len(datafiles)):
 			total_sigweight = total_sigweight + float(line.split()[2]) # Weight
 
 	#### ROC Curve and S/B plot
-	thresholds = numpy.linspace(0, 1, 100)
+	thresholds = numpy.linspace(0, 1, 40)
 	falsepos = []
 	truepos = []
 

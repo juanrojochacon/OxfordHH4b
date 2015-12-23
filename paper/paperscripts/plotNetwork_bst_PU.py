@@ -130,7 +130,7 @@ plt.xticks(numpy.arange(len(kinematics)) + 2.5, kinematics,fontsize=7)
 plt.xlabel('ANN Input Variable',fontsize=17)
 plt.ylabel('Total associated weight',fontsize=17)
 
-plt.text(4,10.5,r"Boosted category, $\langle n_{PU}\rangle=80$+SK", fontsize=20)
+plt.text(2,14.5,r"Boosted category, $\langle n_{PU}\rangle=80$+SK+Trim", fontsize=19)
 
 plt.savefig(histout+".pdf")
 plt.clf()
