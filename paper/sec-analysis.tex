@@ -740,54 +740,26 @@ The {\tt SoftKiller} subtraction is applied to particles at the end of the parto
 jet clustering.
 
 In addition, trimming~\cite{Krohn:2009th}, as implemented in {\tt FastJet}, is applied to all large-$R$ jets in the event.
+%
 The trimming parameters are chosen such that the constituents of a given jet are reclustered into $k_T$~\cite{Ellis:1993tq} 
 subjets with $R_{\textrm{sub}} = 0.2$.
-Subjets with tranverse momentum less than 5\% of the tranverse momentum of the large-$R$ jet are removed.
-The use of trimming in addition to PU removal with {\tt SoftKiller} is necessary to correct the jet mass, which is particularly susceptible
-to soft, wide-angle contaminations. This is illustrated in Fig.~\ref{fig:m_H_PU_MitiCompare}. The mass distributions for jets to which no trimming
-is applied (red) peaks at around 160~GeV (after PU subtraction with {\tt SoftKiller}). If trimming is applied in addition to {\tt SoftKiller}, 
-the distributions (green) peak close to the Higgs mass of 125~GeV. For comparison, the distributions for trimmed jets are shown for events 
-in which {\tt SoftKiller} is not applied (blue).
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-  \begin{center}
-      \includegraphics[width=0.49\textwidth]{plots/histo_m_H0_boost.pdf}
-      \includegraphics[width=0.49\textwidth]{plots/histo_m_H1_boost.pdf}
-  \caption{\small
-    Comparison of the invariant mass distributions of the leading (left)
-    and subleading (right) Higgs candidates in the boosted category.
-    The distributions are shown for the cases without PU, and with
-    PU, $\la n_{PU}\ra=80$, and applying either only {\tt SoftKiller},
-    or only trimming, or both {\tt SoftKiller} and trimming.
-}
-\label{fig:m_H_PU_MitiCompare}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-  \begin{center}
-  \includegraphics[width=0.63\textwidth]{plots/m_htot_res_signal_PUnoSK.pdf}
-    \caption{\small
-    The invariant mass distributions of Higgs candidates in signal
-events in the resolved category, comparing the results without PU,
-with PU $\la n_{\rm PU}\ra=80$. The distribution is then compared with and without SK subtraction.
-}
-\label{fig:PUvalidation}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%
+Subjets with transverse momentum less than 5\% of the transverse momentum of the large-$R$ jet are removed.
+%
+The use of trimming in addition to PU removal with {\tt SoftKiller} is necessary to correct the jet mass in the boosted category,
+which is particularly susceptible
+to soft, wide-angle contaminations.
+%
+No trimming is applied to the small-$R$ jets.
 
 To validate the subtraction of PU,
 we compare representative kinematic distributions
-without PU, with PU, and with PU after SK subtraction.
+without PU, with PU, and with PU after the combined
+application of {\tt SoftKiller} and trimming (SK+Trim).
 %
 In Fig.~\ref{fig:PUvalidation} we show the
-invariant mass distributions of Higgs candidates for signal
-events in the resolved category.
+invariant mass distributions of the
+Higgs candidates for signal
+events in the resolved and boosted categories.
 %
 If PU is not subtracted there is a large shift in the Higgs mass
 peak, by about 40 GeV.
@@ -797,38 +769,34 @@ to the no PU case, with only a small shift of $\simeq 5$ GeV
 and a broadening of the mass
 distribution.
 %
-
-In Fig.~\ref{fig:m_H_PU} we show the invariant mass distribution
-of the leading and subleading Higgs candidates,
-this time corresponding
-to the boosted category.
+For the boosted category, we find that
+the mass distributions for jets to which no trimming
+is applied peaks at around 160~GeV, even
+after PU subtraction with {\tt SoftKiller}.
 %
-These distributions are plotted
-after
-$b$-tagging, that is,
-before they are used as input to the MVA.
-%
-The residual effects of PU
-after the {\tt SoftKiller} subtraction are smaller
-in the boosted selection as compared to the resolved case,
-with the position of the Higgs mass peak being essentially
-unchanged, and only a moderate broadening of the
-mass distribution.
-%
+When trimming is applied in addition to {\tt SoftKiller}, 
+the distribution peaks close to the nominal Higgs mass.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-      \includegraphics[width=0.49\textwidth]{plots/m_H0_bst_comp.pdf}
-      \includegraphics[width=0.49\textwidth]{plots/m_H1_bst_comp.pdf}
-  \caption{\small
-    Comparison of the invariant mass distributions of the leading (left)
-    and subleading (right) Higgs candidates
-    in the boosted category,
-    both without PU and with
-    PU, $\la n_{PU}\ra=80$, subtracted by {\tt SoftKiller}.
+    \includegraphics[width=0.49\textwidth]{plots/m_htot_res_signal_PUnoSK.pdf}
+    \includegraphics[width=0.49\textwidth]{plots/m_htot_bst_signal_PUnoTrim.pdf}
+    \caption{\small
+    The invariant mass distributions of Higgs candidates in signal
+    events in the resolved (left) and boosted
+    (right) categories.
+    %
+    In the resolved category,
+    we compare  the results without PU
+    with those with PU $\la n_{\rm PU}\ra=80$,
+    with and without SK subtraction.
+    %
+    In the boosted case, the comparison is between no PU,
+    PU with only SK subtraction,
+    and PU with both SK and trimming.
 }
-\label{fig:m_H_PU}
+\label{fig:PUvalidation}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -859,11 +827,15 @@ further optimisation should still be possible.
   \includegraphics[width=0.49\textwidth]{plots/m_HH_C2_res_comp.pdf}
   \includegraphics[width=0.49\textwidth]{plots/m_HH_C2_bst_comp.pdf}
   \caption{\small
-    Same as Fig.~\ref{fig:m_H_PU} for
-   the transverse momentum $p_T^h$ of the leading
+   The
+   transverse momentum $p_T^h$ of the leading
     Higgs candidate (upper plots) and of the invariant mass $m_{hh}$
     of the di-Higgs system (lower plots) in the resolved
     (left) and boosted (right) categories.
+    %
+    We compare the results without PU with those with PU,
+    for $\la n_{\rm PU}\ra=80$ and SK+Trim subtraction,
+    as explained in the text.
 }
 \label{fig:mHH_PU}
 \end{center}
@@ -876,27 +848,24 @@ used as input to the MVA in the boosted category.
 %
 In Fig.~\ref{fig:Substructure_PU} we show the 2-to-1 subjettiness ratio
 $\tau_{21}$, Eq.~(\ref{eq:tau21}), and the ratio
-of energy correlation functions, $D_2^{(\beta)}$,
-Eq.~(\ref{eq:d2}), for the leading Higgs candidate.
+of energy correlation functions, $C_2^{(\beta)}$,
+Eq.~(\ref{eq:c2}), for the leading Higgs candidate.
 %
 Comparing the signal distributions in the cases without PU and
-with PU subtracted with SK, we observe that both substructure variables
+with PU subtracted with SK, we observe that
+the shapes of both substructure variables
 are reasonably robust in a environment including PU.
-%
-The ratio of energy correlation functions $D_2^{(\beta)}$ 
-was indeed explicitly constructed~\cite{Larkoski:2013eya}
-to be robust against PU contamination.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
+    \includegraphics[width=0.49\textwidth]{plots/tau21_h0_bst_comp.pdf}
   \includegraphics[width=0.49\textwidth]{plots/D2_h0_bst_comp.pdf}
-  \includegraphics[width=0.49\textwidth]{plots/tau21_h0_bst_comp.pdf}
-  \caption{\small
-    Same as Fig.~\ref{fig:m_H_PU} for the
-    substructure variables $D_2^{(\beta)}$ (left)
-     and $\tau_{21}$ (right)
+    \caption{\small
+    Same as Fig.~\ref{fig:mHH_PU} for the
+    substructure variables $\tau_{21}$  (left)
+     and  $C_2^{(\beta)}$ (right)
      for the leading Higgs candidates in the boosted category.
 }
 \label{fig:Substructure_PU}
@@ -928,26 +897,23 @@ momentum distribution $p_T$,
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
   \begin{center}
-  \includegraphics[width=0.49\textwidth]{plots/pt_h0_bst_comp_back.pdf}
+    \includegraphics[width=0.49\textwidth]{plots/pt_h0_bst_comp_back.pdf}
+    \includegraphics[width=0.49\textwidth]{plots/pt_leadSJ_fj1_bst_comp_back.pdf}
    \includegraphics[width=0.49\textwidth]{plots/tau21_h1_bst_comp_back.pdf}
    \includegraphics[width=0.49\textwidth]{plots/split12_h0_bst_comp_back.pdf}
-   \includegraphics[width=0.49\textwidth]{plots/m_h0_bst_comp_back.pdf}
-   \caption{\small
-     Comparison of kinematic distributions, in
+    \caption{\small
+      Comparison of kinematic distributions for the leading
+      Higgs candidate, in
      the boosted category, for signal and background events
-    in the case of PU subtracted with SK:
-     the transverse momentum  $p_T$ and
-     and the substructure variables $\tau_{21}$ and $\sqrt{d_{12}}$
-     for the leading Higgs candidate, and the invariant
-     mass of the di-Higgs system $m_{hh}$.
-     %
- }
+    in the case of PU subtracted with SK+Trim:
+    its transverse momentum  $p_T$,
+    the $p_T$ of its leading AKT03 subjet,
+    and the substructure variables $\tau_{21}$ and $\sqrt{d_{12}}$.
+  }
 \label{fig:signal-vs-back-boosted}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 We can also perform a similar comparison for
 the resolved category.
@@ -957,8 +923,6 @@ the kinematic distributions for signal and background events,
      with and without PU, for the invariant mass and the $p_T$ of the leading
      Higgs candidate.
      %
-%     Also in this
-%     case
 Again, the PU-subtracted background distributions appear reasonably close
      to their no PU counterparts.
 
@@ -999,7 +963,7 @@ the resolved category.
         the invariant mass distributions of Higgs candidates
         coincides with the nominal values of $m_h$ within a few GeV.
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{table}[h]
       \centering
       \begin{tabular}{|c|c|c|c|}
@@ -1025,11 +989,11 @@ the resolved category.
         \hline
         &   &   $\la m_h^{\rm reco}\ra-m_h$  &  $\sigma_{m_h}$  \\
               \hline
-        \multirow{2}{*}{no PU}  & leading Higgs  &  +2 GeV   & $\lp 8.2\pm 0.5\rp$ GeV   \\
-          & subleading Higgs   & +1 GeV  &  $\lp 8.8\pm 0.5\rp$ GeV \\
+        \multirow{2}{*}{no PU}  & leading Higgs  &  +2.0 GeV   & $\lp 8.2\pm 0.5\rp$ GeV   \\
+          & subleading Higgs   & +1.0 GeV  &  $\lp 8.8\pm 0.5\rp$ GeV \\
         \hline
-              \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK}  & leading Higgs  &  --   & --   \\
-          & subleading Higgs   & --  &  -- \\
+              \multirow{2}{*}{$\la n_{\rm PU}\ra=80$+SK+Trim}  & leading Higgs  &  -2.2 GeV   & $\lp 8.7\pm 0.7\rp$ GeV   \\
+          & subleading Higgs   & -4.9 GeV  &  $\lp 9.0\pm 0.8 \rp$ GeV \\
         \hline
         \end{tabular}
       \caption{\label{tab:massresolution}
@@ -1038,7 +1002,8 @@ the resolved category.
         and boosted (categories) category.
         %
         We show three cases: without PU, with PU $\la n_{\rm PU}\ra=80$
-        but without subtraction, and the same with SK subtraction.
+        but without subtraction (only for resolved),
+        and the same with SK(+Trim) subtraction.
         %
         We indicate the shift of the invariant
         mass peak $\la m_h^{\rm reco}\ra$ as compared
@@ -1046,20 +1011,7 @@ the resolved category.
         of a Gaussian fitted to the mass distribution, $\sigma_{m_h}$,
         for both the leading and subleading Higgs candidates.
       }
-      \end{table}
+    \end{table}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

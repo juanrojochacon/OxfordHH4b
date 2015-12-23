@@ -10,25 +10,25 @@ plotnames = []
 ############################## Settings ###############################
 
 # Output filename
-outfile = "m_h0_bst_comp_back"
+outfile = "pt_leadSJ_fj1_bst_comp_back"
 
 linestyles = [ 'solid', 'dashed','solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_HH_boost_C1e.dat")
-datafiles.append("../plotdata/results_SK_PU80/background/histo_m_HH_boost_C1e.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_pt_leadSJ_fj1_boost_C1e.dat")
+datafiles.append("../plotdata/results_SK_PU80/background/histo_pt_leadSJ_fj1_boost_C1e.dat")
 
 # Plot labels
 plotnames.append("Signal")
 plotnames.append("Background")
 
 # Axis labels
-xLabel = "Invariant di-Higgs mass $m_{hh}$ (GeV)"
+xLabel = "Leading AKT03 subjet $p_{T}$ for leading Higgs candidate (GeV)"
 yLabel = "a. u."
 
 # Log axes
 xLog = False
-yLog = False
+yLog = True
 
 # Normalise histograms
 normalise = True
@@ -52,12 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-
-ax.set_xlim([400,600])
-ax.set_ylim([1e-3,0.017])
-
-
-
+ax.set_xlim([33,475])
+ax.set_ylim([2e-4,0.02])
 
 for idat in xrange(0,len(datafiles)):
 
@@ -125,7 +121,7 @@ for idat in xrange(0,len(datafiles)):
 
 
 plt.rcParams.update({'font.size': 14})
-fig.text(0.23,0.93,r"Boosted category,  $\langle n_{PU}\rangle =80$ + SK", fontsize=19)
+fig.text(0.18,0.93,r"Boosted category,  $\langle n_{PU}\rangle =80$ + SK+Trim", fontsize=19)
 
 # Legend
 legend = ax.legend(loc='best')

@@ -53,7 +53,7 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([0,110])
+ax.set_xlim([0,150])
 ax.set_ylim([0.0001,0.02])
 
 for idat in xrange(0,len(datafiles)):
@@ -122,7 +122,7 @@ for idat in xrange(0,len(datafiles)):
 
 
 plt.rcParams.update({'font.size': 14})
-fig.text(0.23,0.93,r"Boosted category,  $\langle n_{PU}\rangle =80$ + SK", fontsize=19)
+fig.text(0.18,0.93,r"Boosted category,  $\langle n_{PU}\rangle =80$ + SK+Trim", fontsize=19)
 
 # Legend
 legend = ax.legend(loc='best')

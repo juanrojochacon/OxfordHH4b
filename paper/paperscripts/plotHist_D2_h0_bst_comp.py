@@ -15,20 +15,20 @@ outfile = "D2_h0_bst_comp"
 linestyles = [ 'solid', 'dashed']
 
 # Datafiles
-datafiles.append("../plotdata/results_noPU/diHiggs/histo_D2_fj1_boost_C2.dat")
-datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_D2_fj1_boost_C2.dat")
+datafiles.append("../plotdata/results_noPU/diHiggs/histo_C2_fj1_boost_C2.dat")
+datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_C2_fj1_boost_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append(r"$\langle n_{PU}\rangle =80$ + SK")
+plotnames.append(r"$\langle n_{PU}\rangle =80$ + SK+Trim")
 
 # Axis labels
-xLabel = r"Energy Correlation Ratio $D_2^{(\beta)}$ in leading Higgs candidate"
+xLabel = r"Energy Correlation Ratio $C_2^{(\beta)}$ in leading Higgs candidate"
 yLabel = "A. U."
 
 # Log axes
 xLog = False
-yLog = False
+yLog = True
 
 # Normalise histograms
 normalise = True
@@ -52,8 +52,8 @@ if yLog == True:
 ax.set_ylabel(yLabel)
 ax.set_xlabel(xLabel)
 
-ax.set_xlim([0,1])
-ax.set_ylim([0,2.5])
+ax.set_xlim([0,0.5])
+ax.set_ylim([0.03,50])
 
 for idat in xrange(0,len(datafiles)):
 
