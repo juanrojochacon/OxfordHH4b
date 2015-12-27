@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#! /usr/local/Cellar/python/2.7.10/bin/python
 
 import math
 import yoda
@@ -7,11 +7,11 @@ from tabulate import tabulate
 ##################################################################
 
 
-root = "../../paper/plotdata/results_noPU/"
-labeltag="noPU"
+#root = "../../paper/plotdata/results_noPU/"
+#labeltag="noPU"
 
-#root = "../../paper/plotdata/results_SK_PU80/"
-#labeltag="SKPU80"
+root = "../../paper/plotdata/results_SK_PU80/"
+labeltag="SKPU80"
 
 folders = ['diHiggs/', 'background/', 'SHERPA_QCD4b/', 'SHERPA_QCD2b2j/', 'SHERPA_QCD4j/', 'SHERPA_QCDttbar/']
 names = ['signal', 'total bkg', '4b', '2b2j', '4j', 'ttbar']
