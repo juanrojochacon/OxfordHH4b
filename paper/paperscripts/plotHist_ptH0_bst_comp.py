@@ -20,11 +20,11 @@ datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_pt_H0_boost_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append(r"$\langle n_{PU}\rangle=80$ + SK+Trim")
+plotnames.append(r"PU80+SK+Trim")
 
 # Axis labels
 xLabel = "Leading Higgs Candidate $p_{T}$ (GeV)"
-yLabel = "A. U."
+yLabel = "a. u."
 
 # Log axes
 xLog = False

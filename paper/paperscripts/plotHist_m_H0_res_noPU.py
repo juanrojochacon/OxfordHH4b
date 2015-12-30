@@ -120,7 +120,7 @@ for idat in xrange(0,len(datafiles)):
   icol=icol+1
 
 plt.rcParams.update({'font.size': 16})
-fig.text(0.28,0.93,r"Resolved category, $\langle n_{PU}\rangle =0$", fontsize=20)
+fig.text(0.28,0.93,r"Resolved category, no PU", fontsize=20)
 
 # Legend
 legend = ax.legend(loc='best')

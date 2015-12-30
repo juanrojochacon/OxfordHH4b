@@ -122,7 +122,7 @@ for idat in xrange(0,len(datafiles)):
 
 
 plt.rcParams.update({'font.size': 14})
-fig.text(0.20,0.93,r"Resolved category,  $\langle n_{PU}\rangle =80$ + SK", fontsize=19)
+fig.text(0.25,0.93,r"Resolved category,  PU80+SK", fontsize=19)
 
 # Legend
 legend = ax.legend(loc='best')

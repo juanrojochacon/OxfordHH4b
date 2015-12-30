@@ -1,5 +1,3 @@
-
-
 \section{Modeling of signal and background processes}
 \label{mcgeneration}
 
@@ -10,8 +8,6 @@ We shall also discuss the modelling of detector
 resolution effects.
 
 \subsection{Higgs pair production in gluon-fusion}
-
-
 
 Higgs pair production is simulated at leading order (LO) using
 {\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}.
@@ -25,8 +21,8 @@ loops~\cite{Plehn:1996wb}.
 %
 Equivalent results can be obtained using
 the recently available functionalities
-for the calculation of loop-induced processes
-in {\tt MadGraph5\_aMC@NLO}~\cite{Hirschi:2015iia}.
+for the calculation of loop-induced processes~\cite{Hirschi:2015iia}
+in {\tt MadGraph5\_aMC@NLO}.
 %
 The calculation is performed in the
 $n_f$=4 scheme,  accounting for  $b$-quark mass effects. 
@@ -55,7 +51,6 @@ $v\simeq 246$ GeV the Higgs vacuum expectation
 value.
 %
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
@@ -75,7 +70,6 @@ value.
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
-
 
 In Fig.~\ref{fig:hhFeyn} we show representative Feynman diagrams
     for LO Higgs pair production in gluon fusion.
@@ -108,7 +102,6 @@ This corresponds to
 a $K$-factor $\sigma_{\rm NNLO+NNLL}/\sigma_{\rm LO}=2.4$, as indicated
 in Table~\ref{tab:samples}.
 
-
 Parton level signal events are then showered with the {\tt Pythia8} Monte
 Carlo~\cite{Sjostrand:2007gs,Sjostrand:2014zea}, version {\tt v8.201}.
 %
@@ -118,7 +111,6 @@ interactions (MPI), and PU, by means
 of the Monash 2013 tune~\cite{Skands:2014pea},
 based on the NNPDF2.3LO PDF set~\cite{Ball:2012cx,Ball:2013hta}.
 %
-
 
 \subsection{Backgrounds}
 
@@ -150,20 +142,18 @@ are much smaller than the QCD backgrounds~\cite{Wardrope:2014kya,deLima:2014dta}
 and are therefore not included in the present analysis.
 %
 
-
-
 The LO cross-sections for
 the background samples have been rescaled so that the integrated
 distributions reproduce known higher-order QCD results.
-%
-For the $4b$ and $2b2j$ samples NLO/LO $K$-factors of 1.6 and 1.3
-respectively have been determined
-using {\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}.
 %
 For the $4j$ sample, we rescale the LO cross-section
 using the {\tt BLACKHAT}~\cite{Bern:2011ep}
 calculation, resulting in
 an NLO/LO $K$-factor of 0.6.
+%
+For the $4b$ and $2b2j$ samples NLO/LO $K$-factors of 1.6 and 1.3
+respectively have been determined
+using {\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca}.
 %
 Finally, the LO cross-section for $t\bar{t}$ production has been rescaled
 to match the NNLO+NNLL calculation of Ref.~\cite{Czakon:2013goa}, leading
@@ -173,9 +163,7 @@ The $K$-factors that we use to rescale
 the signal and background samples are summarised in
 Table~\ref{tab:samples}.
 
-
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
   \small
 \begin{center}
@@ -184,19 +172,17 @@ Table~\ref{tab:samples}.
 Process &  Generator & $N_{\mathrm{evt}}$ & $\sigma_{\mathrm{LO}}$ (pb)  & $K$-factor \\
 \hline
 \hline
-$pp \to hh$ &  {\tt MadGraph5\_aMC@NLO} & 1M & $1.7\cdot10^{-2}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
+$pp \to hh\to 4b$ &  {\tt MadGraph5\_aMC@NLO} & 1M & $6.2\cdot10^{-3}$  &  2.4  (NNLO+NNLL~\cite{deFlorian:2013jea,deFlorian:2015moa}) \\
 \hline
 \hline
-$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA}v2.1.1 & 3M &$1.1 \cdot10^3$  & 1.6 (NLO~\cite{Alwall:2014hca}) \\
-$pp \to b\bar{b}jj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.7 \cdot 10^5$ & 1.3 (NLO~\cite{Alwall:2014hca}) \\
-$pp \to jjjj$ &  {\tt SHERPA}v2.1.1 & 3M  & $9.7\cdot 10^6$ &  0.6 (NLO~\cite{Bern:2011ep})\\
-$pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.5\cdot 10^3$   & 1.4 (NNLO+NNLL~\cite{Czakon:2013goa})\\
+$pp \to b\bar{b}b\bar{b}$ &  {\tt SHERPA} & 3M &$1.1 \cdot10^3$  & 1.6 (NLO~\cite{Alwall:2014hca}) \\
+$pp \to b\bar{b}jj$ &  {\tt SHERPA} & 3M & $2.7 \cdot 10^5$ & 1.3 (NLO~\cite{Alwall:2014hca}) \\
+$pp \to jjjj$ &  {\tt SHERPA} & 3M  & $9.7\cdot 10^6$ &  0.6 (NLO~\cite{Bern:2011ep})\\
+$pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA} & 3M & $2.5\cdot 10^3$   & 1.4 (NNLO+NNLL~\cite{Czakon:2013goa})\\
 \hline
 \end{tabular}
 \caption{\small Details of the signal and background Monte
   Carlo samples used in this work.
-  %
-  For top quark production, only the hadronic final state is generated.
   %
   Also provided are the inclusive $K$-factors
   which are applied to reproduce the known
@@ -205,8 +191,6 @@ $pp \to t\bar{t}\to b\bar{b}jjjj$ &  {\tt SHERPA}v2.1.1 & 3M & $2.5\cdot 10^3$  
 \end{center}
 \end{table}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 At the generation level, the following loose selection 
 cuts are applied to
@@ -252,7 +236,7 @@ While it is beyond the scope of this work to perform a full
 detector simulation, it is important to include an estimate of detector
 effects in the analysis, particularly for the finite energy
 and angular resolutions which directly
-degrade the reconstruction of important kinematical variables, such as
+degrade the reconstruction of important kinematic variables, such as
 the invariant mass of the Higgs candidates.
 %
 Here we simulate the finite energy resolution of the ATLAS and CMS
@@ -274,7 +258,8 @@ factor of $\sigma_E=5\%$.
 
 To account for the finite angular resolution of the calorimeter,
 the $\lp \eta,\phi\rp$ plane is divided into regions of
-$\Delta \eta \times \Delta \phi=0.1$, and each final state particle
+$\Delta \eta \times \Delta \phi=0.1\times 0.1$,
+and each final state particle
 which falls in each of these cells is set to the same $\eta$
 and $\phi$ values of the center of the
 corresponding cell.
@@ -286,7 +271,6 @@ $\eta^\prime$ and $\phi^\prime$ values to ensure that the resulting
 four-momentum is that of a light-like particle, since we neglect all
 jet constituent masses in this analysis.
 
-
 Our modelling of detector simulation has been tuned
 to lead to a mass resolution of
 the reconstructed Higgs candidates consistent
@@ -294,4 +278,3 @@ with the hadronic mass resolutions of the
 ATLAS and CMS detectors~\cite{Aad:2012gxa,Chatrchyan:2013zna,Aad:2014xzb},
 as discussed in Sect.~\ref{sec:pileup}.
 
-%

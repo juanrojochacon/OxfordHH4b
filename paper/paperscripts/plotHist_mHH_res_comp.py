@@ -20,11 +20,11 @@ datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_m_HH_res_C2.dat")
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append(r"$\langle n_{PU}\rangle=80$ + SK")
+plotnames.append(r"PU80+SK")
 
 # Axis labels
 xLabel = "di-Higgs Invariant Mass $m_{hh}$ (GeV)"
-yLabel = "A. U."
+yLabel = "a. u."
 
 # Log axes
 xLog = False

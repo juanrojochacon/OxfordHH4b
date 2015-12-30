@@ -130,12 +130,10 @@ plt.xticks(numpy.arange(len(kinematics)) + 2.5, kinematics,fontsize=10)
 plt.xlabel('ANN Input Variable',fontsize=17)
 plt.ylabel('Total associated weight',fontsize=17)
 
-plt.text(4,8.5,"Intermediate category, $n_{PU}=80$+SK", fontsize=20)
+plt.text(3,8.3,"Intermediate category, PU80+SK+Trim", fontsize=19)
 
 plt.savefig(histout+".pdf")
 plt.clf()
-
-
 
 nx.draw(G, pos=dict(zip(G.nodes(),posLoc)), labels=dict(zip(G.nodes(),labelList)), edge_color=colorList, node_color=biasList, width=2, with_labels=True)
 plt.savefig(archout+".pdf")

@@ -20,11 +20,11 @@ datafiles.append("../plotdata/results_SK_PU80/diHiggs/histo_C2_fj1_boost_C2.dat"
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append(r"$\langle n_{PU}\rangle =80$ + SK+Trim")
+plotnames.append(r"PU80+SK+Trim")
 
 # Axis labels
 xLabel = r"Energy Correlation Ratio $C_2^{(\beta)}$ in leading Higgs candidate"
-yLabel = "A. U."
+yLabel = "a. u."
 
 # Log axes
 xLog = False

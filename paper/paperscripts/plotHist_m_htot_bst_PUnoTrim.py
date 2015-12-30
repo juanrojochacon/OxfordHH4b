@@ -22,8 +22,8 @@ datafiles.append("../plotdata/results_SK_PU80_noTrim/diHiggs/histo_m_H0_boost_C1
 
 # Plot labels
 plotnames.append("no PU")
-plotnames.append(r"$\langle n_{PU} \rangle =80$ + SK+Trim")
-plotnames.append(r"$\langle n_{PU} \rangle =80$ + SK")
+plotnames.append(r"PU80+SK+Trim")
+plotnames.append(r"PU80+SK")
 
 
 
