@@ -1,0 +1,135 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{jheppub}
+\usepackage{graphicx}% Include figure files
+\usepackage{graphics}
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{epstopdf}
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage[pdftex]{hyperref}
+\usepackage{natbib}
+\usepackage{multirow}
+
+\def\bs{\boldsymbol}
+\def\del{\partial}
+
+%\def\p{{\boldsymbol p}_{\perp }}
+%\def\pb{\bar {\boldsymbol p}_{\perp }}
+%\def\pp{{\boldsymbol p}_{\perp }}
+\def\p{{\boldsymbol p}}
+\def\pb{\bar {\boldsymbol p}}
+\def\pp{{\boldsymbol p}}
+%\def\q{{\boldsymbol q}_\perp}
+\def\q{{\boldsymbol q}}
+\def\l{{\boldsymbol l}_\perp}
+%\def\k{{\boldsymbol k}_\perp}
+\def\k{{\boldsymbol k}}
+\def\m{{\boldsymbol m}_\perp}
+%\def\x{{\boldsymbol x}_\perp}
+\def\x{{\boldsymbol x}}
+\def\y{{\boldsymbol y}_\perp}
+\def\X{{\boldsymbol X}_\perp}
+\def\Y{{\boldsymbol Y}_\perp}
+\def\D{{\boldsymbol D}_\perp}
+\def\r{{\boldsymbol r}_\perp}
+\def\z{{\boldsymbol z}_\perp}
+%\def\v{{\boldsymbol v}_\perp}
+\def\v{{\boldsymbol v}}
+\def\w{{\boldsymbol w}_\perp}
+\def\b{{\boldsymbol b}_\perp}
+\def\Q{{\boldsymbol Q}_\perp}
+\def\M{{\boldsymbol M}_\perp}
+%\def\bkappa{{\boldsymbol \kappa}_\perp}
+%\def\bbkappa{\bar{\boldsymbol \kappa}_\perp}
+\def\bkappa{{\boldsymbol \kappa}}
+\def\bbkappa{\bar{\boldsymbol \kappa}}
+\def\bnu{{\boldsymbol \nu}_\perp}
+\def\V{\hat{\boldsymbol v}_{1\perp}}
+\def\K{\hat{\boldsymbol k}_{1\perp}}
+\def\bV{\hat{\boldsymbol v}_{2\perp}}
+\def\bK{\hat{\boldsymbol k}_{2\perp}}
+\def\qqb{{q\bar q}}
+\def\sM{{\scriptscriptstyle M}}
+
+\newcommand{\beq}{\begin{eqnarray}}
+\newcommand{\eeq}{\end{eqnarray}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\nn}{\nonumber\\ }
+\newcommand{\labe}{\label}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+
+
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\lc}{\left[}
+\newcommand{\rc}{\right]}
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+
+\bibliographystyle{JHEP}
+
+
+\title{Boosting Higgs Pair Production in the $b\bar{b}b\bar{b}$ Final State with
+  Multivariate Techniques}
+
+\author{Janna Katharina Behr, Daniela Bortoletto, James A. Frost,
+  Nathan P. Hartland, Cigdem Issever and Juan Rojo}
+
+\affiliation{Physics Department, 1 Keble Road, University of Oxford, United Kingdom }
+
+\preprint{OUTP-15-14P}
+
+\abstract{
+  The measurement of Higgs pair production will be a cornerstone of
+  the LHC program in the coming years.
+  %
+  Double Higgs production provides a crucial window upon the mechanism of electroweak
+  symmetry breaking and has a unique sensitivity
+  to the Higgs trilinear coupling.
+  %
+  We study the feasibility of a measurement of
+  Higgs pair production in the
+  $b\bar{b}b\bar{b}$ final state at the LHC.
+  %
+  Our analysis is based on a combination of traditional cut-based
+  methods with state-of-the-art
+  multivariate techniques.
+  %
+  We account for all relevant
+  backgrounds, including the contributions from light and charm
+  jet mis-identification, which are ultimately comparable in size 
+  to the irreducible $4b$ QCD background.
+  %
+  We demonstrate the robustness of our analysis strategy in
+  a high pileup environment.
+  %
+  For an integrated luminosity of $\mathcal{L}=3$ ab$^{-1}$,
+  a signal significance of  $S/\sqrt{B}\simeq 3$ is obtained,
+  indicating
+  that the $b\bar{b}b\bar{b}$ final state
+alone could allow for the observation of double Higgs production
+at the High Luminosity LHC.
+}
+
+\begin{document} 
+\maketitle
+
+\flushbottom
+
+\input{sec-intro}
+\input{sec-mcsamples}
+\input{sec-analysis}
+\input{sec-results}
+\input{sec-mva}
+\input{sec-conclusions}
+
+%\bibliography{HH4b}
+\input{HH4b.bbl}
+
+
+
+\end{document}
