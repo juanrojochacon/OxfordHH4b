@@ -39,6 +39,9 @@ const std::string minbias = "PYTHIA_MinBias_14TEV.";
 // Current working subsample
 static int subsample = -1;
 
+// Current working minBiasSample
+static int minbiasSample = -1;
+
 static double random_seed_pythia = 40487;	//!< Random seed for pythia
 static double random_seed_system = 23429;
 
@@ -50,6 +53,8 @@ bool pythiaShowered() {return pythiaShower;};
 bool softKillered() {return softKiller;};
 
 int& subSample() {return subsample;};
+int& minBiasSample() { return minbiasSample;};	// Make sure subsamples of different processes
+						// use different MinBias files.
 int sampleSize() {return samplesize;};
 int sampleStart() {return samplesize*subsample;};
 

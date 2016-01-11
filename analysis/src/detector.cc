@@ -45,6 +45,9 @@ void AddPileup( int const& nPileup, finalState& particles )
 			const string minbfile = samples_path + minBiasFile();
 		 	pileupStream = new std::ifstream( minbfile );
 
+			// State name of minBias file once
+			cout << "Using minBias file: "<<minbfile<<endl;
+
 		 }
 
 		 double dummy;
