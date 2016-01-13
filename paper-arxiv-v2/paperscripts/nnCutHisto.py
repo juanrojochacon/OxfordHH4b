@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 import math
 import yoda
 import os
@@ -6,11 +6,23 @@ import string
 
 ##################################################################
 
-infile = "~/Dropbox/HH4bMC/mva/results_SK_PU80_trim/bst_SKPU80_trim.dat" # input nTuple
+# input nTuple and NN discriminant
+
+# Boosted category, PU80+SK+Trim
+#infile = "~/Dropbox/HH4bMC/mva/results_SK_PU80_trim/bst_SKPU80_trim.dat"
+# nnfile = "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat" 
+
+# Resolved category, no PU
+infile = "~/Dropbox/HH4bMC/mva/results_noPU/resNTuple.dat"
+nnfile="../plotdata/results_noPU/MVA/nn_13X5X3X1_50000-Gen_noPU_res.dat"
+
 infile = os.path.expanduser(infile)
-nnfile = "../plotdata/results_SK_PU80/MVA/nn_21X5X3X1_50000-Gen_SKPU80_bst.dat" # input NN discriminant
-ycut = 0.0 # NN discriminant cut
-signal = 1 # switch for signal recognition (1 for signal, 0 for background)
+
+# NN discriminant cut
+#ycut = 0.0
+ycut = 0.60 # optimal ANN cut in the resolved category wo PU
+
+signal = 0 # switch for signal recognition (1 for signal, 0 for background)
 
 ######################### Read nTuple kinematic limits #########################
 

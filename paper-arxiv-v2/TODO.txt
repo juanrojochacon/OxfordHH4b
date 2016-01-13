@@ -1,0 +1,43 @@
+
+Add references:
+
+%\cite{Cao:2015oaa}
+\bibitem{Cao:2015oaa} 
+  Q.~H.~Cao, B.~Yan, D.~M.~Zhang and H.~Zhang,
+  %``Resolving the Degeneracy in Single Higgs Production with Higgs Pair Production,''
+  Phys.\ Lett.\ B {\bf 752}, 285 (2016)
+  doi:10.1016/j.physletb.2015.11.045
+  [arXiv:1508.06512 [hep-ph]].
+  %%CITATION = doi:10.1016/j.physletb.2015.11.045;%%
+  %2 citations counted in INSPIRE as of 31 Dec 2015
+
+
+An exploratory study of Higgs-boson pair production 
+Chih-Ting Lu, Jung Chang (Taiwan, Natl. Tsing Hua U.), Kingman Cheung (NCTS, Hsinchu & Konkuk U. & Taiwan, Natl. Tsing Hua U.), Jae Sik Lee (NCTS, Hsinchu & Chonnam Natl. U.). May 5, 2015. 44 pp. 
+Published in JHEP 1508 (2015) 133 
+CNU-HEP-15-03 
+DOI: 10.1007/JHEP08(2015)133 
+e-Print: arXiv:1505.00957 [hep-ph] | PDF
+
+
+
+I am reading you paper today arXiv:1512.08928 with great interest. 
+It is quite impressive that MVA could substantially improve the Higgs pair search in SM.
+
+Please allow me to draw your attention to our recent work 
+
+http://arxiv.org/pdf/1512.08373.pdf
+
+In the Sec.III.B of the paper, we consider the search for higgs pair (from RHNs decay) in 4b final state at 14 TeV LHC and 100 TeV p-p collider. 
+The MVA is used in our search as well. The main difference is the higgs pair here is accompanied by two neutrinos which will lead to large MET in the final state. 
+
+I hope you may find our work of interest.
+
+
+--------------
+
+* Final decision on the results with nPU=150
+
+* Plotting distributions after the MVA cut?
+
+--------------
