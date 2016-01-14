@@ -566,27 +566,40 @@ Once the ANNs have been trained, it is possible to compare  kinematical distribu
 %
 This information would allow in principle to perform a cut-based analysis, without the need of using ANNs,
 and finding similar results.
-%
-To illustrate this,
+
+
+To illustrate this point,
 in Fig.~\ref{fig:pt_H0_sub0_res_noPU_ANNcut} we show
-the $p_T$ distribution of the leading AKT04 small-$R$ jets in the resolved
+the $p_T$ distribution of the leading AKT04 small-$R$ jets
+and the invariant mass of reconstructed Higgs candidates in the resolved
   category, comparing the pre-MVA results ($y_{\rm cut}=0$) with the post-MVA
   results ($y_{\rm cut}=0.60$) for signal and background  events.
   %
   The distributions are not normalized, to better visualize the effect
   of the MVA cut.
   %
-  Unsurprisingly, the ANN cut favors the high-$p_T$ region, in a way
-  that the signal and background shapes end up being reasonably similar.
+  Unsurprisingly, the ANN cut effectively selects events which
+  lead to similar kinematical distributions between signal
+  and background events.
+  %
+  In the case of the small-$R$ jets $p_T$ distribution, the
+  ANN cuts favors the
+  high-$p_T$ region, while for the invariant mass distribution
+  only the region around the Higgs mass peak is selected for
+  background events.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=0.48\textwidth]{plots/pt_H0_sub0_res_noPU_ANNcut.pdf}
-\includegraphics[width=0.48\textwidth]{plots/pt_H0_sub0_res_noPU_ANNcut_back.pdf}
+\includegraphics[width=0.48\textwidth]{plots/pt_H0_sub0_res_noPU_ANNcut_back_4b.pdf}
+\includegraphics[width=0.48\textwidth]{plots/m_H0_res_noPU_ANNcut.pdf}
+\includegraphics[width=0.48\textwidth]{plots/m_H0_res_noPU_ANNcut_back_4b.pdf}
 \caption{\small
-  The $p_T$ distribution of the leading AKT04 small-$R$ jets in the resolved
+  The $p_T$ distribution of the leading AKT04 small-$R$ jets (upper plots)
+  and
+  the invariant mass of reconstructed Higgs candidates (lower plots) in the resolved
   category, comparing the pre-MVA results ($y_{\rm cut}=0$) with the post-MVA
   results ($y_{\rm cut}=0.60$) for signal (left) and background (right plot) events.
   %

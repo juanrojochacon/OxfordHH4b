@@ -22,8 +22,6 @@ infile = os.path.expanduser(infile)
 ycut = 0.0
 # ycut = 0.60 # optimal ANN cut in the resolved category wo PU
 
-signal = 1 # switch for signal recognition (1 for signal, 0 for background)
-
 ######################### Read nTuple kinematic limits #########################
 
 nTuple = open(infile, 'r')
@@ -56,11 +54,11 @@ for line in nTuple:
 	assert line.split()[2] == disc[2] # weight check
 	ynn =float(disc[3]) # NN discriminant
 
-	if (ynn > ycut) and disc[1] == str(signal):
+	if (ynn > ycut)  and disc[0] == "SHERPA_QCD4b" :
 		for i in xrange(0,nkin):
 			histos[i].fill(float(var[i]), float(disc[2]))
 
-ext = '_y'+string.replace(str(ycut),'.','')+'_sig'+str(signal)+'.dat'
+ext = '_y'+string.replace(str(ycut),'.','')+'_back4b.dat'
 for i in xrange(0,nkin):
 	yoda.core.writeFLAT(histos[i],'histo_'+kinvar[i]+ext)
 
