@@ -13,10 +13,29 @@
 
 using namespace std;
 
-// HepMC MinBias
-static bool firstInit = true;
-static std::ifstream *pileupStream;
-static int pileupCount = 0;
+// Pythia MinBias
+Pythia8::Pythia pythiaPileup(std::string(PYTHIADIR));
+bool pythiaInit = false;
+void initPythiaPileup()
+{
+  pythiaPileup.readString("Next:numberShowInfo = 0");
+  pythiaPileup.readString("Next:numberShowProcess = 0");
+  pythiaPileup.readString("Next:numberShowEvent = 0");
+
+  pythiaPileup.readString("Random:setSeed = on");
+  std::ostringstream o;
+  o<<"Random:seed = "<<int(pythiaSeed()+34267);
+  pythiaPileup.readString(o.str());
+
+  // No hadronization
+  pythiaPileup.readString("HadronLevel:all = off"); // Of hadronization
+
+  pythiaPileup.readString("SoftQCD:all = on");
+  pythiaPileup.settings.parm("Beams:eCM", 14000);
+  pythiaPileup.init();
+
+  pythiaInit = true;
+}
 
 // Detector resolution
 static const double phiRes=0.1;
@@ -27,34 +46,10 @@ static const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {
-	// HepMC MinBias
-	for ( int iEvent = 0; iEvent < nPileup; iEvent++ )
-	{
-		// Have to delete stream rather than reset it, HepMC adds some user information
-		// to the stream which must be cleared.
-		 if (pileupCount >= npileupTotal())
-		 {
-			delete pileupStream;
-			pileupStream = 0;
-			pileupCount = 0;
-		 }
-
-		 if (!pileupStream)
-		 {
-		 	const string samples_path=std::string(SAMPLEDIR);
-			const string minbfile = samples_path + minBiasFile();
-		 	pileupStream = new std::ifstream( minbfile );
-
-			// State name of minBias file once
-			cout << "Using minBias file: "<<minbfile<<endl;
-
-		 }
-
-		 double dummy;
-		 get_final_state_particles(*pileupStream, particles, dummy);
-		 pileupCount++;
-	}
-	
+	if (!pythiaInit) initPythiaPileup();
+	double dummy;
+    for (int iPileup = 0; iPileup < nPileup; ++iPileup)
+    	get_final_state_particles(pythiaPileup, particles, dummy);
 }
 
 void DetectorSim(finalState input, finalState& output)
