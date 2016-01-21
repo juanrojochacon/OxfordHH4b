@@ -1,0 +1,69 @@
+* Agreed to submit to EPJC
+JR will email the JHEP editors to complain about their decision
+
+* Agreed that NH will first of include all the code fixes
+(such as include H->bb branching fraction at the same level as
+the C-factors) before running any fits
+
+Before any of these modifications are done, we will tag the code to
+ensure that the code used to produce the results of the
+paper is fully reproducible
+
+* For next week, NH will produce a plot of sigma(lambda) as a function
+of lambda after the MVA, both combining the three categories
+and separately for the three categories.
+The MVA will be trained only on the SM sample
+
+* Agreed to dump the 4j background from now on, we don't really
+have statistical control over that. So in these jobs that NH
+will run we will include only the 2b2j and 4b background, and no
+PU for the time being
+
+* Discussed the strategy to extract the Higgs trilinear. The idea
+is to construct a chi2 estimator
+
+chi2 = ( sigma(lam) - sigma(lam_SM))^2/Total_Error^2
+
+where of course the tricky part is how to extract the total error.
+
+* To begin with we can assume that the total error is statistical,
+and is thus given by 1/sqrt(N), with N the total number of events.
+
+If we look at the numbers in the paper, we find that
+
+sigma_stat = 6% (boosted)
+
+sigma_stat = 9% (intermediate)
+
+sigma_stat = 4% (resolved)
+
+If the three categories are combined, the total stat error is 3%.
+
+* The real question is to assess how the systematic uncertainties
+in the measurement affect the MVA training. We agreed to try the
+NNPDF method
+
+- Start from the MC distributions, as truth
+
+- Estimate the statistical and systematic errors for each distribution
+(like the pt_Higgs), and their correlation
+
+- Generate MC replicas with this information, and train an MVA
+on each of these
+
+The envelope of the results of the MVA replicas will determine which
+is the uncertainty in the MVA classification factor due to
+experimental uncertainties
+
+- Here we can use very similar code as the one in NNPDF
+
+- To train the background, and normalize to the "data", we can
+impose a cut mH < 115 GeV or mh > 135 GeV, to elliminate the
+contribution from the signal.
+
+Conferences: Cigdem will submit abstracts to ICHEP and LHCP, we can
+decide the speaker later. Juan will to do the AMVA4NP network meeting
+and Nathan to DIS2016.
+
+
+

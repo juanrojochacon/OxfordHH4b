@@ -1,0 +1,21 @@
+* Katharina and James will launch the nPU=150 jobs with the updated MB treatment either today and tomorrow, so that they will be ready by Monday
+
+* Then we can take a look at the cut-flows, both before and after the MVA results, and decide if we use the nPU=150 as default in the paper
+
+* Idea is to submit by Wed next week at the very latest
+
+* Paper updated with distributions before and after the ANN cut, including for the invariant mass distributions.
+
+* Nathan has generated 14 TeV samples with different values of lambda, between -5 and 5. He will then process these samples through the code, using the same MVA trained on the SM samples. For the first exploratory studies we agreed to run without PU, and only add it at the very end
+
+* Agreed to try to see the precision of a extraction of lambda first of all constructing a simple chi2 with only the signal stat error, and then adding the various systematics from signal and background events.
+
+* Nathan also has 100 TeV samples, which he will process though the code, using the same cuts as for teh 14 TeV case. It will be interesting to see what is the signal significance in this case.
+
+* Agreed to extend all histograms, such as the mhh histogram, to ensure they cover the entire kinematical range.
+
+* By next week we all have the homework to think about what is the optimal way to extract the Higgs self-coupling, and to include the various sources of theoretical and experimental uncertainties.
+
+Best,
+J.
+

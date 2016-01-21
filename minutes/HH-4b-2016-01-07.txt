@@ -1,0 +1,24 @@
+
+* We aim to submit v2 to the arxiv and to JHEP by the end of next week
+
+* Katharina and James will rerun the nPU=150 jobs with the improved MB samples. Nathan will then process them with the MVA, and if they make sense, we agreed to replace nPU=80 witn nPU=150 elsewhere in the paper. Else we stick to nPU=80 as default
+
+* Nathan with process in the MVA the nPU=40 results, that Cigdem needs for her ERC
+
+* We checked that the jet pt distribution in the MB samples goes up to 200 GeV, so indeed the include not only soft events by also hard events, so we are fine here
+
+* Nathan will produce plots of some kin distributions before and after the MVA cut, to illustrate the "effective cut" of the MVA. If some of these look sensible, we will add them to the paper
+
+* For the future, the next step is to extract lambda and estimate its precision, at Run II, HL-LHC and at the FCC 100 TeV
+
+* Nathan will generate 10-20 signal points with a range of lambda values, from -10 to 10, with a finer scanning near the SM region
+
+* Then we need to redo the analysis and extract lambda in some way => We all need to think which is the optimal strategy here
+
+* For 100 TeV, all the backgrounds are ready, so the only thing we need to do here is to simulate signal events. For the 100 TeV analysis, we forget about PU and keep only the 2b2j and 4b background components.
+
+* Agreed to keep everything at 14 TeV rather than at 13 TeV.
+
+Finally, from now on we agreed that our weekly meetings will be Thu 10am in the Dalitz.
+
+
