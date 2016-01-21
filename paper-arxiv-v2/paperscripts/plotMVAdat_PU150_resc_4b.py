@@ -10,9 +10,9 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_SK_PU150/MVA/nn_13X5X3X1_50000-Gen_SKPU150_res_4b.dat",
-            "../plotdata/results_SK_PU150/MVA/nn_17X5X3X1_50000-Gen_SKPU150_int_4b.dat",
-            "../plotdata/results_SK_PU150/MVA/nn_21X5X3X1_50000-Gen_SKPU150_bst_4b.dat"]
+datafiles=[ "../plotdata/results_SK_PU150_v2/MVA/nn_13X5X3X1_50000-Gen_resNTuple_4b.dat",
+            "../plotdata/results_SK_PU150_v2/MVA/nn_17X5X3X1_50000-Gen_intNTuple_4b.dat",
+            "../plotdata/results_SK_PU150_v2/MVA/nn_21X5X3X1_50000-Gen_bstNTuple_4b.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
 titlenames=[ r"Resolved Category,  $\langle n_{PU}\rangle =150$+SK",
@@ -227,7 +227,7 @@ nev3legend = nevax3.legend(loc='best',fontsize=13)
 nev3legend.get_frame().set_alpha(0.8)
 
 x1,x2,y1,y2 = ssbax.axis()
-ssbax.axis((x1,x2,0,8))
+ssbax.axis((x1,x2,0,4.2))
 
 roc.text(0.34,0.94,r"HL-LHC, $\langle n_{PU}\rangle =150$+SK", fontsize=20)
 roc.savefig(ROCout+'.pdf')

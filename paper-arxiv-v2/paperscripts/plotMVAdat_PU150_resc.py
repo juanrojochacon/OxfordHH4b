@@ -10,9 +10,9 @@ print "Warning: This script might take a minute or two depending on the density 
 ################################ Settings ###################################
 
 # Source files
-datafiles=[ "../plotdata/results_SK_PU150/MVA/nn_13X5X3X1_50000-Gen_resNTuple.dat",
-            "../plotdata/results_SK_PU150/MVA/nn_17X5X3X1_50000-Gen_intNTuple.dat",
-            "../plotdata/results_SK_PU150/MVA/nn_21X5X3X1_50000-Gen_bstNTuple.dat"]
+datafiles=[ "../plotdata/results_SK_PU150_v2/MVA/nn_13X5X3X1_50000-Gen_resNTuple.dat",
+            "../plotdata/results_SK_PU150_v2/MVA/nn_17X5X3X1_50000-Gen_intNTuple.dat",
+            "../plotdata/results_SK_PU150_v2/MVA/nn_21X5X3X1_50000-Gen_bstNTuple.dat"]
 
 datanames=[ "Resolved","Intermediate","Boosted"]
 titlenames=[ r"Resolved Category,  $ n_{PU} =150$+SK",
