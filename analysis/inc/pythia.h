@@ -3,7 +3,6 @@
 #include <string>
 
 #include "utils.h"
-#include "settings.h"
 
 namespace Pythia8{
 class Pythia;

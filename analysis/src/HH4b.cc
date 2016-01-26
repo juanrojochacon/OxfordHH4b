@@ -10,7 +10,6 @@
 #include "Pythia8/Pythia.h"
 #include "Pythia8/Info.h"
 
-#include "settings.h"
 #include "utils.h"
 #include "analysis.h"
 

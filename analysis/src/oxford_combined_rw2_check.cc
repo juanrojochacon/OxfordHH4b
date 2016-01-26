@@ -5,7 +5,6 @@
 
 #include "oxford_combined_rw2_check.h"
 #include "utils.h"
-#include "settings.h"
 
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
@@ -26,11 +25,50 @@ const double GAjetR = 0.3; // Boosted subjet radius for ghost-association
 // Resolved jet radius
 const double ResJetR=0.4;
 
+// Mass-drop tagger
+double const mu = 0.67;
+double const ycut = 0.09;
+
 // Analysis settings
 const int nAnalysis = 3;  const int nCuts = 7;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
 const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2"};
 
+// nTag: How many b-tags are required
+// nB: How many true b-jets are present
+// nC: How many true c-jets are present
+// nL: How many light jets are present
+static double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL)
+{
+  // b tagging
+  // Choose working point with high purity
+  const double btag_prob = 0.80; // Probability of correct b tagging
+  const double btag_mistag = 0.01; // Mistag probability  
+  const double ctag_prob = 0.1;//0.17; // c-mistag rate ~1/6.
+
+  // Probability of all permutations
+  double totalProb=0;  
+
+  // Loop over all possible classification permutations
+  for (int iB=0; iB<=std::min(nB, nTag); iB++)           // iB b-jets tagged as b
+    for (int iC=0; iC<=std::min(nC, nTag-iB); iC++)      // iC c-jets tagged as b
+      for (int iL=0; iL<=std::min(nL, nTag-iB-iC); iL++) // iL l-jets tagged as b
+      {
+        const double bProb = pow(btag_prob, iB)*pow(1.0-btag_prob,nB-iB);
+        const double cProb = pow(ctag_prob, iC)*pow(1.0-ctag_prob,nC-iC);
+        const double lProb = pow(btag_mistag, iL)*pow(1.0-btag_mistag, nL-iL);
+
+        // Does the current permutation have the correct number of b-Tags?
+        const int permutationTags = iB+iC+iL;   //Number of b-Tags in current permutation
+        if (permutationTags == nTag) 
+        {
+          //std::cout << iB<<"  "<<iC<<"  "<<iL<< "  "<<std::scientific<<bProb*cProb*lProb<<std::endl;
+          totalProb += bProb*cProb*lProb;
+        }
+      }
+
+  return totalProb;
+}
 
 OxfordCombinedCheckAnalysis::OxfordCombinedCheckAnalysis(std::string const& sampleName, int const& subsample):
 Analysis("oxford_combined_check", sampleName, subsample)

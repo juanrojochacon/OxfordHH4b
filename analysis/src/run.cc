@@ -1,6 +1,5 @@
 #include "run.h"
 
-#include "settings.h"
 #include "utils.h"
 #include "analysis.h"
 

@@ -6,7 +6,6 @@
 #include "HepMC/GenCrossSection.h"
 
 #include "utils.h"
-#include "settings.h"
 
 
 // Initiate a HepMC sample, and determine the cross-section normalisation

@@ -2,11 +2,10 @@
 #pragma once
 
 #include "analysis.h"
-#include "settings.h"
+#include "utils.h"
 
 #include <iostream>
 #include <vector>
-
 
 /*
 combined analysis for HH in fully merged, semi-merged and resolved channels

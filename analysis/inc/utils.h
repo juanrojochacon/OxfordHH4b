@@ -7,6 +7,9 @@
 #include "HepMC/GenEvent.h"
 #include "fastjet/PseudoJet.hh"
 
+// Helpful typedef
+typedef enum {NTAG, BTAG, CTAG, LTAG} btagType;
+
 // Analysis utility functions
 double getDPhi(double phi1, double phi2);
 
@@ -30,10 +33,6 @@ double charm_eff( double jet_pt );
 
 // Box-Muller transform for gaussian random numbers
 float box_muller(float m, float s);
-
-// b-tagging probabilities
-double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL);
-
 
 // ************************** FastJet User info ************************************
 

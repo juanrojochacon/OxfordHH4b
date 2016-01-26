@@ -97,10 +97,8 @@ void get_final_state_particles(Pythia8::Pythia & pythiaRun, finalState& particle
 
   for (int i = 0; i < pythiaRun.event.size(); i++)
   {
-    // Get PDG ID and mother information
+    // Get PDG ID
     const int particle_id = pythiaRun.event[i].id();
-    const int motherID = pythiaRun.event[i].mother1();
-    const int motherPDG = pythiaRun.event[motherID].id();
 
     // Consider only final state particles
     if( pythiaRun.event[i].status() <= 0 ) continue;

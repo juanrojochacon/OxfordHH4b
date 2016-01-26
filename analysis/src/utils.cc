@@ -1,8 +1,10 @@
 #include "utils.h"
-#include "settings.h"
 
 #include <stdlib.h>
 #include <vector>
+
+#include "fastjet/Selector.hh"
+#include "fastjet/ClusterSequence.hh"
 
 using namespace std;
 
@@ -441,7 +443,7 @@ double charm_eff( double jet_pt ){
   else return 1./5.;
 }
 
-uint ranf_rseed = smear_seed; // use reentrant ran to ensure consistency of smearing
+uint ranf_rseed = 23478234; // use reentrant ran to ensure consistency of smearing
 static float ranf()/* ranf() is uniform in 0..1 */
 {
   return  (float) rand_r(&ranf_rseed) / (double) RAND_MAX; 
@@ -476,32 +478,4 @@ float box_muller(float m, float s)  /* normal random variate generator */
   return( m + y1 * s );
 }
 
-// nTag: How many b-tags are required
-// nB: How many true b-jets are present
-// nC: How many true c-jets are present
-// nL: How many light jets are present
-double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL)
-{
-  // Probability of all permutations
-  double totalProb=0;  
 
-  // Loop over all possible classification permutations
-  for (int iB=0; iB<=std::min(nB, nTag); iB++)           // iB b-jets tagged as b
-    for (int iC=0; iC<=std::min(nC, nTag-iB); iC++)      // iC c-jets tagged as b
-      for (int iL=0; iL<=std::min(nL, nTag-iB-iC); iL++) // iL l-jets tagged as b
-      {
-        const double bProb = pow(btag_prob, iB)*pow(1.0-btag_prob,nB-iB);
-        const double cProb = pow(ctag_prob, iC)*pow(1.0-ctag_prob,nC-iC);
-        const double lProb = pow(btag_mistag, iL)*pow(1.0-btag_mistag, nL-iL);
-
-        // Does the current permutation have the correct number of b-Tags?
-        const int permutationTags = iB+iC+iL;   //Number of b-Tags in current permutation
-        if (permutationTags == nTag) 
-        {
-          //std::cout << iB<<"  "<<iC<<"  "<<iL<< "  "<<std::scientific<<bProb*cProb*lProb<<std::endl;
-          totalProb += bProb*cProb*lProb;
-        }
-      }
-
-  return totalProb;
-}
