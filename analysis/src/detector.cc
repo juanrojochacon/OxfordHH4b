@@ -21,6 +21,7 @@ void initPythiaPileup()
   pythiaPileup.readString("Next:numberShowInfo = 0");
   pythiaPileup.readString("Next:numberShowProcess = 0");
   pythiaPileup.readString("Next:numberShowEvent = 0");
+  pythiaPileup.readString("Next:numberCount = 0");
 
   pythiaPileup.readString("Random:setSeed = on");
   std::ostringstream o;
