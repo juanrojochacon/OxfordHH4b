@@ -54,12 +54,8 @@ void AddPileup( int const& nPileup, finalState& particles )
 
 void DetectorSim(finalState input, finalState& output)
 {
-	if (pileupSimulated())
-	{
-		AddPileup(npileupEvents(), input);
-		if (softKillered()) input = soft_killer(input);
-	}
-
+	AddPileup(npileupEvents(), input);
+	if (softKillered()) input = soft_killer(input);
 	for(size_t i=0; i<input.size(); i++)
 	{
 		// Detector granularity

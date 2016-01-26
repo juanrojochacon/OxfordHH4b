@@ -36,16 +36,12 @@ int main( int argc, char* argv[] )
   // Read sampleID
   const int sampleID = atoi(argv[1]);
   const int subsample = atoi(argv[2]);
-  int minbiasSample = subsample;
-  if( sampleID>0) minbiasSample = subsample+sampleID*100-66;
 
   subSample() = subsample;
-  minBiasSample() = minbiasSample;
   pythiaSeed() = 430598*sampleID +342*subsample + 382;
   systemSeed() = 175*sampleID +34562*subsample + 2093;
 
   cout << "Processing sample ID: " <<sampleID<< ", subsample: : "<<subsample;
-  cout << "MinBias sample ID: " <<minBiasSample();
   cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
   // Read sample data

@@ -24,22 +24,14 @@ const double jetE_smear = 5.0; // % smear on jet energy
 
 const bool pythiaShower = true; // Shower events in pythia
 const bool softKiller = true; // Enable softkiller pileup removal
-
-const bool pileup = true;
-const int npileup = 80;
-const int npileup_total = 989999;
+const int npileup = 80; // Number of pileup events per hard event
 
 const int samplesize = 3E4; //!< Size of individual subsamples
-
-const std::string minbias = "PYTHIA_MinBias_14TEV.";
 
 // **************** DO NOT MODIFY  ****************
 
 // Current working subsample
 static int subsample = -1;
-
-// Current working minBiasSample
-static int minbiasSample = -1;
 
 static double random_seed_pythia = 40487;	//!< Random seed for pythia
 static double random_seed_system = 23429;
@@ -52,24 +44,13 @@ bool pythiaShowered() {return pythiaShower;};
 bool softKillered() {return softKiller;};
 
 int& subSample() {return subsample;};
-int& minBiasSample() { return minbiasSample;};	// Make sure subsamples of different processes
-						// use different MinBias files.
 int sampleSize() {return samplesize;};
 int sampleStart() {return samplesize*subsample;};
 
 double& pythiaSeed() {return random_seed_pythia;};
 double& systemSeed() {return random_seed_system;};
 
-bool pileupSimulated() {return pileup;};
 int npileupEvents() {return npileup;};
-int npileupTotal() {return npileup_total;};
-
-std::string minBiasFile() 
-{
-	std::stringstream filename;
-	filename << minbias <<subSample() <<".hepmc";
-	return filename.str();
-};
 
 eventSample GetSample( int const& isample )
 {

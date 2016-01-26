@@ -29,7 +29,6 @@ bool pythiaShowered(); // Is pythia showering
 bool softKillered(); // Is softkiller removing PU
 
 int& subSample(); // Current working subsample
-int& minBiasSample(); // Current working minBias sample
 int sampleSize(); // Size point of sample;
 int sampleStart(); // Start point of sample;
 
@@ -38,9 +37,6 @@ double& pythiaSeed();
 double& systemSeed();
 
 // Pileup
-bool pileupSimulated();
 int npileupEvents();
-int npileupTotal();
-std::string minBiasFile();
 
 void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename, int const& subsample );
