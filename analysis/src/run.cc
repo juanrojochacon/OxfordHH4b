@@ -136,7 +136,7 @@ void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string con
 {
 	// **************** PLEASE MODIFY *****************
 
-	sampleAnalyses.push_back(new OxfordCombinedRW2Analysis(samplename, subsample));
+	sampleAnalyses.push_back(new OxfordAnalysis(samplename, subsample));
 
 	// **************** DO NOT MODIFY  ****************
 }

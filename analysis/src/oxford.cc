@@ -81,8 +81,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
   return totalProb;
 }
 
-OxfordCombinedRW2Analysis::OxfordCombinedRW2Analysis(std::string const& sampleName, int const& subsample):
-Analysis("oxford_combined_rw2", sampleName, subsample)
+OxfordAnalysis::OxfordAnalysis(std::string const& sampleName, int const& subsample):
+Analysis("oxford", sampleName, subsample)
 {
   // ********************* Histogram settings******************
 
@@ -222,7 +222,7 @@ Analysis("oxford_combined_rw2", sampleName, subsample)
 
 }
 
-void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
 {
   Analysis::Analyse(signal, weightnorm, fs);
 
@@ -714,7 +714,7 @@ void OxfordCombinedRW2Analysis::Analyse(bool const& signal, double const& weight
 }
 
 // Small-R B-tagging
-void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<btagType>& btag_vec  )
+void OxfordAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& jets_vec, std::vector<btagType>& btag_vec  )
 {
   // Loop over all jets
   for( size_t i=0; i<jets_vec.size(); i++)
@@ -742,7 +742,7 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
   }
 }
 
-void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets,
+void OxfordAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets,
                                           std::vector<fastjet::PseudoJet> const& trackjets,
                                           std::vector<fastjet::PseudoJet>& subjets1,
                                           std::vector<fastjet::PseudoJet>& subjets2,
@@ -787,7 +787,7 @@ void OxfordCombinedRW2Analysis::BTagging( std::vector<fastjet::PseudoJet> const&
 }
 
 
-void OxfordCombinedRW2Analysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets, // Input b-jets
+void OxfordAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets, // Input b-jets
                                               std::vector<fastjet::PseudoJet>& higgs_vec,   // Returned Higgs candidates
                                               std::vector<fastjet::PseudoJet>& higgs0_vec,  // Leading higgs subjets
                                               std::vector<fastjet::PseudoJet>& higgs1_vec ) // Subleading higgs subjets
@@ -859,7 +859,7 @@ void OxfordCombinedRW2Analysis::Reco_Resolved( std::vector<fastjet::PseudoJet> c
 }
 
 
-bool OxfordCombinedRW2Analysis::Reco_Intermediate(  std::vector<fastjet::PseudoJet> const& bjets, 
+bool OxfordAnalysis::Reco_Intermediate(  std::vector<fastjet::PseudoJet> const& bjets, 
                                                     fastjet::PseudoJet const& fatjet, 
                                                     std::vector<btagType> const& btag_vec,
                                                     std::vector<btagType>&  btag_selected_vec,
@@ -930,7 +930,7 @@ bool OxfordCombinedRW2Analysis::Reco_Intermediate(  std::vector<fastjet::PseudoJ
 }
 
 // Fill basic jet quantities
-void OxfordCombinedRW2Analysis::JetFill(  std::vector<fastjet::PseudoJet> const& smallRJets,
+void OxfordAnalysis::JetFill(  std::vector<fastjet::PseudoJet> const& smallRJets,
                                           std::vector<fastjet::PseudoJet> const& largeRJets,
                                           std::string const& analysis, 
                                           size_t const& cut, 
@@ -958,7 +958,7 @@ void OxfordCombinedRW2Analysis::JetFill(  std::vector<fastjet::PseudoJet> const&
 
 
 // Fill basic subjet quantities
-void OxfordCombinedRW2Analysis::SubJetFill( std::vector<fastjet::PseudoJet> const& leading_subjet,
+void OxfordAnalysis::SubJetFill( std::vector<fastjet::PseudoJet> const& leading_subjet,
                                             std::vector<fastjet::PseudoJet> const& subleading_subjet,
                                             std::string const& analysis, 
                                             size_t const& cut, 
@@ -1005,7 +1005,7 @@ void OxfordCombinedRW2Analysis::SubJetFill( std::vector<fastjet::PseudoJet> cons
 }
 
 // General fill for reconstructed higgs quantities
-void OxfordCombinedRW2Analysis::HiggsFill(fastjet::PseudoJet const& H0,
+void OxfordAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
                                          fastjet::PseudoJet const& H1,
                                          std::string const& analysis, 
                                          size_t const& cut, 
@@ -1054,7 +1054,7 @@ void OxfordCombinedRW2Analysis::HiggsFill(fastjet::PseudoJet const& H0,
 }
 
 
-void OxfordCombinedRW2Analysis::BoostFill( fastjet::PseudoJet const& H,
+void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H,
                                           std::string const& analysis, 
                                           size_t const& cut, 
                                           double const& weight )
@@ -1078,7 +1078,7 @@ void OxfordCombinedRW2Analysis::BoostFill( fastjet::PseudoJet const& H,
   FillHistogram("D2_fj" + suffix, weight, D2);
 }
 
-void OxfordCombinedRW2Analysis::BoostFill( fastjet::PseudoJet const& H0,
+void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
                                           fastjet::PseudoJet const& H1,
                                           std::string const& analysis, 
                                           size_t const& cut, 
