@@ -3,7 +3,7 @@
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 
-#include "oxford_combined_rw2.h"
+#include "oxford.h"
 #include "utils.h"
 #include "run.h"
 

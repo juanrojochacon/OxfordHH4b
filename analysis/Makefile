@@ -69,7 +69,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = pythia hepmc analysis detector run utils oxford_combined_rw2 oxford_combined_rw2_check
+MODULES = pythia hepmc analysis detector run utils oxford
 
 ############################## do not change ###################################
 

@@ -3,8 +3,7 @@
 #include "utils.h"
 #include "analysis.h"
 
-#include "oxford_combined_rw2.h"
-#include "oxford_combined_rw2_check.h"
+#include "oxford.h"
 
 #include <vector>
 #include <cmath>
