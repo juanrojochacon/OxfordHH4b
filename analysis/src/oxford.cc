@@ -40,6 +40,12 @@ const bool exclusive = true;
 double const mu = 0.67;
 double const ycut = 0.09;
 
+// b tagging
+// Choose working point with high purity
+const double btag_prob = 0.80; // Probability of correct b tagging
+const double btag_mistag = 0.01; // Mistag probability  
+const double ctag_prob = 0.1;//0.17; // c-mistag rate ~1/6.
+
 // Analysis settings
 const int nAnalysis = 3;  const int nCuts = 7;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
@@ -51,12 +57,6 @@ const std::string cString[nCuts] = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e
 // nL: How many light jets are present
 static double btagProb( int const& nTag, int const& nB, int const& nC, int const& nL)
 {
-  // b tagging
-  // Choose working point with high purity
-  const double btag_prob = 0.80; // Probability of correct b tagging
-  const double btag_mistag = 0.01; // Mistag probability  
-  const double ctag_prob = 0.1;//0.17; // c-mistag rate ~1/6.
-
   // Probability of all permutations
   double totalProb=0;  
 

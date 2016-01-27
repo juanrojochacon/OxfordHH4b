@@ -3,20 +3,10 @@
 // C++
 #include <fstream>
 
-#include "fastjet/ClusterSequence.hh"
-#include "fastjet/Selector.hh"
-#include "fastjet/tools/MassDropTagger.hh"
-#include "fastjet/contrib/VariableRPlugin.hh"
-#include "Pythia8/Pythia.h"
-#include "Pythia8/Info.h"
-
-#include "utils.h"
+#include "run.h"
 #include "analysis.h"
-
 #include "samples.h"
 #include "detector.h"
-
-#include "run.h"
 
 using namespace Pythia8;
 
@@ -98,8 +88,8 @@ int main( int argc, char* argv[] )
     // Perform detector simulation
     DetectorSim(ifs,fs);
 
-    if (iEvent % 1000 == 0 && sample.hepmc)
-      cout << iEvent <<" HepMC events analysed"<<endl;
+    if (iEvent % 1000 == 0 )
+      cout << iEvent <<" events analysed"<<endl;
 
     // Normalise event weight
     event_weight *= weight_norm;

@@ -4,6 +4,19 @@
 
 using namespace std;
 
+// eventSample reader
+
+// template<class T>
+// T cardquery(std::string const& filename, std::string const& field)
+// {
+//   std::ifstream instr(filename);
+//   std::string line;
+//   while(getline(instr, line))
+//   {
+    
+//   }
+// }
+
 // ************************************ Initialisation ************************************
 
 /*
@@ -22,8 +35,9 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   // Initialize Les Houches Event File run. List initialization information.
   pythiaRun.readString("Beams:frameType = 4"); 
   
-  // Shower settings
- 
+  // Switch off counter
+  pythiaRun.readString("Next:numberCount = 0");
+
   // The shower is QCD only, no QED or weak effects included
   pythiaRun.readString("SpaceShower:QEDshowerByQ  = off"); // QED shower off
   pythiaRun.readString("SpaceShower:QEDshowerByL  = off"); // QED shower off
