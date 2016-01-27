@@ -1,17 +1,21 @@
 #include "detector.h"
 #include "run.h"
 #include "utils.h"
-#include "hepmc.h"
+#include "samples.h"
 
 #include <math.h> 
 
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/contrib/SoftKiller.hh"
 
-#include "Pythia8/Pythia.h"
-#include "pythia.h"
-
 using namespace std;
+
+// Detector resolution
+static const double phiRes=0.1;
+static const double etaRes=0.1;
+
+// SoftKiller
+static const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 // Pythia MinBias
 Pythia8::Pythia pythiaPileup(std::string(PYTHIADIR));
@@ -37,13 +41,6 @@ void initPythiaPileup()
 
   pythiaInit = true;
 }
-
-// Detector resolution
-static const double phiRes=0.1;
-static const double etaRes=0.1;
-
-// SoftKiller
-static const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 void AddPileup( int const& nPileup, finalState& particles )
 {

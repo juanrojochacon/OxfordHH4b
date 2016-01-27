@@ -13,8 +13,7 @@
 #include "utils.h"
 #include "analysis.h"
 
-#include "pythia.h"
-#include "hepmc.h"
+#include "samples.h"
 #include "detector.h"
 
 #include "run.h"

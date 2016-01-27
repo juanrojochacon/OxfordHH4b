@@ -69,7 +69,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = pythia hepmc analysis detector run utils oxford
+MODULES = samples analysis detector run utils oxford
 
 ############################## do not change ###################################
 
