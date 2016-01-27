@@ -15,26 +15,32 @@ using namespace Pythia8;
 int main( int argc, char* argv[] ) 
 {  
 
-  if (argc != 3)
+  if (argc != 4)
   {
     cerr << "Error: Wrong number of arguments!"<<endl;
-    cerr << "Usage: HH4b <sampleID> <subsample>" <<endl;
+    cerr << "Usage: HH4b <run card> <sample card> <subsample>" <<endl;
     exit(-1);
   }
 
-  // Read sampleID
-  const int sampleID = atoi(argv[1]);
-  const int subsample = atoi(argv[2]);
+  // Read run card
+  const std::string runfile = std::string(argv[1]);
+  const runCard run(runfile);
 
-  subSample() = subsample;
-  pythiaSeed() = 430598*sampleID +342*subsample + 382;
-  systemSeed() = 175*sampleID +34562*subsample + 2093;
+  // Read sample card 
+  const std::string samplefile = std::string(argv[2]);
+  const sampleCard sample(samplefile);
 
-  cout << "Processing sample ID: " <<sampleID<< ", subsample: : "<<subsample;
+  // Determine subsample constants
+  const int subsample = atoi(argv[3]);
+  const int sampleStart = subsample*sampleSize(); // start point of the subsample
+
+  pythiaSeed() = 382;
+  systemSeed() = 2093;
+
+  cout << "Processing sample: " <<sample.samplename<< ", subsample: : "<<subsample;
   cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
   // Read sample data
-  const eventSample sample = GetSample(sampleID);
   const string samples_path=std::string(SAMPLEDIR);
   const string eventfile = samples_path + sample.eventfile;
   std::cout << "Reading samples from: "<<eventfile<<std::endl;
@@ -58,9 +64,9 @@ int main( int argc, char* argv[] )
   InitSampleAnalyses(sampleAnalyses, sample.samplename, subsample);
 
   // Skip to subsample x
-  cout << "Skipping to startpoint: " << sampleStart() <<endl;
+  cout << "Skipping to startpoint: " << sampleStart <<endl;
   double dum; finalState dum2;
-  for (int iEvent = 0; iEvent < sampleStart(); ++iEvent) 
+  for (int iEvent = 0; iEvent < sampleStart; ++iEvent) 
   {
     dum2.clear();
     if (!sample.hepmc) // Pythia
@@ -73,7 +79,7 @@ int main( int argc, char* argv[] )
   double sample_xsec = 0;
   // Begin loop over events
   cout << "*************** Analysis Begins ***************" <<endl;
-  const int targetSize = min(sampleSize(), sample.nevt_sample - sampleStart());
+  const int targetSize = min(sampleSize(), sample.nevt_sample - sampleStart);
   cout << "Analysing: " << targetSize <<" events"<<endl;
   for (int iEvent = 0; iEvent < targetSize; ++iEvent) 
   {
@@ -101,7 +107,7 @@ int main( int argc, char* argv[] )
 
     // Sample analyses
     for (size_t i=0; i<sampleAnalyses.size(); i++)
-      sampleAnalyses[i]->Analyse(sample.signal, event_weight, fs);
+      sampleAnalyses[i]->Analyse(sample.is_signal, event_weight, fs);
 
   // ****************************** Analyses ******************************
 

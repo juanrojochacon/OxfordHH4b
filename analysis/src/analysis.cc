@@ -170,7 +170,7 @@ void Analysis::Export()
 bool Analysis::VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets)
 {
 	// Smearing breaks four-mom verification
-	if (GetPSmear() > 1E-8 || GetESmear() > 1E-8 ) return true;
+	if ( GetESmear() > 1E-8 ) return true;
 	// No beam-remnants
 	if (!pythiaShowered()) return true; 
 

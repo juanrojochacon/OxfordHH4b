@@ -1,21 +1,9 @@
 //samples.cc
 #include "samples.h"
 #include "run.h"
+#include <exception>
 
 using namespace std;
-
-// eventSample reader
-
-// template<class T>
-// T cardquery(std::string const& filename, std::string const& field)
-// {
-//   std::ifstream instr(filename);
-//   std::string line;
-//   while(getline(instr, line))
-//   {
-    
-//   }
-// }
 
 // ************************************ Initialisation ************************************
 
