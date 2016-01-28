@@ -4,6 +4,7 @@
 #include "samples.h"
 
 #include <math.h> 
+#include <random> 
 
 #include "fastjet/PseudoJet.hh"
 
@@ -13,6 +14,7 @@ using namespace std;
 
 Detector::Detector(runCard const& run, sampleCard const& sample, int const& pythiaSeed, int const& detectorSeed):
 pythiaPileup(std::string(PYTHIADIR)),
+rng(detectorSeed),
 nPileup(run.npileup),
 phiRes(0.1),
 etaRes(0.1),
@@ -54,7 +56,8 @@ void Detector::Simulate(finalState input, finalState& output)
     const double newPhi = floor(input[i].phi()/phiRes)*phiRes + phiRes/2.0;
 
     // Lengthwise gaussian smear
-    const double sm = box_muller(1.0,0.01*jetEsmear);
+    std::normal_distribution<> normal_dist(1.0, 0.01*jetEsmear);
+    const double sm = normal_dist(rng);
 
     // Reconstruct smeared jet
     const double pT = sm*input[i].pt();

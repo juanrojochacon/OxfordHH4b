@@ -88,7 +88,7 @@ T cardquery(std::string const& filename, std::string const& field)
     std::cout << "   N_PU:           "<<npileup <<std::endl;
     std::cout << "   Jet E smear:    "<<jetEsmear <<std::endl;
     std::cout << "   pythiaShower:   "<<pythiaShower <<std::endl;
-    std::cout << "   softKiller:    "<<softKillered <<std::endl;
-    std::cout << "   runseed:       "<<runseed <<std::endl;
+    std::cout << "   softKiller:     "<<softKillered <<std::endl;
+    std::cout << "   runseed:        "<<runseed <<std::endl;
     std::cout << "---------------------------------------"<<std::endl;
   }

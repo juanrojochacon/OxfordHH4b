@@ -160,7 +160,6 @@ void get_final_state_particles(Pythia8::Pythia& pythiaRun, finalState& particles
     jet.set_user_index(particle_id);
 
     particles.push_back( jet );
-    
   } // End loop over particles in event
 }
 

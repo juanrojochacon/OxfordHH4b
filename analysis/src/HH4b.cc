@@ -106,8 +106,8 @@ int main( int argc, char* argv[] )
     for (size_t i=0; i<analyses.size(); i++)
       analyses[i]->Analyse(sample.is_signal, event_weight, fs);
 
-    if (iEvent % 1000 == 0 )
-      cout << iEvent <<" events analysed"<<endl;
+    if ((iEvent+1) % 100 == 0 )
+      cout << iEvent+1 <<" events analysed"<<endl;
   }
 
   // Clean up

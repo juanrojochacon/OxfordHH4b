@@ -17,6 +17,7 @@ public:
 private:
 	void AddPileup(finalState& fs);
 	Pythia8::Pythia pythiaPileup;
+	pcg32 rng;
 
 	const int nPileup;
 	const double phiRes;
