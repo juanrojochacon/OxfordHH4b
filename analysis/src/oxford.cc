@@ -13,8 +13,8 @@
 #include "fastjet/tools/Filter.hh"
 
 #include "fastjet/contrib/SoftKiller.hh"
-#include "fastjet/contrib/VariableRPlugin.hh"
 #include "fastjet/contrib/EnergyCorrelator.hh"
+#include "fastjet/contrib/NSubjettiness.hh"
 
 #include <algorithm>
 
@@ -31,9 +31,11 @@ const double GAjetR = 0.3; // Boosted subjet radius for ghost-association
 const double ResJetR=0.4;
 
 // LST energy correlations
-EnergyCorrelatorC2 C2(2, EnergyCorrelator::pt_R);
-EnergyCorrelatorD2 D2(2, EnergyCorrelator::pt_R);
+const EnergyCorrelatorC2 C2(2, EnergyCorrelator::pt_R);
+const EnergyCorrelatorD2 D2(2, EnergyCorrelator::pt_R);
 
+// tau2/tau1 NSubjettiness
+const NsubjettinessRatio tau21(2,1, KT_Axes(), UnnormalizedMeasure(1));
 
 // Debugging
 const bool debug = false;
@@ -445,7 +447,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
               // Calculate some substructure variables
               const std::vector<double> split12_vec = SplittingScales( largeRJets );
-              const std::vector<double> tau21_vec = NSubjettiness( largeRJets );
+              const double tau21_fj1 = tau21( largeRJets[0] );
+              const double tau21_fj2 = tau21( largeRJets[1] );
 
               // C2 energy correlation double-ratio
               const double C2_fj1 = C2(largeRJets[0]);
@@ -472,8 +475,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                   << subleading_subjet[1].pt() << "\t"
                   << split12_vec[0] << "\t"
                   << split12_vec[1] << "\t"
-                  << tau21_vec[0] << "\t"
-                  << tau21_vec[1] << "\t"
+                  << tau21_fj1 << "\t"
+                  << tau21_fj2 << "\t"
                   << C2_fj1 << "\t"
                   << C2_fj2 << "\t"
                   << D2_fj1 << "\t"
@@ -568,7 +571,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
           // Calculate some substructure variables
           const double split12 = SplittingScales( largeRJets[0] );
-          const double tau21 = NSubjettiness( largeRJets[0] );
+          const double ntau21 = tau21( largeRJets[0] );
           const double nC2 = C2(largeRJets[0]);
           const double nD2 = D2(largeRJets[0]);
 
@@ -588,7 +591,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                     << res_leading_subjet.pt() << "\t"
                     << res_subleading_subjet.pt() << "\t"
                     << split12 << "\t"
-                    << tau21 << "\t"
+                    << ntau21 << "\t"
                     << nC2 << "\t"
                     << nD2 << "\t"
                     <<std::endl;
@@ -1082,14 +1085,14 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H,
   const double split12 = SplittingScales( H );
 
   // 2-subjettiness / 1-subjettiness
-  const double tau21 = NSubjettiness( H );
+  const double btau21 = tau21( H );
 
   // C2/D2 energy correlation double-ratio
   const double bC2 = C2(H);
   const double bD2 = D2(H);
 
   FillHistogram("split12_fj" + suffix, weight, split12);
-  FillHistogram("tau21_fj" + suffix, weight, tau21);
+  FillHistogram("tau21_fj" + suffix, weight, btau21);
   FillHistogram("C2_fj" + suffix, weight, bC2);
   FillHistogram("D2_fj" + suffix, weight, bD2);
 }
@@ -1117,8 +1120,8 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
 
   // 2-subjettiness / 1-subjettiness
   if( debug ) std::cout << "BoostFill INFO: Calculate n-subjettiness" << std::endl;
-  const double tau21_fj1 = NSubjettiness( H0 );
-  const double tau21_fj2 = NSubjettiness( H1 );
+  const double tau21_fj1 = tau21( H0 );
+  const double tau21_fj2 = tau21( H1 );
 
   // C2 energy correlation double-ratio
   if( debug ) std::cout << "BoostFill INFO: Calculate C2" << std::endl;

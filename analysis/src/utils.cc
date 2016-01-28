@@ -5,7 +5,6 @@
 
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
-#include "fastjet/contrib/NSubjettiness.hh"
 
 
 using namespace std;
@@ -62,20 +61,6 @@ std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& je
       split12_vec.push_back(SplittingScales(jetVec[i]));
    
    return split12_vec;
-}
-
-double NSubjettiness(   fastjet::PseudoJet const& jet )
-{
-    fastjet::contrib::NsubjettinessRatio nSub21(2,1, fastjet::contrib::KT_Axes(), fastjet::contrib::UnnormalizedMeasure(1));
-    return nSub21(jet);
-}
-std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec )
-{
-  std::vector<double> tau21_vec;
-  for( size_t i = 0; i < std::min(jetVec.size(), (size_t)2); i++)
-    tau21_vec.push_back( NSubjettiness(jetVec[i]) );
-
- return tau21_vec;
 }
 
 // ---------------------------------------------------------------------------------------
