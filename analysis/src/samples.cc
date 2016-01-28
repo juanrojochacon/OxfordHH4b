@@ -11,12 +11,13 @@ using namespace std;
 This routine initialises Pythia8
 with all the settings for the shower and underlying event
  */
-void InitPythia( runCard const& rc, sampleCard const& sc, Pythia8::Pythia& pythiaRun, double& weight_norm)
+void InitPythia(  runCard const& rc, sampleCard const& sc, uint32_t const& seed, 
+                  Pythia8::Pythia& pythiaRun, double& weight_norm )
 {
   // Random seed
   pythiaRun.readString("Random:setSeed = on");
   std::ostringstream o;
-  o<<"Random:seed = "<<int(pythiaSeed());
+  o<<"Random:seed = "<<seed;
   std::cout<<o.str()<<std::endl;
   pythiaRun.readString(o.str());
 
@@ -161,9 +162,6 @@ void get_final_state_particles(Pythia8::Pythia& pythiaRun, finalState& particles
     particles.push_back( jet );
     
   } // End loop over particles in event
-  
-  // Verify final state four momenta
-  Analysis::VerifyFourMomentum(particles);
 }
 
 
@@ -216,9 +214,6 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles, d
         // push back
         particles.push_back( jet );
      }
-
-  // Verify final state four momenta
-  Analysis::VerifyFourMomentum(particles);
 }
 
 

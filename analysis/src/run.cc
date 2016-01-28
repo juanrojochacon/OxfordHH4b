@@ -10,42 +10,11 @@
 #include <cmath>
 #include <sstream>
 
-// **************** PLEASE MODIFY  ****************
-
-// Global run parameters
-const double jetp_smear = 5.0; // % smear on jet momentum
-const double jetE_smear = 5.0; // % smear on jet energy
-
-const bool pythiaShower = true; // Shower events in pythia
-const bool softKiller = true; // Enable softkiller pileup removal
-const int npileup = 80; // Number of pileup events per hard event
-
-const int samplesize = 3E4; //!< Size of individual subsamples
-
-// **************** DO NOT MODIFY  ****************
-
-static double random_seed_pythia = 40487;	//!< Random seed for pythia
-static double random_seed_system = 23429;
-
-double GetPSmear() {return jetp_smear;};
-double GetESmear() {return jetE_smear;};
-
-bool pythiaShowered() {return pythiaShower;};
-bool softKillered() {return softKiller;};
-
-int sampleSize() {return samplesize;};
-
-double& pythiaSeed() {return random_seed_pythia;};
-double& systemSeed() {return random_seed_system;};
-
-int npileupEvents() {return npileup;};
-
-
-void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename, int const& subsample )
+// Initialise list of analyses
+void InitAnalyses( std::vector<Analysis*>& analyses, std::string const& samplename, int const& subsample )
 {
 	// **************** PLEASE MODIFY *****************
-	sampleAnalyses.push_back(new OxfordAnalysis(samplename, subsample));
-
+	analyses.push_back(new OxfordAnalysis(samplename, subsample));
 	// **************** DO NOT MODIFY  ****************
 }
 

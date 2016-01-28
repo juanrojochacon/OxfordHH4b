@@ -11,7 +11,7 @@
 #include "Pythia8/Pythia.h"
 
 // Initialise Pythia for reading from a LHE file, and showering it
-void InitPythia( runCard const& rc, sampleCard const& sc, Pythia8::Pythia& pythiaRun, double& weight_norm);
+void InitPythia( runCard const& rc, sampleCard const& sc, uint32_t const& seed, Pythia8::Pythia& pythiaRun, double& weight_norm);
 // Initiate a HepMC sample, and determine the cross-section normalisation
 void InitHepMC( runCard const& rc, sampleCard const& sc, std::ifstream& is, double& weight_norm);
 

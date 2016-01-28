@@ -46,8 +46,6 @@ class Analysis
 		
 		void Export();
 
-		static bool VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets);
-
 		static bool Verbose;
 
 	protected:

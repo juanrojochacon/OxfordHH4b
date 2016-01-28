@@ -5,6 +5,12 @@
 #include <vector>
 
 // Runcard header - parsing of runcards and global settings
+class Analysis;
+
+// Initialise list of analyses
+void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
+						 std::string const& samplename, 
+						 int const& subsample );
 
 // Class to parse event sample cards
 class sampleCard
@@ -35,21 +41,3 @@ public:
 	const int runseed;			// Global seed
 };
 
-
-// Global settings
-double GetESmear();	// Return the % of Jet energy to smear by
-
-bool pythiaShowered(); // Is pythia showering
-bool softKillered(); // Is softkiller removing PU
-
-int sampleSize(); // Size point of sample;
-
-// RNG seeds
-double& pythiaSeed();
-double& systemSeed();
-
-// Pileup
-int npileupEvents();
-
-class Analysis;
-void InitSampleAnalyses( std::vector<Analysis*>& sampleAnalyses, std::string const& samplename, int const& subsample );

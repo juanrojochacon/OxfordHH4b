@@ -12,6 +12,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/contrib/VariableRPlugin.hh"
 #include "fastjet/tools/Filter.hh"
+#include "fastjet/contrib/SoftKiller.hh"
 
 #include <algorithm>
 
@@ -39,6 +40,10 @@ const bool exclusive = true;
 // Mass-drop tagger
 double const mu = 0.67;
 double const ycut = 0.09;
+
+// SoftKiller PU removal
+const bool softKiller = true; 
+const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 // b tagging
 // Choose working point with high purity
@@ -222,9 +227,16 @@ Analysis("oxford", sampleName, subsample)
 
 }
 
-void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
+void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs)
 {
-  Analysis::Analyse(signal, weightnorm, fs);
+  Analysis::Analyse(signal, weightnorm, ifs);
+
+  // Perform softKiller subtraction
+  finalState fs;
+  if (softKiller) 
+    fs = soft_killer(ifs);
+  else
+    fs = ifs;
 
   // Set initial weight
   const double event_weight = weightnorm;
