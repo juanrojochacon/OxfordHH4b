@@ -23,8 +23,7 @@ double charm_eff( double jet_pt );
 
 // Substructure variables
 std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec );
-std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_rad );
-std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_Rmax, double const& jet_Rmin, double const& jet_Rho );
+std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec );
 
 double SplittingScales( fastjet::PseudoJet const& jet );
-double NSubjettiness(   fastjet::PseudoJet const& jet, double const& jet_rad );
+double NSubjettiness(   fastjet::PseudoJet const& jet );

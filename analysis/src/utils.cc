@@ -5,7 +5,7 @@
 
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
-
+#include "fastjet/contrib/NSubjettiness.hh"
 
 
 using namespace std;
@@ -64,199 +64,18 @@ std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& je
    return split12_vec;
 }
 
-// ----------------------------------------------------------------------------------
-//Code snippet modified from https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/JetSubstructureVariables#N_subjettiness
-double NSubjettiness( fastjet::PseudoJet const& jet, double const& jet_rad )
-{  
-  double alpha=1;
-  if (!jet.has_constituents())
-  {
-    std::cerr << "ERROR! Subjettiness can only be calculated on jets for which the constituents are known."<< std::endl;
-    exit(-1);
-  }
-
-  vector<fastjet::PseudoJet> const& constits = jet.constituents();
-  if(constits.size()==0)
-  {
-     std::cerr << "ERROR! Empty jet in Nsubjettiness!"<< std::endl;
-     exit(-1);
-  }
-      
-   const double R_kt = 1.5; // ******************************************  SHOULD THIS BE jet_rad? ********************************
-   fastjet::JetDefinition jet_def = fastjet::JetDefinition(fastjet::kt_algorithm,R_kt,fastjet::E_scheme,fastjet::Best);
-   fastjet::ClusterSequence kt_clust_seq(constits, jet_def);
-
-   double tau1 = 0; // 1-subjettiness 
-   if (constits.size() > 0) // scoping
-   {
-     double tauNum = 0.0;
-     double tauDen = 0.0;
-
-     vector<fastjet::PseudoJet> kt1axes = kt_clust_seq.exclusive_jets(1);
-     for (int i = 0; i < (int)constits.size(); i++) 
-     {
-        // find minimum distance
-        double minR = std::numeric_limits<double>::infinity();
-        for (int j = 0; j < (int)kt1axes.size(); j++) 
-        {
-           double tempR = sqrt(constits[i].squared_distance(kt1axes[j])); // delta R distance
-           if (tempR < minR) minR = tempR;
-        }
-        tauNum += constits[i].perp() * pow(minR,alpha);
-        tauDen += constits[i].perp() * pow(jet_rad,alpha);
-     }
-     tau1 = tauNum/tauDen;
-    }
-
-   double tau2 = 0; // 2-subjettiness
-   if(constits.size()>1)
-   {
-      double tauNum = 0.0;
-      double tauDen = 0.0;
-
-      vector<fastjet::PseudoJet> kt2axes = kt_clust_seq.exclusive_jets(2);
-      for (int i = 0; i < (int)constits.size(); i++) 
-      {
-        // find minimum distance
-        double minR = std::numeric_limits<double>::infinity(); // large number
-        for (int j = 0; j < (int)kt2axes.size(); j++) 
-        {
-           double tempR = sqrt(constits[i].squared_distance(kt2axes[j]));
-           if (tempR < minR) minR = tempR;
-        }
-        tauNum += constits[i].perp() * pow(minR,alpha);
-        tauDen += constits[i].perp() * pow(jet_rad,alpha);
-      }
-      tau2 = tauNum/tauDen;
-   }
-      
-  return tau2/tau1;
-}
-
-std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_rad )
+double NSubjettiness(   fastjet::PseudoJet const& jet )
 {
-   std::vector<double> tau21_vec;
-   for( size_t i = 0; i < std::min(jetVec.size(), (size_t)2); i++)
-    tau21_vec.push_back( NSubjettiness(jetVec[i], jet_rad) );
-     
-   return tau21_vec;
+    fastjet::contrib::NsubjettinessRatio nSub21(2,1, fastjet::contrib::KT_Axes(), fastjet::contrib::UnnormalizedMeasure(1));
+    return nSub21(jet);
 }
-
-
-
-// ----------------------------------------------------------------------------------
-// Recluster with kt algorithm to obtain nsubjettiness
-std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec, double const& jet_Rmax, double const& jet_Rmin, double const& jet_Rho )
+std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetVec )
 {
+  std::vector<double> tau21_vec;
+  for( size_t i = 0; i < std::min(jetVec.size(), (size_t)2); i++)
+    tau21_vec.push_back( NSubjettiness(jetVec[i]) );
 
-   // Reclustering with VR kt algorithm to obtain nsubjettiness
-   
-   //vector that contain the respective nsubjettiness variables for all jets
-   std::vector<double> tau1_vec;
-   std::vector<double> tau2_vec;
-   std::vector<double> tau3_vec;
-   
-   std::vector<double> tau21_vec;
-   
-   double alpha=1;
-   
-   for( int i = 0; i < (int) jetVec.size(); i++){
-   
-      // For now: Calculate substructure information only for the two leading jets
-      if( i > 1 ) continue;
-   
-      double tau1 = -1.;
-      double tau2 = -1.;
-      double tau3 = -1.;
-      
-      // Calculate effective jet radius
-      double jet_Pt = jetVec[i].pt();
-      
-      double jet_rad;
-      if( jet_Pt > jet_Rmax ) jet_rad = jet_Rmax;
-      else if( jet_Pt < jet_Rmin ) jet_rad = jet_Rmin;
-      else jet_rad = jet_Rho / jet_Pt;
-
-      if (!jetVec.at(i).has_constituents()){
-         std::cout << "ERROR! NSubjettiness (tau1, tau2, ...) can only be calculated on jets for which the constituents are known."<< std::endl;
-         
-         tau1_vec.push_back(-1);
-   tau2_vec.push_back(-1);
-   tau3_vec.push_back(-1);
-  
-   //double tau21 = tau2/tau1;
-   tau21_vec.push_back(-1);
-         continue;
-      }
-      
-      //Code snippet taken from https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/JetSubstructureVariables#N_subjettiness
-      vector<fastjet::PseudoJet> constits = jetVec.at(i).constituents();
-      if(constits.size()>0){
-      
-   double R_kt = 1.5; // ******************************************  SHOULD THIS BE jet_rad? ********************************
-   fastjet::JetDefinition jet_def = fastjet::JetDefinition(fastjet::kt_algorithm,R_kt,fastjet::E_scheme,fastjet::Best);
-   fastjet::ClusterSequence kt_clust_seq(constits, jet_def);
-   vector<fastjet::PseudoJet> kt1axes = kt_clust_seq.exclusive_jets(1);
-   double tauNum = 0.0;
-   double tauDen = 0.0;
-   for (int i = 0; i < (int)constits.size(); i++) {
-      // find minimum distance
-      double minR = 10000.0; // large number
-      for (int j = 0; j < (int)kt1axes.size(); j++) {
-         double tempR = sqrt(constits[i].squared_distance(kt1axes[j])); // delta R distance
-         if (tempR < minR) minR = tempR;
-      }
-      tauNum += constits[i].perp() * pow(minR,alpha);
-      tauDen += constits[i].perp() * pow(jet_rad,alpha);
-   }
-   tau1 = tauNum/tauDen;
-
-   if(constits.size()>1){
-      vector<fastjet::PseudoJet> kt2axes = kt_clust_seq.exclusive_jets(2);
-      tauNum = 0.0;
-      tauDen = 0.0;
-      for (int i = 0; i < (int)constits.size(); i++) {
-      // find minimum distance
-      double minR = 10000.0; // large number
-      for (int j = 0; j < (int)kt2axes.size(); j++) {
-         double tempR = sqrt(constits[i].squared_distance(kt2axes[j]));
-         if (tempR < minR) minR = tempR;
-      }
-      tauNum += constits[i].perp() * pow(minR,alpha);
-      tauDen += constits[i].perp() * pow(jet_rad,alpha);
-      }
-      tau2 = tauNum/tauDen;
-      
-      if(constits.size() > 2){
-      
-         vector<fastjet::PseudoJet> kt3axes = kt_clust_seq.exclusive_jets(3);
-         tauNum = 0.0;
-         tauDen = 0.0;
-         for (int i = 0; i < (int)constits.size(); i++) {
-         // find minimum distance
-         double minR = 10000.0; // large number
-         for (int j = 0; j < (int)kt3axes.size(); j++) {
-      double tempR = sqrt(constits[i].squared_distance(kt3axes[j]));
-      if (tempR < minR) minR = tempR;
-         }
-         tauNum += constits[i].perp() * pow(minR,alpha);
-         tauDen += constits[i].perp() * pow(jet_rad,alpha);
-         }
-         tau3 = tauNum/tauDen;
-      }
-
-   }
-      }
-      
-      tau1_vec.push_back(tau1);
-      tau2_vec.push_back(tau2);
-      tau3_vec.push_back(tau3);
-      
-      double tau21 = tau2/tau1;
-      tau21_vec.push_back(tau21);
-   }
-   
-   return tau21_vec;
+ return tau21_vec;
 }
 
 // ---------------------------------------------------------------------------------------
