@@ -1,0 +1,7 @@
+eventfile=HH_sm_eft_1M.lhe
+samplename=diHiggs
+signal=1
+format=LHE
+nevt_sample=1.0E6
+xsec_norm=2.4
+sqrts=14000
