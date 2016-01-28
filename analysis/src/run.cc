@@ -84,6 +84,7 @@ T cardquery(std::string const& filename, std::string const& field)
 
   sampleCard::sampleCard(std::string const& filename):
   eventfile(cardquery<std::string>(filename,"eventfile")),
+  eventpath(std::string(SAMPLEDIR) + eventfile),
   samplename(cardquery<std::string>(filename,"samplename")),
   format(cardquery<std::string>(filename,"format")),
   hepmc(format == "HEPMC"),

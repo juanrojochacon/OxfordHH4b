@@ -11,7 +11,7 @@ using namespace std;
 This routine initialises Pythia8
 with all the settings for the shower and underlying event
  */
-void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const& nevt_max, double& weight_norm )
+void InitPythia( runCard const& rc, sampleCard const& sc, Pythia8::Pythia& pythiaRun, double& weight_norm)
 {
   // Random seed
   pythiaRun.readString("Random:setSeed = on");
@@ -34,7 +34,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
   pythiaRun.readString("TimeShower:QEDshowerByGamma = off");  // Allow photons to branch into lepton or quark pairs 
 
   // Initial and final state radiation 
-  if (pythiaShowered())
+  if (rc.pythiaShower)
   {
     pythiaRun.readString("PartonLevel:ISR = on");  // Shower on
     pythiaRun.readString("PartonLevel:FSR = on");  // Shower on
@@ -64,7 +64,7 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
 
   // Read the Les Houches Event File
   std::string ofile;
-  ofile="Beams:LHEF = "+eventfile;
+  ofile="Beams:LHEF = "+sc.eventpath;
   pythiaRun.readString(ofile.c_str());
 
    // Main initialization
@@ -80,19 +80,19 @@ void InitPythia(Pythia8::Pythia & pythiaRun, string const& eventfile, int const&
 
   // Event weight information from Pythia
   const double pythia_wgt = pythiaRun.info.sigmaLHEF(0); // Total sample weight
-  weight_norm = pythia_wgt/((double) nevt_max);      // Unit weight
+  weight_norm = pythia_wgt/((double) sc.nevt_sample);      // Unit weight
 
   return;  
 }
 
 
-void InitHepMC( std::string const& eventfile, int const& nevt_max, double& weight_norm)
+void InitHepMC( runCard const& rc, sampleCard const& sc, std::ifstream& hepmc_is, double& weight_norm)
 {
   double gen_xsec = 0;
   double sum_weights = 0;
 
-  std::ifstream hepmc_is( eventfile.c_str() );            // HepMC input
-  for (int iEvent = 0; iEvent < nevt_max; iEvent++)
+  hepmc_is.open( sc.eventpath.c_str() );            // HepMC input
+  for (int iEvent = 0; iEvent < sc.nevt_sample; iEvent++)
     {
       if (! hepmc_is )
       {
@@ -120,6 +120,7 @@ void InitHepMC( std::string const& eventfile, int const& nevt_max, double& weigh
 
   // Reset istream
   hepmc_is.close();
+  hepmc_is.open( sc.eventpath.c_str() );            // HepMC input
 }
 
 // ************************************ File Input ************************************

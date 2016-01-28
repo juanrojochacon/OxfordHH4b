@@ -40,21 +40,16 @@ int main( int argc, char* argv[] )
   cout << "Processing sample: " <<sample.samplename<< ", subsample: : "<<subsample;
   cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
 
-  // Read sample data
-  const string samples_path=std::string(SAMPLEDIR);
-  const string eventfile = samples_path + sample.eventfile;
-  std::cout << "Reading samples from: "<<eventfile<<std::endl;
-
   // Initialise Pythia and HepMC
   Pythia pythiaRun(std::string(PYTHIADIR)); // Pythia input
-  std::ifstream hepmc_is( eventfile.c_str() );      // HepMC input
+  std::ifstream hepmc_is;      // HepMC input
 
   // Initialise the event sample and weight normalisation
   double weight_norm = 0;
   if (!sample.hepmc)
-   InitPythia(pythiaRun, eventfile, sample.nevt_sample, weight_norm );
+   InitPythia(run, sample, pythiaRun, weight_norm );
   else
-   InitHepMC( eventfile, sample.nevt_sample, weight_norm );
+   InitHepMC( run, sample, hepmc_is, weight_norm);
 
  // normalise by cross-section normalisation
   weight_norm *= sample.xsec_norm;

@@ -12,6 +12,7 @@ class sampleCard
 public:
 	sampleCard(std::string const& filename); // Constructor from filename
 	const std::string eventfile;	// Filename for event sample
+	const std::string eventpath;    // Path to event sample
 	const std::string samplename;	// Identifying name for sample
 	const std::string format;		// HepMC/LHE
 	const bool hepmc;				// isHepMC
