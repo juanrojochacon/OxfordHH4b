@@ -10,9 +10,11 @@
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/tools/MassDropTagger.hh"
-#include "fastjet/contrib/VariableRPlugin.hh"
 #include "fastjet/tools/Filter.hh"
+
 #include "fastjet/contrib/SoftKiller.hh"
+#include "fastjet/contrib/VariableRPlugin.hh"
+#include "fastjet/contrib/EnergyCorrelator.hh"
 
 #include <algorithm>
 
@@ -28,8 +30,10 @@ const double GAjetR = 0.3; // Boosted subjet radius for ghost-association
 // Resolved jet radius
 const double ResJetR=0.4;
 
-// beta-exponent for LST energy correlations
-const double LST_beta = 2;
+// LST energy correlations
+EnergyCorrelatorC2 C2(2, EnergyCorrelator::pt_R);
+EnergyCorrelatorD2 D2(2, EnergyCorrelator::pt_R);
+
 
 // Debugging
 const bool debug = false;
@@ -444,12 +448,12 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
               const std::vector<double> tau21_vec = NSubjettiness( largeRJets, BoostJetR );
 
               // C2 energy correlation double-ratio
-              const double C2_fj1 = LST_C2(LST_beta, largeRJets[0]);
-              const double C2_fj2 = LST_C2(LST_beta, largeRJets[1]);
+              const double C2_fj1 = C2(largeRJets[0]);
+              const double C2_fj2 = C2(largeRJets[1]);
 
               // D2 energy correlation double-ratio
-              const double D2_fj1 = LMN_D2(LST_beta, largeRJets[0]);
-              const double D2_fj2 = LMN_D2(LST_beta, largeRJets[1]);
+              const double D2_fj1 = D2(largeRJets[0]);
+              const double D2_fj2 = D2(largeRJets[1]);
 
               // Fill tuple
               bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<boost_weight << "\t"
@@ -565,8 +569,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
           // Calculate some substructure variables
           const double split12 = SplittingScales( largeRJets[0] );
           const double tau21 = NSubjettiness( largeRJets[0], BoostJetR );
-          const double C2 = LST_C2(LST_beta, largeRJets[0]);
-          const double D2 = LMN_D2(LST_beta, largeRJets[0]);
+          const double nC2 = C2(largeRJets[0]);
+          const double nD2 = D2(largeRJets[0]);
 
           // Fill tuple
           intNTuple << signal <<"\t"<<GetSample()<<"\t"<<inter_weight << "\t"
@@ -585,8 +589,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                     << res_subleading_subjet.pt() << "\t"
                     << split12 << "\t"
                     << tau21 << "\t"
-                    << C2 << "\t"
-                    << D2 << "\t"
+                    << nC2 << "\t"
+                    << nD2 << "\t"
                     <<std::endl;
 
           // Final
@@ -1081,13 +1085,13 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H,
   const double tau21 = NSubjettiness( H, BoostJetR );
 
   // C2/D2 energy correlation double-ratio
-  const double C2 = LST_C2(LST_beta, H);
-  const double D2 = LMN_D2(LST_beta, H);
+  const double bC2 = C2(H);
+  const double bD2 = D2(H);
 
   FillHistogram("split12_fj" + suffix, weight, split12);
   FillHistogram("tau21_fj" + suffix, weight, tau21);
-  FillHistogram("C2_fj" + suffix, weight, C2);
-  FillHistogram("D2_fj" + suffix, weight, D2);
+  FillHistogram("C2_fj" + suffix, weight, bC2);
+  FillHistogram("D2_fj" + suffix, weight, bD2);
 }
 
 void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
@@ -1118,13 +1122,13 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
 
   // C2 energy correlation double-ratio
   if( debug ) std::cout << "BoostFill INFO: Calculate C2" << std::endl;
-  const double C2_fj1 = LST_C2(LST_beta, H0);
-  const double C2_fj2 = LST_C2(LST_beta, H1);
+  const double C2_fj1 = C2(H0);
+  const double C2_fj2 = C2(H1);
 
   // D2 energy correlation double-ratio
   if( debug ) std::cout << "BoostFill INFO: Calculate D2" << std::endl;
-  const double D2_fj1 = LMN_D2(LST_beta, H0);
-  const double D2_fj2 = LMN_D2(LST_beta, H1);
+  const double D2_fj1 = D2(H0);
+  const double D2_fj2 = D2(H1);
   
   if( debug ) std::cout << "BoostFill INFO! H0 split12 = " << split12_fj1 << " H1 split12 = "<< split12_fj2 << std::endl;
   if( debug ) std::cout << "BoostFill INFO! H0 tau21 = " << tau21_fj1 << " H1 tau21 = "<< tau21_fj2 << std::endl;

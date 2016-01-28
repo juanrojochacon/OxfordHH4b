@@ -6,6 +6,8 @@
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
 
+
+
 using namespace std;
 
  double getDPhi(double phi1, double phi2){
@@ -141,87 +143,6 @@ std::vector< double > NSubjettiness( std::vector<fastjet::PseudoJet> const& jetV
 }
 
 
-// ************************************ Energy correlations *******************************************
-
-double ECF(size_t const& N, double const& beta, fastjet::PseudoJet const& jet)
-{
-  if (!jet.has_constituents())
-  {
-     std::cerr << "ERROR! ECF can only be calculated on jets for which the constituents are known."<< std::endl;
-     exit(-1);
-  }
-  
-  vector<fastjet::PseudoJet> const& constituents = jet.constituents();
-  if(constituents.size()<N){
-    return 0;
-  }
-
-  double ECF = 0.0;
-
-  switch (N)
-  {
-    case 0:
-      ECF = 1;
-      break;
-
-    case 1:
-      for (size_t i=0; i<constituents.size(); i++)
-        ECF += constituents[i].pt();
-      break;
-
-    case 2:
-      for (size_t i=0; i<constituents.size(); i++)
-        for (size_t j=0; j<i; j++)
-        {
-          const double dR = std::pow(constituents[i].delta_R(constituents[j]),beta);
-          ECF += constituents[i].pt()*constituents[j].pt()*dR;
-        }
-      break;
-
-    case 3:
-      for (size_t i=0; i<constituents.size(); i++)
-        for (size_t j=0; j<i; j++)
-          for (size_t k=0; k<j; k++)
-          {
-            const double dR_ij = constituents[i].delta_R(constituents[j]);
-            const double dR_ik = constituents[i].delta_R(constituents[k]);
-            const double dR_jk = constituents[j].delta_R(constituents[k]);
-            const double dR = std::pow(dR_ij*dR_ik*dR_jk, beta);
-            ECF += constituents[i].pt()*constituents[j].pt()*constituents[k].pt()*dR;
-          }
-      break;
-
-    default:
-     std::cerr << "ECF::ERROR! Correlation function for N="<<N<<" not implemented!" << std::endl;
-     exit(-1);
-
-  }
-
-  return ECF;
-}
-
-// arXiv:1305.0007
-double LST_C2(double const& beta, fastjet::PseudoJet const& jet)
-{
-  const double ECF1 = ECF(1, beta, jet);
-  const double ECF2 = ECF(2, beta, jet);
-  const double ECF3 = ECF(3, beta, jet);
-
-  return (ECF1*ECF3)/(ECF2*ECF2);
-}
-
-// http://arxiv.org/pdf/1409.6298.pdf
-double LMN_D2(double const& beta, fastjet::PseudoJet const& jet)
-{
-  const double ECF1 = ECF(1, beta, jet);
-  const double ECF2 = ECF(2, beta, jet);
-  const double ECF3 = ECF(3, beta, jet);
-
-  const double e3 = ECF3 / ( ECF1*ECF1*ECF1 );
-  const double e2 = ECF2 / ( ECF1*ECF1 );
-
-  return e3/(e2*e2*e2);
-}
 
 // ----------------------------------------------------------------------------------
 // Recluster with kt algorithm to obtain nsubjettiness

@@ -48,7 +48,7 @@ FASTJETLIBS = $(shell fastjet-config --libs) -lSoftKiller
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # fastjet-contrib
-FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR
+FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR -lEnergyCorrelator
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl
