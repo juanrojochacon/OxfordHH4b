@@ -87,12 +87,12 @@ void InitPythia(  runCard const& rc, sampleCard const& sc, uint32_t const& seed,
 }
 
 
-void InitHepMC( runCard const& rc, sampleCard const& sc, std::ifstream& hepmc_is, double& weight_norm)
+void InitHepMC( runCard const& rc, sampleCard const& sc, double& weight_norm)
 {
   double gen_xsec = 0;
   double sum_weights = 0;
 
-  hepmc_is.open( sc.eventpath.c_str() );            // HepMC input
+  std::ifstream hepmc_is( sc.eventpath.c_str() );                   // HepMC input
   for (int iEvent = 0; iEvent < sc.nevt_sample; iEvent++)
     {
       if (! hepmc_is )
@@ -121,7 +121,6 @@ void InitHepMC( runCard const& rc, sampleCard const& sc, std::ifstream& hepmc_is
 
   // Reset istream
   hepmc_is.close();
-  hepmc_is.open( sc.eventpath.c_str() );            // HepMC input
 }
 
 // ************************************ File Input ************************************

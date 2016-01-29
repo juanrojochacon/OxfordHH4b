@@ -64,12 +64,12 @@ int main( int argc, char* argv[] )
 
   // Initialise Pythia and HepMC
   Pythia pythiaRun(std::string(PYTHIADIR)); // Pythia input
-  std::ifstream hepmc_is;                   // HepMC input
+  std::ifstream hepmc_is( sample.eventpath.c_str() );                   // HepMC input
 
   // Initialise the event sample and weight normalisation
   double weight_norm = 0;
   if (!sample.hepmc) InitPythia(run, sample, pythiaSeed, pythiaRun, weight_norm );
-  else InitHepMC( run, sample, hepmc_is, weight_norm);
+  else InitHepMC( run, sample, weight_norm);
   weight_norm *= 1000*sample.xsec_norm; // Includes pb->fb conversion
 
   // Initialse Analyses and detector simulation
