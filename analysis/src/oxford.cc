@@ -14,7 +14,7 @@
 
 #include "fastjet/contrib/SoftKiller.hh"
 #include "fastjet/contrib/EnergyCorrelator.hh"
-#include "fastjet/contrib/NSubjettiness.hh"
+#include "fastjet/contrib/Nsubjettiness.hh"
 
 #include <algorithm>
 
