@@ -1,4 +1,4 @@
-eventfile=SHERPA_QCD_4j.hepmc
+eventfile=arxiv-v1/SHERPA_QCD_4j.hepmc
 samplename=SHERPA_QCD4j
 signal=0
 format=HEPMC
