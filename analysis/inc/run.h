@@ -37,7 +37,6 @@ public:
 	const int npileup;			// Number of pileup events
 	const double jetEsmear; 	// Jet energy smearing (%)
 	const bool pythiaShower; 	// Shower LHE events
-	const bool softKillered; 	// Use softKiller subtraction
 	const int runseed;			// Global seed
 };
 

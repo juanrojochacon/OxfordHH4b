@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <math.h>
 
 #include "fastjet/Selector.hh"
 #include "fastjet/ClusterSequence.hh"
@@ -10,12 +11,10 @@
 using namespace std;
 
  double getDPhi(double phi1, double phi2){
-   
-   const double PI = 3.14159265359;
-   double deltaPhi = phi1-phi2;
-   if (deltaPhi > PI)  deltaPhi = (deltaPhi-2*PI);
-   if (deltaPhi < -PI) deltaPhi = (deltaPhi+2*PI);
-   return deltaPhi;
+  double deltaPhi = phi1-phi2;
+  if (deltaPhi > M_PI)  deltaPhi = (deltaPhi-2.0*M_PI);
+  if (deltaPhi < -M_PI) deltaPhi = (deltaPhi+2.0*M_PI);
+  return deltaPhi;
  }
 
 // ----------------------------------------------------------------------------------
