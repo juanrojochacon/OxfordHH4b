@@ -1,4 +1,4 @@
-runname=baseline
+runname=baseline_noPU
 sub_samplesize=3E4
 npileup=0
 jetEsmear=5

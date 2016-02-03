@@ -237,11 +237,10 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   Analysis::Analyse(signal, weightnorm, ifs);
 
   // Perform softKiller subtraction
-  finalState fs;
+  finalState subtracted;
   if (runInfo.PUsubtract) 
-    fs = soft_killer(ifs);
-  else
-    fs = ifs;
+    subtracted = soft_killer(ifs);
+  const finalState& fs = runInfo.PUsubtract ? subtracted:ifs;
 
   // Set initial weight
   const double event_weight = weightnorm;
