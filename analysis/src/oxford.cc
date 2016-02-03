@@ -92,7 +92,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
 }
 
 OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
-Analysis("oxford", run, sample, subsample)
+Analysis("oxford", run, sample, subsample),
+eventCounter(0)
 {
   // ********************* Histogram settings******************
 
@@ -235,6 +236,7 @@ Analysis("oxford", run, sample, subsample)
 void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs)
 {
   Analysis::Analyse(signal, weightnorm, ifs);
+  if( debug ) std::cout << "Event INFO = " <<   eventCounter++ << std::endl;
 
   // Perform softKiller subtraction
   finalState subtracted;
@@ -1099,10 +1101,10 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H,
 }
 
 void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
-                                          fastjet::PseudoJet const& H1,
-                                          std::string const& analysis, 
-                                          size_t const& cut, 
-                                          double const& weight )
+                                fastjet::PseudoJet const& H1,
+                                std::string const& analysis, 
+                                size_t const& cut, 
+                                double const& weight )
 {
   if (H0.pt() < H1.pt())
     std::cerr << "BoostFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;

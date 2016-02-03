@@ -83,4 +83,6 @@ class OxfordAnalysis : public Analysis
 		std::ofstream resNTuple;
 		std::ofstream intNTuple;
 		std::ofstream bstNTuple;
+
+		int eventCounter;
 };
