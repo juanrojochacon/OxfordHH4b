@@ -7,6 +7,8 @@
 #include <vector>
 #include <map>
 
+#include "run.h"
+
 using std::string;
 
 // Fwd fastjet
@@ -26,12 +28,12 @@ typedef std::vector<fastjet::PseudoJet> finalState;
 class Analysis
 {
 	public:
-		Analysis(string const& name, string const& sample, int const& subsample);
+		Analysis(string const& name, runCard const& run, sampleCard const& sample, int const& subsample);
 		virtual ~Analysis();
 
 		string const& GetName() const {return analysisName;};
 		string const& GetRoot() const {return analysisRoot;};
-		string const& GetSample() const {return sampleName;};
+		string const& GetSample() const {return sampleInfo.samplename;};
 		int    const& GetSubSample() const {return subSample; }
 
 		int const& GetNPassed() const {return nPassed;};
@@ -58,11 +60,13 @@ class Analysis
 		void Cut(double const& weight) { cutWeight += weight; };
 		void Pass(double const& weight) { nPassed++; passedWeight += weight; };
 
+		const runCard 	 runInfo;
+		const sampleCard sampleInfo;
+
 	private:
 		// Standard analysis info
 		const string analysisName;		//!< Name of analysis
 		const string analysisRoot;		//!< Path to root of analysis results folder
-		const string sampleName;		//!< Name of the current sample
 		const int    subSample;			//!< Subsample name
 
 		int nPassed; 			//!< Number of events passing analysis cuts

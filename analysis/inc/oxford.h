@@ -7,13 +7,17 @@
 #include <iostream>
 #include <vector>
 
+// OxfordAnalysis with PU subtraction
+
+
+
 /*
 combined analysis for HH in fully merged, semi-merged and resolved channels - reweighting events rather than rejecting them at b-tagging
  */
 class OxfordAnalysis : public Analysis
 {
 	public:
-		OxfordAnalysis(std::string const& sampleName, int const& subSample);
+		OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subSample);
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:

@@ -74,7 +74,7 @@ int main( int argc, char* argv[] )
 
   // Initialse Analyses and detector simulation
   vector<Analysis*> analyses;
-  InitAnalyses(analyses, sample.samplename, subsample);
+  InitAnalyses(analyses, run, sample, subsample);
   Detector detector(run, sample, pileupSeed, detectorSeed);
 
   // Skip to subsample x

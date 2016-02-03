@@ -48,7 +48,6 @@ double const mu = 0.67;
 double const ycut = 0.09;
 
 // SoftKiller PU removal
-const bool softKiller = true; 
 const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 // b tagging
@@ -92,8 +91,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
   return totalProb;
 }
 
-OxfordAnalysis::OxfordAnalysis(std::string const& sampleName, int const& subsample):
-Analysis("oxford", sampleName, subsample)
+OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
+Analysis("oxford", run, sample, subsample)
 {
   // ********************* Histogram settings******************
 
@@ -239,7 +238,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
   // Perform softKiller subtraction
   finalState fs;
-  if (softKiller) 
+  if (runInfo.PUsubtract) 
     fs = soft_killer(ifs);
   else
     fs = ifs;
@@ -302,7 +301,10 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
   std::vector<fastjet::PseudoJet> largeRJets_Trim;
   for (size_t i=0; i<largeRJets_noTrim.size(); i++)
+    if (runInfo.PUsubtract)
       largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
+    else
+      largeRJets_Trim.push_back(largeRJets_noTrim[i]);
   const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
 
   // pT cut and resort

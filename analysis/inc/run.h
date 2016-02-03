@@ -7,11 +7,6 @@
 // Runcard header - parsing of runcards and global settings
 class Analysis;
 
-// Initialise list of analyses
-void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
-						 std::string const& samplename, 
-						 int const& subsample );
-
 // Class to parse event sample cards
 class sampleCard
 {
@@ -37,7 +32,11 @@ public:
 	const int npileup;			// Number of pileup events
 	const double jetEsmear; 	// Jet energy smearing (%)
 	const bool pythiaShower; 	// Shower LHE events
-	const bool softKillered; 	// Use softKiller subtraction
+	const bool PUsubtract; 	    // Perform PU subtraction
 	const int runseed;			// Global seed
 };
 
+// Initialise list of analyses
+void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
+						 runCard const& run, sampleCard const& sample,
+						 int const& subsample );

@@ -11,10 +11,12 @@
 #include <sstream>
 
 // Initialise list of analyses
-void InitAnalyses( std::vector<Analysis*>& analyses, std::string const& samplename, int const& subsample )
+void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
+             runCard const& run, sampleCard const& sample,
+             int const& subsample )
 {
 	// **************** PLEASE MODIFY *****************
-	analyses.push_back(new OxfordAnalysis(samplename, subsample));
+	sampleAnalyses.push_back(new OxfordAnalysis(run, sample, subsample));
 	// **************** DO NOT MODIFY  ****************
 }
 
@@ -79,7 +81,7 @@ T cardquery(std::string const& filename, std::string const& field)
   npileup(cardquery<double>(filename,"npileup")),    
   jetEsmear(cardquery<double>(filename,"jetEsmear")),      
   pythiaShower(cardquery<bool>(filename,"pythiaShower")),      
-  softKillered(cardquery<bool>(filename,"softKillered")),      
+  PUsubtract(cardquery<bool>(filename,"PUsubtract")),      
   runseed(cardquery<double>(filename,"runseed"))
   {
     std::cout << "-- Parsed runCard --------------------"<<std::endl;
@@ -88,7 +90,7 @@ T cardquery(std::string const& filename, std::string const& field)
     std::cout << "   N_PU:           "<<npileup <<std::endl;
     std::cout << "   Jet E smear:    "<<jetEsmear <<std::endl;
     std::cout << "   pythiaShower:   "<<pythiaShower <<std::endl;
-    std::cout << "   softKiller:     "<<softKillered <<std::endl;
+    std::cout << "   PU subtraction: "<<PUsubtract <<std::endl;
     std::cout << "   runseed:        "<<runseed <<std::endl;
     std::cout << "---------------------------------------"<<std::endl;
   }
