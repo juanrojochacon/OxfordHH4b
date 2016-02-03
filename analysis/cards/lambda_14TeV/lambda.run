@@ -1,0 +1,7 @@
+runname=lambdaVary
+sub_samplesize=1E4
+npileup=0
+jetEsmear=5
+pythiaShower=1
+softKillered=0
+runseed=32874627
