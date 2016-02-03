@@ -27,7 +27,7 @@ VPATH=$(SOURCEDIR)
 
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
-#SAMPLEDIR= -DSAMPLEDIR=\"/nnpdfscratch1/nh/OxfordHH4b/sherpa/final/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"/mnt/lustre/hartland/OxfordHH4bSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
