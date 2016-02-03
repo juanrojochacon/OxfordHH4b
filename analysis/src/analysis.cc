@@ -32,11 +32,10 @@ static int IntHash(const std::string& _str)
 	return str_hash(_str);
 };
 
-Analysis::Analysis(string const& name, runCard const& run, sampleCard const& sample, int const& subsample):
-runInfo(run),
-sampleInfo(sample),
+Analysis::Analysis(string const& name, string const& sample, int const& subsample):
 analysisName(name),
-analysisRoot("/" + std::string(RESDIR) +"/"+ run.runname +"_"+ name + "/"),
+analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
+sampleName(sample),
 subSample(subsample),
 nPassed(0),
 totalWeight(0),
@@ -44,7 +43,7 @@ passedWeight(0)
 {
 	if (Verbose) std::cout << "Creating Path: "<<"."+analysisRoot<<std::endl;
 	createPath("." + analysisRoot);
-	createPath("." + analysisRoot + sampleInfo.samplename);
+	createPath("." + analysisRoot + sampleName);
 
 	if (Verbose) std::cout << "Analysis " << analysisName << " initialised at: " <<analysisRoot<<std::endl;
 };
@@ -146,7 +145,7 @@ void Analysis::Export()
 		if ((*iMap1D).second->numEntries() > 0)
 		{
 			std::stringstream path;
-			path << analysisRoot +GetSample() +"/histo_" + (*iMap1D).second->title() << "." <<subSample;
+			path << analysisRoot +sampleName+"/histo_" + (*iMap1D).second->title() << "." <<subSample;
 			YODA::WriterYODA::write("." + path.str() + ".yoda", *(*iMap1D).second);
 		}
 		iMap1D++;
@@ -160,7 +159,7 @@ void Analysis::Export()
 		if ((*iMap2D).second->numEntries() > 0)
 		{
 			std::stringstream path;
-			path << analysisRoot +GetSample() +"/histo_" + (*iMap2D).second->title() <<"."<<subSample;
+			path << analysisRoot +sampleName+"/histo_" + (*iMap2D).second->title() <<"."<<subSample;
 			YODA::WriterYODA::write("." + path.str() + ".yoda", *(*iMap2D).second);
 		}
 		iMap2D++;

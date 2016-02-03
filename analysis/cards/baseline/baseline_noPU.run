@@ -1,7 +1,0 @@
-runname=baseline_noPU
-sub_samplesize=3E4
-npileup=0
-jetEsmear=5
-pythiaShower=1
-PUsubtract=0
-runseed=32874627

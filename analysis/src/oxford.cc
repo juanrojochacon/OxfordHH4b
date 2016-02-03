@@ -48,6 +48,7 @@ double const mu = 0.67;
 double const ycut = 0.09;
 
 // SoftKiller PU removal
+const bool softKiller = true; 
 const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 // b tagging
@@ -91,9 +92,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
   return totalProb;
 }
 
-OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
-Analysis("oxford", run, sample, subsample),
-eventCounter(0)
+OxfordAnalysis::OxfordAnalysis(std::string const& sampleName, int const& subsample):
+Analysis("oxford", sampleName, subsample)
 {
   // ********************* Histogram settings******************
 
@@ -236,13 +236,13 @@ eventCounter(0)
 void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs)
 {
   Analysis::Analyse(signal, weightnorm, ifs);
-  if( debug ) std::cout << "Event INFO = " <<   eventCounter++ << std::endl;
 
   // Perform softKiller subtraction
-  finalState subtracted;
-  if (runInfo.PUsubtract) 
-    subtracted = soft_killer(ifs);
-  const finalState& fs = runInfo.PUsubtract ? subtracted:ifs;
+  finalState fs;
+  if (softKiller) 
+    fs = soft_killer(ifs);
+  else
+    fs = ifs;
 
   // Set initial weight
   const double event_weight = weightnorm;
@@ -302,10 +302,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
   std::vector<fastjet::PseudoJet> largeRJets_Trim;
   for (size_t i=0; i<largeRJets_noTrim.size(); i++)
-    if (runInfo.PUsubtract)
       largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
-    else
-      largeRJets_Trim.push_back(largeRJets_noTrim[i]);
   const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
 
   // pT cut and resort
@@ -1101,10 +1098,10 @@ void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H,
 }
 
 void OxfordAnalysis::BoostFill( fastjet::PseudoJet const& H0,
-                                fastjet::PseudoJet const& H1,
-                                std::string const& analysis, 
-                                size_t const& cut, 
-                                double const& weight )
+                                          fastjet::PseudoJet const& H1,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
 {
   if (H0.pt() < H1.pt())
     std::cerr << "BoostFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
