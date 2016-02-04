@@ -14,13 +14,17 @@ regimes = ['res', 'inter','boost']
 
 Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2' ]
 
+lumi = 3000.0
+
+def fname(lval):
+	return "diHiggs_LAM"+str(lval)+"/"
+
 ######################### Read in cutflows #########################
 
 cutflows = {}
 for lvalue in lvalues:
-	folder="diHiggs_LAM"+str(lvalue)+"/"
 	for regime in regimes:
-		filename = root + folder + "histo_CF_"+regime+".yoda" 
+		filename = root + fname(lvalue) + "histo_CF_"+regime+".yoda" 
 
 		## Load and sort data objects
 		aos = yoda.read(filename)
@@ -33,7 +37,7 @@ for lvalue in lvalues:
 			cutflow = []
 			for bin in ao.bins:
 				cutflow.append(bin.sumW)
-			cutflows[folder+regime] = cutflow
+			cutflows[fname(lvalue)+regime] = cutflow
 
 ######################### Make plots #########################
 
@@ -50,21 +54,56 @@ for regime in regimes:
 	for cut in range(0,len(Cnum)):
 		xsec = []
 		for lvalue in lvalues:
-			folder="diHiggs_LAM"+str(lvalue)+"/"
-			xsec.append(cutflows[folder+regime][cut])
+			xsec.append(cutflows[fname(lvalue)+regime][cut])
 		ax.plot(lvalues, xsec, color=colours[icol])
 		icol = icol + 1
 	fig.savefig(regime+'.pdf')
 	print(regime+'.pdf exported')
 
+chi2tab_all = [] # All chi2 tables
 for regime in regimes:
 	table = []
 	for lvalue in lvalues:
-		folder="diHiggs_LAM"+str(lvalue)+"/"
-		table.append(cutflows[folder+regime])
+		table.append(cutflows[fname(lvalue)+regime])
+
+	# Table for printing
 	tab_trans = [list(i) for i in zip(*table)]
 	tab = tabulate(tab_trans, lvalues,numalign="center", floatfmt=".2E")
 	print("\n"+regime + " cutflow:")
 	print(tab)
 
+	# Now chi2
+	chi2table = []
+	for lvalue in lvalues:
+		chi2vals = []
+		for cut in range(0,len(Cnum)):
+			SigLam = cutflows[fname(lvalue)+regime][cut] # Cross-section at lambda
+			SigSM = cutflows[fname(1)+regime][cut]		 # Cross-section at lambda=1
 
+			if SigLam != 0: # Intermediate has a unfilled cut
+				chi2 = lumi*pow(SigSM-SigLam,2)/(1.0/SigLam + 1.0/SigSM)
+				chi2vals.append(chi2)
+			else: 
+				chi2vals.append(-1)
+		chi2table.append(chi2vals)
+
+	chi2tab_trans = [list(i) for i in zip(*chi2table)]
+	chi2tab_all.append(chi2tab_trans[len(Cnum)-1]) # Append final cutflow 
+
+# Prepare chi2 plots
+fig, ax = plt.subplots()
+ax.set_ylabel("$\chi^2$")
+ax.set_xlabel("$\lambda$")
+ax.set_ylim([0,1.5])
+fig.suptitle("$\chi^2$ profile for all topologies L="+str(lumi)+"fb$^{-1}$")
+
+# Print out final values
+ireg=0
+labelname=["Resolved", "Intermediate", "Boosted"]
+for chi2plot in chi2tab_all:
+	ax.plot(lvalues, chi2plot, label=labelname[ireg])
+	ireg=ireg+1
+
+# Now add the legend with some customizations.
+legend = ax.legend(loc='best', shadow=True)
+fig.savefig('chi2.pdf')
