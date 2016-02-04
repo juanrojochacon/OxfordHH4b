@@ -124,6 +124,9 @@ Analysis("oxford", sampleName, subsample)
   const double pt_HH_min = 0.;
   const double pt_HH_max = 300.;
   
+  const double chi_HH_min = 0.;
+  const double chi_HH_max = 30.;
+  
   const int nbins = 30;
   
   // ********************* Histogram definitions ******************
@@ -164,6 +167,8 @@ Analysis("oxford", sampleName, subsample)
       BookHistogram(new YODA::Histo1D(nbins, DeltaPhimin, DeltaPhimax), "dPhi_HH" + suffix);
       BookHistogram(new YODA::Histo1D(nbins, DeltaEtamin, DeltaEtamax), "dEta_HH" + suffix);
 
+      BookHistogram(new YODA::Histo1D(nbins, chi_HH_min, chi_HH_max), "chi_HH" + suffix);
+      
       BookHistogram(new YODA::Histo2D(nbins, pt_min, pt_max, nbins, pt_min, pt_max), "ptHptH" + suffix);
       BookHistogram(new YODA::Histo2D(nbins, m_min, m_max, nbins, m_min, m_max), "mHmH" + suffix);
       
@@ -210,7 +215,7 @@ Analysis("oxford", sampleName, subsample)
     
   // ********************* Ntuple definition **********************
 
-  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
+  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH chi_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
 
   const std::string root = "." + GetRoot() + GetSample() + "/";
   std::stringstream suffix; suffix << "." <<GetSubSample() <<".dat";
@@ -469,6 +474,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                   << largeRJets[0].delta_R(largeRJets[1])  << "\t"
                   << getDPhi(largeRJets[0].phi(), largeRJets[1].phi())  << "\t"
                   << fabs( largeRJets[0].eta() - largeRJets[1].eta())  << "\t"
+                  << Chi( largeRJets[0], largeRJets[1])  << "\t"
                   << leading_subjet[0].pt() << "\t"
                   << subleading_subjet[0].pt() << "\t"
                   << leading_subjet[1].pt() << "\t"
@@ -586,6 +592,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                     << higgs_inter[0].delta_R(higgs_inter[1]) << "\t"
                     << getDPhi(higgs_inter[0].phi(), higgs_inter[1].phi()) << "\t"
                     << fabs( higgs_inter[0].eta() - higgs_inter[1].eta())  << "\t"
+                    << Chi( higgs_inter[0], higgs_inter[1])  << "\t"
                     << leading_subjet[0].pt() << "\t"
                     << subleading_subjet[0].pt() << "\t"
                     << res_leading_subjet.pt() << "\t"
@@ -695,6 +702,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                         << higgs_res[0].delta_R(higgs_res[1]) << "\t"
                         << getDPhi(higgs_res[0].phi(), higgs_res[1].phi()) << "\t"
                         << fabs( higgs_res[0].eta() - higgs_res[1].eta())  << "\t"
+                        << Chi( higgs_res[0], higgs_res[1])  << "\t"
                         << higgs0_res[0].pt() << "\t"
                         << higgs0_res[1].pt() << "\t"
                         << higgs1_res[0].pt() << "\t"
@@ -1062,6 +1070,7 @@ void OxfordAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
   FillHistogram("dR_HH" + suffix, weight, H0.delta_R(H1) );
   FillHistogram("dPhi_HH" + suffix, weight, getDPhi(H0.phi(), H1.phi()) );
   FillHistogram("dEta_HH" + suffix, weight, fabs( H0.eta() - H1.eta()) );
+  FillHistogram("chi_HH" + suffix, weight, Chi(H0,H1) );
 
   // Reconstruct di-Higgs system
   const fastjet::PseudoJet dihiggs = H0 + H1;

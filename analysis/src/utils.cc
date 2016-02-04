@@ -62,6 +62,16 @@ std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& je
    return split12_vec;
 }
 
+
+double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1)
+{
+
+  double y0 = h0.rapidity();
+  double y1 = h1.rapidity();
+  return exp( fabs(y0-y1) );
+}
+
+
 // ---------------------------------------------------------------------------------------
 // Associate charged small-R ("track") jets to large-R ("calo") jet
 void get_assoc_trkjets( fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJet> trkjets, std::vector<fastjet::PseudoJet> &matched_trkjets, bool debug=false){

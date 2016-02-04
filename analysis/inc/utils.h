@@ -24,3 +24,6 @@ double charm_eff( double jet_pt );
 // Substructure variables
 std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& jetVec );
 double SplittingScales( fastjet::PseudoJet const& jet );
+
+// Angular variables
+double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1);
