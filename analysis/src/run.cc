@@ -11,10 +11,10 @@
 #include <sstream>
 
 // Initialise list of analyses
-void InitAnalyses( std::vector<Analysis*>& analyses, std::string const& samplename, int const& subsample )
+void InitAnalyses( std::vector<Analysis*>& analyses,runCard const& run, sampleCard const& sample,  int const& subsample )
 {
 	// **************** PLEASE MODIFY *****************
-	analyses.push_back(new OxfordAnalysis(samplename, subsample));
+	analyses.push_back(new OxfordAnalysis(run, sample, subsample));
 	// **************** DO NOT MODIFY  ****************
 }
 

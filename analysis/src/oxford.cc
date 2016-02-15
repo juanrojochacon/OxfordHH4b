@@ -92,8 +92,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
   return totalProb;
 }
 
-OxfordAnalysis::OxfordAnalysis(std::string const& sampleName, int const& subsample):
-Analysis("oxford", sampleName, subsample)
+OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
+Analysis("oxford", run, sample, subsample)
 {
   // ********************* Histogram settings******************
 

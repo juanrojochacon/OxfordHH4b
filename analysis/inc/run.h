@@ -7,11 +7,6 @@
 // Runcard header - parsing of runcards and global settings
 class Analysis;
 
-// Initialise list of analyses
-void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
-						 std::string const& samplename, 
-						 int const& subsample );
-
 // Class to parse event sample cards
 class sampleCard
 {
@@ -39,4 +34,9 @@ public:
 	const bool pythiaShower; 	// Shower LHE events
 	const int runseed;			// Global seed
 };
+
+// Initialise list of analyses
+void InitAnalyses( std::vector<Analysis*>& sampleAnalyses, 
+						 runCard const& run, sampleCard const& sample, 
+						 int const& subsample );
 

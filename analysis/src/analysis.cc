@@ -32,10 +32,10 @@ static int IntHash(const std::string& _str)
 	return str_hash(_str);
 };
 
-Analysis::Analysis(string const& name, string const& sample, int const& subsample):
+Analysis::Analysis( string const& name, runCard const& run, sampleCard const& sample, int const& subsample ):
 analysisName(name),
-analysisRoot("/" + std::string(RESDIR) +"/"+ name + "/"),
-sampleName(sample),
+analysisRoot("/" + std::string(RESDIR) +"/"+ run.runname+"_"+ name + "/"),
+sampleName(sample.samplename),
 subSample(subsample),
 nPassed(0),
 totalWeight(0),
