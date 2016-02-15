@@ -10,7 +10,6 @@
 #include <cmath>
 #include <limits>
 
-
 #include "parametrisation.h"
 #include "trainingdata.h"
 #include "random.h"
@@ -30,7 +29,6 @@ void catch_int( int signum )
 
 void ComputeFitness(MultiLayerPerceptron const& mlp, trainingDatum const* datum, double const& weight, double& fitness)
 {
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +157,7 @@ int main(int argc, char* argv[])
 		// Mutate
 		MultiLayerPerceptron mutant(mlp);
 		const int NParam =  mutant.GetNParameters();
-		mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(0.2);
+		mutant.GetParameters()[rng_uniform(NParam)]+=rng_gaussian(10.0)/pow(i+1, 0.5);
 
 		// Compute mutant fitness
 		double mut_fitness = 0;
@@ -179,19 +177,20 @@ int main(int argc, char* argv[])
 
 		// Compute mutant CV
 		double mut_lookback_fitness = 0;
-		for (size_t j=0; j<validationData.size(); j++)
-		{
-			*outProb = 0;
-			mutant.Compute(validationData[j]->getKinematics(), outProb);
+		if (mut_fitness < fitness)
+			for (size_t j=0; j<validationData.size(); j++)
+			{
+				*outProb = 0;
+				mutant.Compute(validationData[j]->getKinematics(), outProb);
 
-			// Compute cross-entropy
-			const double t = validationData[j]->getSignal();
-			const double tpr = *outProb;
-			const double wgt = validationData[j]->getWeight() / (validationData[j]->getSignal() ? (sigWeight/sigCount):(bkgWeight/bkgCount));
+				// Compute cross-entropy
+				const double t = validationData[j]->getSignal();
+				const double tpr = *outProb;
+				const double wgt = validationData[j]->getWeight() / (validationData[j]->getSignal() ? (sigWeight/sigCount):(bkgWeight/bkgCount));
 
-			mut_lookback_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
-			if (mut_lookback_fitness > lookback_fitness) break;
-		}
+				mut_lookback_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
+				if (mut_lookback_fitness > lookback_fitness) break;
+			}
 
 		// Selection
 		if (mut_fitness < fitness)
