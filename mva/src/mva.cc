@@ -21,10 +21,16 @@ using std::cout;
 using std::endl;
 
 bool interrupt = false;
+const double trsplit = 0.5;
 
 void catch_int( int signum )
 {
 	interrupt = true;
+}
+
+void ComputeFitness(MultiLayerPerceptron const& mlp, trainingDatum const* datum, double const& weight, double& fitness)
+{
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -69,14 +75,13 @@ int main(int argc, char* argv[])
 
 	cout <<nKin << " kinematic points found"<< endl;
 
-	// Read entries
-	vector<trainingDatum*> trainingData;
 	int sigCount = 0;
 	int bkgCount = 0;
 
 	double sigWeight = 0;
 	double bkgWeight = 0;
 
+	vector<trainingDatum*> totalData;
 	while (getline(datafile, line))
 	{
 		bool signal;
@@ -90,9 +95,6 @@ int main(int argc, char* argv[])
 		for (int i=0; i<nKin; i++)
 			datstream >> kinematics[i];
 
-		// Add datapoint to vector
-		trainingData.push_back(new trainingDatum(signal,source,weight,nKin,kinematics));
-
 		if (signal)
 		{
 			sigCount++;
@@ -104,15 +106,33 @@ int main(int argc, char* argv[])
 			bkgWeight+=weight;
 		}
 
+		totalData.push_back(new trainingDatum(signal,source,weight,nKin,kinematics));
+
 		delete[] kinematics;
 	}
 
-	cout << trainingData.size() << " datapoints found in training set."<<endl; 
+	cout << totalData.size() << " datapoints found in total."<<endl; 
 	cout << sigCount<<" signal points, " <<bkgCount << " background points." <<endl;
 	cout << sigWeight<<" signal weight, " <<bkgWeight << " background weight." <<endl;
 
-	norm_trainingData(trainingData);
-	norm_trainingData(trainingData);
+	// Normalise
+	norm_trainingData(totalData);
+
+	vector<trainingDatum*> trainingData;
+	vector<trainingDatum*> validationData;
+
+	for (size_t i=0; i<totalData.size(); i++)
+	{
+		if ( (double)rand() / (double)RAND_MAX < trsplit)
+			trainingData.push_back(totalData[i]);
+		else
+			validationData.push_back(totalData[i]);
+	}
+
+	cout << "Cross-validation: "<<endl;
+	cout << trainingData.size() << " datapoints found in training set."<<endl; 
+	cout << validationData.size() << " datapoints found in validation set."<<endl; 
+
 
 	// Initialise MLP
 	std::vector<int>  nnArch;
@@ -121,13 +141,15 @@ int main(int argc, char* argv[])
 	nnArch.push_back(3);
 	nnArch.push_back(1);
 
-	// Fit NN
-	MultiLayerPerceptron mlp(nnArch);
+	MultiLayerPerceptron mlp(nnArch); 	 // Fit NN
+	MultiLayerPerceptron cv_mlp(nnArch); // Cross-validated NN
 
 	// Compute initial probabilities
 	cout << "******************************************************"<<endl;
 	double* outProb = new double[1];
 	double fitness = std::numeric_limits<double>::infinity();
+	double lookback_fitness = std::numeric_limits<double>::infinity();
+	int lookback_gen = 0;
 
 	const int nGen = 50000;
 	for (int i=0; i< nGen; i++)
@@ -152,9 +174,23 @@ int main(int argc, char* argv[])
 			const double wgt = trainingData[j]->getWeight() / (trainingData[j]->getSignal() ? (sigWeight/sigCount):(bkgWeight/bkgCount));
 
 			mut_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
-			//mut_fitness += wgt*pow((t-tpr),2.0);	// MSE
-
 			if (mut_fitness > fitness) break;
+		}
+
+		// Compute mutant CV
+		double mut_lookback_fitness = 0;
+		for (size_t j=0; j<validationData.size(); j++)
+		{
+			*outProb = 0;
+			mutant.Compute(validationData[j]->getKinematics(), outProb);
+
+			// Compute cross-entropy
+			const double t = validationData[j]->getSignal();
+			const double tpr = *outProb;
+			const double wgt = validationData[j]->getWeight() / (validationData[j]->getSignal() ? (sigWeight/sigCount):(bkgWeight/bkgCount));
+
+			mut_lookback_fitness -= wgt*t*log(tpr)+(1.0-t)*log(1.0-tpr); // cross-entropy
+			if (mut_lookback_fitness > lookback_fitness) break;
 		}
 
 		// Selection
@@ -162,12 +198,21 @@ int main(int argc, char* argv[])
 		{
 			fitness = mut_fitness;
 			mlp.CopyPars(&mutant);
+
+			if (mut_lookback_fitness < lookback_fitness)
+			{
+				lookback_fitness = mut_lookback_fitness;
+				lookback_gen = i;
+				cv_mlp.CopyPars(&mutant);
+			}
 		}
 
 		// Write progress to screen
 		if (i% 50 == 0)
-			cout << i<<"\t"<<fitness<<endl;
+			cout << i<<"\t"<<fitness<<"\t"<<lookback_fitness<<endl;
 	}
+
+	cout << "Completed, "<<nGen<<" generations: stopped at :"<<lookback_gen<<endl;
 
 	// Export for analysis
 	stringstream arch;
@@ -180,21 +225,22 @@ int main(int argc, char* argv[])
 	arch << "_"<<nGen<<"-Gen";
 
 	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_"+ dataName+ ".dat";
+	cout << "Exporting to: "<<mvafile<<endl;
 	ofstream mvaout(mvafile.c_str());
 
 	cout << "******************************************************"<<endl;
-	for (size_t i=0; i<trainingData.size(); i++)
+	for (size_t i=0; i<totalData.size(); i++)
 	{
 		*outProb = 0;
-		mlp.Compute(trainingData[i]->getKinematics(), outProb);
-		mvaout << trainingData[i]->getSource()<<"\t"<<trainingData[i]->getSignal() <<"\t"<<trainingData[i]->getWeight()<<"\t"<<*outProb<<endl;
+		cv_mlp.Compute(totalData[i]->getKinematics(), outProb);
+		mvaout << totalData[i]->getSource()<<"\t"<<totalData[i]->getSignal() <<"\t"<<totalData[i]->getWeight()<<"\t"<<*outProb<<endl;
 	}
 
 	mvaout.close();
 	cout << "******************************************************"<<endl;
 
 	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".net";
-	mlp.Export(netfile, kinstream.str());
+	cv_mlp.Export(netfile, kinstream.str());
 
 	// End of the main progream
 	return 0;
