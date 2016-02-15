@@ -15,6 +15,7 @@ regimes = ['res', 'inter','boost']
 Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2' ]
 
 lumi = 3000.0
+sysErr = 0.1 # 10%
 
 def fname(lval):
 	return "diHiggs_LAM"+str(lval)+"/"
@@ -81,9 +82,9 @@ for regime in regimes:
 			SigSM = cutflows[fname(1)+regime][cut]		 # Cross-section at lambda=1
 
 			if SigLam != 0: # Intermediate has a unfilled cut
-				err1 = math.sqrt(lumi*SigSM)/lumi
-				err2 = math.sqrt(lumi*SigLam)/lumi
-				chi2 = pow(SigSM-SigLam,2)/(pow(err1,2) +pow(err2,2)+ pow(1*SigSM,2))
+				err1 = math.sqrt(SigSM/lumi)
+				err2 = math.sqrt(SigLam/lumi)
+				chi2 = pow(SigSM-SigLam,2)/(pow(err1,2) +pow(err2,2)+ pow(sysErr*SigSM,2))
 				chi2vals.append(chi2)
 			else: 
 				chi2vals.append(-1)
@@ -96,7 +97,7 @@ for regime in regimes:
 fig, ax = plt.subplots()
 ax.set_ylabel("$\chi^2$")
 ax.set_xlabel("$\lambda$")
-ax.set_ylim([0,2])
+ax.set_ylim([0,10])
 fig.suptitle("$\chi^2$ profile for all topologies L="+str(lumi)+"fb$^{-1}$")
 
 # Print out final values
