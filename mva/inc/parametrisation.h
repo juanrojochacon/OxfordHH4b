@@ -35,9 +35,10 @@ public:
   int const& GetNParameters() const {return fNParameters;}
   
   string const& GetParamName() const {return fParamName;};
+  
+  void ExportPars(string const& path) const;
+  void ImportPars(string const& path);
 
-  virtual void Export(string const& path, string const& kinstream) const = 0;
-    
 protected:
   int   fNParameters;   //!< Total number of parameters
   double* fParameters;    //!< Parameters

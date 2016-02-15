@@ -240,7 +240,9 @@ int main(int argc, char* argv[])
 	cout << "******************************************************"<<endl;
 
 	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".net";
+	const string parfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".par";
 	cv_mlp.Export(netfile, kinstream.str());
+	cv_mlp.ExportPars(parfile);
 
 	// End of the main progream
 	return 0;
