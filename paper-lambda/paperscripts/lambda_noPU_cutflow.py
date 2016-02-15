@@ -81,7 +81,9 @@ for regime in regimes:
 			SigSM = cutflows[fname(1)+regime][cut]		 # Cross-section at lambda=1
 
 			if SigLam != 0: # Intermediate has a unfilled cut
-				chi2 = lumi*pow(SigSM-SigLam,2)/(1.0/SigLam + 1.0/SigSM)
+				err1 = math.sqrt(lumi*SigSM)/lumi
+				err2 = math.sqrt(lumi*SigLam)/lumi
+				chi2 = pow(SigSM-SigLam,2)/(pow(err1,2) +pow(err2,2)+ pow(1*SigSM,2))
 				chi2vals.append(chi2)
 			else: 
 				chi2vals.append(-1)
@@ -94,7 +96,7 @@ for regime in regimes:
 fig, ax = plt.subplots()
 ax.set_ylabel("$\chi^2$")
 ax.set_xlabel("$\lambda$")
-ax.set_ylim([0,1.5])
+ax.set_ylim([0,2])
 fig.suptitle("$\chi^2$ profile for all topologies L="+str(lumi)+"fb$^{-1}$")
 
 # Print out final values
