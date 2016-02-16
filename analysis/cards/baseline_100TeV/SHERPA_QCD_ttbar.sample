@@ -1,0 +1,7 @@
+eventfile=100TeV/SHERPA_QCD_ttbar.hepmc
+samplename=SHERPA_QCDttbar
+signal=0
+format=HEPMC
+nevt_sample=3E6
+xsec_norm=1.4
+sqrts=100000

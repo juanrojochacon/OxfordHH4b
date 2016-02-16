@@ -1,0 +1,8 @@
+eventfile=100TeV/HH_MG5_5M_HT.lhe
+samplename=diHiggs
+signal=1
+format=LHE
+nevt_sample=5E6
+// To normalise 802.63fb to 1723fb (NNLO+NNLL) with 0.57^2 B.R
+xsec_norm=0.69746
+sqrts=100000
