@@ -48,7 +48,6 @@ double const mu = 0.67;
 double const ycut = 0.09;
 
 // SoftKiller PU removal
-const bool softKiller = true; 
 const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
 // b tagging
@@ -93,7 +92,8 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
 }
 
 OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
-Analysis("oxford", run, sample, subsample)
+Analysis("oxford", run, sample, subsample),
+subtractPU(run.npileup > 0)
 {
   // ********************* Histogram settings******************
 
@@ -236,6 +236,7 @@ Analysis("oxford", run, sample, subsample)
   for (int i=0; i<nCuts; i++)
     BookHistogram(new YODA::Histo1D( 8, 0, 8 ), "Categories"+cString[i]);
 
+  std::cout << "Oxford PU subtraction: " << subtractPU << std::endl;
 }
 
 void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs)
@@ -244,7 +245,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
   // Perform softKiller subtraction
   finalState fs;
-  if (softKiller) 
+  if (subtractPU) 
     fs = soft_killer(ifs);
   else
     fs = ifs;
@@ -302,14 +303,22 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
   const fastjet::ClusterSequence cs_akt_bst(fs, akt_boost);
   const std::vector<fastjet::PseudoJet> largeRJets_noTrim = cs_akt_bst.inclusive_jets(); 
 
-  // Jet trimming function
-  const double Rfilt = 0.2; const double pt_fraction_min = 0.05;
-  const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
-  std::vector<fastjet::PseudoJet> largeRJets_Trim;
-  for (size_t i=0; i<largeRJets_noTrim.size(); i++)
-      largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
-  const std::vector<fastjet::PseudoJet> largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
-
+  // Jet trimming
+  std::vector<fastjet::PseudoJet> largeRJets_noCut;
+  if (subtractPU)
+  {
+    const double Rfilt = 0.2; const double pt_fraction_min = 0.05;
+    const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
+    std::vector<fastjet::PseudoJet> largeRJets_Trim;
+    for (size_t i=0; i<largeRJets_noTrim.size(); i++)
+        largeRJets_Trim.push_back(trimmer(largeRJets_noTrim[i]));
+    largeRJets_noCut = sorted_by_pt( largeRJets_Trim  ); 
+  }
+  else
+  {
+    largeRJets_noCut = sorted_by_pt( largeRJets_noTrim  ); 
+  }
+  
   // pT cut and resort
   std::vector<fastjet::PseudoJet> largeRJets_pTcut;
   for (size_t i=0; i<largeRJets_noCut.size(); i++)

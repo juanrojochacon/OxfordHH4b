@@ -76,6 +76,8 @@ class OxfordAnalysis : public Analysis
 	                    size_t const& cut, 
 	                    double const& weight );	
 
+		const bool subtractPU;
+
 		std::ofstream resNTuple;
 		std::ofstream intNTuple;
 		std::ofstream bstNTuple;
