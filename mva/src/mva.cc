@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 	double lookback_fitness = std::numeric_limits<double>::infinity();
 	int lookback_gen = 0;
 
-	const int nGen = 50000;
+	const int nGen = 2000000;
 	for (int i=0; i< nGen; i++)
 	{
 		if (interrupt) break;
@@ -207,8 +207,11 @@ int main(int argc, char* argv[])
 		}
 
 		// Write progress to screen
-		if (i% 50 == 0)
-			cout << i<<"\t"<<fitness<<"\t"<<lookback_fitness<<endl;
+		if (mut_fitness == fitness && (i % 10) == 0 )
+		{
+			const double reldiff = abs(mut_lookback_fitness-lookback_fitness)/lookback_fitness;
+			cout << i<<"\t"<<fitness<<"\t"<<mut_lookback_fitness<<"  "<<lookback_fitness<<"  "<<reldiff<<endl;
+		}
 	}
 
 	cout << "Completed, "<<nGen<<" generations: stopped at :"<<lookback_gen<<endl;

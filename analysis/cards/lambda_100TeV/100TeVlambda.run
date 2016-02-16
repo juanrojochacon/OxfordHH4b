@@ -1,0 +1,6 @@
+runname=100TeVlambda
+sub_samplesize=1E6
+npileup=0
+jetEsmear=5
+pythiaShower=1
+runseed=32874627
