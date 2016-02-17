@@ -1,5 +1,5 @@
-eventfile=100TeV_lambda/HH_HT_1M_LAM2.lhe
-samplename=diHiggs_LAM2
+eventfile=100TeV_lambda/HH_HT_1M_LAM0_4.lhe
+samplename=diHiggs_LAM0_4
 signal=1
 format=LHE
 nevt_sample=1E6
