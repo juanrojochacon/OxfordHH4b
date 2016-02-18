@@ -7,15 +7,15 @@ from matplotlib import pyplot as plt
 
 ##################################################################
 
-root = "../plotdata/noPU_results/"
+root = "../plotdata/noPU_100TeV/"
 
-lvalues = [ -7, -5, -3, -1, 0, 1, 2, 3, 5, 7, 9 ]
+lvalues = [ -7, -5, -3, -1, 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.8, 2, 3, 5, 7, 9 ]
 regimes = ['res', 'inter','boost']
 regimeLong = { 'res': "Resolved", 'inter': "Intermediate", 'boost': "Boosted"}
 
 Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2' ]
 
-lumi = 3000.0
+lumi = 10000.0
 sysErr = 0.1 # 10%
 
 def fname(lval):
@@ -54,15 +54,15 @@ for regime in regimes:
 	
 	icol=0
 	#axes.set_xlim([xmin,xmax])
-	fig.suptitle(regimeLong[regime] + " topology (14TeV)")
-	ax.set_ylim([1E-2,1E3])
+	fig.suptitle(regimeLong[regime] + " topology (100TeV)")
+	ax.set_ylim([1E-1,1E5])
 	for cut in range(0,len(Cnum)):
 		xsec = []
 		for lvalue in lvalues:
 			xsec.append(cutflows[fname(lvalue)+regime][cut])
 		ax.plot(lvalues, xsec, color=colours[icol])
 		icol = icol + 1
-	fig.savefig(regime+'_xSec_14TeV.pdf')
+	fig.savefig(regime+'xSec_100TeV.pdf')
 
 chi2tab_all = [] # All chi2 tables
 for regime in regimes:
@@ -101,7 +101,7 @@ fig, ax = plt.subplots()
 ax.set_ylabel("$\chi^2$")
 ax.set_xlabel("$\lambda$")
 ax.set_ylim([0,10])
-fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=14$ TeV L="+str(lumi)+"fb$^{-1}$")
+fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=100$ TeV L="+str(lumi)+"fb$^{-1}$")
 
 # Print out final values
 ireg=0
@@ -112,4 +112,4 @@ for chi2plot in chi2tab_all:
 
 # Now add the legend with some customizations.
 legend = ax.legend(loc='best', shadow=True)
-fig.savefig('chi2_14TeV.pdf')
+fig.savefig('chi2_100TeV.pdf')
