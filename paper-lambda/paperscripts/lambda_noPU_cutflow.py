@@ -16,7 +16,7 @@ regimeLong = { 'res': "Resolved", 'inter': "Intermediate", 'boost': "Boosted"}
 Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2' ]
 
 lumi = 3000.0
-sysErr = 0.1 # 10%
+sysErr = 0.0 # 10%
 
 def fname(lval):
 	return "diHiggs_LAM"+str(lval).replace(".","_")+"/"
@@ -60,8 +60,9 @@ for regime in regimes:
 		xsec = []
 		for lvalue in lvalues:
 			xsec.append(cutflows[fname(lvalue)+regime][cut])
-		ax.plot(lvalues, xsec, color=colours[icol])
+		ax.plot(lvalues, xsec, color=colours[icol], label=Cnum[cut])
 		icol = icol + 1
+	legend = ax.legend(loc='best', shadow=True)
 	fig.savefig(regime+'_xSec_14TeV.pdf')
 
 chi2tab_all = [] # All chi2 tables
@@ -85,9 +86,8 @@ for regime in regimes:
 			SigSM = cutflows[fname(1)+regime][cut]		 # Cross-section at lambda=1
 
 			if SigLam != 0: # Intermediate has a unfilled cut
-				err1 = math.sqrt(SigSM/lumi)
-				err2 = math.sqrt(SigLam/lumi)
-				chi2 = pow(SigSM-SigLam,2)/(pow(err1,2) +pow(err2,2)+ pow(sysErr*SigSM,2))
+				err = math.sqrt(SigLam/lumi)
+				chi2 = pow(SigSM-SigLam,2)/(pow(err,2)+ pow(sysErr*SigSM,2))
 				chi2vals.append(chi2)
 			else: 
 				chi2vals.append(-1)
@@ -101,7 +101,7 @@ fig, ax = plt.subplots()
 ax.set_ylabel("$\chi^2$")
 ax.set_xlabel("$\lambda$")
 ax.set_ylim([0,10])
-fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=14$ TeV L="+str(lumi)+"fb$^{-1}$")
+fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=14$ TeV L="+str(lumi)+"fb$^{-1}$. SysErr="+str(sysErr*100) + "%")
 
 # Print out final values
 ireg=0
@@ -112,4 +112,4 @@ for chi2plot in chi2tab_all:
 
 # Now add the legend with some customizations.
 legend = ax.legend(loc='best', shadow=True)
-fig.savefig('chi2_14TeV.pdf')
+fig.savefig('chi2_14TeV_sys'+str(sysErr).replace(".","_")+'.pdf')
