@@ -62,7 +62,7 @@ for regime in regimes:
 			xsec.append(cutflows[fname(lvalue)+regime][cut])
 		ax.plot(lvalues, xsec, color=colours[icol])
 		icol = icol + 1
-	fig.savefig(regime+'xSec_100TeV.pdf')
+	fig.savefig(regime+'_xSec_100TeV.pdf')
 
 chi2tab_all = [] # All chi2 tables
 for regime in regimes:
