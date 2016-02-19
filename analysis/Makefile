@@ -27,7 +27,7 @@ VPATH=$(SOURCEDIR)
 
 # MC sample directory
 SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
-#SAMPLEDIR= -DSAMPLEDIR=\"/nnpdfscratch1/nh/OxfordHH4b/sherpa/final/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"/mnt/lustre/hartland/OxfordHH4bSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
@@ -37,18 +37,18 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 # Compiler options
 ##################
 
-GCC = g++ -std=c++0x
+GCC = g++
 
 # hepmc2 
-HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/lib
-HEPMCCFLAGS = -I /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/include
+HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/lib
+HEPMCCFLAGS = -I /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/include
 
 # fastjet 
 FASTJETLIBS = $(shell fastjet-config --libs) -lSoftKiller
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # fastjet-contrib
-FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR
+FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl
@@ -58,7 +58,7 @@ PYTHIACFLAGS = $(shell pythia8-config --cxxflags)
 YODALIBS = $(shell yoda-config --libs)
 YODACFLAGS = $(shell yoda-config --cxxflags)
 
-CFLAGS = -Wall -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(HEPMCCFLAGS) $(MACROS)
+CFLAGS = -Wall -std=c++11 -O3 -Wno-unknown-pragmas -I /usr/local/include -I $(INCLUDEDIR) $(FASTJETCFLAGS) $(PYTHIACFLAGS) $(YODACFLAGS) $(HEPMCCFLAGS) $(MACROS)
 LIBS = $(FASTJETLIBS) $(PYTHIALIBS) $(YODALIBS) $(FJCONTRIB) $(HEPMCLIBS)
 
 INCPATH = $(CFLAGS)
@@ -67,9 +67,9 @@ INCPATH = $(CFLAGS)
 
 # main programs and required modules 
 
-MAIN =  HH4b genMB
+MAIN =  HH4b
 
-MODULES = pythia hepmc analysis detector run utils  oxford_combined_rw2 oxford_combined_rw2_check
+MODULES = samples analysis detector run utils oxford
 
 ############################## do not change ###################################
 

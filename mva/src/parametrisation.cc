@@ -71,6 +71,24 @@ using namespace std;
   return;
 }
 
+  void Parametrization::ExportPars(string const& path) const
+  {
+    std::ofstream out(path);
+    for (int i=0; i<fNParameters; i++)
+      out << fParameters[i]<<std::endl;
+  }
+
+  void Parametrization::ImportPars(string const& path)
+  {
+    std::ifstream in(path);
+    for (int i=0; i<fNParameters; i++)
+    {
+      std::cout << fParameters[i]<<"  ";
+      in >> fParameters[i];
+      std::cout << fParameters[i]<<std::endl;
+    }
+  }
+
 // ******************** MLP *********************************
 /**
  * @brief MultiLayerPerceptron::MultiLayerPerceptron

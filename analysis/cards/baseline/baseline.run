@@ -1,0 +1,6 @@
+runname=baseline
+sub_samplesize=3E4
+npileup=80
+jetEsmear=5
+pythiaShower=1
+runseed=32874627

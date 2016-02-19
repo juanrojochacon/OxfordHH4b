@@ -1,0 +1,8 @@
+eventfile=100TeV_lambda/HH_HT_1M_LAM-3.lhe
+samplename=diHiggs_LAM-3
+signal=1
+format=LHE
+nevt_sample=1E6
+// To normalise 802.63fb to 1723fb (NNLO+NNLL) with 0.57^2 B.R
+xsec_norm=0.69746
+sqrts=100000

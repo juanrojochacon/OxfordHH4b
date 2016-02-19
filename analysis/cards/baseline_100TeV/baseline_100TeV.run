@@ -1,0 +1,6 @@
+runname=baseline_100TeV
+sub_samplesize=5E6
+npileup=0
+jetEsmear=5
+pythiaShower=1
+runseed=32874627

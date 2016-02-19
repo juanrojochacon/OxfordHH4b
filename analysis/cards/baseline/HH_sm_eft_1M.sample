@@ -1,0 +1,8 @@
+eventfile=arxiv-v1/HH_sm_eft_1M.lhe
+samplename=diHiggs
+signal=1
+format=LHE
+nevt_sample=1E6
+// To normalise 16.3 to 43.7 (NNLO+NNLL) with 0.57^2 B.R
+xsec_norm=0.87
+sqrts=14000

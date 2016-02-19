@@ -2,7 +2,6 @@
 
 #include "basic.h"
 #include "utils.h"
-#include "settings.h"
 
 // Some useful fastjet includes
 //#include "fastjet/Selector.hh"

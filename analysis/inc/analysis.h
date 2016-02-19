@@ -20,13 +20,16 @@ namespace YODA{
 	class Histo2D;
 }
 
+class runCard;
+class sampleCard;
+
 // Final state particles
 typedef std::vector<fastjet::PseudoJet> finalState;
 
 class Analysis
 {
 	public:
-		Analysis(string const& name, string const& sample, int const& subsample);
+		Analysis( string const& name, runCard const&, sampleCard const&, int const& subsample);
 		virtual ~Analysis();
 
 		string const& GetName() const {return analysisName;};
@@ -45,8 +48,6 @@ class Analysis
 		};
 		
 		void Export();
-
-		static bool VerifyFourMomentum(std::vector<fastjet::PseudoJet> const& jets);
 
 		static bool Verbose;
 

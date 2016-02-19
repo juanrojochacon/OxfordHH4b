@@ -2,132 +2,117 @@
 
 // C++
 #include <fstream>
-
-#include "fastjet/ClusterSequence.hh"
-#include "fastjet/Selector.hh"
-#include "fastjet/tools/MassDropTagger.hh"
-#include "fastjet/contrib/VariableRPlugin.hh"
-#include "Pythia8/Pythia.h"
-#include "Pythia8/Info.h"
-
-#include "settings.h"
-#include "utils.h"
-#include "analysis.h"
-
-#include "pythia.h"
-#include "hepmc.h"
-#include "detector.h"
+#include <random>
+#include <functional>
 
 #include "run.h"
+#include "analysis.h"
+#include "samples.h"
+#include "detector.h"
 
 using namespace Pythia8;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+std::vector<std::uint32_t> initSeeds( runCard const& run, sampleCard const& sample, int const& subsample )
+{
+  const uint32_t primary = run.runseed;
+  const uint32_t samplename = std::hash<std::string>()(sample.samplename);
+  const uint32_t runname = std::hash<std::string>()(run.runname);
+  const uint32_t subsampleID = subsample;
+
+  std::seed_seq seq{primary,samplename,runname,subsampleID}; 
+  std::vector<std::uint32_t> seeds(4);
+  seq.generate(seeds.begin(), seeds.end());
+  return seeds;
+}
+ 
+////////////////////////////////////////////////////////////////////////////////////////
+
 int main( int argc, char* argv[] ) 
 {  
-
-  if (argc != 3)
+  if (argc != 4)
   {
     cerr << "Error: Wrong number of arguments!"<<endl;
-    cerr << "Usage: HH4b <sampleID> <subsample>" <<endl;
+    cerr << "Usage: HH4b <run card> <sample card> <subsample>" <<endl;
     exit(-1);
   }
 
-  // Read sampleID
-  const int sampleID = atoi(argv[1]);
-  const int subsample = atoi(argv[2]);
-  int minbiasSample = subsample;
-  if( sampleID>0) minbiasSample = subsample+sampleID*100-66;
+  // Read run card
+  const std::string runfile = std::string(argv[1]);
+  const runCard run(runfile);
 
-  subSample() = subsample;
-  minBiasSample() = minbiasSample;
-  pythiaSeed() = 430598*sampleID +342*subsample + 382;
-  systemSeed() = 175*sampleID +34562*subsample + 2093;
+  // Read sample card 
+  const std::string samplefile = std::string(argv[2]);
+  const sampleCard sample(samplefile);
 
-  cout << "Processing sample ID: " <<sampleID<< ", subsample: : "<<subsample;
-  cout << "MinBias sample ID: " <<minBiasSample();
-  cout << ". RNG Seeds - Pythia: " << pythiaSeed() <<". System: "<< systemSeed() <<"."<<endl;
+  // Determine subsample constants
+  const int subsample = atoi(argv[3]);
+  const int sampleStart = subsample*run.sub_samplesize; // start point of the subsample
 
-  // Read sample data
-  const eventSample sample = GetSample(sampleID);
-  const string samples_path=std::string(SAMPLEDIR);
-  const string eventfile = samples_path + sample.eventfile;
-  std::cout << "Reading samples from: "<<eventfile<<std::endl;
+  const std::vector<std::uint32_t> seeds = initSeeds(run, sample, subsample);
+  const uint32_t pythiaSeed   = ((double)seeds[0]/pow(2,32))*9E8; // Pythia seeds must be < 9E8
+  const uint32_t pileupSeed   = ((double)seeds[1]/pow(2,32))*9E8; // Pythia seeds must be < 9E8
+  const uint32_t detectorSeed = seeds[2];
+  const uint32_t analysisSeed = seeds[3];
+
+  cout << "Processing sample: " <<sample.samplename<< ", subsample: "<<subsample <<std::endl;
+  cout  <<"  RNG Seeds - Shower:   "<<pythiaSeed  <<std::endl
+        <<"            - PU:       "<<pileupSeed <<std::endl
+        <<"            - Detector: "<<detectorSeed <<std::endl
+        <<"            - Analysis: "<<analysisSeed <<std::endl;
 
   // Initialise Pythia and HepMC
   Pythia pythiaRun(std::string(PYTHIADIR)); // Pythia input
-  std::ifstream hepmc_is( eventfile.c_str() );      // HepMC input
+  std::ifstream hepmc_is( sample.eventpath.c_str() );                   // HepMC input
 
   // Initialise the event sample and weight normalisation
   double weight_norm = 0;
-  if (!sample.hepmc)
-   InitPythia(pythiaRun, eventfile, sample.nevt_sample, weight_norm );
-  else
-   InitHepMC( eventfile, sample.nevt_sample, weight_norm );
+  if (!sample.hepmc) InitPythia(run, sample, pythiaSeed, pythiaRun, weight_norm );
+  else InitHepMC( run, sample, weight_norm);
+  weight_norm *= 1000*sample.xsec_norm; // Includes pb->fb conversion
 
- // normalise by cross-section normalisation
-  weight_norm *= sample.xsec_norm;
-
-  // Initialse Analyses for sample
-  vector<Analysis*> sampleAnalyses;
-  InitSampleAnalyses(sampleAnalyses, sample.samplename, subsample);
+  // Initialse Analyses and detector simulation
+  vector<Analysis*> analyses;
+  InitAnalyses(analyses, run, sample, subsample);
+  Detector detector(run, sample, pileupSeed, detectorSeed);
 
   // Skip to subsample x
-  cout << "Skipping to startpoint: " << sampleStart() <<endl;
-  double dum; finalState dum2;
-  for (int iEvent = 0; iEvent < sampleStart(); ++iEvent) 
+  cout << "Skipping to startpoint: " << sampleStart <<endl;
+  for (int iEvent = 0; iEvent < sampleStart; ++iEvent) 
   {
-    dum2.clear();
-    if (!sample.hepmc) // Pythia
-      get_final_state_particles(pythiaRun, dum2, dum);
-    else  // HepMC      
-      get_final_state_particles(hepmc_is,  dum2, dum);
+    double dum; finalState dum2;
+    if (!sample.hepmc) get_final_state_particles(pythiaRun, dum2, dum);
+    else get_final_state_particles(hepmc_is,  dum2, dum);
   }
 
-  // total xsec counter
-  double sample_xsec = 0;
   // Begin loop over events
   cout << "*************** Analysis Begins ***************" <<endl;
-  const int targetSize = min(sampleSize(), sample.nevt_sample - sampleStart());
+  const int targetSize = min(run.sub_samplesize, sample.nevt_sample - sampleStart);
   cout << "Analysing: " << targetSize <<" events"<<endl;
   for (int iEvent = 0; iEvent < targetSize; ++iEvent) 
   {
     finalState ifs, fs; // The event final state
 
     double event_weight=0;
-    if (!sample.hepmc) // Pythia
-      get_final_state_particles(pythiaRun, ifs, event_weight);
-    else  // HepMC      
-      get_final_state_particles(hepmc_is,  ifs, event_weight);
+    if (!sample.hepmc) get_final_state_particles(pythiaRun, ifs, event_weight);
+    else get_final_state_particles(hepmc_is,  ifs, event_weight);
 
     // Perform detector simulation
-    DetectorSim(ifs,fs);
+    detector.Simulate(ifs,fs);
 
-    if (iEvent % 1000 == 0 && sample.hepmc)
-      cout << iEvent <<" HepMC events analysed"<<endl;
-
-    // Normalise event weight
+    // Run over analyses
     event_weight *= weight_norm;
+    for (size_t i=0; i<analyses.size(); i++)
+      analyses[i]->Analyse(sample.is_signal, event_weight, fs);
 
-    // Add to sample xsec
-    sample_xsec += event_weight;
-
-  // ****************************** Analyses ******************************
-
-    // Sample analyses
-    for (size_t i=0; i<sampleAnalyses.size(); i++)
-      sampleAnalyses[i]->Analyse(sample.signal, event_weight, fs);
-
-  // ****************************** Analyses ******************************
-
+    if ((iEvent+1) % 100 == 0 )
+      cout << iEvent+1 <<" events analysed"<<endl;
   }
 
-  // Free sample analyses
-  for (size_t i=0; i<sampleAnalyses.size(); i++)
-    delete sampleAnalyses[i];
-
-  // Close stream and finish up
+  // Clean up
+  for (size_t i=0; i<analyses.size(); i++)
+    delete analyses[i];
   hepmc_is.close();
 
   // End of the main program

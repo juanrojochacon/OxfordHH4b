@@ -1,0 +1,7 @@
+eventfile=arxiv-v1/SHERPA_QCD_2b2j.hepmc
+samplename=SHERPA_QCD2b2j
+signal=0
+format=HEPMC
+nevt_sample=3E6
+xsec_norm=1.3
+sqrts=14000
