@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 	double lookback_fitness = std::numeric_limits<double>::infinity();
 	int lookback_gen = 0;
 
-	const int nGen = 2000000;
+	const int nGen = 200000;
 	for (int i=0; i< nGen; i++)
 	{
 		if (interrupt) break;

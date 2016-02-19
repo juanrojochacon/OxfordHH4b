@@ -82,7 +82,11 @@ using namespace std;
   {
     std::ifstream in(path);
     for (int i=0; i<fNParameters; i++)
+    {
+      std::cout << fParameters[i]<<"  ";
       in >> fParameters[i];
+      std::cout << fParameters[i]<<std::endl;
+    }
   }
 
 // ******************** MLP *********************************
