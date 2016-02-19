@@ -62,7 +62,110 @@ std::vector< double > SplittingScales( std::vector<fastjet::PseudoJet> const& je
    return split12_vec;
 }
 
+// ----------------------------------------------------------------------------------
+// Calculate jet pull vector
+std::vector<double> JetPullVector( fastjet::PseudoJet const& jet )
+{
+  
+  std::vector<double> jetPullVector;
+  jetPullVector.push_back(-1);
+  jetPullVector.push_back(-1);
+  
+  if (!jet.has_constituents())
+  {
+    std::cerr << "ERROR! Jet pull vector can only be calculated on jets for which the constituents are known."<< std::endl;
+    return jetPullVector;
+  }
+   
+  std::vector<fastjet::PseudoJet> const& constituents = jet.constituents();
 
+  if (constituents.size() == 0 )
+  {
+    std::cerr << "ERROR! Jet pull vector can only be calculated from jets with >0 constituents!"<< std::endl;
+    return jetPullVector;
+  }
+  
+  double jetPull_y = 0;
+  double jetPull_phi = 0;
+  
+  // std::cout << "Number of constituents " << constituents.size() << std::endl;
+      
+  for(unsigned int constItr = 0; constItr < constituents.size(); ++constItr) {
+    
+      fastjet::PseudoJet constit = constituents.at(constItr);
+      
+      double dY = constit.rapidity() - jet.rapidity();
+      double dPhi = getDPhi(constit.phi(), jet.phi());
+      double absDiff = sqrt( pow(dY,2) + pow(dPhi, 2) );
+      
+      double pTRatio = constit.pt()*pow(jet.pt(),-1);
+      // std::cout << "dY " << dY << std::endl;
+      // std::cout << "dPhi " << dPhi << std::endl;
+      // std::cout << "absDiff " << absDiff << std::endl;
+      // std::cout << "constit.pt() " << constit.pt() << std::endl;
+      // std::cout << "jet.pt() " << jet.pt() << std::endl;
+      // std::cout << "pTRatio " << pTRatio << std::endl;
+  
+      jetPull_y += pTRatio*absDiff*dY;
+      jetPull_phi += pTRatio*absDiff*dPhi;
+  }
+  
+  while(jetPull_phi > M_PI)  jetPull_phi = (jetPull_phi-2.0*M_PI);
+  while(jetPull_phi < -M_PI) jetPull_phi = (jetPull_phi+2.0*M_PI);
+  
+  jetPullVector[0] = jetPull_y;
+  jetPullVector[1] = jetPull_phi;
+  
+  // std::cout << "jetPull_y " << jetPull_y << std::endl;
+  // std::cout << "jetPull_phi " << jetPull_phi << std::endl;
+  
+  return jetPullVector;
+}
+
+// ----------------------------------------------------------------------------------
+// Calculate jet pull of jet1 w.r.t jet2
+double JetPull( fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2 )
+{
+  
+  std::vector<double> jetPullVector = JetPullVector( jet1 );
+  
+  if (jetPullVector[0] == -1 || jetPullVector[1] == -1)
+  {
+    std::cerr << "ERROR! Jet pull vector for jet1 cannot be calculated."<< std::endl;
+    return -1;
+  }
+  
+  fastjet::PseudoJet jetSep = jet1 - jet2;
+
+  double lenPullVec = jetPullVector[0]*jetPullVector[0]+jetPullVector[1]*jetPullVector[1];
+  double lenjetSep = jetSep.rapidity()*jetSep.rapidity()+jetSep.phi()*jetSep.phi();
+  
+  if (lenPullVec==0.)
+  {
+    std::cerr << "ERROR! Jet pull vector has zero length."<< std::endl;
+    return -1;
+  }
+  
+  if (lenjetSep==0.)
+  {
+    std::cerr << "ERROR! Jet separation vector has zero length."<< std::endl;
+    return -1;
+  }
+  
+  double dotProd = jetPullVector[0]*jetSep.rapidity() + jetPullVector[1]*jetSep.phi();
+  dotProd /= sqrt( lenPullVec );
+  dotProd /= sqrt( lenjetSep );
+  
+  double jetPull = std::acos(dotProd);
+
+  // std::cout << "dotProd " << dotProd << std::endl;
+  // std::cout << "jetPull " << jetPull << std::endl;
+  
+  return jetPull;
+}
+
+// ----------------------------------------------------------------------------------
+// Calculate angular variables
 double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1)
 {
 

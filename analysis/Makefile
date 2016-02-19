@@ -40,8 +40,8 @@ MACROS = $(SAMPLEDIR) $(PYTHIADIR) -DRESDIR=\"$(RESDIR)\"
 GCC = g++
 
 # hepmc2 
-HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/lib
-HEPMCCFLAGS = -I /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc45-opt/include
+HEPMCLIBS = -lHepMC -L /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/lib
+HEPMCCFLAGS = -I /afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/include
 
 # fastjet 
 FASTJETLIBS = $(shell fastjet-config --libs) -lSoftKiller
