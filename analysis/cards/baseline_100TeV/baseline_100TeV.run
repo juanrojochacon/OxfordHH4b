@@ -1,5 +1,5 @@
 runname=baseline_100TeV
-sub_samplesize=3E4
+sub_samplesize=5E6
 npileup=0
 jetEsmear=5
 pythiaShower=1
