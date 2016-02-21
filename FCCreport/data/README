@@ -1,0 +1,4 @@
+The applyall.sh script is called as so:
+./applyall.sh [all/no4j/4b] [ANN cut]
+and outputs a set of flat YODA histograms for each diHiggs sample,
+according to the all/no4j/4b sample MVA after the cut [ANN cut]
