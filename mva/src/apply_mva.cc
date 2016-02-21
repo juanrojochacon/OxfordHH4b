@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 
 #include <algorithm>
 #include <cmath>
@@ -99,7 +100,6 @@ int main(int argc, char* argv[])
 	cout << "******************************************************"<<endl;
 	double *outProb = new double;
 	double passWeight = 0;
-	double passWeight2 = 0;
 	int npass = 0;
 	for (size_t i=0; i<totalData.size(); i++)
 	{
@@ -108,15 +108,14 @@ int main(int argc, char* argv[])
 		if (*outProb > ANNcut)
 		{
 			passWeight += totalData[i]->getWeight();
-			passWeight2 += pow(totalData[i]->getWeight(),2);
 			npass++;
 		}
 	}
 	cout << "******************************************************"<<endl;
 
 	std::ofstream res("results.dat");
-	res << "7.000000e+00    8.000000e+00    " << passWeight <<"    "<<  passWeight2 <<"    " << passWeight*6.5 <<"    "<< passWeight*6.5*6.5 << "    "<<npass <<std::endl; 
-
+	res << std::scientific << std::setprecision(6);
+	res << "7.000000e+00    8.000000e+00    " << passWeight <<"    "<<  passWeight/sqrt(npass) <<"    "<< passWeight/sqrt(npass)<<std::endl; 
 	res.close();
 	// End of the main progream
 	return 0;
