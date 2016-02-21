@@ -55,12 +55,6 @@ int main(int argc, char* argv[])
 
 	cout <<nKin << " kinematic points found"<< endl;
 
-	int sigCount = 0;
-	int bkgCount = 0;
-
-	double sigWeight = 0;
-	double bkgWeight = 0;
-
 	vector<trainingDatum*> totalData;
 	while (getline(datafile, line))
 	{
@@ -75,25 +69,14 @@ int main(int argc, char* argv[])
 		for (int i=0; i<nKin; i++)
 			datstream >> kinematics[i];
 
-		if (signal)
-		{
-			sigCount++;
-			sigWeight+=weight;
-		}
-		else
-		{
-			bkgCount++;
-			bkgWeight+=weight;
-		}
-
 		totalData.push_back(new trainingDatum(signal,source,weight,nKin,kinematics));
 
 		delete[] kinematics;
 	}
 
+	// Normalise
+	norm_trainingData(totalData);
 	cout << totalData.size() << " datapoints found in total."<<endl; 
-	cout << sigCount<<" signal points, " <<bkgCount << " background points." <<endl;
-	cout << sigWeight<<" signal weight, " <<bkgWeight << " background weight." <<endl;
 
 	// Initialise MLP
 	std::vector<int>  nnArch;
@@ -103,7 +86,7 @@ int main(int argc, char* argv[])
 	nnArch.push_back(1);
 
 	// Read NN
-	const string parPath = argv[1];
+	const string parPath = argv[2];
 	cout << "Reading data from "<< parPath<< endl;
 	MultiLayerPerceptron mlp(nnArch); 	 // Fit NN
 	mlp.ImportPars(parPath);

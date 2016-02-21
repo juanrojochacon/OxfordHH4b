@@ -75,18 +75,25 @@ using namespace std;
   {
     std::ofstream out(path);
     for (int i=0; i<fNParameters; i++)
-      out << fParameters[i]<<std::endl;
+      out << std::setprecision(16) <<fParameters[i]<<std::endl;
   }
 
   void Parametrization::ImportPars(string const& path)
   {
     std::ifstream in(path);
-    for (int i=0; i<fNParameters; i++)
+    std::vector<double> inpars;
+    double inpar = 0;
+    while (in >> inpar)
+      inpars.push_back(inpar);
+
+    if (inpars.size() != fNParameters)
     {
-      std::cout << fParameters[i]<<"  ";
-      in >> fParameters[i];
-      std::cout << fParameters[i]<<std::endl;
-    }
+      std::cerr << "Error: Not enough parameters in imported vector!" <<std::endl;
+      exit(-1);
+    };
+
+    for (int i=0; i<fNParameters; i++)
+      fParameters[i] = inpars[i];
   }
 
 // ******************** MLP *********************************
