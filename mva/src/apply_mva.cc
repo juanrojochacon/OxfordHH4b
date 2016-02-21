@@ -22,10 +22,10 @@ using std::endl;
 
 int main(int argc, char* argv[])
 {  
-	if (argc != 3)
+	if (argc != 4)
 	{
 		cerr << "Error: Wrong number of arguments!"<<endl;
-		cerr << "Usage: apply_mva <path_to_trainingdata> <path to mva>" <<endl;
+		cerr << "Usage: apply_mva <path_to_trainingdata> <path to mva> <ANNcut>" <<endl;
 		exit(-1);
 	}
 
@@ -91,23 +91,33 @@ int main(int argc, char* argv[])
 	MultiLayerPerceptron mlp(nnArch); 	 // Fit NN
 	mlp.ImportPars(parPath);
 
-	// Export for analysis
-	const string mvafile = "./" + string(RESDIR) + "/nn_" + dataName+ ".dat";
-	cout << "Exporting to: "<<mvafile<<endl;
-	ofstream mvaout(mvafile.c_str());
+
+	// Read cut point
+	const double ANNcut = atof(argv[3]);
+	cout << "ANN cut at: "<< ANNcut <<std::endl;
 
 	cout << "******************************************************"<<endl;
 	double *outProb = new double;
+	double passWeight = 0;
+	double passWeight2 = 0;
+	int npass = 0;
 	for (size_t i=0; i<totalData.size(); i++)
 	{
 		*outProb = 0;
 		mlp.Compute(totalData[i]->getKinematics(), outProb);
-		mvaout << totalData[i]->getSource()<<"\t"<<totalData[i]->getSignal() <<"\t"<<totalData[i]->getWeight()<<"\t"<<*outProb<<endl;
+		if (*outProb > ANNcut)
+		{
+			passWeight += totalData[i]->getWeight();
+			passWeight2 += pow(totalData[i]->getWeight(),2);
+			npass++;
+		}
 	}
-
-	mvaout.close();
 	cout << "******************************************************"<<endl;
 
+	std::ofstream res("results.dat");
+	res << "7.000000e+00    8.000000e+00    " << passWeight <<"    "<<  passWeight2 <<"    " << passWeight*6.5 <<"    "<< passWeight*6.5*6.5 << "    "<<npass <<std::endl; 
+
+	res.close();
 	// End of the main progream
 	return 0;
 
