@@ -1,0 +1,36 @@
+(run){
+  EVENTS 3M;
+  EVENT_GENERATION_MODE U;
+  ME_SIGNAL_GENERATOR Comix;
+
+  EVENT_OUTPUT HepMC_Short[SHERPA_QCD_4j];
+
+  BEAM_1 2212; BEAM_ENERGY_1 7000;
+  BEAM_2 2212; BEAM_ENERGY_2 7000;
+
+  FRAGMENTATION=Off # disable hadronisation
+  MI_HANDLER=None # disable multiple parton interactions
+
+  SCF:=1; ### default scale factor
+  SCALES VAR{SCF*H_T2/4};
+
+  PDF_LIBRARY LHAPDFSherpa;
+  PDF_SET NNPDF30_lo_as_0118_nf_4.LHgrid;
+  PDF_SET_VERSION 0;
+
+  MASSIVE[5] 1;
+  MASS[5] 4.75;
+
+}(run);
+
+(processes){
+  Process 93 93 -> 93 93 93 93;
+  Order_EW 0;
+  End process;
+}(processes);
+
+(selector){
+  PT 93 20 7000
+  PseudoRapidity 93 -3 3
+  DeltaR 93 93 0.1 10000
+}(selector);
