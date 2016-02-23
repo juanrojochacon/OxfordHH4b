@@ -340,23 +340,28 @@ $S/B$ at a 100 TeV collider as a function of the ANN output cut $y_{\rm cut}$
 for the three categories are shown in 
 Fig.~\ref{fig:sb_mva}.
 %
-We have assumed a total integrated luminosity of $\mathcal{L}=10$ ab$^{-1}$.
+We have assumed a total integrated luminosity of $\mathcal{L}=10$ ab$^{-1}$, and only the
+irreducible QCD $4b$ background is included.
 %
 The values 
 for $y_{\rm cut}=0$ correspond to those at
 the end of the loose cut-based analysis.
 %
 We observe how in the three
- categories there is a marked  improvement in signal
-significance as compared to the pre-MVA results.
-%
-We also observe a substantial enhancement in $S/B$, arising
-from the background suppression achieved by the MVA.
-%
-This improvement in $S/B$ is crucial to ensure the feasibility
-of this measurement, since it allows systematic
-uncertainties in the background determination to
-be at most of a similar size.
+ categories there is a marked  improvement both in signal
+ significance and in the signal over
+ background ratio as compared to the pre-MVA results.
+ %
+ In Table~\ref{table:cutflowMVA} we collect
+ the post-MVA results for the optimal value of the
+    ANN discriminant $y_{\rm cut}$ in the three categories, compared with the
+    corresponding
+    pre-MVA results ($y_{\rm cut}=0$).
+    %
+    We also quote the number of signal and
+    background events expected for an integrated
+    luminosity of $\mathcal{L}=10$ ab$^{-1}$.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -400,26 +405,28 @@ be at most of a similar size.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+From Fig.~\ref{fig:sb_mva} and Table~\ref{table:cutflowMVA} we observe that the statistical
+significance of the three categories is very large, with a post-MVA value of
+$S/\sqrt{B}\simeq 20$ in the boosted
+category.
 %
-We find that
-in the boosted category, for a value $y_{\rm cut}\simeq $
-we end up with around $bbb$ signal events and $aaa$ background
-events.
+However, we also find that as compared to 14 TeV, the QCD multijet background increases
+more rapidly than the signal, and thus $S/B$ is actually smaller than at 14 TeV~\cite{Behr:2015oqq}.
 %
-Similar results are obtained in the intermediate and resolved
-categories: in the former we find aaa ($bbb$) signal (background)
-events for $y_{\rm cut}\simeq $ (), and in the latter
-$aaa$ ($bbb$) signal (background) events for
-$y_{\rm cut}\simeq$.
+Achieving  percent values in $S/B$ requires a very hard cuts on the value of the ANN output.
 %
-Combining the three categories, taking into
-account all background components, we obtain for
-$\mathcal{L}=10$ ab$^{-1}$ an overall signal
-significance of $S/\sqrt{B}\simeq$.
+We observe that at 100 TeV the boosted category is the most promising one: not only
+it benefits from the highest signal significances, it also exhibits
+the best signal over background ratio.
 %
-This is a substantial improvement over the corresponding
-estimator at 14 TeV, where it was found that for an integrated
-luminosity of $\mathcal{L}=3$ ab$^{-1}$ the signal significance was ...
+Let us recall that at 14 TeV instead~\cite{Behr:2015oqq}  the higher significance was obtained with the resolved category.
+%
+Unfortunately, as we discuss below, the boosted category is the less sensitive to the Higgs self-coupling,
+and thus a measurement of the trilinear will depend to good extent on the resolved category.
+%
+Therefore, at a 100 TeV collider, even more that at 14 TeV, the feasibility of the measurement
+of $\sigma(hh\to b\bar{b}b\bar{b})$ depends strongly on how small the systematic
+uncertainties can be, in particular for the background determination.
 
 \paragraph{Extracting the Higgs self-coupling.}
 %
@@ -438,7 +445,7 @@ The extraction of the trilinear coupling $\lambda$ from the
   %
   Therefore, we will use a number of simplifying assumptions, in particular
   a very simple estimate of the total systematic uncertainty in the cross-section
-  measurement, the limiting factor in the extraction of $\lambda$.
+  measurement, which is the limiting factor in the extraction of $\lambda$.
 
   The sensitivity in the Higgs self-coupling is defined by the $\chi^2$ estimator
   \be
@@ -464,22 +471,29 @@ The extraction of the trilinear coupling $\lambda$ from the
 \chi^2(\lambda_{\rm SM}~^{+\delta\lambda}_{-\delta\lambda})=\chi^2(\lambda_{\rm SM})+1 \, .
 \ee
 %
-We explore different assumptions on the value of the total systematic uncertainty $\delta_{\rm sys}\sigma$.
-%
-The final result for the accuracy in the trilinear extraction is obtained by combining
+The final result for the accuracy in the trilinear extraction can be obtained by combining
 in quadrature the separate results
 from the three exclusive categories.
 
 In Fig.~\ref{fig:chi2} we show the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section at
   various steps of the cut-flow, including after $b$-tagging
   (before MVA) and after the MVA, in the resolved (left plot)
-  and boosted (right plot) categories, as  as a function of the Higgs self-coupling
+  and boosted (right plot) categories,  as a function of the Higgs self-coupling
   $\lambda/\lambda_{\rm SM}$ in units of the SM coupling.
   %
-  Imposing the condition Eq.~(\ref{eq:condition}), and combining the
-  results of the three categories, we obtain
-  that at the 68\% CL we can constrain the
-  Higgs trilinear to be ....
+  See~\cite{Behr:2015oqq} for the definition of the different steps
+  in the analysis chain.
+  %
+  We find that, despite that fact that the MVA is only trained on the SM sample, the signal
+  selection efficiency of the MVA is relatively flat when $\lambda$ is varied, reflecting the fact
+  that the signal kinematics do not change dramatically.
+  %
+  We also see that the resolved category (low and medium Higgs $p_T$) is more sensitive to variations of $\lambda$ than
+  the boosted one (large Higgs $p_T$), as indicated by the shallower minimum of the latter after the MVA.
+  %
+  This reflects the well-known fact that the triangle diagram (which depends on the Higgs self-coupling) is
+  dominant near the threshold region.
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -498,11 +512,31 @@ In Fig.~\ref{fig:chi2} we show the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-sectio
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+ %
+  Imposing the condition Eq.~(\ref{eq:condition}) we can derive the 68\% confidence level intervals
+  on the Higgs self-coupling $\lambda_{\rm min}/\lambda_{\rm SM}$ (in units of the SM value) in the boosted, resolved and intermediate categories, for  different assumptions on the total systematic error in the measured
+  cross-section.
+  %
+  The ranges that are found are reported in Table~\ref{tab:chi2}.
+  %
+  As expected, the results depend very strongly on the assumption for the systematic uncertainty
+  on the measured cross-section.
+  %
+  In the optimistic scenario of a measurement with $\delta_{\rm sys}\sigma=25\%$,
+  the best performance comes from the resolved category, where at the 68\% CL the trilinear
+  can be determined to lie in the interval $\lambda/\lambda_{SM}\in \lc 0.9, 1.5\rc$.
+  %
+  Looser constrains are derived from the intermediate and specially from the boosted category.
+  %
+  On the other hand, for $\delta_{\rm sys}\sigma=100\%$, the constraints in all three categories
+  become very loose, specially for $\lambda/\lambda_{\rm SM}\ge 1$, due to the negative interference effects.
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
   \centering
   \begin{tabular}{|c|c|c|}
     \hline
-  $\lc \lambda_{\rm min}/\lambda_{\rm SM},\lambda_{\rm max}/\lambda_{\rm SM} \rc$  &  $\delta_{\rm sys}=25\%$ & $\delta_{\rm sys}=100\%$ \\
+  $\lc \lambda_{\rm min}/\lambda_{\rm SM},\lambda_{\rm max}/\lambda_{\rm SM} \rc$  &  $\delta_{\rm sys}\sigma=25\%$ & $\delta_{\rm sys}\sigma=100\%$ \\
     \hline
     \hline
 Boosted   & $\lc -0.1, 2.2\rc$  & $\lc -1.5, > 9\rc$  \\
@@ -512,17 +546,34 @@ Intermediate   & $\lc 0.7, 1.6\rc$  &  $\lc -0.4, > 9\rc$  \\
 Resolved   & $\lc 0.9, 1.5\rc$  &  $\lc -0.1, 7\rc$  \\
 \hline
   \end{tabular}
-  \caption{\label{tab:chi2} The 68\% confidence level intervals
-    on the Higgs self-coupling $\lambda_{\rm min}/\lambda_{\rm SM}$ obtained from the condition
+  \caption{\small \label{tab:chi2} The 68\% confidence level intervals
+    on the Higgs self-coupling $\lambda_{\rm min}/\lambda_{\rm SM}$ (in units of the SM value)
+    obtained from the condition
     Eq.~(\ref{eq:condition}) in the boosted, resolved and intermediate categories.
     %
     We consider two different assumptions on the total systematic error in the measured
     cross-section,  $\delta_{\rm sys}=25\%$ and $\delta_{\rm sys}=100\%$.
   }
-  \end{table}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 \paragraph{Summary.} In this contribution we have performed a first exploration of the accuracy that can be expected
-for the extraction of the Higgs self-couplings at a 100 TeV hadron collider using the $b\bar{b}b\bar{b}$ final state. 
+for the extraction of the Higgs self-coupling at a 100 TeV hadron collider using the $b\bar{b}b\bar{b}$ final state.
+%
+We find that while the statistical significance of the measurement of the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section
+is very large, the $S/B$ ratio is quite low (and in particular worse than at 14 TeV),
+specially in the resolved category, the one with the highest sensitivity
+to the self-coupling.
+%
+This is a consequence of the fact that from 14 TeV to 100 TeV the QCD multijet background increases more rapidly than
+the di-Higgs signal.
+%
+Our estimate of the expected precision on the Higgs trilinear depends strongly on the assumptions
+about the experimental systematics.
+%
+For a measurement with a 25\% systematic uncertainty, the self-coupling can be determined
+with accuracy $^{+50\%}_{-10\%}$ at the 68\% CL using the resolved category, but these constraints become substantially
+looser if the systematic uncertainties are increased.
 
 %%%%%%%%%%%%%%%%%%
 
