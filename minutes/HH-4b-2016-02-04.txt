@@ -1,0 +1,52 @@
+
+-------------------
+Meeting 2016/02/04
+-------------------
+
+* NH has completed the code "plumbing", including the fact that
+now PU is generated on the fly, rather than separately from the analysis,
+which allows to save a lot of disk space
+
+* Found bug with the implementation of the subjetiness ratio,
+which is moreover compiler dependent -> to be investigated
+
+* NH produced the first results for the runs with variations of the
+higgs self-coupling -> The pre-MVA higgs cross-section as a function
+of lambda, for various steps of the cut-flow
+
+* Agree to plot the efficiency of each step of the cut flow as a function
+of the value of the self-coupling
+
+* Understand what factors determine the efficiency as a function
+of the self-coupling
+=> Agreed to plot various differential distributions, like the Higgs pt
+or the subjet pt distribution, as a function of different values
+of lambda
+
+* NH will now process the results through the MVA, so that we can
+also use the post-MVA cross-sections
+
+* Agreed to rethink about the category priorisation, maybe now it
+is more advantageous to prioritize the resolved rather than the boosted
+category
+
+* Agreed to generate background samples for additional processes,
+such as Zh->4b, as suggested by DB
+
+* Based on these results, JR will perform a first extraction of lambda
+using a chi2 function and assuming only the statistical uncertainties.
+This will be done separately for various stages of the pre-MVA cut-flow and
+then for the post-MVA results.
+
+* This will provide an upper limit on the accuracy that we can aim for
+the extraction of the Higgs self coupling for different values
+of the integrated luminosity
+
+* CG suggest to add angular variables to the MVA, such as dijet angular
+variables, which might help in increase the significance of the
+self-coupling. KB and NH will take care of this in the code.
+Similarly for color flow variables.
+
+* The role of the angular variables will differ between the categories.
+
+******************************************

@@ -1,0 +1,40 @@
+
+1) Update on the analysis for different values of lambda at 14 TeV, including MVA training (Nathan)
+
+=> 
+
+2) First studies on the extraction of the trilinear coupling (Nathan)
+
+3) Implementation of the new variables: color flow and angular variables (Katharina)
+
+4) Tests of the new on-the-fly implementation of PU (Katharina+Nathan)
+
+5) Contribution to the FCC100 Higgs Report (Juan)
+
+For the latter item, I attach a very first rough draft of our contribution. The deadline is really close (end of next week at the latest) but I think it should be enough to provide a first order-of-magnitude estimate of the situation for the 100 TeV collider (as opposed to the 14 TeV case, where we want to be really careful).
+
+
+
+* Benchmark succesful
+
+* Delete MB events
+
+* Drop the 4j events
+
+* Keep the same cuts as in the published paper
+
+* Add post-MVA numbers
+
+=> Merge trunk and
+
+* Plots also at 14 TeV
+
+* Extra backgrounds
+
+* NH add numbers to git
+
+* Implementation of new variables
+
+color flow and chi
+
+

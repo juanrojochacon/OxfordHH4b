@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! /usr/local/Cellar/python/2.7.10/bin/python
 
 import math
 from tabulate import tabulate
@@ -12,10 +12,10 @@ lvalues = [ -7, -5, -3, -1, 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.8, 2, 3, 5, 7,
 regimes = ['res', 'int','bst']
 regimeLong = { 'res': "Resolved", 'int': "Intermediate", 'bst': "Boosted"}
 
-Cnum = ['C0', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'C2', 'MVA' ]
+Cnum = ['Gen', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'b-tag', 'MVA' ]
 
 lumi = 10000.0
-sysErr = 0.0 # systematic error goes here
+sysErr = 1.0 # systematic error goes here
 
 ######################### Read in cutflows #########################
 
@@ -38,23 +38,24 @@ for lvalue in lvalues:
 colours = ['r', 'b', 'g', 'm', 'c', 'y', 'k' , 'r']
 for regime in regimes:
 	fig, ax = plt.subplots()
-	ax.set_ylabel("$\sigma_{HH}$")
-	ax.set_xlabel("$\lambda$")
+	ax.set_ylabel("$\sigma_{HH}$ (fb)",fontsize=18)
+	ax.set_xlabel(r"$\lambda/\lambda_{\rm SM}$",fontsize=18)
 	ax.set_yscale('log')
 	ax.xaxis.grid(True)
 	ax.yaxis.grid(True)
 	
 	icol=0
 	#axes.set_xlim([xmin,xmax])
-	fig.suptitle(regimeLong[regime] + " topology (100TeV)")
-	ax.set_ylim([1E0,2E4])
+	fig.suptitle(regimeLong[regime] + r" topology, FCC 100 TeV, $\mathcal{L}=10$ ab$^{-1}$",fontsize=18)
+	ax.set_ylim([5E-1,2E4])
+        ax.set_xlim([-14,10])
 	for cut in range(0,len(Cnum)):
 		xsec = []
 		for lvalue in lvalues:
 			xsec.append(cutflows[fname(lvalue)+regime][cut])
 		ax.plot(lvalues, xsec, color=colours[icol], label=Cnum[cut])
 		icol = icol + 1
-	legend = ax.legend(loc='best', shadow=True)
+	legend = ax.legend(loc='best', shadow=True,fontsize=18)
 	fig.savefig(regime+'_xSec_100TeV.pdf')
 
 chi2tab_all = [] # All chi2 tables
@@ -92,7 +93,10 @@ for regime in regimes:
 fig, ax = plt.subplots()
 ax.set_ylabel("$\chi^2$")
 ax.set_xlabel("$\lambda$")
-ax.set_ylim([0,10])
+ax.xaxis.grid(True)
+ax.yaxis.grid(True)
+ax.set_ylim([0,3])
+ax.set_xlim([-2,10])
 fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=100$ TeV L="+str(lumi)+"fb$^{-1}$ SysErr="+str(sysErr*100) + "%")
 
 # Print out final values
@@ -100,8 +104,11 @@ ireg=0
 labelname=["Resolved", "Intermediate", "Boosted"]
 for chi2plot in chi2tab_all:
 	ax.plot(lvalues, chi2plot, label=labelname[ireg])
+        print labelname[ireg]
+        print (lvalues)
+        print (chi2plot)
 	ireg=ireg+1
 
 # Now add the legend with some customizations.
-legend = ax.legend(loc='best', shadow=True)
+legend = ax.legend(loc='best', shadow=True,fontsize=18)
 fig.savefig('chi2_100TeV_sys'+str(sysErr).replace(".","_")+'.pdf')
