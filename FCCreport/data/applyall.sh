@@ -21,7 +21,8 @@ for LAMBDA in "${LVALS[@]}"; do
 		NTUP=${NTUPLES[$i]}
 		NTUPL=${NTUPLES_LONG[$i]}
 		# Setup cutflow
-		sed -n '6,12p' "./100TeVlambda_oxford/diHiggs_LAM"$LFILE"/histo_CF_"$NTUPL".dat" > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
+		sed -n '6,6p' "./100TeVlambda_oxford/diHiggs_LAM"$LFILE"/histo_CF_"$NTUPL".dat" > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
+		sed -n '11,12p' "./100TeVlambda_oxford/diHiggs_LAM"$LFILE"/histo_CF_"$NTUPL".dat" >> $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
 
 		./apply_mva $DIR$NTUP"NTuple.dat" "./mva/"$SOURCE"/mva_"$NTUPL".par" $ANNCUT 
 		cat $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out" ./results.dat > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".dat"
