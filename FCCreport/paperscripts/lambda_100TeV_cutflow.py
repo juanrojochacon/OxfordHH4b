@@ -6,13 +6,13 @@ from matplotlib import pyplot as plt
 
 ##################################################################
 
-mva = "all" # all/4b/no4j
+mva = "4b" # all/4b/no4j
 root = "../data/"+mva+"_res/"
 lvalues = [ -7, -5, -3, -1, 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.8, 2, 3, 5, 7, 9 ]
 regimes = ['res', 'int','bst']
 regimeLong = { 'res': "Resolved", 'int': "Intermediate", 'bst': "Boosted"}
 
-Cnum = ['Gen', 'C1a', 'C1b', 'C1c', 'C1d', 'C1e', 'b-tag', 'MVA' ]
+Cnum = ['Gen', 'Cuts', 'b-tag', 'MVA' ]
 
 lumi = 10000.0
 sysErr = 1.0 # systematic error goes here
