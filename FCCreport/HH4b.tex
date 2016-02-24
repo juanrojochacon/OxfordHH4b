@@ -90,12 +90,15 @@
   collider in the $b\bar{b}b\bar{b}$ final state}
 \vspace{.7cm}
 
-J. Katharina Behr, Daniela Bortoletto, James A. Frost,\\
-  Nathan P. Hartland, Cigdem Issever and Juan Rojo
+J. Katharina Behr$^{1,2}$, Daniela Bortoletto$^1$, James A. Frost$^1$,\\[0.1cm]
+  Nathan P. Hartland$^1$, Cigdem Issever$^1$, and Juan Rojo$^1$
 
 
 \vspace{.3cm}
-{\it Physics Department, 1 Keble Road, University of Oxford, United Kingdom }
+       {\it ~$^1$ Physics Department, 1 Keble Road, University of Oxford, United Kingdom. \\[0.1cm]
+       ~$^2$ Deutsches Elektronen-Synchrotron (DESY),
+Notkestrasse 85, D-22607 Hamburg,
+Germany.}
 
 \end{center}
 \vspace{0.2cm}
@@ -103,30 +106,34 @@ J. Katharina Behr, Daniela Bortoletto, James A. Frost,\\
 
 \paragraph{Introduction}
 
-In this contribution we provide an estimate of the accuracy
+In this contribution we provide a first estimate of the accuracy
 in the Higgs self-coupling extraction that can be achieved at a 100 TeV
 hadron collider in the  $b\bar{b}b\bar{b}$ final state.
 %
-The analysis methodology is based on our feasibility
+The analysis methodology is based on our recent feasibility
 study at 14 TeV~\cite{Behr:2015oqq}, with suitable modifications for the 100 TeV
 case.
 %
 This strategy is based upon a combination of traditional cut-based
  methods and Multivariate Analysis (MVA).
-  %
-  We account for  all relevant
+ %
+ In our 14 TeV study~\cite{Behr:2015oqq},  we accounted for  all relevant
   backgrounds, including the contribution from mis-identified
-  light and charm jets.
-  %
-  Our analysis strategy is found to be robust even in a high pile-up
+  light and charm jets, and showed that our
+  analysis strategy was robust even in a high pile-up (PU)
   environment.
   %
- Our results at 14 TeV~\cite{Behr:2015oqq} indicate that 
+ Our results indicate that 
   the $b\bar{b}b\bar{b}$ 
 final state
 alone should allow for the observation of double Higgs production
-  at the HL-LHC, and here we study how our findings apply to the case of a 100
-  TeV collider.
+at the HL-LHC.
+%
+Here we study how our findings apply to the case of a 100
+TeV collider.
+%
+For simplicity, we will consider only the irreducible
+QCD $4b$ background, and present results for the simulations without PU.
   %
   Other studies of Higgs pair production in the same
 final state can be found in Refs.~\cite{Wardrope:2014kya,deLima:2014dta}.
@@ -136,10 +143,8 @@ final state can be found in Refs.~\cite{Wardrope:2014kya,deLima:2014dta}.
 Higgs pair production in the gluon-fusion
 channel is simulated at leading order (LO) using
 {\tt MadGraph5\_aMC@NLO}~\cite{Alwall:2014hca,Maltoni:2014eza}
-using a tailored  model
-which includes mass effects
-from the
-exact form factors.
+using the recently developed functionalities for
+loop-induced processes~\cite{Hirschi:2015iia}.
 %
 The calculation is performed in the
 $n_f$=4 scheme and
@@ -156,27 +161,25 @@ integrated cross-section, we rescale our LO signal sample to match the
 NNLO+NNLL
 inclusive calculation~\cite{deFlorian:2013jea,deFlorian:2015moa}.
 %
-Parton level signal events are then showered with the {\tt Pythia8} Monte
-Carlo~\cite{Sjostrand:2007gs,Sjostrand:2014zea}, version {\tt v8.201},
+Parton level signal events are then showered with
+{\tt Pythia8}~\cite{Sjostrand:2007gs,Sjostrand:2014zea}, version {\tt v8.201},
 using the  Monash 2013 tune~\cite{Skands:2014pea},
 based on the NNPDF2.3LO PDF set~\cite{Ball:2012cx,Ball:2013hta}.
 %
 Background samples are generated at LO
 with {\tt SHERPA}~\cite{Gleisberg:2008ta} {\tt v2.1.1}
-and rescaled to known higher-order results.
+and rescaled to known higher-order results, using
+the same $K$-factors as in~\cite{Behr:2015oqq}. 
 %
 The input PDFs and scales are the same as for
 the signal samples.
 %
-In this study we include the irreducible QCD $4b$ background
-as well as the reducible $2b2j$ component, since the $4j$ processes
-is shown to be negligible.
-%
-We also include top quark pair
-production.
+In order to provide an estimate of signal significance at 100 TeV,
+we shall consider in this
+contribution only the irreducible QCD $4b$ background.
 %
 Single Higgs production processes and electroweak backgrounds
-are much smaller and not included here.
+are much smaller and are also not included here.
 %
 
 
@@ -188,14 +191,17 @@ of
 {\tt FastJet}~\cite{Cacciari:2011ma,Cacciari:2005hq},
 {\tt v3.1.0}.
 %
-First of all, we define {\it small-$R$ jets}, reconstructed with the
+First of all, we reconstruct {\it small-$R$ jets} with the
 anti-$k_T$ algorithm~\cite{Cacciari:2008gp} with $R=0.4$,
-and  required
+and  require them
   to have transverse momentum $p_T \ge 40$~GeV
   and pseudo-rapidity $|\eta|<2.5$.
   %
-  The we also define {\it large-$R$ jets},  reconstructed with 
-  anti-$k_T$ with $R=1.0$, and
+  We also define {\it large-$R$ jets},  reconstructed with 
+  anti-$k_T$ with $R=1.0$.
+  %
+  These
+ are
    required to have
   $p_T \ge 200$~GeV, lie in the
   $|\eta|<2.0$ region and
@@ -211,19 +217,16 @@ and  required
   are required to satisfy
   $p_T > 50$~GeV and $|\eta|<2.5$.
   %
-  Our cuts are deliberately loose since their optimization will be
-  performed at the MVA level.
-%
 For the   boosted and intermediate categories,
 which involve large-$R$ jets,
 we also use a number of jet substructure variables~\cite{Salam:2009jx,Aad:2013gja}:
 the $k_T$-splitting scale~\cite{Butterworth:2002tt,Butterworth:2008iy}, the ratio of 2-to-1 subjettiness $\tau_{21}$~\cite{Thaler:2010tr,Thaler:2011gf}, and the ratios of energy correlation functions (ECFs)  $C^{(\beta)}_2$~\cite{Larkoski:2013eya} and
 $D_2^{(\beta)}$~\cite{Larkoski:2014gra}.
 
-For each jet definition described above, a different
+For each jet definition a different
 $b$-tagging strategy is adopted.
 %
-For  {\it small-$R$ jets}, if it contains at least one $b$-quark among its constituents,
+For a {\it small-$R$ jet}, if it contains at least one $b$-quark among its constituents,
 it will be tagged as a $b$-jet with probability $f_b$, provided
 the $p_T$ of the $b$-quark
   satisfies $p_T \ge 15$ GeV~\cite{Aad:2015ydr}.
@@ -232,9 +235,10 @@ the $p_T$ of the $b$-quark
   of this jet, it can be still be tagged as a $b$-jet with
   a mistag rate of $f_l$, provided it has at least one
   constituent
-  with $p_T \ge 15$ GeV.
+  with $p_T \ge 15$ GeV, unless this constituent
+  is a charm quark, and then the mistag rate is instead $f_c$.
   %
- For {\it large-$R$ jets} instead, they are $b$-tagged by
+ {\it Large-$R$ jets} are $b$-tagged by
     ghost-associating anti-$k_T$ $R=0.3$ (AKT03)
     subjets to the original large-$R$
     jets~\cite{Cacciari:2007fd,Aad:2013gja,
@@ -288,9 +292,12 @@ Events are classified in the {\it boosted category} if they
   %
   In all categories, once a Higgs boson candidate has been identified,
 its invariant mass is required to lie within a fixed window
-of width $80~{\rm GeV}$ around the nominal Higgs boson mass of $m_h= 125$
+of width $80~{\rm GeV}$,
+symmetric around the nominal Higgs boson mass of $m_h= 125$
 GeV.
 %
+ Our object and event selection are deliberately loose since their optimization will be
+  performed at the MVA level.
 
 \paragraph{Results.}
 As discussed in~\cite{Behr:2015oqq}, at the end of the cut-based
@@ -299,7 +306,7 @@ the separation between signal and backgrounds.
 %
 The specific type of  MVA that we use is
 a multi-layer feed-forward artificial neural network (ANN),
-known as {\it perceptrons} or {\it deep neural networks}.
+known as {\it perceptron} or {\it deep neural network}.
 %
 The MVA inputs are the set of kinematic variables describing the
 signal and background
@@ -376,15 +383,15 @@ We observe how in the three
     \hline
     \hline
     \multirow{2}{*}{Boosted} &  $y_{\rm cut}=0$  &       $5\cdot 10^4$    &   $8\cdot 10^7$        &  6        &    $6\cdot 10^{-4}$         \\
-    &  $y_{\rm cut}=0.99$ &   $2\cdot 10^4$    &  $1\cdot 10^6$         &      22    &    0.02     \\
+    &  $y_{\rm cut}=0.99$ &   $2\cdot 10^4$    &  $1\cdot 10^6$         &      22    &    $2\cdot 10^{-2}$     \\
     \hline
     \hline
     \multirow{2}{*}{Intermediate} &  $y_{\rm cut}=0$  &   $3\cdot 10^4$     & $1\cdot 10^8$  & 3   &  $3\cdot 10^{-4}$ \\
-       &  $y_{\rm cut}=0.98$ &         $2\cdot 10^4$       &  $2\cdot 10^6$   &  10   & 0.007         \\
+       &  $y_{\rm cut}=0.98$ &         $2\cdot 10^4$       &  $2\cdot 10^6$   &  10   & $7\cdot 10^{-3}$        \\
     \hline
     \hline
-      \multirow{2}{*}{Resolved} &  $y_{\rm cut}=0$  &  $1\cdot 10^5$      & $8\cdot 10^8$  &   4  & $1.0\cdot 10^{-4}$  \\
-    &  $y_{\rm cut}=0.95 $ &    $6\cdot 10^4$    &   $2\cdot 10^7$        &    15      &    0.004     \\
+      \multirow{2}{*}{Resolved} &  $y_{\rm cut}=0$  &  $1\cdot 10^5$      & $8\cdot 10^8$  &   4  & $1\cdot 10^{-4}$  \\
+    &  $y_{\rm cut}=0.95 $ &    $6\cdot 10^4$    &   $2\cdot 10^7$        &    15      &    $4\cdot 10^{-3}$     \\
     \hline
       \end{tabular}
   \caption{\small Post-MVA results, for the optimal value of the
@@ -397,36 +404,42 @@ We observe how in the three
     the signal significance $S/\sqrt{B}$ and
     the signal over background ratio $S/B$.
     %
-    Only the QCD $4b$ background is considered here.
+    In this table, only the irreducible
+    QCD $4b$ background has been considered.
     %
     \label{table:cutflowMVA}
   }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 From Fig.~\ref{fig:sb_mva} and Table~\ref{table:cutflowMVA} we observe that the statistical
 significance of the three categories is very large, with a post-MVA value of
 $S/\sqrt{B}\simeq 20$ in the boosted
 category.
 %
-However, we also find that as compared to 14 TeV, the QCD multijet background increases
+However, we also find that as compared to 14 TeV, the QCD
+$4b$ multijet background increases
 more rapidly than the signal, and thus $S/B$ is actually smaller than at 14 TeV~\cite{Behr:2015oqq}.
 %
-Achieving  percent values in $S/B$ requires a very hard cuts on the value of the ANN output.
+Achieving  percent values in $S/B$ requires very hard cuts on the value of the ANN output $y_{\rm cut}$.
 %
 We observe that at 100 TeV the boosted category is the most promising one: not only
 it benefits from the highest signal significances, it also exhibits
 the best signal over background ratio.
 %
-Let us recall that at 14 TeV instead~\cite{Behr:2015oqq}  the higher significance was obtained with the resolved category.
+Let us recall that at 14 TeV~\cite{Behr:2015oqq} the  significance
+of the three categories was quite similar, with the boosted one being the best without PU, and
+the resolved one
+exhibiting the higher significance in the simulations with PU.
 %
 Unfortunately, as we discuss below, the boosted category is the less sensitive to the Higgs self-coupling,
 and thus a measurement of the trilinear will depend to good extent on the resolved category.
 %
-Therefore, at a 100 TeV collider, even more that at 14 TeV, the feasibility of the measurement
-of $\sigma(hh\to b\bar{b}b\bar{b})$ depends strongly on how small the systematic
-uncertainties can be, in particular for the background determination.
+The smallness of $S/B$ indicates that
+at a 100 TeV collider, even more that at 14 TeV, the feasibility of the measurement
+of the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section
+will depend strongly on how small the systematic
+uncertainties will be, in particular those associated to the background determination.
 
 \paragraph{Extracting the Higgs self-coupling.}
 %
@@ -461,37 +474,41 @@ The extraction of the trilinear coupling $\lambda$ from the
   %
   Signal samples for a range of $\lambda$ values have been  processed
   by the same analysis chain, including the MVA (which is not
-  retrained), than the SM samples.
+  retrained), as the SM samples.
   %
   The 68\% CL range for the extraction of $\lambda$ can then be found using
-  the usual parameter-fitting criterion by determining the values $\pm \delta\lambda$
+  the usual parameter-fitting criterion to determine the values $\pm \delta\lambda$
   for which the cross-section satisfies
   \be
   \label{eq:condition}
 \chi^2(\lambda_{\rm SM}~^{+\delta\lambda}_{-\delta\lambda})=\chi^2(\lambda_{\rm SM})+1 \, .
 \ee
 %
-The final result for the accuracy in the trilinear extraction can be obtained by combining
-in quadrature the separate results
-from the three exclusive categories.
 
-In Fig.~\ref{fig:chi2} we show the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section at
-  various steps of the cut-flow, including after $b$-tagging
-  (before MVA) and after the MVA, in the resolved (left plot)
-  and boosted (right plot) categories,  as a function of the Higgs self-coupling
+In Fig.~\ref{fig:chi2} we show the
+ $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section at
+  various steps of the cut-flow: generator level, after
+  kinematical cuts~\cite{Behr:2015oqq}, after $b$-tagging
+  and finally after the MVA.
+  %
+  We show the results
+  in the resolved (left plot)
+  and boosted (right plot) categories,
+  as  as a function of the Higgs self-coupling
   $\lambda/\lambda_{\rm SM}$ in units of the SM coupling.
   %
-  See~\cite{Behr:2015oqq} for the definition of the different steps
-  in the analysis chain.
+  For the MVA cut,  a representative value of $y_{\rm cut}\simeq 0.7$
+  has been used.
   %
   We find that, despite that fact that the MVA is only trained on the SM sample, the signal
   selection efficiency of the MVA is relatively flat when $\lambda$ is varied, reflecting the fact
   that the signal kinematics do not change dramatically.
   %
   We also see that the resolved category (low and medium Higgs $p_T$) is more sensitive to variations of $\lambda$ than
-  the boosted one (large Higgs $p_T$), as indicated by the shallower minimum of the latter after the MVA.
+  the boosted one (large Higgs $p_T$), as indicated by the shallower minimum of the latter after
+  the $b$-tagging and MVA cuts.
   %
-  This reflects the well-known fact that the triangle diagram (which depends on the Higgs self-coupling) is
+  This reflects the fact that the triangle diagram (which depends on the Higgs self-coupling) is
   dominant near the threshold region.
  
 
@@ -502,10 +519,18 @@ In Fig.~\ref{fig:chi2} we show the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-sectio
 \includegraphics[width=0.48\textwidth]{plots/bst_xSec_100TeV.pdf}
 \caption{\small
   The $\sigma(hh\to b\bar{b}b\bar{b})$ cross-section at
-  various steps of the cut-flow, including after $b$-tagging
-  (before MVA) and after the MVA, in the resolved (left plot)
-  and boosted (right plot) categories, as  as a function of the Higgs self-coupling
+  various steps of the cut-flow: generator level, after
+  kinematical cuts, after $b$-tagging
+  and finally after the MVA.
+  %
+  We show the results
+  in the resolved (left plot)
+  and boosted (right plot) categories,
+  as  as a function of the Higgs self-coupling
   $\lambda/\lambda_{\rm SM}$ in units of the SM coupling.
+  %
+  For the MVA, a representative value of the ANN output of $y_{\rm cut}\simeq 0.7$
+  has been used in this plot.
 }
 \label{fig:chi2}
 \end{center}
@@ -519,17 +544,18 @@ In Fig.~\ref{fig:chi2} we show the $\sigma(hh\to b\bar{b}b\bar{b})$ cross-sectio
   %
   The ranges that are found are reported in Table~\ref{tab:chi2}.
   %
-  As expected, the results depend very strongly on the assumption for the systematic uncertainty
+  As expected, the results depend
+  strongly on the assumption for the systematic uncertainty
   on the measured cross-section.
   %
   In the optimistic scenario of a measurement with $\delta_{\rm sys}\sigma=25\%$,
   the best performance comes from the resolved category, where at the 68\% CL the trilinear
-  can be determined to lie in the interval $\lambda/\lambda_{SM}\in \lc 0.9, 1.5\rc$.
+  can be determined to lie in the interval $\lambda/\lambda_{\rm SM}\in \lc 0.9, 1.5\rc$.
   %
   Looser constrains are derived from the intermediate and specially from the boosted category.
   %
   On the other hand, for $\delta_{\rm sys}\sigma=100\%$, the constraints in all three categories
-  become very loose, specially for $\lambda/\lambda_{\rm SM}\ge 1$, due to the negative interference effects.
+  degrade substantially, specially for $\lambda/\lambda_{\rm SM}\ge 1$, due to the negative interference effects.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -565,11 +591,8 @@ is very large, the $S/B$ ratio is quite low (and in particular worse than at 14 
 specially in the resolved category, the one with the highest sensitivity
 to the self-coupling.
 %
-This is a consequence of the fact that from 14 TeV to 100 TeV the QCD multijet background increases more rapidly than
-the di-Higgs signal.
-%
-Our estimate of the expected precision on the Higgs trilinear depends strongly on the assumptions
-about the experimental systematics.
+Our estimate of the expected precision on the Higgs trilinear thus depends strongly on the assumptions
+about the experimental systematic uncertainty.
 %
 For a measurement with a 25\% systematic uncertainty, the self-coupling can be determined
 with accuracy $^{+50\%}_{-10\%}$ at the 68\% CL using the resolved category, but these constraints become substantially

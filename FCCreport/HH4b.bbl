@@ -31,6 +31,11 @@ F.~Maltoni, E.~Vryonidou, and M.~Zaro, {\it {Top-quark mass effects in double
   1411} (2014) 079, [\href{http://arxiv.org/abs/1408.6542}{{\tt
   arXiv:1408.6542}}].
 
+\bibitem{Hirschi:2015iia}
+V.~Hirschi and O.~Mattelaer, {\it {Automated event generation for loop-induced
+  processes}},  {\em JHEP} {\bf 10} (2015) 146,
+  [\href{http://arxiv.org/abs/1507.00020}{{\tt arXiv:1507.00020}}].
+
 \bibitem{Ball:2014uwa}
 {\bf NNPDF} Collaboration, R.~D. Ball et~al., {\it {Parton distributions for
   the LHC Run II}},  {\em JHEP} {\bf 1504} (2015) 040,
@@ -60,7 +65,7 @@ T.~Sjostrand, S.~Mrenna, and P.~Z. Skands, {\it {A Brief Introduction to PYTHIA
   [\href{http://arxiv.org/abs/0710.3820}{{\tt arXiv:0710.3820}}].
 
 \bibitem{Sjostrand:2014zea}
-T.~Sjöstrand, S.~Ask, J.~R. Christiansen, R.~Corke, N.~Desai, et~al., {\it {An
+T.~Sjostrand, S.~Ask, J.~R. Christiansen, R.~Corke, N.~Desai, et~al., {\it {An
   Introduction to PYTHIA 8.2}},  {\em Comput.Phys.Commun.} {\bf 191} (2015)
   159--177, [\href{http://arxiv.org/abs/1410.3012}{{\tt arXiv:1410.3012}}].
 

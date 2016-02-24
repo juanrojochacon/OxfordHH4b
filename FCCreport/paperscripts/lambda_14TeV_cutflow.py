@@ -14,7 +14,7 @@ regimeLong = { 'res': "Resolved", 'int': "Intermediate", 'bst': "Boosted"}
 
 Cnum = ['Gen', 'Cuts', 'b-tag', 'MVA' ]
 
-lumi = 10000.0
+lumi = 3000.0
 sysErr = 0.25 # systematic error goes here
 
 ######################### Read in cutflows #########################
@@ -46,7 +46,7 @@ for regime in regimes:
 	
 	icol=0
 	#axes.set_xlim([xmin,xmax])
-	fig.suptitle(regimeLong[regime] + r" topology, FCC 100 TeV, $\mathcal{L}=10$ ab$^{-1}$",fontsize=18)
+	fig.suptitle(regimeLong[regime] + r" topology, HL-LHC 14 TeV, $\mathcal{L}=3$ ab$^{-1}$",fontsize=18)
 	ax.set_ylim([5E-1,2E4])
         ax.set_xlim([-14,10])
 	for cut in range(0,len(Cnum)):
@@ -56,7 +56,7 @@ for regime in regimes:
 		ax.plot(lvalues, xsec, color=colours[icol], label=Cnum[cut])
 		icol = icol + 1
 	legend = ax.legend(loc='best', shadow=True,fontsize=18)
-	fig.savefig(regime+'_xSec_100TeV.pdf')
+	fig.savefig(regime+'_xSec_14TeV.pdf')
 
 chi2tab_all = [] # All chi2 tables
 for regime in regimes:
@@ -97,7 +97,7 @@ ax.xaxis.grid(True)
 ax.yaxis.grid(True)
 ax.set_ylim([0,3])
 ax.set_xlim([-2,10])
-fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=100$ TeV L="+str(lumi)+"fb$^{-1}$ SysErr="+str(sysErr*100) + "%")
+fig.suptitle("$\chi^2$ profile for all topologies $\sqrt{s}=14$ TeV L="+str(lumi)+"fb$^{-1}$ SysErr="+str(sysErr*100) + "%")
 
 # Print out final values
 ireg=0
@@ -111,4 +111,4 @@ for chi2plot in chi2tab_all:
 
 # Now add the legend with some customizations.
 legend = ax.legend(loc='best', shadow=True,fontsize=18)
-fig.savefig('chi2_100TeV_sys'+str(sysErr).replace(".","_")+'.pdf')
+fig.savefig('chi2_14TeV_sys'+str(sysErr).replace(".","_")+'.pdf')
