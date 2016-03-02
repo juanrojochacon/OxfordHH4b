@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Multiplicative factors for H backgrounds}
+\begin{document}
+\maketitle
+
+
+\begin{table}[htp]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Sample & LO & NLO & K & Ref\\
+\hline\hline
+$ZH$ (13 TeV) & $6.468 \cdot 10^{-1}$ pb & $ 7.674 \cdot 10^{-1}$ pb & 1.186 & \cite{Alwall:2014hca}\\
+$ttH$ (13 TeV) & $3.579 \cdot 10^{-1}$ pb & $4.608 \cdot 10^{-1}$ pb & 1.287 &  \cite{Alwall:2014hca}\\
+$bbH$ (13 TeV) &  $4.983 \cdot 10^{-1}$ pb & $6.085 \cdot 10^{-1}$ pb & 1.221 & \cite{Alwall:2014hca}\\
+\hline
+\end{tabular}
+\end{center}
+\label{HK}
+\caption{NLO K-factors for single Higgs backgrounds.}
+\end{table}%
+
+\begin{table}[htp]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Sample & Decay & BF & Ref\\
+\hline\hline
+$ZH$ & ($Z\to b\bar{b}$)($H\to b\bar{b}$) & 0.0861 & \cite{Agashe:2014kda}\\
+$ttH$ & $(W\to q\bar{q})^2$($H\to b\bar{b}$) & 0.259 & \cite{Agashe:2014kda}\\
+\hline
+\end{tabular}
+\end{center}
+\label{HBF}
+\caption{Branching fractions for single Higgs backgrounds.}
+\end{table}%
+\begin{thebibliography}{9}
+
+\bibitem{Alwall:2014hca}
+  J.~Alwall {\it et al.},
+  ``The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations,''
+  JHEP {\bf 1407} (2014) 079
+  doi:10.1007/JHEP07(2014)079
+  [arXiv:1405.0301 [hep-ph]].
+  %%CITATION = doi:10.1007/JHEP07(2014)079;%%
+  %759 citations counted in INSPIRE as of 01 Mar 2016
+  
+\bibitem{Agashe:2014kda}
+  K.~A.~Olive {\it et al.} [Particle Data Group Collaboration],
+  %``Review of Particle Physics,''
+  Chin.\ Phys.\ C {\bf 38} (2014) 090001.
+  doi:10.1088/1674-1137/38/9/090001
+  %%CITATION = doi:10.1088/1674-1137/38/9/090001;%%
+  %3117 citations counted in INSPIRE as of 01 Mar 2016
+  
+\end{thebibliography}
+
+
+%\subsection{}
+
+
+
+\end{document}  
