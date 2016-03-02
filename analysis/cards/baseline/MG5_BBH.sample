@@ -1,0 +1,7 @@
+eventfile=arxiv-v1-rev/BBH_sm_mg5_LO_3M.lhe
+samplename=bbHiggs
+signal=0
+format=LHE
+nevt_sample=3E6
+xsec_norm=0.696
+sqrts=14000

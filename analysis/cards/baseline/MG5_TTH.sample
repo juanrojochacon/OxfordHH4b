@@ -1,0 +1,7 @@
+eventfile=arxiv-v1-rev/TTH_sm_mg5_LO_3M.lhe
+samplename=ttHiggs
+signal=0
+format=LHE
+nevt_sample=3E6
+xsec_norm=0.333
+sqrts=14000
