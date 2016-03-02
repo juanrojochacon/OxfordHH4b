@@ -10,8 +10,8 @@
 
 #include "YODA/Histo1D.h"
 	
-BasicAnalysis::BasicAnalysis(string const& sample):
-Analysis("basic", sample)
+BasicAnalysis::BasicAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
+Analysis("basic", run, sample, subsample)
 {
 	// Example histo parameters
 	const int nbins_example = 20;
@@ -20,10 +20,6 @@ Analysis("basic", sample)
 
 	// Example histogram
 	BookHistogram(new YODA::Histo1D(nbins_example, histo_min, histo_max), "example_histo");
-
-	// Output nTuple kinematics description (# signal source weight) is required
-	const std::string tupleSpec = "# signal source weight example_kin example_kin2";
- 	outputNTuple<<tupleSpec<<std::endl;	// DO NOT CHANGE
 }
 
 void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& fs)
@@ -33,6 +29,11 @@ void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalS
 
 	// Weightnorm provides the sample's unit weight
 	double event_weight = weightnorm;
+
+	std::cout << "FinalState: " <<std::endl;
+	for (size_t i=0; i<fs.size(); i++)
+		std::cout <<i <<"\t" <<fs[i].user_index() <<std::endl;
+	std::cout<<std::endl;
 
 	// Do stuff to the final state
 	// DoStuff(fs);
@@ -45,11 +46,6 @@ void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalS
 	// Fill example histogram (after cuts)
 	const double hist_coord = 5; // Observable to be binned
 	FillHistogram("example_histo", event_weight, hist_coord );
-
-	
-	// Write kinematics to nTuple
-	outputNTuple <<signal <<"\t"<< GetSample() <<"\t"<<event_weight<<"\t" // DO NOT CHANGE
-	<< hist_coord<<"\t"<<5*hist_coord<<"\t"<<std::endl; 
 
 	// Pass event
 	Pass(event_weight);
