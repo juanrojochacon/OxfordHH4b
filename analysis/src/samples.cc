@@ -53,10 +53,20 @@ void InitPythia(  runCard const& rc, sampleCard const& sc, uint32_t const& seed,
   // For the time being no  UE or PU included
   pythiaRun.readString("PartonLevel:MPI = off"); // Off multiple interactions (UE) 
  
-  // Higgs decays always into 4b
+  // Higgs decays always into bbbar
   // Need to correct by hand the xsecs for the BR(HH->4b) branching fraction
   pythiaRun.readString("25:onMode = off");
   pythiaRun.readString("25:onIfAll = 5 -5");
+
+  // Z always decays into bbbar
+  // Need to correct by hand the xsecs for the BR(Z->bb) branching fraction
+  pythiaRun.readString("23:onMode = off");
+  pythiaRun.readString("23:onIfAll = 5 -5");
+
+  // W always decays hadronically
+  // Need to correct by hand the xsecs for the BR(W->qq) branching fraction
+  pythiaRun.readString("24:onMode = on");
+  pythiaRun.readString("24:offIfAny = 11 12 13 14 15 16");
 
   // b quarks and do not decay
   // They are treated as stable particles in the detector
