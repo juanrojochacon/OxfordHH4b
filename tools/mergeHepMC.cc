@@ -42,6 +42,7 @@ int main( int argc, char** argv )
         std::cout << gen_xsec <<"  "<<sum_weights/sum_trials<<std::endl;
       }
 
+      evt->set_event_number(counter);
       evt->cross_section()->set_cross_section(sum_weights/sum_trials);
 
       ascii_out << evt;
