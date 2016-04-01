@@ -111,7 +111,7 @@ void InitHepMC( runCard const& rc, sampleCard const& sc, double& weight_norm)
   
   std::ifstream hepmc_is( sc.eventpath.c_str() );
   while( true ){
-    if (!hepmc_is) std::cerr << "READ ERROR" <<std::endl;
+    if (!hepmc_is) { std::cerr << "READ ERROR" <<std::endl; exit(1); }
     std::string line; getline( hepmc_is, line );
     if( line.length() == 0 ) continue;
     if( line.compare( 0, evtstr.length(), evtstr ) == 0 and nevt < sc.nevt_sample)
