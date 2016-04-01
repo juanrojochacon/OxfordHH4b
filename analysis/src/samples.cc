@@ -1,7 +1,10 @@
 //samples.cc
 #include "samples.h"
 #include "run.h"
+
 #include <exception>
+#include <vector>
+#include "sherpa-xs.hh"
 
 using namespace std;
 
@@ -96,41 +99,42 @@ void InitPythia(  runCard const& rc, sampleCard const& sc, uint32_t const& seed,
   return;  
 }
 
-
 void InitHepMC( runCard const& rc, sampleCard const& sc, double& weight_norm)
 {
+  int nevt = 0;
+  double sum_wgts = 0;
+  double sum_trls = 0;
   double gen_xsec = 0;
-  double sum_weights = 0;
 
-  std::ifstream hepmc_is( sc.eventpath.c_str() );                   // HepMC input
-  for (int iEvent = 0; iEvent < sc.nevt_sample; iEvent++)
+  const std::string evtstr = "E ";
+  const std::string xscstr = "C ";
+  
+  std::ifstream hepmc_is( sc.eventpath.c_str() );
+  while( true ){
+    if (!hepmc_is) std::cerr << "READ ERROR" <<std::endl;
+    std::string line; getline( hepmc_is, line );
+    if( line.length() == 0 ) continue;
+    if( line.compare( 0, evtstr.length(), evtstr ) == 0 and nevt < sc.nevt_sample)
     {
-      if (! hepmc_is )
-      {
-        cerr << "Error: HepMC end of file!"<<endl;
-        exit(-1);
-      }
+      const std::vector<std::string> temp = split( line, ' ' );
+      sum_wgts  += std::stod(temp[13]);
+      sum_trls  += std::stod(temp[16]);
+      nevt++;
+      if (nevt % 10000 == 0)
+        cout << "Examined "<< nevt<< " events ... "<<endl;
+    }
+    else if( line.compare( 0, xscstr.length(), xscstr ) == 0 )
+    {
+      const std::vector<std::string> temp = split( line, ' ' );
+      gen_xsec       = std::stod(temp[1]);
+      if (nevt == sc.nevt_sample - 1 ) break;
+    }
+  }
 
-      HepMC::GenEvent evt;
-      evt.read( hepmc_is );
-      if( !evt.is_valid() ) 
-      {
-        cerr << "Error: Invalid HepMC event!" << endl;
-        exit(-1);
-      }
-
-      if (iEvent % 10000 == 0)
-        cout << "Examined "<< iEvent<< " events ... "<<endl;
-
-      // Update to generated xsec
-      gen_xsec = evt.cross_section()->cross_section();
-      sum_weights += evt.weights()[0];
-    } 
-
-  weight_norm = ( gen_xsec / sum_weights );
-
-  // Reset istream
   hepmc_is.close();
+  weight_norm = gen_xsec / sum_wgts;
+  std::cout << std::scientific << "Computed xsec: " << sum_wgts/sum_trls << " Generated xsec: " <<gen_xsec << std::endl;
+  std::cout << "Unit weight: " << gen_xsec <<" / "<< sum_wgts<<" = "<<weight_norm <<std::endl;
 }
 
 // ************************************ File Input ************************************
@@ -154,6 +158,7 @@ void get_final_state_particles(Pythia8::Pythia& pythiaRun, finalState& particles
   {
     // Get PDG ID
     const int particle_id = pythiaRun.event[i].id();
+    std::cout << "Particle " << particle_id <<std::endl;
 
     // Consider only final state particles
     if( pythiaRun.event[i].status() <= 0 ) continue;

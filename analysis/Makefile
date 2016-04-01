@@ -26,9 +26,9 @@ DESTDIR=.
 VPATH=$(SOURCEDIR)
 
 # MC sample directory
-SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"/mnt/lustre/hartland/OxfordHH4bSamples/\"
-#SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
+SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
@@ -69,7 +69,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = samples analysis detector run utils oxford
+MODULES = samples sherpa-xs analysis detector run utils oxford
 
 ############################## do not change ###################################
 
