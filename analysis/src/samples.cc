@@ -158,7 +158,6 @@ void get_final_state_particles(Pythia8::Pythia& pythiaRun, finalState& particles
   {
     // Get PDG ID
     const int particle_id = pythiaRun.event[i].id();
-    std::cout << "Particle " << particle_id <<std::endl;
 
     // Consider only final state particles
     if( pythiaRun.event[i].status() <= 0 ) continue;
