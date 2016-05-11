@@ -38,20 +38,21 @@ int main(int argc, char* argv[])
 
   	signal(SIGINT, catch_int);
 
-	// Initialise RNG
-	rng_init(235243356345);
-
-	if (argc != 2)
+	if (argc != 3)
 	{
 		cerr << "Error: Wrong number of arguments!"<<endl;
-		cerr << "Usage: mva <path_to_trainingdata>" <<endl;
+		cerr << "Usage: mva <path_to_trainingdata> <boostrap>" <<endl;
 		exit(-1);
 	}
 
 	// Read datafile
 	const string dataPath = argv[1];
 	const string dataName = dataPath.substr(2,dataPath.length()-6);
+	const string bootStrap = argv[2];
 	cout << "Reading data from "<< dataPath<< "  Named: " << dataName<< endl;
+
+	// Initialise RNG
+	rng_init(time(NULL)/atoi(bootStrap.c_str()));
 
 	ifstream datafile(dataPath.c_str());
 	string line; stringstream linestream;
@@ -121,7 +122,7 @@ int main(int argc, char* argv[])
 
 	for (size_t i=0; i<totalData.size(); i++)
 	{
-		if ( (double)rand() / (double)RAND_MAX < trsplit)
+		if ( rng_uniform() < trsplit)
 			trainingData.push_back(totalData[i]);
 		else
 			validationData.push_back(totalData[i]);
@@ -226,7 +227,7 @@ int main(int argc, char* argv[])
 	}
 	arch << "_"<<nGen<<"-Gen";
 
-	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_"+ dataName+ ".dat";
+	const string mvafile = "./" + string(RESDIR) + "/nn_" + arch.str() + "_"+ dataName+"_"+bootStrap+ ".dat";
 	cout << "Exporting to: "<<mvafile<<endl;
 	ofstream mvaout(mvafile.c_str());
 
@@ -241,8 +242,8 @@ int main(int argc, char* argv[])
 	mvaout.close();
 	cout << "******************************************************"<<endl;
 
-	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".net";
-	const string parfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+  ".par";
+	const string netfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+"_"+bootStrap+  ".net";
+	const string parfile = "./" + string(RESDIR) + "/nn_" + arch.str()+ "_"+ dataName+"_"+bootStrap+   ".par";
 	cv_mlp.Export(netfile, kinstream.str());
 	cv_mlp.ExportPars(parfile);
 

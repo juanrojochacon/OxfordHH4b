@@ -166,7 +166,7 @@ for tl in nevax2.get_yticklabels():
     tl.set_color('b')
 
 x1,x2,y1,y2 = ssbax.axis()
-ssbax.axis((x1,x2,0,4))
+ssbax.axis((x1,x2,0,10))
 
 roc.savefig('roc.pdf')
 sb.savefig('sb.pdf')
