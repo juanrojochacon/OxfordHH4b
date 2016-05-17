@@ -1,0 +1,168 @@
+%\special{!userdict begin /bop-hook{gsave 200 30 translate
+%       65 rotate /Times-Roman findfont 216 scalefont setfont
+%       0 0 moveto 0.85 setgray (DRAFT) show grestore}def end}
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{epsfig,cite}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage{multirow}
+\usepackage{epstopdf}
+\usepackage{url,hyperref}
+\usepackage{listings}
+
+\lstset{frame=tb,
+  language=bash,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+%\textwidth=15.0cm \textheight=23.5cm
+\textwidth=16.5cm \textheight=23.5cm 
+\topmargin 0cm \oddsidemargin 0cm 
+\setlength{\unitlength}{1mm}
+
+\usepackage{url}
+\usepackage{hyperref}
+
+\bibliographystyle{JHEP}
+%\bibliographystyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\smallfrac#1#2{\hbox{$\frac{#1}{#2}$}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\lc}{\left[}
+\newcommand{\rc}{\right]}
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\as}{\alpha_s}
+\newcommand{\aq}{\alpha_s\left( Q^2 \right)}
+\newcommand{\amz}{\alpha_s\left( M_Z^2 \right)}
+\newcommand{\aqq}{\alpha_s \left( Q^2_0 \right)}
+\newcommand{\aqz}{\alpha_s \left( Q^2_0 \right)}
+\def\toinf#1{\mathrel{\mathop{\sim}\limits_{\scriptscriptstyle
+{#1\rightarrow\infty }}}}
+\def\tozero#1{\mathrel{\mathop{\sim}\limits_{\scriptscriptstyle
+{#1\rightarrow0 }}}}
+\def\toone#1{\mathrel{\mathop{\sim}\limits_{\scriptscriptstyle
+{#1\rightarrow1 }}}}
+\def\frac#1#2{{{#1}\over {#2}}}
+\def\gsim{\mathrel{\rlap{\lower4pt\hbox{\hskip1pt$\sim$}}
+    \raise1pt\hbox{$>$}}}         %greater than or approx. symbol
+\def\lsim{\mathrel{\rlap{\lower4pt\hbox{\hskip1pt$\sim$}}
+    \raise1pt\hbox{$<$}}}         %less than or approx. symbol
+\newcommand{\mrexp}{\mathrm{exp}}
+\newcommand{\dat}{\mathrm{dat}}
+\newcommand{\one}{\mathrm{(1)}}
+\newcommand{\two}{\mathrm{(2)}}
+\newcommand{\art}{\mathrm{art}} 
+\newcommand{\rep}{\mathrm{rep}}
+\newcommand{\net}{\mathrm{net}}
+\newcommand{\stopp}{\mathrm{stop}}
+\newcommand{\sys}{\mathrm{sys}}
+\newcommand{\stat}{\mathrm{stat}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\pdf}{\mathrm{pdf}}
+\newcommand{\tot}{\mathrm{tot}}
+\newcommand{\minn}{\mathrm{min}}
+\newcommand{\mut}{\mathrm{mut}}
+\newcommand{\partt}{\mathrm{part}}
+\newcommand{\dof}{\mathrm{dof}}
+\newcommand{\NS}{\mathrm{NS}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\gen}{\mathrm{gen}}
+\newcommand{\cut}{\mathrm{cut}}
+\newcommand{\parr}{\mathrm{par}}
+\newcommand{\val}{\mathrm{val}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\checkk}{\mathrm{check}}
+\newcommand{\reff}{\mathrm{ref}}
+\newcommand{\extra}{\mathrm{extra}}
+\newcommand{\draft}[1]{}
+\newcommand{\comment}[1]{{\bf \it  #1}}
+\def\beq{\begin{equation}}  
+\def\eeq{\end{equation}}  
+
+% Added by MU for the fast evolution section
+\def\bgamma{\boldsymbol{\gamma}}
+\def\nn{\nonumber}
+\def \so{\sigma_I^{DIS}(x_I,Q^2_I)}
+\def \sh{\frac{d\sigma^{hh}}{dX}}
+\def\sdy{\frac{d\sigma^{\mathrm{DY}}}{dQ_I^2dY_I}}
+\def \npdf{N_{\mathrm{pdf}}}
+\def \gtilda{\tilde\Gamma_J^{\mathrm{OBS}}}
+\def \n0{N_j^{(0)}}
+\def \a{\alpha}
+\def \b{\beta}
+\def \g{\gamma}
+\def \c{\xi}
+\def \z{\zeta}
+% Added by JR
+\def\lapprox{\lower .7ex\hbox{$\;\stackrel{\textstyle <}{\sim}\;$}}
+\def\gapprox{\lower .7ex\hbox{$\;\stackrel{\textstyle >}{\sim}\;$}}
+\def\half{\smallfrac{1}{2}}
+\def\GeV{{\rm GeV}}
+\def\TeV{{\rm TeV}}
+\def\ap{{a'}}
+\def\vp{{v'}}
+\def\e{\epsilon}
+\def\d{{\rm d}}
+\def\calN{{\cal N}}
+\def\shat{\hat{s}}
+\def\barq{\bar{q}}
+\def\qq{q \bar q}
+\def\uu{u \bar u}
+\def\dd{d \bar d}
+\def\pp{p \bar p}
+\def\xa{x_{1}}
+\def\xb{x_{2}}
+\def\xaa{x_{1}^{0}}
+\def\xbb{x_{2}^{0}}
+\def\smx{\stackrel{x\to 0}{\longrightarrow}}
+\def\Li{{\rm Li}}
+
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+\newcommand{\tmtextit}[1]{{\itshape{#1}}}
+\newcommand{\tmtextrm}[1]{{\rmfamily{#1}}}
+\newcommand{\tmtexttt}[1]{{\ttfamily{#1}}}
+\begin{document}
+
+We thank the referee for the careful reading of our manuscript
+and her/his insightful comments, which have prompted us to study
+in some detail some of the aspects of our analysis.
+%
+In the following we reply to each of the points raised by the
+referee in turn, and indicate the modifications
+that have been performed in the revised version of the paper.
+
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

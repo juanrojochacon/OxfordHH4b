@@ -1,0 +1,16 @@
+Reviewer(s)' Comments to Author: 
+Referee: 1 
+
+Comments to the Author 
+The authors have evaluated how well di-Higgs production with subsequent decays into 4b final states can be separated from Standard Model backgrounds. Using multi-variate techniques and a fairly complete background simulation, including pileup and charm jet mis-identification, they find a strong result of S/sqrt(B) ~ 3 with 3000 ifb. The paper is very well written and the analysis is described well. Their work is timely and is certainly of interest to the community. The authors stress the benefit of combining different phase space regions and the potential for improvement over previous analyses, both of great value for ATLAS and CMS. 
+
+However, before I can recommend publication in EPJC I would like to ask the authors to clarify the few points below: 
+
+- It is certainly true that electroweak backgrounds such as bb(Z->bb), tth or HZ are smaller than the QCD backgrounds, but they are also much bigger than the signal. A priori it is not clear to me that they can be neglected. Previous analyses, with which the authors compare their study, have included such backgrounds and found them relevant. I would ask the authors to show that after their reconstruction these backgrounds are significantly smaller than their signal process to be irrelevant for their significance. If the authors do not want to do a full study including those backgrounds it should suffice to use their final cuts and run over a set of events for each of these processes to show that they are well under control. 
+
+- Depending on how b-tagging has been performed and event weights have been calculated, I suspect that the number of generated background events is not sufficient in the analysis. If I am reading Table 1 correctly, the authors generated for each of the backgrounds 3 million unweighted events. However, these backgrounds have very different total cross sections. For example, the 4j background has a total cross section of 10^6 pb, which means that an individual event that passes all reconstruction cuts carries a weight of O(0.1) pb. However, the total signal cross section is only 10^-3 pb. I do not see how so few events for 4j can give a reliable estimate of the signal to background ratio. 
+For example, if 4 b-tags are required with a fake-rate of 0.01^4 ~ 10^-8 (neglecting now large fake rates for c-quarks), none of the 4j events survives even the b-tagging requirement… 
+Similar arguments can be made for all the other backgrounds, except from the 4b background. 
+Since many observables are combined, a fine-grained mapping of the phase space is of crucial importance. Hence, it would be good if the authors could show the number of events after their cuts C1a-C2 and after their neural-net cuts. Are Figs.10-14 showing distributions after cuts C1a-C2 have been applied? 
+
+- Along the same line, the authors give fake-rates for the different backgrounds in Table 5 and conclude at the end of section 4.2 that the multi-jet backgrounds can be neglected. However, with a fake rate of 10^-4 %, the 4j background would still correspond to 1 pb… I do not see how this can be neglected when studying a signal of few fb…

@@ -1,0 +1,61 @@
+********************************************
+HH4b meeting
+2016/02/2016
+********************************************
+
+* Redo at 14 TeV the same plots that at 100 TeV
+Cut flows, including after MVA, as well as chi2
+plots after the MVA
+Circulate them for discussion at the next meeting
+
+* Agreed to plot a number of signal kinematic variables
+as a function of the Higgs trilinear
+Agreed to post them in the live Indico page that CI has set up
+https://indico.cern.ch/event/503791/
+
+* Need to understand how to compute the systematic uncertainties
+in the extraction of the self coupling
+The first thing to understand is the error on the classification
+
+* JF suggests to optimise analysis for different lambda
+for instance with subjet pt related to b-tagging
+For this we need the different kinematic distributions as a function
+of the self-coupling
+
+* Agreed to prepare for next week, each of us, a detailed proposal
+of how we would perform the measurement of the trilinear
+and to assign systematic uncertainties
+We can link this to the live page
+CI in particular will prepare a flow chart
+
+
+* Agreed to generate higher stats for 4b, 2b2j and 4j
+30M events, running in the NNPDF server
+This will help in some of our problems with statistics-limited background
+
+* Need sidebands to normalize backgrounds
+Use the region outside the Higgs mass window to normalize the backgrounds?
+We need to define control regions to train the MVA
+
+* KB has determined some additional backgrounds, as requested
+by Daniela
+Agreed to process them though our analysis to see how they
+compare with the QCD backgrounds.
+
+
+* Estimate systematics in the MVA classification
+i) Generate background samples for different muR and muF, we
+can use HT/2 and 2HT instead of our current default
+which is HT
+ii) Use a different MC generator for the background
+events
+In particular, since we already have matrix-element events
+with Sherpa, agreed to shower them with Pythia and check
+how this affects the MVA classification
+
+* NH will check the statistical uncertainties associated
+to the MVA classification by means to the bootstrap method.
+
+***********************************************************************
+***********************************************************************
+
