@@ -1,0 +1,13 @@
+************************************
+REPLY TO THE EDITOR
+************************************
+
+We agree with the referee that it is worth explaining in the main body of the paper the additional studies that have been reported in our reply to his/her comments. To address this, in the revised version of the paper we have included two modifications:
+
+* Added a short appendix with the discussion about single-Higgs backgrounds and showing that one can safely neglect them. We have also added a reference to this appendix when mentioning in the main text that single Higgs backgrounds can be neglected.
+
+* In the results section, at the end of Sect. 5.3, we have added a new paragraph describing the tests that we have performed concerning the simulation of the multijet backgrounds, and added a word of caution concerning the low statistics of the 2b2j and 4j background.
+
+We hope that having satisfactorily addressed all the points raised by the reference the revised manuscript is now suitable for publication in EPJC.
+
+*******************************

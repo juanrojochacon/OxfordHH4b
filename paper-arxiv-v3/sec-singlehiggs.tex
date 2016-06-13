@@ -1,0 +1,130 @@
+
+\appendix
+
+\section{Single Higgs backgrounds}
+\label{app:singlehiggs}
+
+As discussed in Sect.~\ref{mcgeneration},
+in our analysis we neglect single Higgs production processes,
+since they are much smaller than both the signal and the main
+QCD multijet backgrounds.
+%
+To explicitly demonstrate this, we have generated LO samples
+using  {\tt MadGraph5\_aMC@NLO}
+for the
+following single-Higgs processes:
+  \begin{enumerate}
+  \item $Z(\to b\bar{b})h(\to b\bar{b})$ (electroweak)
+  \item $t\bar{t}h(\to b\bar{b})$
+    \item $b\bar{b}h(\to b\bar{b})$ (QCD)
+  \end{enumerate}
+  For each processes, we have  generated 1M events, and in
+ Table~\ref{HK}  we list resulting the
+  LO and NLO cross-sections at the generation level.
+  %
+  The subsequent decays and the
+  corresponding branching fractions are not included in these cross-sections,
+  since
+  these are taken care by the {\tt Pythia8} parton shower.
+  %
+  The values of these branching fractions 
+  are listed in Table~\ref{HBF}, corresponding
+  to the  most recent averages from the PDG.
+  %
+  In the case of the $t\bar{t}h$ process, we
+  consider only the fully hadronic decays
+  of the top quark, since leptonic and semi-leptonic decays
+  can be suppressed
+  by means of a lepton veto.
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Sample & LO & NLO & $K$-factor\\
+\hline\hline
+$Zh$ (13 TeV) & $6.5 \cdot 10^{-1}$ pb & $ 7.7 \cdot 10^{-1}$ pb & 1.19 \\
+$t\bar{t}h$ (13 TeV) & $3.8 \cdot 10^{-1}$ pb & $4.6 \cdot 10^{-1}$ pb & 1.29 \\
+$b\bar{b}h$ (13 TeV) &  $4.9 \cdot 10^{-1}$ pb & $6.1 \cdot 10^{-1}$ pb & 1.22 \\
+\hline
+\end{tabular}
+\caption{\small LO and NLO cross-sections at the generation level for the single-Higgs background
+  processes listed above, computed using {\tt MadGraph5\_aMC@NLO}.
+  %
+  The subsequent decays and the corresponding branching fractions are not included in these generation-level cross-sections. \label{HK}
+}
+\end{center}
+  \end{table}%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Sample & Decay & Branching Fraction\\
+\hline\hline
+$Zh$ & ($Z\to b\bar{b}$)($h\to b\bar{b}$) & 0.086 \\
+$t\bar{t}h$ & $(W\to q\bar{q})^2$($h\to b\bar{b}$) & 0.26 \\
+$b\bar{h}h$ & $h\to b\bar{b}$ & 0.57 \\
+\hline
+\end{tabular}
+\caption{\small The values of the branching fractions applied to the single-Higgs
+  background processes from Table~\ref{HK}, corresponding to
+  the most updated PDG values. \label{HBF}}
+\end{center}
+  \end{table}%
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  In Table~\ref{HBxsec}
+  we show the signal and background cross-sections at the end of the cut-based analysis, before the MVA is applied,
+  in the case without PU.
+  %
+  We separate the results into the three exclusive categories used in our analysis.
+  %
+  From this comparison, we see that as expected, at the end of the cut-based analysis, the single-Higgs
+  backgrounds are smaller than the QCD multijet background by several orders of magnitude.
+  %
+  In addition, we find that already at the end of the cut-based analysis the di-Higgs
+  signal is also larger than all the single-Higgs backgrounds in all the selection categories.
+  %
+  Since this discrimination can only be improved by the MVA, we
+  conclude that neglecting single-Higgs backgrounds is a reasonable
+  approximation.
+%
+  From Table~\ref{HBxsec} we also observe that in the resolved
+  and intermediate categories $Zh\to b\bar{b}b\bar{b}$ is
+  the dominant single-Higgs background, while $t\bar{t}h(\to b\bar{b})$ is
+  instead the most important one in the boosted category.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+& Sample &  \multicolumn{3}{c|}{Pre-MVA cross-section (fb)}\\
+ & &  Boosted  & Intermediate & Resolved \\[0.1cm]
+\hline\hline
+Signal & $hh\to b\bar{b}b\bar{b}$ & $3.5\cdot 10^{-1}$  & $2.2\cdot 10^{-1}$ &  $1.2\cdot 10^{0}$ \\[0.1cm]
+\hline
+\multirow{4}{*}{Backgrounds} & QCD multijet &  $2.5\cdot 10^{+2}$ & $1.8\cdot 10^{+2}$ & $4.9\cdot 10^{+3}$ \\
+&$Z(\to b\bar{b})h(\to b\bar{b})$ & $2.0\cdot 10^{-2}$ & $1.2\cdot 10^{-1}$ & $7.5\cdot 10^{-1}$ \\
+&$t\bar{t}h(\to b\bar{b})$ & $5.1\cdot 10^{-2}$ & $6.3\cdot 10^{-3}$ & $4.0\cdot 10^{-1}$ \\
+&$b\bar{b}h(\to b\bar{b})$ & $2.3\cdot 10^{-3}$ & $5.5\cdot 10^{-3}$ & $2.6\cdot 10^{-1}$\\
+\hline
+\end{tabular}
+\end{center}
+\caption{\small \label{HBxsec} Signal and background cross-sections at the end of the cut-based analysis
+  (before the MVA is applied), in the case without PU.
+  %
+  We separate the results into the three exclusive categories used in our analysis.
+  %
+}
+  \end{table}%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
