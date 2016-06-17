@@ -828,70 +828,31 @@ void OxfordAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets
                                               std::vector<fastjet::PseudoJet>& higgs0_vec,  // Leading higgs subjets
                                               std::vector<fastjet::PseudoJet>& higgs1_vec ) // Subleading higgs subjets
 {
+  typedef std::pair<fastjet::PseudoJet,fastjet::PseudoJet> dijet;
+  typedef std::pair<dijet,dijet> hpair;
+  const std::vector<hpair> hcand = { hpair(dijet(srj[0],srj[1]), dijet(srj[2],srj[3])),
+                                hpair(dijet(srj[0],srj[2]), dijet(srj[1],srj[3])),
+                                hpair(dijet(srj[0],srj[3]), dijet(srj[1],srj[2]))};
+  auto bc = std::min_element(hcand.cbegin(), hcand.cend(), [](hpair const& p1, hpair const& p2){
+        return( fabs( (p1.first.first+p1.first.second).m() - (p1.second.first+p1.second.second).m() ) < 
+                fabs( (p2.first.first+p2.first.second).m() - (p2.second.first+p2.second.second).m() ));
+    } );
 
-    // Get the pairing that minimizes |m_dj1 - m_dj2|
-    double dijet_mass[4][4];
-    for(int ijet=0;ijet<4;ijet++)
-      for(int jjet=0;jjet<4;jjet++)
-      {
-        // Compute jet masses
-        const fastjet::PseudoJet sum = bjets[ijet] + bjets[jjet];
-        dijet_mass[ijet][jjet] = sum.m();
-      }
+  const fastjet::PseudoJet higgs1 = (*bc).first.first + (*bc).first.second;
+  const fastjet::PseudoJet higgs2 = (*bc).second.first + (*bc).second.second;
+  higgs_vec.push_back(higgs1);  higgs_vec.push_back(higgs2); 
+  higgs_vec = sorted_by_pt(higgs_vec);
 
-    double mdj_diff_min = 1e20; // Some large number to begin
-    int jet1_id1=10,jet1_id2=10,jet2_id1=10,jet2_id2=10;
+  higgs0_vec.push_back((*bc).first.first);
+  higgs0_vec.push_back((*bc).first.second);
+  higgs0_vec = sorted_by_pt(higgs0_vec);
 
-    for(int ijet=0;ijet<4;ijet++)
-      for(int jjet=ijet+1;jjet<4;jjet++)
-        for(int ijet2=0;ijet2<4;ijet2++)
-          for(int jjet2=ijet2+1;jjet2<4;jjet2++)
-          {
-            const double mdj1 = dijet_mass[ijet][jjet];
-            const double mdj2 = dijet_mass[ijet2][jjet2];
-            const double min_dj = fabs(mdj1 - mdj2);
+  higgs1_vec.push_back((*bc).second.first);
+  higgs1_vec.push_back((*bc).second.second);
+  higgs1_vec = sorted_by_pt(higgs1_vec);
 
-            if(min_dj <  mdj_diff_min && ijet != ijet2  && jjet != jjet2 && jjet !=ijet2 && ijet != jjet2 )
-            {
-              mdj_diff_min = min_dj;
-              jet1_id1 = ijet;
-              jet1_id2 = jjet;
-              jet2_id1 = ijet2;
-              jet2_id2 = jjet2;
-            }
-          }
-
-    // Construct the Higgs candidates
-    fastjet::PseudoJet higgs1 = bjets.at( jet1_id1) + bjets.at( jet1_id2); 
-    fastjet::PseudoJet higgs2 = bjets.at( jet2_id1) + bjets.at( jet2_id2);
-    
-    if( higgs1.pt() > higgs2.pt())
-    {
-      higgs_vec.push_back(higgs1);
-      higgs_vec.push_back(higgs2);
-
-      higgs0_vec.push_back(bjets.at( jet1_id1));
-      higgs0_vec.push_back(bjets.at( jet1_id2));
-
-      higgs1_vec.push_back(bjets.at( jet2_id1));
-      higgs1_vec.push_back(bjets.at( jet2_id2));
-
-    }
-    else{
-      higgs_vec.push_back(higgs2);
-      higgs_vec.push_back(higgs1);  
-
-      higgs1_vec.push_back(bjets.at( jet1_id1));
-      higgs1_vec.push_back(bjets.at( jet1_id2));
-
-      higgs0_vec.push_back(bjets.at( jet2_id1));
-      higgs0_vec.push_back(bjets.at( jet2_id2));  
-    }
-
-    // Sort vectors
-    higgs0_vec = sorted_by_pt(higgs0_vec);
-    higgs1_vec = sorted_by_pt(higgs1_vec);
-
+  if (higgs1.pt() < higgs2.pt())
+    std::swap(higgs0_vec, higgs1_vec);
 }
 
 
