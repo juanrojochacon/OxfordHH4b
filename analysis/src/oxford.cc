@@ -823,7 +823,7 @@ void OxfordAnalysis::BTagging( std::vector<fastjet::PseudoJet> const& largeRJets
 }
 
 
-void OxfordAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets, // Input b-jets
+void OxfordAnalysis::Reco_Resolved( std::vector<fastjet::PseudoJet> const& srj, // Input b-jets
                                               std::vector<fastjet::PseudoJet>& higgs_vec,   // Returned Higgs candidates
                                               std::vector<fastjet::PseudoJet>& higgs0_vec,  // Leading higgs subjets
                                               std::vector<fastjet::PseudoJet>& higgs1_vec ) // Subleading higgs subjets
