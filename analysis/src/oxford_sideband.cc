@@ -139,7 +139,7 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
 
 
 OxfordSidebandAnalysis::OxfordSidebandAnalysis(runCard const& run, sampleCard const& sample, int const& subsample):
-Analysis("oxford", run, sample, subsample),
+Analysis("sideband", run, sample, subsample),
 subtractPU(run.npileup > 0)
 {
   // ********************* Histogram settings******************
@@ -293,14 +293,11 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
    // Set initial weight
   const double event_weight = weightnorm;
 
-  // *************************************** General cut consts *************************************
+  // *************************************** General cut selectors *************************************
 
   const Selector LR_kinematics = SelectorNHardest(2) * ( SelectorAbsRapMax(2.0) && SelectorPtMin(200.0) );
   const Selector SR_kinematics = SelectorNHardest(4) * ( SelectorAbsRapMax(2.5) && SelectorPtMin(40.0) );
   const Selector TR_kinematics = SelectorAbsRapMax(2.5) && SelectorPtMin(50.0);
-
-  // Higgs mass-window
-  const double massWindow = 40;
 
   // ********************************* Jet clustering  ***************************************
   
@@ -341,6 +338,130 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
 
   // **************************************** Boosted analysis *********************************************
   
+  ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
+
   return;
 }
 
+
+void OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight )
+{
+  if( srj.size() >= 4 )
+  {
+    // Reconstruct Higgs candidates from small-R jets
+    typedef std::pair<PseudoJet,PseudoJet> dijet;
+    typedef std::pair<dijet,dijet> hpair;
+
+    vector<hpair> hcand = { hpair(dijet(srj[0],srj[1]), dijet(srj[2],srj[3])),
+                            hpair(dijet(srj[0],srj[2]), dijet(srj[1],srj[3])),
+                            hpair(dijet(srj[0],srj[3]), dijet(srj[1],srj[2]))};
+    auto bc = std::min_element(hcand.begin(), hcand.end(), [](hpair& p1, hpair& p2){
+          return( fabs( (p1.first.first+p1.first.second).m() - (p1.second.first+p1.second.second).m() ) < 
+                  fabs( (p2.first.first+p2.first.second).m() - (p2.second.first+p2.second.second).m() ));
+      } );
+
+    // Construct pseudojets
+    dijet& hp1 = (*bc).first; dijet& hp2 = (*bc).second; 
+    PseudoJet higgs1 = hp1.first + hp1.second;
+    PseudoJet higgs2 = hp2.first + hp2.second;
+    const fastjet::PseudoJet dihiggs = higgs1 + higgs2;
+
+    // Sort by pT
+    if (higgs1.pt() < higgs2.pt()) std::swap(higgs1, higgs2);
+    if (hp1.first.pt() < hp1.second.pt()) std::swap(hp1.first, hp1.second);
+    if (hp2.first.pt() < hp2.second.pt()) std::swap(hp2.first, hp2.second);
+
+    // b-Tagging rate
+    const int nB = std::count(btags.begin(), btags.begin() + 4, BTAG);  // Number of b's
+    const int nC = std::count(btags.begin(), btags.begin() + 4, CTAG);  // Number of c's
+    const int nL = std::count(btags.begin(), btags.begin() + 4, LTAG);  // Number of u,d,s,g
+    const double selEff = btagProb( 4, nB, nC, nL);
+    const double selWgt = selEff*event_weight;
+    // Reco fill
+    HiggsFill( higgs1, higgs2, "res", 1, selWgt );
+
+    const double diffHiggs_0 = fabs(higgs1.m() - 125.);
+    const double diffHiggs_1 = fabs(higgs2.m() - 125.);
+    const double massWindow = 40.0;
+
+    if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
+    {
+      HiggsFill( higgs1, higgs2, "res", 2, selWgt );
+      resNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+          << higgs1.pt() << "\t"
+          << higgs2.pt() << "\t"
+          << dihiggs.pt() << "\t"
+          << higgs1.m() << "\t"
+          << higgs2.m() << "\t"
+          << dihiggs.m() << "\t"
+          << higgs1.delta_R(higgs2) << "\t"
+          << getDPhi(higgs1.phi(), higgs2.phi()) << "\t"
+          << fabs( higgs1.eta() - higgs2.eta())  << "\t"
+          << Chi( higgs1, higgs2)  << "\t"
+          << hp1.first.pt() << "\t"
+          << hp1.second.pt() << "\t"
+          << hp2.first.pt() << "\t"
+          << hp2.second.pt() << "\t"
+          <<std::endl;
+    }
+    else
+      HiggsFill( higgs1, higgs2, "res", 3, selWgt );
+
+  }
+
+
+
+  //       Pass(res_weight); 
+  //       passed_weight += res_weight;
+
+}
+ 
+// General fill for reconstructed higgs quantities
+void OxfordSidebandAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
+                                         fastjet::PseudoJet const& H1,
+                                         std::string const& analysis, 
+                                         size_t const& cut, 
+                                         double const& weight)
+{
+  if (H0.pt() < H1.pt())
+    std::cerr << "HiggsFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
+
+  if( debug ) std::cout << "HiggsFill INFO: cut = " << cut << std::endl;
+  if( debug ) std::cout << "HiggsFill INFO: analysis = " << analysis << std::endl;
+
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
+    
+  // Record cutflow
+  FillHistogram("CF_" +analysis, weight, cut + 0.1);
+  FillHistogram("CFN_"+analysis, 1., cut + 0.1);
+
+  // Histograms for reconstructed Higgs candidates
+  FillHistogram("pt_H0" + suffix, weight, H0.pt());
+  FillHistogram("pt_H1" + suffix, weight, H1.pt());
+
+  FillHistogram("m_H0" + suffix, weight, H0.m());
+  FillHistogram("m_H1" + suffix, weight, H1.m());
+  
+  FillHistogram("eta_H0" + suffix, weight, H0.eta());
+  FillHistogram("eta_H1" + suffix, weight, H1.eta());
+  
+  FillHistogram("phi_H0" + suffix, weight, H0.phi());
+  FillHistogram("phi_H1" + suffix, weight, H1.phi());
+
+  FillHistogram("ptHptH" + suffix, weight, H0.pt(), H1.pt());
+  FillHistogram("mHmH" + suffix, weight, H0.m(), H1.m());
+
+  FillHistogram("dR_HH" + suffix, weight, H0.delta_R(H1) );
+  FillHistogram("dPhi_HH" + suffix, weight, getDPhi(H0.phi(), H1.phi()) );
+  FillHistogram("dEta_HH" + suffix, weight, fabs( H0.eta() - H1.eta()) );
+  FillHistogram("chi_HH" + suffix, weight, Chi(H0,H1) );
+
+  // Reconstruct di-Higgs system
+  const fastjet::PseudoJet dihiggs = H0 + H1;
+
+  // Histograms for reconstructed di-Higgs system
+  FillHistogram("m_HH" + suffix, weight, dihiggs.m());
+  FillHistogram("pt_HH" + suffix, weight, dihiggs.pt());
+
+}

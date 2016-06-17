@@ -17,11 +17,9 @@ class OxfordSidebandAnalysis : public Analysis
 
 		void Analyse(bool const& signal, double const& weight_norm, finalState const&);
 	private:
-        // Small-R reconstruction
-		void Reco_Resolved( std::vector<fastjet::PseudoJet> const& bjets_vec, 
-							std::vector<fastjet::PseudoJet>& higgs_vec,
-							std::vector<fastjet::PseudoJet>& higgs0_vec,  	// Leading higgs subjets
-                            std::vector<fastjet::PseudoJet>& higgs1_vec  ); // Subleading higgs subjets
+
+		void ResolvedAnalysis( std::vector<fastjet::PseudoJet> const& smallRJets, std::vector<btagType> const& btags, bool const& signal, double const& event_weight );
+
 
 		bool Reco_Intermediate(   std::vector<fastjet::PseudoJet> const& bjets, 
 	                              fastjet::PseudoJet const& fatjet, 
