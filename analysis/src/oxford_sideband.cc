@@ -32,6 +32,9 @@ const NsubjettinessRatio tau21(2,1, KT_Axes(), UnnormalizedMeasure(1));
 // Debugging
 const bool debug = false;
 
+// Exclusivity cut
+const bool exclusive = true;
+
 // Analysis settings
 const int nAnalysis = 3;  const int nCuts = 4;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
@@ -289,9 +292,6 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
   const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
   const finalState fs = subtractPU ? soft_killer(ifs):ifs;
 
-   // Set initial weight
-  const double event_weight = weightnorm;
-
   // *************************************** General cut selectors *************************************
 
   const Selector LR_kinematics = SelectorNHardest(2) * ( SelectorAbsRapMax(2.0) && SelectorPtMin(200.0) );
@@ -327,9 +327,9 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
 
   // ***************************************** Initial histograms **********************************************
 
-  FillHistogram("CF_res", event_weight, 0.1);
-  FillHistogram("CF_inter", event_weight, 0.1);
-  FillHistogram("CF_boost", event_weight, 0.1);
+  FillHistogram("CF_res", weightnorm, 0.1);
+  FillHistogram("CF_inter", weightnorm, 0.1);
+  FillHistogram("CF_boost", weightnorm, 0.1);
 
   FillHistogram("CFN_res", 1., 0.1);
   FillHistogram("CFN_inter", 1., 0.1);
@@ -337,13 +337,21 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
 
   // **************************************** Boosted analysis *********************************************
   
-  ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
-  BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
-
+  // Set initial weight
+  if (exclusive)
+  {
+    double event_weight = weightnorm;
+    event_weight -= BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
+    event_weight -= ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
+  } else
+  {
+    BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, weightnorm );
+    ResolvedAnalysis( smallRJets, tagType_SR, signal, weightnorm );
+  }
   return;
 }
 
-void OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< const vector<btagType> > btags, bool const& signal, double const& event_weight )
+double OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< const vector<btagType> > btags, bool const& signal, double const& event_weight )
 {
   if( largeRJets.size() == 2 && btags.size() == largeRJets.size() )
   {
@@ -420,12 +428,14 @@ void OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJet
         HiggsFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
         BoostFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
       }
+      return selWgt;
     }
   }
+  return 0;
 };
 
 
-void OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight )
+double OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight )
 {
   if( srj.size() >= 4 )
   {
@@ -488,13 +498,10 @@ void OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  ve
     else
       HiggsFill( higgs1, higgs2, "res", 3, selWgt );
 
+    return selWgt;
   }
 
-
-
-  //       Pass(res_weight); 
-  //       passed_weight += res_weight;
-
+  return 0;
 }
  
 // General fill for reconstructed higgs quantities
