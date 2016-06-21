@@ -19,6 +19,7 @@ class OxfordSidebandAnalysis : public Analysis
 	private:
 
 		void ResolvedAnalysis( std::vector<fastjet::PseudoJet> const& smallRJets, std::vector<btagType> const& btags, bool const& signal, double const& event_weight );
+		void BoostedAnalysis( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector< std::vector<fastjet::PseudoJet> > const& largeRsubJets, std::vector< const std::vector<btagType> > btags, bool const& signal, double const& event_weight );
 
 
 		bool Reco_Intermediate(   std::vector<fastjet::PseudoJet> const& bjets, 

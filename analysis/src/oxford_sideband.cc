@@ -37,7 +37,6 @@ const int nAnalysis = 3;  const int nCuts = 4;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
 const std::string cString[nCuts] = {"_GEN", "_RCO", "_SIG", "_SDB"};
 
-
 // **************************** Reconstruction helper functions ****************************
 
 static vector<PseudoJet> trimJets( vector<PseudoJet> const& injets)
@@ -339,9 +338,91 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
   // **************************************** Boosted analysis *********************************************
   
   ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
+  BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
 
   return;
 }
+
+void OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< const vector<btagType> > btags, bool const& signal, double const& event_weight )
+{
+  if( largeRJets.size() == 2 && btags.size() == largeRJets.size() )
+  {
+    // b-Tagging rate
+    int nB=0, nC=0, nL=0;
+    for (auto tagvec : btags)
+    {
+      // These vectors are restricted to the two hardest subjets already
+      nB += std::count(tagvec.begin(), tagvec.end(), BTAG);
+      nC += std::count(tagvec.begin(), tagvec.end(), CTAG); 
+      nL += std::count(tagvec.begin(), tagvec.end(), LTAG);
+    }
+
+    if (nB+nC+nL == 4) // Selected 4 candidates
+    {
+      const double selEff = btagProb( 4, nB, nC, nL);
+      const double selWgt = selEff*event_weight;
+      HiggsFill(largeRJets[0], largeRJets[1], "boost", 1, selWgt);
+
+      const fastjet::PseudoJet dihiggs_boost = largeRJets[0] + largeRJets[1];
+
+      // Higgs mass-window
+      const double diffHiggs_0 = fabs(largeRJets[0].m() - 125.);
+      const double diffHiggs_1 = fabs(largeRJets[1].m() - 125.);
+      const double massWindow = 40.0;
+
+      if( (diffHiggs_0 < massWindow) && (diffHiggs_1 < massWindow) )
+      {
+
+        HiggsFill(largeRJets[0], largeRJets[1], "boost", 2, selWgt);
+        BoostFill(largeRJets[0], largeRJets[1], "boost", 2, selWgt);
+
+        // Calculate some substructure variables
+        const std::vector<double> split12_vec = SplittingScales( largeRJets );
+        const double tau21_fj1 = tau21( largeRJets[0] );
+        const double tau21_fj2 = tau21( largeRJets[1] );
+
+        // C2 energy correlation double-ratio
+        const double C2_fj1 = C2(largeRJets[0]);
+        const double C2_fj2 = C2(largeRJets[1]);
+
+        // D2 energy correlation double-ratio
+        const double D2_fj1 = D2(largeRJets[0]);
+        const double D2_fj2 = D2(largeRJets[1]);
+
+        // Fill tuple
+        bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+            << largeRJets[0].pt() << "\t"
+            << largeRJets[1].pt() << "\t"
+            << dihiggs_boost.pt() << "\t"
+            << largeRJets[0].m() << "\t"
+            << largeRJets[1].m() << "\t"
+            << dihiggs_boost.m() << "\t"
+            << largeRJets[0].delta_R(largeRJets[1])  << "\t"
+            << getDPhi(largeRJets[0].phi(), largeRJets[1].phi())  << "\t"
+            << fabs( largeRJets[0].eta() - largeRJets[1].eta())  << "\t"
+            << Chi( largeRJets[0], largeRJets[1])  << "\t"
+            << largeRsubJets[0][0].pt() << "\t"
+            << largeRsubJets[0][1].pt() << "\t"
+            << largeRsubJets[1][0].pt() << "\t"
+            << largeRsubJets[1][1].pt() << "\t"
+            << split12_vec[0] << "\t"
+            << split12_vec[1] << "\t"
+            << tau21_fj1 << "\t"
+            << tau21_fj2 << "\t"
+            << C2_fj1 << "\t"
+            << C2_fj2 << "\t"
+            << D2_fj1 << "\t"
+            << D2_fj2 << "\t"
+            <<std::endl;
+      }
+      else
+      {
+        HiggsFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
+        BoostFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
+      }
+    }
+  }
+};
 
 
 void OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight )
@@ -464,4 +545,84 @@ void OxfordSidebandAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
   FillHistogram("m_HH" + suffix, weight, dihiggs.m());
   FillHistogram("pt_HH" + suffix, weight, dihiggs.pt());
 
+}
+
+void OxfordSidebandAnalysis::BoostFill( fastjet::PseudoJet const& H,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
+
+  // Splitting scales
+  const double split12 = SplittingScales( H );
+
+  // 2-subjettiness / 1-subjettiness
+  const double btau21 = tau21( H );
+
+  // C2/D2 energy correlation double-ratio
+  const double bC2 = C2(H);
+  const double bD2 = D2(H);
+
+  FillHistogram("split12_fj" + suffix, weight, split12);
+  FillHistogram("tau21_fj" + suffix, weight, btau21);
+  FillHistogram("C2_fj" + suffix, weight, bC2);
+  FillHistogram("D2_fj" + suffix, weight, bD2);
+}
+
+void OxfordSidebandAnalysis::BoostFill( fastjet::PseudoJet const& H0,
+                                          fastjet::PseudoJet const& H1,
+                                          std::string const& analysis, 
+                                          size_t const& cut, 
+                                          double const& weight )
+{
+  if (H0.pt() < H1.pt())
+    std::cerr << "BoostFill WARNING: pT ordering incorrect! "<<analysis<<"  "<<cut<<"  "<<H0.pt() << "  "<<H1.pt()<<std::endl;
+  
+  if( debug ) std::cout << "BoostFill INFO: cut = " << cut << std::endl;
+  if( debug ) std::cout << "BoostFill INFO: analysis = " << analysis << std::endl;
+
+  // Histo fill suffix
+  const std::string suffix = "_" + analysis + cString[cut];
+
+  // Splitting scales
+  if( debug ) std::cout << "BoostFill INFO: Calculate splitting scales" << std::endl;
+  if( debug ) std::cout << "BoostFill INFO! H0 pt = " << H0.pt() << " H1 pt = "<< H1.pt() << std::endl;
+  const double split12_fj1 = SplittingScales( H0 );
+  const double split12_fj2 = SplittingScales( H1 );
+
+  // 2-subjettiness / 1-subjettiness
+  if( debug ) std::cout << "BoostFill INFO: Calculate n-subjettiness" << std::endl;
+  const double tau21_fj1 = tau21( H0 );
+  const double tau21_fj2 = tau21( H1 );
+
+  // C2 energy correlation double-ratio
+  if( debug ) std::cout << "BoostFill INFO: Calculate C2" << std::endl;
+  const double C2_fj1 = C2(H0);
+  const double C2_fj2 = C2(H1);
+
+  // D2 energy correlation double-ratio
+  if( debug ) std::cout << "BoostFill INFO: Calculate D2" << std::endl;
+  const double D2_fj1 = D2(H0);
+  const double D2_fj2 = D2(H1);
+  
+  if( debug ) std::cout << "BoostFill INFO! H0 split12 = " << split12_fj1 << " H1 split12 = "<< split12_fj2 << std::endl;
+  if( debug ) std::cout << "BoostFill INFO! H0 tau21 = " << tau21_fj1 << " H1 tau21 = "<< tau21_fj2 << std::endl;
+  if( debug ) std::cout << "BoostFill INFO! H0 C2 = " << C2_fj1 << " H1 C2 = "<< C2_fj2 << std::endl;
+  if( debug ) std::cout << "BoostFill INFO! H0 D2 = " << D2_fj1 << " H1 D2 = "<< D2_fj2 << std::endl;
+
+  FillHistogram("split12_fj1" + suffix, weight, split12_fj1);
+  FillHistogram("split12_fj2" + suffix, weight, split12_fj2);
+
+  FillHistogram("tau21_fj1" + suffix, weight, tau21_fj1);
+  FillHistogram("tau21_fj2" + suffix, weight, tau21_fj2);
+
+  FillHistogram("C2_fj1" + suffix, weight, C2_fj1);
+  FillHistogram("C2_fj2" + suffix, weight, C2_fj2);
+
+  FillHistogram("D2_fj1" + suffix, weight, D2_fj1);
+  FillHistogram("D2_fj2" + suffix, weight, D2_fj2);
+  
+  if( debug ) std::cout << "BoostFill INFO: Finished BoostFill" << std::endl;
 }
