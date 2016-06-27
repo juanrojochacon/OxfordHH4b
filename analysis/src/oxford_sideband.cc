@@ -33,7 +33,7 @@ const NsubjettinessRatio tau21(2,1, KT_Axes(), UnnormalizedMeasure(1));
 const bool debug = false;
 
 // Exclusivity cut
-const bool exclusive = true;
+const bool exclusive = false;
 
 // Analysis settings
 const int nAnalysis = 3;  const int nCuts = 4;
@@ -503,6 +503,17 @@ double OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
 
   return 0;
 }
+
+double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& largeRJets,
+                                                     vector<PseudoJet> const& smallRJets,
+                                                     vector< vector<PseudoJet> > const& largeRsubJets,
+                                                     vector< const vector<btagType> > largeRbtags,
+                                                     vector<btagType> const& smallRbtags,
+                                                     bool const& signal, double const& event_weight )
+{
+  return 0;
+}
+
  
 // General fill for reconstructed higgs quantities
 void OxfordSidebandAnalysis::HiggsFill(fastjet::PseudoJet const& H0,
