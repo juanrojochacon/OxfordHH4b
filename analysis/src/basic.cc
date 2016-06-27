@@ -30,11 +30,6 @@ void BasicAnalysis::Analyse(bool const& signal, double const& weightnorm, finalS
 	// Weightnorm provides the sample's unit weight
 	double event_weight = weightnorm;
 
-	std::cout << "FinalState: " <<std::endl;
-	for (size_t i=0; i<fs.size(); i++)
-		std::cout <<i <<"\t" <<fs[i].user_index() <<std::endl;
-	std::cout<<std::endl;
-
 	// Do stuff to the final state
 	// DoStuff(fs);
 

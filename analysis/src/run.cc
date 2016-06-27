@@ -2,8 +2,8 @@
 
 #include "utils.h"
 #include "analysis.h"
+#include "basic.h"
 
-#include "oxford.h"
 #include "oxford_sideband.h"
 #include "samples.h"
 
@@ -15,7 +15,7 @@
 void InitAnalyses( std::vector<Analysis*>& analyses,runCard const& run, sampleCard const& sample,  int const& subsample )
 {
 	// **************** PLEASE MODIFY *****************
-	analyses.push_back(new OxfordAnalysis(run, sample, subsample));
+  analyses.push_back(new BasicAnalysis(run, sample, subsample));
   analyses.push_back(new OxfordSidebandAnalysis(run, sample, subsample));
 	// **************** DO NOT MODIFY  ****************
 }
