@@ -19,21 +19,21 @@ class OxfordSidebandAnalysis : public Analysis
 	private:
 
 		double ResolvedAnalysis( std::vector<fastjet::PseudoJet> const& smallRJets, std::vector<btagType> const& btags, bool const& signal, double const& event_weight );
-		double BoostedAnalysis( std::vector<fastjet::PseudoJet> const& largeRJets, std::vector< std::vector<fastjet::PseudoJet> > const& largeRsubJets, std::vector< const std::vector<btagType> > btags, bool const& signal, double const& event_weight );
-		double IntermediateAnalysis( std::vector<fastjet::PseudoJet> const& largeRJets,
-                                     std::vector<fastjet::PseudoJet> const& smallRJets,
-                                     std::vector< std::vector<fastjet::PseudoJet> > const& largeRsubJets,
-                                     std::vector< const std::vector<btagType> > largeRbtags,
-                                     std::vector<btagType> const& smallRbtags,
-                                     bool const& signal, double const& event_weight );
+		double BoostedAnalysis( const std::vector<fastjet::PseudoJet>& largeRJets, const std::vector< std::vector<fastjet::PseudoJet> >& largeRsubJets, const std::vector< std::vector<btagType> > btags, bool const& signal, double const& event_weight );
+		// double IntermediateAnalysis( const std::vector<fastjet::PseudoJet>& largeRJets,
+  //                                    const std::vector<fastjet::PseudoJet>& smallRJets,
+  //                                    const std::vector< std::vector<fastjet::PseudoJet> >& largeRsubJets,
+  //                                    const std::vector< std::vector<btagType> > largeRbtags,
+  //                                    const std::vector<btagType>& smallRbtags,
+  //                                    bool const& signal, double const& event_weight );
 
-		bool Reco_Intermediate(   std::vector<fastjet::PseudoJet> const& bjets, 
-	                              fastjet::PseudoJet const& fatjet, 
-	                              std::vector<btagType> const& btag_vec,
-	                              std::vector<btagType>&  btag_selected_vec,
-	                              fastjet::PseudoJet& lead_subjet,
-	                              fastjet::PseudoJet& sublead_subjet,
-	                              std::vector<fastjet::PseudoJet>& higgs_vec );
+		// bool Reco_Intermediate(   std::vector<fastjet::PseudoJet> const& bjets, 
+	 //                              fastjet::PseudoJet const& fatjet, 
+	 //                              std::vector<btagType> const& btag_vec,
+	 //                              std::vector<btagType>&  btag_selected_vec,
+	 //                              fastjet::PseudoJet& lead_subjet,
+	 //                              fastjet::PseudoJet& sublead_subjet,
+	 //                              std::vector<fastjet::PseudoJet>& higgs_vec );
 
 		// Fill basic jet quantities
 		void JetFill( 	std::vector<fastjet::PseudoJet> const& smallRJets,

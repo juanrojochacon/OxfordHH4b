@@ -321,7 +321,7 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
   const vector<PseudoJet> largeRJets_Trim = subtractPU ? trimJets(largeRJets_noTrim): largeRJets_noTrim;
   const vector<PseudoJet> largeRJets = sorted_by_pt( MDtagJets(largeRJets_Trim) );
   const vector< vector<PseudoJet> > largeRsubJets = getSubJets(largeRJets, trackJets);
-  vector< const vector<btagType> > tagType_LR;
+  vector< vector<btagType> > tagType_LR;
   for ( auto subjets : largeRsubJets )
     tagType_LR.push_back( BTagging(subjets) );
 
@@ -351,7 +351,7 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
   return;
 }
 
-double OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< const vector<btagType> > btags, bool const& signal, double const& event_weight )
+double OxfordSidebandAnalysis::BoostedAnalysis( const std::vector<fastjet::PseudoJet>& largeRJets, const std::vector< std::vector<fastjet::PseudoJet> >& largeRsubJets, const std::vector< std::vector<btagType> > btags, bool const& signal, double const& event_weight )
 {
   if( largeRJets.size() == 2 && btags.size() == largeRJets.size() )
   {
@@ -504,15 +504,15 @@ double OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
   return 0;
 }
 
-double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& largeRJets,
-                                                     vector<PseudoJet> const& smallRJets,
-                                                     vector< vector<PseudoJet> > const& largeRsubJets,
-                                                     vector< const vector<btagType> > largeRbtags,
-                                                     vector<btagType> const& smallRbtags,
-                                                     bool const& signal, double const& event_weight )
-{
-  return 0;
-}
+// double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& largeRJets,
+//                                                      vector<PseudoJet> const& smallRJets,
+//                                                      vector< vector<PseudoJet> > const& largeRsubJets,
+//                                                      vector< const vector<btagType> > largeRbtags,
+//                                                      vector<btagType> const& smallRbtags,
+//                                                      bool const& signal, double const& event_weight )
+// {
+//   return 0;
+// }
 
  
 // General fill for reconstructed higgs quantities
