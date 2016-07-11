@@ -566,7 +566,7 @@ double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
                 << higgs1.delta_R(higgs2) << "\t"
                 << getDPhi(higgs1.phi(), higgs2.phi()) << "\t"
                 << fabs( higgs1.eta() - higgs2.eta())  << "\t"
-                << Chi( higgs1, higgs1)  << "\t"
+                << Chi( higgs1, higgs2)  << "\t"
                 << largeRsubJets[0][0].pt() << "\t"
                 << largeRsubJets[0][1].pt() << "\t"
                 << res_lead_subjet.pt() << "\t"
