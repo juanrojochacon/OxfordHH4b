@@ -342,11 +342,13 @@ void OxfordSidebandAnalysis::Analyse(bool const& signal, double const& weightnor
   {
     double event_weight = weightnorm;
     event_weight -= BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
+    event_weight -= IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, weightnorm );
     event_weight -= ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
   } else
   {
     BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, weightnorm );
     ResolvedAnalysis( smallRJets, tagType_SR, signal, weightnorm );
+    IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, weightnorm );
   }
   return;
 }
@@ -511,6 +513,75 @@ double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
                                                      vector<btagType> const& smallRbtags,
                                                      bool const& signal, double const& event_weight )
 {
+  if( smallRJets.size() >= 2 &&  largeRJets.size() == 1 && largeRbtags[0].size() >= 2 && largeRsubJets[0].size() >= 2) // MDT + reco cut
+  {
+    // Identify small-R jets separated from merged Higgs
+    fastjet::Selector radialSelector = !SelectorCircle(1.2);
+    radialSelector.set_reference(largeRJets[0]);
+    const std::vector<fastjet::PseudoJet> separated = SelectorNHardest(2)(radialSelector(smallRJets));
+    if( separated.size() != 2 ) return 0;
+    
+    // Construct the Higgs candidates
+    fastjet::PseudoJet higgs1 = largeRJets[0];
+    fastjet::PseudoJet higgs2 = separated[0] + separated[1];
+    fastjet::PseudoJet res_lead_subjet = separated[0];
+    fastjet::PseudoJet res_sublead_subjet = separated[1];
+    if (higgs1.pt() < higgs2.pt()) std::swap(higgs1, higgs2);
+    if (res_lead_subjet.pt() < res_sublead_subjet.pt()) std::swap(res_lead_subjet, res_sublead_subjet);
+
+    // b-tagging weights
+    const std::vector<btagType> separated_bTag = BTagging( separated );
+    const int nB = std::count(largeRbtags[0].begin(), largeRbtags[0].begin() + 2, BTAG) + (separated_bTag[0] == BTAG) + (separated_bTag[1] == BTAG);      // Number of true b-subjets
+    const int nC = std::count(largeRbtags[0].begin(), largeRbtags[0].begin() + 2, CTAG) + (separated_bTag[0] == CTAG) + (separated_bTag[1] == CTAG);      // Number of fake b-subjets
+    const int nL = std::count(largeRbtags[0].begin(), largeRbtags[0].begin() + 2, LTAG) + (separated_bTag[0] == LTAG) + (separated_bTag[1] == LTAG);      // Number of fake b-subjets
+    const double selEff = btagProb( 4, nB, nC, nL);
+    const double selWgt = selEff*event_weight;
+
+    if (nB+nC+nL != 4)
+      return 0;
+
+    HiggsFill( higgs1, higgs2, "inter", 1, selWgt );
+
+    const double diffHiggs_0 = fabs(higgs1.m() - 125.);
+    const double diffHiggs_1 = fabs(higgs2.m() - 125.);
+    const double massWindow = 40.0;
+
+    if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
+    {
+      HiggsFill( higgs1, higgs2, "inter", 2, selWgt );
+      const PseudoJet dihiggs_inter = higgs1 + higgs2;
+      const double split12 = SplittingScales( largeRJets[0] );
+      const double ntau21 = tau21( largeRJets[0] );
+      const double nC2 = C2(largeRJets[0]);
+      const double nD2 = D2(largeRJets[0]);
+
+      // Fill tuple
+      intNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+                << higgs1.pt() << "\t"
+                << higgs2.pt() << "\t"
+                << dihiggs_inter.pt() << "\t"
+                << higgs1.m() << "\t"
+                << higgs2.m() << "\t"
+                << dihiggs_inter.m() << "\t"
+                << higgs1.delta_R(higgs2) << "\t"
+                << getDPhi(higgs1.phi(), higgs2.phi()) << "\t"
+                << fabs( higgs1.eta() - higgs2.eta())  << "\t"
+                << Chi( higgs1, higgs1)  << "\t"
+                << largeRsubJets[0][0].pt() << "\t"
+                << largeRsubJets[0][1].pt() << "\t"
+                << res_lead_subjet.pt() << "\t"
+                << res_sublead_subjet.pt() << "\t"
+                << split12 << "\t"
+                << ntau21 << "\t"
+                << nC2 << "\t"
+                << nD2 << "\t"
+                <<std::endl;
+    }
+    else
+      HiggsFill( higgs1, higgs2, "inter", 3, selWgt );
+    return selWgt;
+  }
+
   return 0;
 }
 
