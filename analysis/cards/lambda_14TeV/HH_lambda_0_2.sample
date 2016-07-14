@@ -1,0 +1,8 @@
+eventfile=14TeV_lambda/HH_HT_1M_LAM0_2.lhe
+samplename=diHiggs_LAM0_2
+signal=1
+format=LHE
+nevt_sample=1E6
+// To normalise 18.25 to 43.7 (NNLO+NNLL) with 0.57^2 B.R
+xsec_norm=0.778
+sqrts=14000
