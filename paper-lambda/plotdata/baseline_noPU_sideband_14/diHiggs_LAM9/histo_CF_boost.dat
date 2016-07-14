@@ -1,0 +1,11 @@
+# BEGIN HISTO1D /res/baseline_noPU_sideband/histo_CF_boost
+Path=/res/baseline_noPU_sideband/histo_CF_boost
+ScaledBy=1
+Title=CF_boost
+# xlow	 xhigh	 val	 errminus	 errplus
+0.000000e+00	1.000000e+00	1.695246e+02	1.695246e-01	1.695246e-01
+1.000000e+00	2.000000e+00	1.472058e-01	3.132144e-03	3.132144e-03
+2.000000e+00	3.000000e+00	1.163488e-01	2.806226e-03	2.806226e-03
+3.000000e+00	4.000000e+00	3.085698e-02	1.391195e-03	1.391195e-03
+# END HISTO1D
+

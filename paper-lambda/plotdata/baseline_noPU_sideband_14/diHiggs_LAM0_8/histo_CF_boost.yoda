@@ -1,0 +1,18 @@
+BEGIN YODA_HISTO1D /res/baseline_noPU_sideband/histo_CF_boost
+Path=/res/baseline_noPU_sideband/histo_CF_boost
+ScaledBy=1
+Title=CF_boost
+Type=Histo1D
+# Mean: 1.252615e-01
+# Area: 1.690306e+01
+# ID	 ID	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+Total   	Total   	1.690306e+01	2.784052e-04	2.117303e+00	1.028331e+00	1127234
+Underflow	Underflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+Overflow	Overflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+# xlow	 xhigh	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+0.000000e+00	1.000000e+00	1.663084e+01	2.765848e-04	1.663084e+00	1.663084e-01	1000000
+1.000000e+00	2.000000e+00	1.361088e-01	9.101749e-07	1.497197e-01	1.646916e-01	63617
+2.000000e+00	3.000000e+00	1.174374e-01	7.897438e-07	2.466185e-01	5.178989e-01	38790
+3.000000e+00	4.000000e+00	1.867139e-02	1.204311e-07	5.788132e-02	1.794321e-01	24827
+END YODA_HISTO1D
+
