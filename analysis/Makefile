@@ -26,9 +26,9 @@ DESTDIR=.
 VPATH=$(SOURCEDIR)
 
 # MC sample directory
-#SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
+SAMPLEDIR= -DSAMPLEDIR=\"/data/atlas/atlasdata2/DiHiggsSharedSamples/\"
 #SAMPLEDIR= -DSAMPLEDIR=\"/mnt/lustre/hartland/OxfordHH4bSamples/\"
-SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
+#SAMPLEDIR= -DSAMPLEDIR=\"./dat/\"
 # Pythia 8 xmldoc directory
 PYTHIADIR = -DPYTHIADIR=\"$(shell pythia8-config --xmldoc)\"
 
@@ -48,7 +48,8 @@ FASTJETLIBS = $(shell fastjet-config --libs) -lSoftKiller
 FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # fastjet-contrib
-FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
+# FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
+FJCONTRIB = -L /data/atlas/atlasdata2/DiHiggsSharedSoftware/FastJet/fjcontrib-install/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl
