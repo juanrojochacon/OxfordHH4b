@@ -4,9 +4,10 @@ make clean && make
 cd ../paper-lambda/plotdata
 cp ../../mva/apply_mva ./
 
-SOURCE='all'
+SOURCE='4b'
 ANNCUT=$1
 
+INPUTDIR="./baseline_noPU_sideband_14/"
 TARGETDIR="./"$SOURCE"_res/"
 rm -rf $TARGETDIR
 mkdir $TARGETDIR
@@ -16,16 +17,17 @@ mkdir $TARGETDIR
  NTUPLES_LONG=( 'boost' 'inter' 'res' )
  for LAMBDA in "${LVALS[@]}"; do
  	LFILE=${LAMBDA/./_}
- 	DIR=./noPU_results/diHiggs_LAM$LFILE/
+ 	DIR=$INPUTDIR"/diHiggs_LAM$LFILE/"
  	for i in $(seq 0 2); do
  		NTUP=${NTUPLES[$i]}
  		NTUPL=${NTUPLES_LONG[$i]}
  		# Setup cutflow
- 		# sed -n '6,12p' "./noPU_results/diHiggs_LAM"$LFILE"/histo_CF_"$NTUPL".dat" > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
- 		echo $DIR$NTUP"NTuple.dat" "./noPU_results/"$NTUP".par"
- 		./apply_mva $DIR$NTUP"NTuple.dat" "./noPU_results/"$NTUP".par" $ANNCUT 
- 		# cat $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out" ./results.dat > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".dat"
- 		# rm results.dat
+		echo $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
+ 		sed -n '6,8p' $INPUTDIR"diHiggs_LAM"$LFILE"/histo_CF_"$NTUPL".dat" > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out"
+ 		echo $DIR$NTUP"NTuple.dat" $INPUTDIR$NTUP".par"
+ 		./apply_mva $DIR$NTUP"NTuple.dat" $INPUTDIR$NTUP".par" $ANNCUT 
+ 		cat $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".out" ./results.dat > $TARGETDIR$SOURCE"_"$LFILE"_"$NTUP".dat"
+ 		rm results.dat
  	done
  done
 

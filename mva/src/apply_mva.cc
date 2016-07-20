@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 
 	std::ofstream res("results.dat");
 	res << std::scientific << std::setprecision(6);
-	res << "7.000000e+00    8.000000e+00    " << passWeight <<"    "<<  passWeight/sqrt(npass) <<"    "<< passWeight/sqrt(npass)<<std::endl; 
+	res << "4.000000e+00    5.000000e+00    " << passWeight <<"    "<<  passWeight/sqrt(npass) <<"    "<< passWeight/sqrt(npass)<<std::endl; 
 	res.close();
 	// End of the main progream
 	return 0;
