@@ -2,117 +2,138 @@
 local data = {}
 local thispath = select('1', ...):match(".+%.") or ""
 
-local nn = require("nn")
-local gnuplot = require('gnuplot')
+local utils = require('pl.utils')
 require('unsup')
 
-function data.set(nkin)
-	local newset = {}
-	newset._nkin = nkin
-	newset._points = {}
-	return newset
+local function countLines(targetfile)
+	local iline = 0
+	for line in io.lines(targetfile) do iline = iline+1 end
+	return iline
 end
 
-function data.readfile(targetfile)
-	local function split(string)
-		local tokens = {}
-		for i in string.gmatch(string, "%S+") do table.insert(tokens,i) end
-		return tokens
-	end
-	local iline = 1 
-	local set = nil
-	for line in io.lines(targetfile) do 
-	    local tokens = split(line)
-	    if iline == 1 then
-	    	set = data.set(#tokens - 4)
-	    else
-		    local kinematics = {} for ikin=4, #line,1 do table.insert(kinematics, tonumber(tokens[ikin])) end
-		    data.addpoint(set, tonumber(tokens[1]), tokens[2], tonumber(tokens[3]), kinematics)
-	 	end
-	 	iline = iline+1
-	 end
-	 return set
-end
+function data.readfile(targetfile, sigfr)
+	local set = {}
 
-function data.addpoint(set, sig, src, wgt, kin)
-	assert(#kin == set._nkin, "kinematics mismatch")
-	table.insert(set._points, {signal=sig, source=src, weight=wgt, kinematics=kin} )
-end
+	local nData = countLines(targetfile) - 1
+	print(nData .. " datapoints in target file")
 
-function data.normalise(set)
-	print("Normalising data")
-	for ikin=1,set._nkin,1 do
-		local kinmax = 0
-		local kinmin = math.huge
-		for _,point in ipairs(set._points) do
-			kinmax = math.max(kinmax,point.kinematics[ikin])
-			kinmin = math.min(kinmin,point.kinematics[ikin])
+	local file = io.open(targetfile, "r")
+	io.input(file)
+
+	io.open(targetfile,'r')
+	local line = utils.split(io.read())
+	set.nKin = #line - 4
+	print(set.nKin .. " kinematics in target file")
+
+	set.dataInputs = torch.Tensor(nData, set.nKin):zero()
+	set.dataWeight = torch.Tensor(nData):zero()
+	set.dataOutput = torch.ByteTensor(nData):zero()
+	set.dataSource = {}
+	set.nSig = 0
+	set.nBkg = 0
+
+	local sigwgt = 0
+	local bkgwgt = 0
+
+	for i=1,nData do
+		local line = utils.split(io.read())
+		for j=1, set.nKin do set.dataInputs[i][j] = tonumber(line[j+3]) end
+		set.dataOutput[i] = tonumber(line[1])
+		set.dataSource[i] = line[2]
+		set.dataWeight[i] = tonumber(line[3])
+		if set.dataOutput[i] == 1 then 
+			set.nSig = set.nSig + 1 
+			sigwgt = sigwgt + set.dataWeight[i]
+		else
+			set.nBkg = set.nBkg + 1 
+			bkgwgt = bkgwgt + set.dataWeight[i]
 		end
-		for _,point in ipairs(set._points) do
-			norm = (2.0*math.sqrt(3.0)/(kinmax - kinmin))
-			shift = - ( norm*kinmin + math.sqrt(3) )
-			point.kinematics[ikin] = point.kinematics[ikin]*norm + shift
-		end	
 	end
+
+	set.nDat = set.nSig + set.nBkg
+
+	print(sigwgt .. " signal weight")
+	print(bkgwgt .. " background weight")
+
+	set.signorm = sigfr / sigwgt
+	set.bkgnorm = (1.0-sigfr) / bkgwgt
+
+	io.close(file)
+	return set
 end
 
 function data.whiten(set)
 	print("Whitening data")
-	local dataTensor = torch.Tensor(#set._points, set._nkin):zero()
-	for k,p in ipairs(set._points) do
-		for i=1,set._nkin do
-			dataTensor[k][i] = p.kinematics[i]
+	set.dataInputs = unsup.zca_whiten(set.dataInputs)
+end
+
+-- Walker alias
+function data.aliastable(set)
+	print("Computing alias table")
+	local overfull = {}
+	local underfull = {}
+	local exactfull = {}
+
+	local U = {}
+	local K = {}
+	local n = set.nDat
+	for i=1,n,1 do 
+		if set.dataOutput[i] == 1 then
+			U[i] = n*set.dataWeight[i]*set.signorm
+		else
+			U[i] = n*set.dataWeight[i]*set.bkgnorm
+		end
+		if U[i] > 1 then table.insert(overfull, i)
+		elseif U[i] < 1 then table.insert(underfull, i)
+		else table.insert(exactfull,i) end
+	end
+
+	while #overfull > 0 and #underfull > 0 do
+		local i = overfull[#overfull]
+		local j = underfull[#underfull]
+		K[j] = i
+		U[i] = U[i] + U[j] - 1.0
+		table.remove(underfull)
+		table.insert(exactfull,j)
+
+		if U[i] == 1 then 
+			table.remove(overfull)
+			table.insert(exactfull, i)
+		elseif U[i] < 1 then 
+			table.remove(overfull)
+			table.insert(underfull, i)
 		end
 	end
 
-	local auxTensor, _, _ = unsup.zca_whiten(dataTensor)
-	print("Transform calculated")
-	for k,p in ipairs(set._points) do
-		for i=1,set._nkin do
-			p.kinematics[i] = auxTensor[k][i]
-			-- for j=1,set._nkin do
-			-- 	p.kinematics[i] = p.kinematics[i] + tr[i][j]*dataTensor[k][j]
-			-- end
-		end
-	end
+	-- Handle remaining bin
+	assert(#overfull + #underfull == 1)
+	if #underfull > 0 then	U[underfull[1]] = 1 end
+	if #overfull > 0 then	U[overfull[1]] = 1 end
 
-
-	-- pT1 = dataTensor:select(2, 1)
-	-- gnuplot.hist(pT1)
-
-	-- pT2 = auxdata:select(2, 1)
-	-- gnuplot.hist(pT2)
-
-
-	-- gnuplot.imagesc(covMat)
-   --gnuplot.plotflush()
+	set.U = U
+	set.K = K
 end
 
-function data.print(set)
-	for i = 1, #set._points,1 do
-		print(set._points[i].source, set._points[i].signal, set._points[i].weight)
+function data.wgtpoint(set)
+	local n = #set.U
+	local x = math.random()
+	local i = math.floor(n*x) + 1.0
+	local y = n*x + 1.0 - i
+	if (y < set.U[i]) then 
+		return i 
+	else 
+		return set.K[i] 
 	end
 end
 
-function data.shuffle(set)
-	for i = 1, #set,1 do
-		local j = math.random(#set)
-		set[i], set[j] = set[j], set[i]
-	end
-end
-
-function data.torch(set, lumi, overweight)
+function data.torch(set, size)
 	torchset={};
 	function torchset:size() return #self end
-	for k,pt in ipairs(set._points) do 
-		print(k)
-	  local input = torch.Tensor(pt.kinematics);     -- normally distributed example in 2d
-	  local output = torch.Tensor({pt.signal});
-	  local eventCount = math.floor(pt.weight*lumi*(overweight^pt.signal) + 0.5)
-	  -- if pt.signal == 1 then print(eventCount, pt.weight) end
-	  for i=1,eventCount,1 do
-		  table.insert(torchset,{input, output})
-	  end
+	for i=1,size,1 do
+		local point = data.wgtpoint(set)
+		local inp = set.dataInputs[point]
+		local oup = set.dataOutput[point]
+		table.insert(torchset, {inp, torch.Tensor({oup}) } )
 	end
 	return torchset
 end
