@@ -138,4 +138,15 @@ function data.torch(set, size)
 	return torchset
 end
 
+function data.batch(set, size)
+	local inputs = torch.Tensor(size, set.nKin)
+	local labels = torch.DoubleTensor(size)
+	for i=1,size do
+		local point = data.wgtpoint(set)
+		labels[i] = set.dataOutput[point]
+		inputs[i]:copy(set.dataInputs[point])
+	end
+	return labels, inputs
+end
+
 return data

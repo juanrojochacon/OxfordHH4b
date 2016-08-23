@@ -25,7 +25,7 @@ trainer.learningRate = 0.01
 trainer.maxIteration = 25
 trainer:train(torchset)
 
-local outfile = "res_" .. targetfile
+local outfile = "fit_new_" .. targetfile
 io.output(outfile)
 for i=1,totalset.nDat,1 do
 	io.write(totalset.dataSource[i],' ', totalset.dataOutput[i],' ', totalset.dataWeight[i],' ', mlp:forward(totalset.dataInputs[i])[1],'\n')
@@ -33,31 +33,31 @@ end
 
 
 -------------------------------------------------------------------------------------------------------
-local lumi = 3000
+-- local lumi = 3000
 
-local outputs = mlp:forward(totalset.dataInputs)
+-- local outputs = mlp:forward(totalset.dataInputs)
 
-local function passWeight(coords, mask)
-	local out = outputs[mask]
-	local wgt = totalset.dataWeight[mask]
-	return coords:apply( function(v) return lumi*torch.sum(wgt[out:gt(v)]) end ) 
-end
+-- local function passWeight(coords, mask)
+-- 	local out = outputs[mask]
+-- 	local wgt = totalset.dataWeight[mask]
+-- 	return coords:apply( function(v) return lumi*torch.sum(wgt[out:gt(v)]) end ) 
+-- end
 
-local coords = torch.linspace(0,1,50)
-local sigThr = passWeight(coords:clone(), totalset.dataOutput)
-local bkgThr = passWeight(coords:clone(), totalset.dataOutput:ne(1))
+-- local coords = torch.linspace(0,1,50)
+-- local sigThr = passWeight(coords:clone(), totalset.dataOutput)
+-- local bkgThr = passWeight(coords:clone(), totalset.dataOutput:ne(1))
 
-local SB  = torch.cdiv(sigThr, bkgThr)
-local SSB = torch.cdiv(sigThr, torch.sqrt(bkgThr))
+-- local SB  = torch.cdiv(sigThr, bkgThr)
+-- local SSB = torch.cdiv(sigThr, torch.sqrt(bkgThr))
 
-gnuplot.epsfigure('sb'..targetfile..'.eps')
-gnuplot.plot({coords,SB})
+-- gnuplot.epsfigure('sb'..targetfile..'.eps')
+-- gnuplot.plot({coords,SB})
 
-gnuplot.epsfigure('ssb'..targetfile..'.eps')
-gnuplot.plot({coords,SSB})
+-- gnuplot.epsfigure('ssb'..targetfile..'.eps')
+-- gnuplot.plot({coords,SSB})
 
-torch.save("package.dat", totalset)
+-- torch.save("package.dat", totalset)
 
--- gnuplot.hist({sigOut,50, 0, 1},{bkgOut,50, 0, 1})
-gnuplot.plotflush()
+-- -- gnuplot.hist({sigOut,50, 0, 1},{bkgOut,50, 0, 1})
+-- gnuplot.plotflush()
 
