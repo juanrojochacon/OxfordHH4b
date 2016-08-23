@@ -36,9 +36,9 @@ const bool debug = false;
 const bool exclusive = false;
 
 // Analysis settings
-const int nAnalysis = 3;  const int nCuts = 4;
+const int nAnalysis = 3;  const int nCuts = 5;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
-const std::string cString[nCuts] = {"_GEN", "_RCO", "_SIG", "_SDB"};
+const std::string cString[nCuts] = {"_GEN", "_RCO", "_SIG", "_SDBA", "_SDBB"};
 
 // **************************** Reconstruction helper functions ****************************
 
@@ -378,9 +378,15 @@ double OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
       // Higgs mass-window
       const double diffHiggs_0 = fabs(largeRJets[0].m() - 125.);
       const double diffHiggs_1 = fabs(largeRJets[1].m() - 125.);
-      const double massWindow = 40.0;
+      const double massWindow = 20.0;
 
-      if( (diffHiggs_0 < massWindow) && (diffHiggs_1 < massWindow) )
+      const bool signal0 = diffHiggs_0 < massWindow;
+      const bool signal1 = diffHiggs_1 < massWindow;
+
+      const bool control0 = !signal0 && diffHiggs_0 < 2.0*massWindow;
+      const bool control1 = !signal1 && diffHiggs_1 < 2.0*massWindow;
+
+      if( signal0 && signal1 )
       {
 
         HiggsFill(largeRJets[0], largeRJets[1], "boost", 2, selWgt);
@@ -425,10 +431,15 @@ double OxfordSidebandAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
             << D2_fj2 << "\t"
             <<std::endl;
       }
-      else
+      else if ( ( signal0 && control1 ) || ( signal1 && control0 )  ) 
       {
         HiggsFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
         BoostFill(largeRJets[0], largeRJets[1], "boost", 3, selWgt);
+      }
+      else if ( control0 && control1 )
+      {
+        HiggsFill(largeRJets[0], largeRJets[1], "boost", 4, selWgt);
+        BoostFill(largeRJets[0], largeRJets[1], "boost", 4, selWgt);
       }
       return selWgt;
     }
@@ -475,9 +486,15 @@ double OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
 
     const double diffHiggs_0 = fabs(higgs1.m() - 125.);
     const double diffHiggs_1 = fabs(higgs2.m() - 125.);
-    const double massWindow = 40.0;
+    const double massWindow = 20.0;
 
-    if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
+    const bool signal0 = diffHiggs_0 < massWindow;
+    const bool signal1 = diffHiggs_1 < massWindow;
+
+    const bool control0 = !signal0 && diffHiggs_0 < 2.0*massWindow;
+    const bool control1 = !signal1 && diffHiggs_1 < 2.0*massWindow;
+
+    if( signal0 && signal1 )
     {
       HiggsFill( higgs1, higgs2, "res", 2, selWgt );
       resNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
@@ -497,9 +514,14 @@ double OxfordSidebandAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
           << hp2.second.pt() << "\t"
           <<std::endl;
     }
-    else
+    else if ( ( signal0 && control1 ) || ( signal1 && control0 )  ) 
+    {
       HiggsFill( higgs1, higgs2, "res", 3, selWgt );
-
+    }
+    else if ( control0 && control1 )
+    {
+      HiggsFill( higgs1, higgs2, "res", 4, selWgt );
+    }
     return selWgt;
   }
 
@@ -544,9 +566,15 @@ double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
 
     const double diffHiggs_0 = fabs(higgs1.m() - 125.);
     const double diffHiggs_1 = fabs(higgs2.m() - 125.);
-    const double massWindow = 40.0;
+    const double massWindow = 20.0;
 
-    if( ( diffHiggs_0 < massWindow ) && ( diffHiggs_1 < massWindow ) )
+    const bool signal0 = diffHiggs_0 < massWindow;
+    const bool signal1 = diffHiggs_1 < massWindow;
+
+    const bool control0 = !signal0 && diffHiggs_0 < 2.0*massWindow;
+    const bool control1 = !signal1 && diffHiggs_1 < 2.0*massWindow;
+
+    if( signal0 && signal1 )
     {
       HiggsFill( higgs1, higgs2, "inter", 2, selWgt );
       const PseudoJet dihiggs_inter = higgs1 + higgs2;
@@ -577,8 +605,15 @@ double OxfordSidebandAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
                 << nD2 << "\t"
                 <<std::endl;
     }
-    else
+    else if ( ( signal0 && control1 ) || ( signal1 && control0 )  ) 
+    {
       HiggsFill( higgs1, higgs2, "inter", 3, selWgt );
+    }
+    else if ( control0 && control1 )
+    {
+      HiggsFill( higgs1, higgs2, "inter", 4, selWgt );
+    }
+
     return selWgt;
   }
 
