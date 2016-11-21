@@ -5,6 +5,7 @@
 
 #include "oxford.h"
 #include "oxford_sideband.h"
+#include "oxford_atlas_qcd.h"
 #include "samples.h"
 
 #include <vector>
@@ -17,11 +18,12 @@ void InitAnalyses( std::vector<Analysis*>& analyses,runCard const& run, sampleCa
 	// **************** PLEASE MODIFY *****************
 	analyses.push_back(new OxfordAnalysis(run, sample, subsample));
   analyses.push_back(new OxfordSidebandAnalysis(run, sample, subsample));
+  //analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 2));
+  //analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 4));
 	// **************** DO NOT MODIFY  ****************
 }
 
 // ************************* Sample card parsing ********************************
-
 
 template<class T>
 T cardquery(std::string const& filename, std::string const& field)

@@ -70,7 +70,7 @@ INCPATH = $(CFLAGS)
 
 MAIN =  HH4b
 
-MODULES = samples sherpa-xs analysis detector run utils oxford oxford_sideband
+MODULES = samples sherpa-xs analysis detector run utils oxford oxford_sideband oxford_atlas_qcd
 
 ############################## do not change ###################################
 
