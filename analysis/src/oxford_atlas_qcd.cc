@@ -330,7 +330,7 @@ void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnor
   {
     double event_weight = weightnorm;
     event_weight -= BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
-    event_weight -= IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, weightnorm );
+    event_weight -= IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, event_weight );
     event_weight -= ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
   } else
   {
