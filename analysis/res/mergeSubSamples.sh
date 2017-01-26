@@ -13,7 +13,7 @@ do
 		        BASE="${BASE%.*}"
 
 		        echo "Subsample Merging " $d$BASE
-			yodamerge --add -o $d$BASE.mrg $d$BASE.*.yoda
+			yodamerge -o $d$BASE.mrg $d$BASE.*.yoda
 			rm $d$BASE.*.yoda
 		done
 

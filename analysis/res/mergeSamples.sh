@@ -13,7 +13,7 @@ do
 				if [ -f $TARGET ]; 
 				then
 					echo "Total Background Merging " $f
-					yodamerge --add -o $TARGET $f $TARGET
+					yodamerge -o $TARGET $f $TARGET
 				else
 					echo "Total Background Generation " $f
 					cp $f $TARGET

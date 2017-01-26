@@ -1,5 +1,5 @@
 runname=lambdaVary
-sub_samplesize=1E4
+sub_samplesize=1E6
 npileup=0
 jetEsmear=5
 pythiaShower=1
