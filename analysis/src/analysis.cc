@@ -142,7 +142,7 @@ void Analysis::Export()
 	while (iMap1D != bookedHistograms_1D.end())
 	{
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap1D).second->path()<<std::endl;
-		if ((*iMap1D).second->numEntries() >= 0)
+		if ((*iMap1D).second->numEntries() > 0)
 		{
 			std::stringstream path;
 			path << analysisRoot +sampleName+"/histo_" + (*iMap1D).second->title() << "." <<subSample;
@@ -156,7 +156,7 @@ void Analysis::Export()
 	while (iMap2D != bookedHistograms_2D.end())
 	{
 		if (Verbose) std::cout << "Writing Histogram: "<< (*iMap2D).second->path()<<std::endl;
-		if ((*iMap2D).second->numEntries() >= 0)
+		if ((*iMap2D).second->numEntries() > 0)
 		{
 			std::stringstream path;
 			path << analysisRoot +sampleName+"/histo_" + (*iMap2D).second->title() <<"."<<subSample;
