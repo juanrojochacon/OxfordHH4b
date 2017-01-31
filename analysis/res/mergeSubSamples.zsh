@@ -2,6 +2,8 @@
 # This script merges subsample runs of all the samples
 # in a specified directory
 
+# Switch to using an alias instead of passing location of binary on the command line
+alias yoda-merge=`pwd`/yoda-merge
 for d in $1*
 do
     if [[ $d != *background* ]]; then
@@ -12,7 +14,7 @@ do
 
         for BASE in $files; do
             echo "Subsample Merging "$BASE
-            $2 -o $BASE.yoda -f $BASE.dat $BASE.*.yoda || echo -e "\e[1;31mFAILED\e[0m"
+            yoda-merge -o $BASE.yoda -f $BASE.dat $BASE.*.yoda || echo -e "\e[1;31mFAILED\e[0m"
             rm $BASE.*.yoda
         done
 
