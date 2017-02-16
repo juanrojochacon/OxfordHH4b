@@ -182,9 +182,7 @@ subtractPU(run.npileup > 0)
   // Set the number of b-tag string
   // 
   m_nBTag = nBTag;
-  m_btag_string = "";
-  if(m_nBTag == 2) m_btag_string = "2tag";
-  else if(m_nBTag == 4) m_btag_string = "4tag";
+  m_btag_string = std::to_string(nBTag) + "tag";
   
   // ********************* Histogram definitions ******************
 
@@ -359,6 +357,9 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
     {      
       if(debug) std::cout << "nB = " << nB << std::endl;
       
+      // Events weighted by probability of having exactly
+      // m_nBTag tagged jets, given (in btagProb) efficiency,
+      // light acceptance and charm acceptance
       const double selEff = btagProb( m_nBTag, nB, nC, nL);
       const double selWgt = selEff*event_weight;
       HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 1, selWgt);
