@@ -36,9 +36,9 @@ const bool debug = false;
 const bool exclusive = true;
 
 // Analysis settings
-const int nAnalysis = 3;  const int nCuts = 5;
+const int nAnalysis = 3;  const int nCuts = 7;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
-const std::string cString[nCuts] = {"_GEN", "_RCO", "_SIG", "_SDBA", "_SDBB"};
+const std::string cString[nCuts] = {"_GEN", "_RCO", "_SIG", "_SDBA", "_SDBB", "_SDBBD", "_SDBBO"};
 
 // **************************** Reconstruction helper functions ****************************
 
@@ -430,6 +430,23 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
       {
         HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 4, selWgt);
         BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 4, selWgt);
+
+	// Now fill split SDBB histograms
+	bool direction_0 = (largeRJets[0].m() - 125.) > 0;
+	bool direction_1 = (largeRJets[1].m() - 125.) > 0;
+	bool diag = direction_0 == direction_1;
+
+	if ( diag ) 
+	{
+          HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 5, selWgt);
+          BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 5, selWgt);
+	}
+        else
+	{
+          HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 6, selWgt);
+          BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 6, selWgt);
+	}
+		
       }
       return selWgt;
     }
@@ -514,6 +531,20 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
     else if ( control0 && control1 )
     {
       HiggsFill( higgs1, higgs2, "res", m_btag_string, 4, selWgt );
+      // Now fill split SDBB histograms
+      bool direction_0 = (higgs1.m() - 125.) > 0;
+      bool direction_1 = (higgs2.m() - 125.) > 0;
+      bool diag = direction_0 == direction_1;
+      
+      if ( diag ) 
+      {
+        HiggsFill(higgs1, higgs2, "res", m_btag_string, 5, selWgt);
+      }
+      else
+      {
+        HiggsFill(higgs1, higgs2, "res", m_btag_string, 6, selWgt);
+      }
+		
     }
     return selWgt;
   }
@@ -607,6 +638,20 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
     else if ( control0 && control1 )
     {
       HiggsFill( higgs1, higgs2, "inter", m_btag_string, 4, selWgt );
+      // Now fill split SDBB histograms
+      bool direction_0 = (higgs1.m() - 125.) > 0;
+      bool direction_1 = (higgs2.m() - 125.) > 0;
+      bool diag = direction_0 == direction_1;
+      
+      if ( diag ) 
+      {
+        HiggsFill(higgs1, higgs2, "inter", m_btag_string, 5, selWgt);
+      }
+      else
+      {
+        HiggsFill(higgs1, higgs2, "inter", m_btag_string, 6, selWgt);
+      }
+	
     }
 
     return selWgt;
