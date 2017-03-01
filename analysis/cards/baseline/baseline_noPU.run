@@ -1,5 +1,5 @@
 runname=baseline_noPU
-sub_samplesize=3E6
+sub_samplesize=1E5
 npileup=0
 jetEsmear=5
 pythiaShower=1

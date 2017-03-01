@@ -107,6 +107,19 @@ static vector<btagType> BTagging( vector<PseudoJet> const& jets_vec )
   return btag_vec;
 }
 
+static double comb(int n, int r)
+{
+  if(n < 0 || r < 0) return 0.;
+  if(r == 0) return 1.;
+  if(r == n) return 1.;
+  if(n == 0) return 0.;
+  double nPr = 1.;
+  for(int i = r + 1; i <= n; ++i) nPr *= i;
+  double rfact = 1.;
+  for(int i = 1; i <= r; ++i) rfact *= i;
+  return nPr / rfact;
+}
+
 // nTag: How many b-tags are required
 // nB: How many true b-jets are present
 // nC: How many true c-jets are present
@@ -126,14 +139,15 @@ static double btagProb( int const& nTag, int const& nB, int const& nC, int const
     for (int iC=0; iC<=std::min(nC, nTag-iB); iC++)      // iC c-jets tagged as b
       for (int iL=0; iL<=std::min(nL, nTag-iB-iC); iL++) // iL l-jets tagged as b
       {
-        const double bProb = pow(btag_prob, iB)*pow(1.0-btag_prob,nB-iB);
-        const double cProb = pow(ctag_prob, iC)*pow(1.0-ctag_prob,nC-iC);
-        const double lProb = pow(btag_mistag, iL)*pow(1.0-btag_mistag, nL-iL);
-
         // Does the current permutation have the correct number of b-Tags?
         const int permutationTags = iB+iC+iL;   //Number of b-Tags in current permutation
-        if (permutationTags == nTag) 
-          totalProb += bProb*cProb*lProb;
+        if (permutationTags != nTag) continue;
+
+        const double bProb = comb(nB, iB)*pow(btag_prob, iB)*pow(1.0-btag_prob,nB-iB);
+        const double cProb = comb(nC, iC)*pow(ctag_prob, iC)*pow(1.0-ctag_prob,nC-iC);
+        const double lProb = comb(nL, iL)*pow(btag_mistag, iL)*pow(1.0-btag_mistag, nL-iL);
+
+        totalProb += bProb*cProb*lProb;
       }
 
   return totalProb;
