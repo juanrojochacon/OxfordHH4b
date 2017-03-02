@@ -273,9 +273,9 @@ subtractPU(run.npileup > 0)
   const std::string intDir = root+"intNTuple"+suffix.str();
   const std::string bstDir = root+"bstNTuple"+suffix.str();
 
-  resNTuple.open(resDir.c_str());
-  intNTuple.open(intDir.c_str());
-  bstNTuple.open(bstDir.c_str());
+  resNTuple.open(resDir.c_str(), std::ios_base::app);
+  intNTuple.open(intDir.c_str(), std::ios_base::app);
+  bstNTuple.open(bstDir.c_str(), std::ios_base::app);
 
   resNTuple << tupleSpec <<std::endl;
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;

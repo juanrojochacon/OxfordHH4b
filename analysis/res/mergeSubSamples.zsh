@@ -33,11 +33,13 @@ do
 
             if [ -f $basename.dat ];
             then
-		# remove first line (column headings)
-                tail -n +2 $f >> $basename.dat
+		# remove first three lines (column headings)
+                tail -n +4 $f >> $basename.dat
             else
                 echo "Generating file"
-                cp $f $basename.dat
+		# remove first two lines anyway, for we have three copies of
+		# the column header
+                tail -n +3 $f >> $basename.dat
             fi
 
         done
