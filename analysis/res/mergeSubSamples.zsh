@@ -37,7 +37,7 @@ do
                 tail -n +2 $f >> $basename.dat
             else
                 echo "Generating file"
-                cat $f > $basename.dat
+                cp $f $basename.dat
             fi
 
         done
