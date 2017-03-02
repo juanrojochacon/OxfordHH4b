@@ -264,7 +264,7 @@ subtractPU(run.npileup > 0)
     
   // ********************* Ntuple definition **********************
 
-  const std::string tupleSpec = "# signal source weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH chi_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
+  const std::string tupleSpec = "signal source weight ntag pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH chi_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
 
   const std::string root = "." + GetRoot() + GetSample() + "/";
   std::stringstream suffix; suffix << "." <<GetSubSample() <<".dat";
@@ -412,6 +412,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
 
         // Fill tuple
         bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+	    << m_nBTag << "\t"
             << largeRJets[0].pt() << "\t"
             << largeRJets[1].pt() << "\t"
             << dihiggs_boost.pt() << "\t"
@@ -523,6 +524,7 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
     {
       HiggsFill( higgs1, higgs2, "res", m_btag_string, 2, selWgt );
       resNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+	  << m_nBTag << "\t"
           << higgs1.pt() << "\t"
           << higgs2.pt() << "\t"
           << dihiggs.pt() << "\t"
@@ -626,6 +628,7 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
 
       // Fill tuple
       intNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
+	        << m_nBTag << "\t"
                 << higgs1.pt() << "\t"
                 << higgs2.pt() << "\t"
                 << dihiggs_inter.pt() << "\t"
