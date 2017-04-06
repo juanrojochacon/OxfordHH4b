@@ -22,17 +22,17 @@ class OxfordAtlasQcdAnalysis : public Analysis {
   private:
     double ResolvedAnalysis(std::vector<fastjet::PseudoJet> const& smallRJets,
                             std::vector<btagType> const& btags, bool const& signal,
-                            double const& event_weight);
+                            double const& event_weight, double gen_weight);
     double BoostedAnalysis(std::vector<fastjet::PseudoJet> const&              largeRJets,
                            std::vector<std::vector<fastjet::PseudoJet>> const& largeRsubJets,
                            std::vector<std::vector<btagType>> btags, bool const& signal,
-                           double const& event_weight);
+                           double const& event_weight, double gen_weight);
     double IntermediateAnalysis(std::vector<fastjet::PseudoJet> const&              largeRJets,
                                 std::vector<fastjet::PseudoJet> const&              smallRJets,
                                 std::vector<std::vector<fastjet::PseudoJet>> const& largeRsubJets,
                                 std::vector<std::vector<btagType>> const&           largeRbtags,
                                 std::vector<btagType> const& smallRbtags, bool const& signal,
-                                double const& event_weight);
+                                double const& event_weight, double gen_weight);
     // Fill common reconstructed higgs quantities
     void HiggsFill(fastjet::PseudoJet const& H0, fastjet::PseudoJet const& H1,
                    std::string const& analysis, std::string const& ntagcat, size_t const& cut,
