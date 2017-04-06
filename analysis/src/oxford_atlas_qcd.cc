@@ -273,7 +273,7 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
     const std::string bstDir     = root + "bstNTuple" + suffix.str();
     const std::string weightsDir = root + "weightsNTuple" + suffix.str();
 
-    const std::string fullDir = root + "fullNTuple" + suffix.str();
+    const std::string fullDir = root + "fullNTuple-" + std::to_string(m_nBTag) + "-tag" + suffix.str();
 
     resNTuple.open(resDir, std::ios_base::app);
     intNTuple.open(intDir, std::ios_base::app);
