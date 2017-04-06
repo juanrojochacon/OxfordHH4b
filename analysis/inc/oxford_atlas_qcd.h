@@ -16,7 +16,8 @@ class OxfordAtlasQcdAnalysis : public Analysis {
     OxfordAtlasQcdAnalysis(runCard const& run, sampleCard const& sample, int const& subSample,
                            int const& nBTag);
 
-    void Analyse(bool const& signal, double const& weight_norm, finalState const&, double gen_weight);
+    void Analyse(bool const& signal, double const& weight_norm, finalState const&,
+                 double gen_weight);
 
   private:
     double ResolvedAnalysis(std::vector<fastjet::PseudoJet> const& smallRJets,
