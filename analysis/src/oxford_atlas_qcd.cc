@@ -273,7 +273,8 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
     const std::string bstDir     = root + "bstNTuple" + suffix.str();
     const std::string weightsDir = root + "weightsNTuple" + suffix.str();
 
-    const std::string fullDir = root + "fullNTuple-" + std::to_string(m_nBTag) + "-tag" + suffix.str();
+    const std::string fullDir =
+          root + "fullNTuple-" + std::to_string(m_nBTag) + "-tag" + suffix.str();
 
     resNTuple.open(resDir, std::ios_base::app);
     intNTuple.open(intDir, std::ios_base::app);
@@ -432,8 +433,8 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                 const auto& higgs2  = largeRJets[2];
                 auto        dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",boost,SIG," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 // Fill tuple
 
                 bstNTuple << signal << "\t" << GetSample() << "\t" << selWgt << "\t" << m_nBTag
@@ -444,7 +445,9 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                           << "\t" << getDPhi(largeRJets[0].phi(), largeRJets[1].phi()) << "\t"
                           << fabs(largeRJets[0].eta() - largeRJets[1].eta()) << "\t"
                           << Chi(largeRJets[0], largeRJets[1]) << "\t" << largeRsubJets[0][0].pt()
+                          << ","
                           << "\t" << largeRsubJets[0][1].pt() << "\t" << largeRsubJets[1][0].pt()
+                          << ","
                           << "\t" << largeRsubJets[1][1].pt() << "\t" << split12_vec[0] << "\t"
                           << split12_vec[1] << "\t" << tau21_fj1 << "\t" << tau21_fj2 << "\t"
                           << C2_fj1 << "\t" << C2_fj2 << "\t" << D2_fj1 << "\t" << D2_fj2 << "\t"
@@ -457,8 +460,8 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                 const auto& higgs2  = largeRJets[2];
                 auto        dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",boost,SDBA," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             }
             else if (control0 && control1) {
                 HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 4, selWgt);
@@ -476,8 +479,8 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                     const auto& higgs2  = largeRJets[2];
                     auto        dihiggs = (higgs1 + higgs2);
                     fullNTuple << GetSample() << ",boost,SDBBD," << m_nBTag << "," << selWgt << ","
-                               << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << ","
-                               << higgs1.pt() << higgs2.m() << "," << higgs2.pt() << "\n";
+                               << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                               << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 }
                 else {
                     HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 6, selWgt);
@@ -486,8 +489,8 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                     const auto& higgs2  = largeRJets[2];
                     auto        dihiggs = (higgs1 + higgs2);
                     fullNTuple << GetSample() << ",boost,SDBBO," << m_nBTag << "," << selWgt << ","
-                               << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << ","
-                               << higgs1.pt() << higgs2.m() << "," << higgs2.pt() << "\n";
+                               << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                               << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 }
             }
             return selWgt;
@@ -552,8 +555,8 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
         if (signal0 && signal1) {
             auto dihiggs = (higgs1 + higgs2);
             fullNTuple << GetSample() << ",res,SIG," << m_nBTag << "," << selWgt << ","
-                       << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                       << higgs2.m() << "," << higgs2.pt() << "\n";
+                       << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                       << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             HiggsFill(higgs1, higgs2, "res", m_btag_string, 2, selWgt);
             resNTuple << signal << "\t" << GetSample() << "\t" << selWgt << "\t" << m_nBTag << "\t"
                       << gen_weight << "\t" << higgs1.pt() << "\t" << higgs2.pt() << "\t"
@@ -567,8 +570,8 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
         else if ((signal0 && control1) || (signal1 && control0)) {
             auto dihiggs = (higgs1 + higgs2);
             fullNTuple << GetSample() << ",res,SIG," << m_nBTag << "," << selWgt << ","
-                       << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                       << higgs2.m() << "," << higgs2.pt() << "\n";
+                       << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                       << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             HiggsFill(higgs1, higgs2, "res", m_btag_string, 3, selWgt);
         }
         else if (control0 && control1) {
@@ -581,15 +584,15 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
             if (diag) {
                 auto dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",res,SDBBD," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 HiggsFill(higgs1, higgs2, "res", m_btag_string, 5, selWgt);
             }
             else {
                 auto dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",res,SDBBO," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 HiggsFill(higgs1, higgs2, "res", m_btag_string, 6, selWgt);
             }
         }
@@ -658,8 +661,8 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis(vector<PseudoJet> const&    
         if (signal0 && signal1) {
             auto dihiggs = (higgs1 + higgs2);
             fullNTuple << GetSample() << ",inter,SIG," << m_nBTag << "," << selWgt << ","
-                       << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                       << higgs2.m() << "," << higgs2.pt() << "\n";
+                       << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                       << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             HiggsFill(higgs1, higgs2, "inter", m_btag_string, 2, selWgt);
             const PseudoJet dihiggs_inter = higgs1 + higgs2;
             const double    split12       = SplittingScales(largeRJets[0]);
@@ -681,8 +684,8 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis(vector<PseudoJet> const&    
         else if ((signal0 && control1) || (signal1 && control0)) {
             auto dihiggs = (higgs1 + higgs2);
             fullNTuple << GetSample() << ",inter,SDBA," << m_nBTag << "," << selWgt << ","
-                       << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                       << higgs2.m() << "," << higgs2.pt() << "\n";
+                       << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                       << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             HiggsFill(higgs1, higgs2, "inter", m_btag_string, 3, selWgt);
         }
         else if (control0 && control1) {
@@ -695,15 +698,15 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis(vector<PseudoJet> const&    
             if (diag) {
                 auto dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",inter,SDBBD," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 HiggsFill(higgs1, higgs2, "inter", m_btag_string, 5, selWgt);
             }
             else {
                 auto dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",inter,SDBBO," << m_nBTag << "," << selWgt << ","
-                           << dihiggs.m() << "," << dihiggs.pt() << higgs1.m() << "," << higgs1.pt()
-                           << higgs2.m() << "," << higgs2.pt() << "\n";
+                           << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
+                           << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
                 HiggsFill(higgs1, higgs2, "inter", m_btag_string, 6, selWgt);
             }
         }
