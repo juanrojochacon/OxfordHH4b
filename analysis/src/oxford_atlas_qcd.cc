@@ -264,7 +264,7 @@ subtractPU(run.npileup > 0)
     
   // ********************* Ntuple definition **********************
 
-  const std::string tupleSpec = "signal source weight ntag pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH chi_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
+  const std::string tupleSpec = "signal source weight ntag raw_weight pt_H0 pt_H1 pt_HH m_H0 m_H1 m_HH dR_HH dPhi_HH dEta_HH chi_HH pt_H0_sub0 pt_H0_sub1 pt_H1_sub0 pt_H1_sub1";
 
   const std::string root = "." + GetRoot() + GetSample() + "/";
   std::stringstream suffix; suffix << "." <<GetSubSample() <<".dat";
@@ -272,21 +272,24 @@ subtractPU(run.npileup > 0)
   const std::string resDir = root+"resNTuple"+suffix.str();
   const std::string intDir = root+"intNTuple"+suffix.str();
   const std::string bstDir = root+"bstNTuple"+suffix.str();
+  const std::string weightsDir = root+"weightsNTuple"+suffix.str();
 
   resNTuple.open(resDir.c_str(), std::ios_base::app);
   intNTuple.open(intDir.c_str(), std::ios_base::app);
   bstNTuple.open(bstDir.c_str(), std::ios_base::app);
+  weightsNTuple.open(weightsDir, std::ios_base::app);
 
   resNTuple << tupleSpec <<std::endl;
   intNTuple << tupleSpec <<" split12_fj tau21_fj C2_fj D2_fj"<<std::endl;
   bstNTuple << tupleSpec <<" split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"<<std::endl;
-
+  weightsNTuple << "raw_weight,pre_btag_weight,final_weight" << std::endl;
+  
   std::cout << "Oxford PU subtraction: " << subtractPU << std::endl;
 }
 
-void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs)
+void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs, double gen_weight)
 {
-  Analysis::Analyse(signal, weightnorm, ifs);
+  Analysis::Analyse(signal, weightnorm, ifs, gen_weight);
 
   // Perform softKiller subtraction
   const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
@@ -341,19 +344,19 @@ void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnor
   if (exclusive)
   {
     double event_weight = weightnorm;
-    event_weight -= BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight );
-    event_weight -= IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, event_weight );
-    event_weight -= ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight );
+    event_weight -= BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, event_weight, gen_weight );
+    event_weight -= IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, event_weight , gen_weight);
+    event_weight -= ResolvedAnalysis( smallRJets, tagType_SR, signal, event_weight, gen_weight );
   } else
   {
-    BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, weightnorm );
-    ResolvedAnalysis( smallRJets, tagType_SR, signal, weightnorm );
-    IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, weightnorm );
+    BoostedAnalysis( largeRJets, largeRsubJets, tagType_LR, signal, weightnorm, gen_weight );
+    ResolvedAnalysis( smallRJets, tagType_SR, signal, weightnorm, gen_weight );
+    IntermediateAnalysis( largeRJets, smallRJets, largeRsubJets, tagType_LR, tagType_SR, signal, weightnorm, gen_weight );
   }
   return;
 }
 
-double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< vector<btagType> > btags, bool const& signal, double const& event_weight )
+double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJets, vector< vector<PseudoJet> > const& largeRsubJets, vector< vector<btagType> > btags, bool const& signal, double const& event_weight, double gen_weight)
 {
   if( largeRJets.size() == 2 && btags.size() == largeRJets.size() )
   {
@@ -411,8 +414,10 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
         const double D2_fj2 = D2(largeRJets[1]);
 
         // Fill tuple
+	
         bstNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
 	    << m_nBTag << "\t"
+          << gen_weight << "\t"
             << largeRJets[0].pt() << "\t"
             << largeRJets[1].pt() << "\t"
             << dihiggs_boost.pt() << "\t"
@@ -471,7 +476,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis( vector<PseudoJet> const& largeRJ
 };
 
 
-double OxfordAtlasQcdAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight )
+double OxfordAtlasQcdAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  vector<btagType> const& btags, bool const& signal, double const& event_weight, double gen_weight )
 {
   if( srj.size() >= 4 )
   {
@@ -519,13 +524,15 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis( vector<PseudoJet> const& srj,  
 
     const bool control0 = !signal0 && diffHiggs_0 < 2.0*massWindow;
     const bool control1 = !signal1 && diffHiggs_1 < 2.0*massWindow;
+    weightsNTuple << gen_weight << "," << event_weight << "," << selWgt << std::endl;
 
     if( signal0 && signal1 )
     {
       HiggsFill( higgs1, higgs2, "res", m_btag_string, 2, selWgt );
       resNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
 	  << m_nBTag << "\t"
-          << higgs1.pt() << "\t"
+          << gen_weight << "\t"
+	  << higgs1.pt() << "\t"
           << higgs2.pt() << "\t"
           << dihiggs.pt() << "\t"
           << higgs1.m() << "\t"
@@ -574,7 +581,7 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
                                                      vector< vector<PseudoJet> > const& largeRsubJets,
                                                      vector< vector<btagType> > const& largeRbtags,
                                                      vector<btagType> const& smallRbtags,
-                                                     bool const& signal, double const& event_weight )
+                                                     bool const& signal, double const& event_weight, double gen_weight )
 {
   if( smallRJets.size() >= 2 &&  largeRJets.size() == 1 && largeRbtags[0].size() >= 2 && largeRsubJets[0].size() >= 2) // MDT + reco cut
   {
@@ -629,6 +636,7 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis( vector<PseudoJet> const& la
       // Fill tuple
       intNTuple << signal <<"\t"<<GetSample()<<"\t"<<selWgt << "\t"
 	        << m_nBTag << "\t"
+                << gen_weight << "\t"
                 << higgs1.pt() << "\t"
                 << higgs2.pt() << "\t"
                 << dihiggs_inter.pt() << "\t"

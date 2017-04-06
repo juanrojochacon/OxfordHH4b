@@ -42,7 +42,7 @@ class Analysis
 
 		double GetCutWeight() const {return cutWeight;};
 
-		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&)
+		virtual void Analyse(bool const& signal, double const& weightnorm, finalState const&, double gen_weight = 1.0)
 		{
 			totalWeight += weightnorm;
 		};

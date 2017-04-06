@@ -102,9 +102,10 @@ int main( int argc, char* argv[] )
     detector.Simulate(ifs,fs);
 
     // Run over analyses
+    double gen_weight = event_weight; // To plot raw weights
     event_weight *= weight_norm;
     for (size_t i=0; i<analyses.size(); i++)
-      analyses[i]->Analyse(sample.is_signal, event_weight, fs);
+      analyses[i]->Analyse(sample.is_signal, event_weight, fs, gen_weight);
 
     if ((iEvent+1) % 100 == 0 )
       cout << iEvent+1 <<" events analysed"<<endl;
