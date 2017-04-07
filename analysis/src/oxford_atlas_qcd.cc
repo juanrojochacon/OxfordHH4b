@@ -426,9 +426,6 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                 const double D2_fj1 = D2(largeRJets[0]);
                 const double D2_fj2 = D2(largeRJets[1]);
 
-                fullNTuple << "source,analysis_channel,region,ntag,weight,m_HH,pt_HH,m_H0,pt_H0,m_"
-                              "H1,pt_H1\n";
-
                 const auto& higgs1  = largeRJets[0];
                 const auto& higgs2  = largeRJets[2];
                 auto        dihiggs = (higgs1 + higgs2);
