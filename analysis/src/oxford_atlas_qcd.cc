@@ -183,7 +183,7 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
     const double chi_HH_max = 30.;
 
     const int nbins = 30;
-
+    
     //
     // Set the number of b-tag string
     //
@@ -566,7 +566,7 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
         }
         else if ((signal0 && control1) || (signal1 && control0)) {
             auto dihiggs = (higgs1 + higgs2);
-            fullNTuple << GetSample() << ",res,SIG," << m_nBTag << "," << selWgt << ","
+            fullNTuple << GetSample() << ",res,SDBA," << m_nBTag << "," << selWgt << ","
                        << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
                        << higgs1.pt() << "," << higgs2.m() << "," << higgs2.pt() << "\n";
             HiggsFill(higgs1, higgs2, "res", m_btag_string, 3, selWgt);
