@@ -427,7 +427,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                 const double D2_fj2 = D2(largeRJets[1]);
 
                 const auto& higgs1  = largeRJets[0];
-                const auto& higgs2  = largeRJets[2];
+                const auto& higgs2  = largeRJets[1];
                 auto        dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",boost,SIG," << m_nBTag << "," << selWgt << ","
                            << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
@@ -454,7 +454,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                 HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 3, selWgt);
                 BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 3, selWgt);
                 const auto& higgs1  = largeRJets[0];
-                const auto& higgs2  = largeRJets[2];
+                const auto& higgs2  = largeRJets[1];
                 auto        dihiggs = (higgs1 + higgs2);
                 fullNTuple << GetSample() << ",boost,SDBA," << m_nBTag << "," << selWgt << ","
                            << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
@@ -473,7 +473,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                     HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 5, selWgt);
                     BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 5, selWgt);
                     const auto& higgs1  = largeRJets[0];
-                    const auto& higgs2  = largeRJets[2];
+                    const auto& higgs2  = largeRJets[1];
                     auto        dihiggs = (higgs1 + higgs2);
                     fullNTuple << GetSample() << ",boost,SDBBD," << m_nBTag << "," << selWgt << ","
                                << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
@@ -483,7 +483,7 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
                     HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 6, selWgt);
                     BoostFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 6, selWgt);
                     const auto& higgs1  = largeRJets[0];
-                    const auto& higgs2  = largeRJets[2];
+                    const auto& higgs2  = largeRJets[1];
                     auto        dihiggs = (higgs1 + higgs2);
                     fullNTuple << GetSample() << ",boost,SDBBO," << m_nBTag << "," << selWgt << ","
                                << dihiggs.m() << "," << dihiggs.pt() << "," << higgs1.m() << ","
