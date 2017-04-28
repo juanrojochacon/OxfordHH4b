@@ -183,7 +183,7 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
     const double chi_HH_max = 30.;
 
     const int nbins = 30;
-    
+
     //
     // Set the number of b-tag string
     //
