@@ -288,7 +288,7 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
     bstNTuple << tupleSpec
               << " split12_fj1 split12_fj2 tau21_fj1 tau21_fj2 C2_fj1 C2_fj2 D2_fj1 D2_fj2"
               << std::endl;
-    weightsNTuple << "raw_weight,pre_btag_weight,final_weight" << std::endl;
+    weightsNTuple << "ntag,raw_weight,pre_btag_weight,final_weight" << std::endl;
     fullNTuple << "source,analysis_channel,region,ntag,weight,m_HH,pt_HH,m_H0,pt_H0,m_H1,pt_H1\n";
 
     std::cout << "Oxford PU subtraction: " << subtractPU << std::endl;
@@ -547,7 +547,8 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
 
         const bool control0 = !signal0 && diffHiggs_0 < 2.0 * massWindow;
         const bool control1 = !signal1 && diffHiggs_1 < 2.0 * massWindow;
-        weightsNTuple << gen_weight << "," << event_weight << "," << selWgt << std::endl;
+        weightsNTuple << m_nBTag << "," << gen_weight << "," << event_weight
+                      << "," << selWgt << std::endl;
 
         if (signal0 && signal1) {
             auto dihiggs = (higgs1 + higgs2);
