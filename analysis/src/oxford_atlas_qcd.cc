@@ -75,7 +75,7 @@ static vector<PseudoJet> MDtagJets(vector<PseudoJet> const& injets) {
 static vector<vector<PseudoJet>> getSubJets(vector<PseudoJet> const& largeRJets,
                                             vector<PseudoJet> const& trackJets) {
     vector<vector<PseudoJet>> largeRsubJets;
-    for (PseudoJet jet : largeRJets) {
+    for (const PseudoJet& jet : largeRJets) {
         vector<PseudoJet> subJets;
         get_assoc_trkjets(jet, trackJets, subJets, false);
         largeRsubJets.push_back(SelectorNHardest(2)(sorted_by_pt(subJets)));
@@ -86,10 +86,10 @@ static vector<vector<PseudoJet>> getSubJets(vector<PseudoJet> const& largeRJets,
 // Small-R B-tagging
 static vector<btagType> BTagging(vector<PseudoJet> const& jets_vec) {
     vector<btagType> btag_vec;
-    for (auto jet : jets_vec) {
+    for (const auto& jet : jets_vec) {
         btagType                 type             = NTAG;
         const vector<PseudoJet>& jet_constituents = SelectorPtMin(15)(jet.constituents());
-        for (auto constituent : jet_constituents) {
+        for (const auto& constituent : jet_constituents) {
             const int userid                           = constituent.user_index();
             if (abs(userid) == 5) type                 = BTAG;
             if (abs(userid) == 4 && type != BTAG) type = CTAG;
@@ -336,7 +336,7 @@ void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnor
     const vector<PseudoJet>         largeRJets    = sorted_by_pt(MDtagJets(largeRJets_Trim));
     const vector<vector<PseudoJet>> largeRsubJets = getSubJets(largeRJets, trackJets);
     vector<vector<btagType>>        tagType_LR;
-    for (auto subjets : largeRsubJets) tagType_LR.push_back(BTagging(subjets));
+    for (const auto& subjets : largeRsubJets) tagType_LR.push_back(BTagging(subjets));
 
     // ***************************************** Initial histograms
     // **********************************************

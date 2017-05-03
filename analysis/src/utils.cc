@@ -86,7 +86,7 @@ std::vector<double> JetPullVector(fastjet::PseudoJet const& jet) {
 
     // std::cout << "Number of constituents " << constituents.size() << std::endl;
 
-    for (auto constit : constituents) {
+    for (const auto& constit : constituents) {
 
         double dY      = constit.rapidity() - jet.rapidity();
         double dPhi    = getDPhi(constit.phi(), jet.phi());
@@ -156,7 +156,7 @@ double JetPull(fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2) {
 
 // ----------------------------------------------------------------------------------
 // Calculate angular variables
-double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1) {
+double Chi(const fastjet::PseudoJet& h0, const fastjet::PseudoJet& h1) {
 
     double y0 = h0.rapidity();
     double y1 = h1.rapidity();
@@ -165,7 +165,7 @@ double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1) {
 
 // ---------------------------------------------------------------------------------------
 // Associate charged small-R ("track") jets to large-R ("calo") jet
-void get_assoc_trkjets(fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJet> trkjets,
+void get_assoc_trkjets(const fastjet::PseudoJet& calojet, std::vector<fastjet::PseudoJet> trkjets,
                        std::vector<fastjet::PseudoJet>& matched_trkjets, bool debug = false) {
 
     // vector to hold input clusters and ghosts
@@ -225,7 +225,7 @@ void get_assoc_trkjets(fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJe
     if (debug)
         std::cout << "new jet constituent size = " << newJet.constituents().size() << std::endl;
     vector<fastjet::PseudoJet> newJet_constituents = newJet.constituents();
-    for (auto constit : newJet_constituents) {
+    for (const auto& constit : newJet_constituents) {
         if (debug)
             std::cout << " user index = " << constit.user_index()
                       << ", pt of constit = " << constit.pt() << std::endl;

@@ -14,7 +14,7 @@ typedef enum { NTAG, BTAG, CTAG, LTAG } btagType;
 double getDPhi(double phi1, double phi2);
 
 // Ghost association for large-R double b-tagging
-void get_assoc_trkjets(fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJet> trkjets,
+void get_assoc_trkjets(const fastjet::PseudoJet& calojet, std::vector<fastjet::PseudoJet> trkjets,
                        std::vector<fastjet::PseudoJet>& matched_trkjets, bool debug);
 
 // Btagging
@@ -31,4 +31,4 @@ std::vector<double> SplittingScales(std::vector<fastjet::PseudoJet> const& jetVe
 double SplittingScales(fastjet::PseudoJet const& jet);
 
 // Angular variables
-double Chi(fastjet::PseudoJet h0, fastjet::PseudoJet h1);
+double Chi(const fastjet::PseudoJet& h0, const fastjet::PseudoJet& h1);

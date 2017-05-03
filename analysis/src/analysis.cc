@@ -20,7 +20,7 @@
 bool Analysis::Verbose = false;
 
 // Create directory structure
-static inline void createPath(std::string path) { mkdir(path.c_str(), 0777); }
+static inline void createPath(const std::string& path) { mkdir(path.c_str(), 0777); }
 
 // General string hasher
 static int IntHash(const std::string& _str) {
