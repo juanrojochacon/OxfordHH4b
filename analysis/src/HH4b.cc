@@ -107,14 +107,14 @@ int main(int argc, char* argv[]) {
         // Run over analyses
         double gen_weight = event_weight; // To plot raw weights
         event_weight *= weight_norm;
-        for (size_t i = 0; i < analyses.size(); i++)
-            analyses[i]->Analyse(sample.is_signal, event_weight, fs, gen_weight);
+        for (auto& analyse : analyses)
+            analyse->Analyse(sample.is_signal, event_weight, fs, gen_weight);
 
         if ((iEvent + 1) % 100 == 0) cout << iEvent + 1 << " events analysed" << endl;
     }
 
     // Clean up
-    for (size_t i = 0; i < analyses.size(); i++) delete analyses[i];
+    for (auto& analyse : analyses) delete analyse;
     hepmc_is.close();
 
     // End of the main program

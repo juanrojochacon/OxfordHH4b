@@ -1,7 +1,7 @@
 #include "utils.h"
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <vector>
 
 #include "fastjet/ClusterSequence.hh"
@@ -53,7 +53,7 @@ std::vector<double> SplittingScales(std::vector<fastjet::PseudoJet> const& jetVe
     // vectors that contain the respective splitting scales for all jets
     std::vector<double> split12_vec;
 
-    for (int i = 0; i < (int)jetVec.size(); i++) split12_vec.push_back(SplittingScales(jetVec[i]));
+    for (const auto& i : jetVec) split12_vec.push_back(SplittingScales(i));
 
     return split12_vec;
 }
@@ -86,9 +86,7 @@ std::vector<double> JetPullVector(fastjet::PseudoJet const& jet) {
 
     // std::cout << "Number of constituents " << constituents.size() << std::endl;
 
-    for (unsigned int constItr = 0; constItr < constituents.size(); ++constItr) {
-
-        fastjet::PseudoJet constit = constituents.at(constItr);
+    for (auto constit : constituents) {
 
         double dY      = constit.rapidity() - jet.rapidity();
         double dPhi    = getDPhi(constit.phi(), jet.phi());
@@ -179,9 +177,7 @@ void get_assoc_trkjets(fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJe
 
     if (debug) std::cout << "calo constituents size = " << constituents.size() << std::endl;
 
-    for (unsigned int constItr = 0; constItr < constituents.size(); ++constItr) {
-
-        fastjet::PseudoJet noghost = constituents.at(constItr);
+    for (auto noghost : constituents) {
 
         noghost.reset_PtYPhiM(noghost.pt(), noghost.rapidity(), noghost.phi(), 0.0);
         if (noghost.E() < 0.) continue;
@@ -229,8 +225,7 @@ void get_assoc_trkjets(fastjet::PseudoJet calojet, std::vector<fastjet::PseudoJe
     if (debug)
         std::cout << "new jet constituent size = " << newJet.constituents().size() << std::endl;
     vector<fastjet::PseudoJet> newJet_constituents = newJet.constituents();
-    for (unsigned int i = 0; i < newJet_constituents.size(); ++i) {
-        fastjet::PseudoJet constit = newJet_constituents.at(i);
+    for (auto constit : newJet_constituents) {
         if (debug)
             std::cout << " user index = " << constit.user_index()
                       << ", pt of constit = " << constit.pt() << std::endl;

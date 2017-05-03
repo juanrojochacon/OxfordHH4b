@@ -3,7 +3,7 @@
 #include "samples.h"
 #include "utils.h"
 
-#include <math.h>
+#include <cmath>
 #include <random>
 
 #include "fastjet/PseudoJet.hh"
@@ -46,25 +46,25 @@ void Detector::AddPileup(finalState& particles) {
 
 void Detector::Simulate(finalState input, finalState& output) {
     AddPileup(input);
-    for (size_t i = 0; i < input.size(); i++) {
+    for (auto& i : input) {
         // Detector granularity
-        const double newEta = floor(input[i].eta() / etaRes) * etaRes + etaRes / 2.0;
-        const double newPhi = floor(input[i].phi() / phiRes) * phiRes + phiRes / 2.0;
+        const double newEta = floor(i.eta() / etaRes) * etaRes + etaRes / 2.0;
+        const double newPhi = floor(i.phi() / phiRes) * phiRes + phiRes / 2.0;
 
         // Lengthwise gaussian smear
         std::normal_distribution<> normal_dist(1.0, 0.01 * jetEsmear);
         const double               sm = normal_dist(rng);
 
         // Reconstruct smeared jet
-        const double pT = sm * input[i].pt();
+        const double pT = sm * i.pt();
         const double px = pT * cos(newPhi);
         const double py = pT * sin(newPhi);
         const double pz = pT * sinh(newEta);
-        const double E  = sqrt(input[i].m2() + px * px + py * py + pz * pz);
+        const double E  = sqrt(i.m2() + px * px + py * py + pz * pz);
 
         // Form PseudoJet
         fastjet::PseudoJet jet(px, py, pz, E);
-        jet.set_user_index(input[i].user_index());
+        jet.set_user_index(i.user_index());
 
         output.push_back(jet);
     }

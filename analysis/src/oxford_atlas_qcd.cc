@@ -48,7 +48,7 @@ static vector<PseudoJet> trimJets(vector<PseudoJet> const& injets) {
     const double          pt_fraction_min = 0.05;
     const fastjet::Filter trimmer(Rfilt, fastjet::SelectorPtFractionMin(pt_fraction_min));
     vector<PseudoJet>     trimmedJets;
-    for (size_t i = 0; i < injets.size(); i++) trimmedJets.push_back(trimmer(injets[i]));
+    for (const auto& injet : injets) trimmedJets.push_back(trimmer(injet));
     return trimmedJets;
 }
 
@@ -61,12 +61,12 @@ static vector<PseudoJet> MDtagJets(vector<PseudoJet> const& injets) {
     const fastjet::JetDefinition  CA10(fastjet::cambridge_algorithm, 1.0);
     const fastjet::MassDropTagger md_tagger(mu, ycut);
     vector<PseudoJet>             MDTJets;
-    for (size_t i = 0; i < injets.size(); i++) {
-        const fastjet::ClusterSequence cs_sub(injets[i].constituents(), CA10);
+    for (const auto& injet : injets) {
+        const fastjet::ClusterSequence cs_sub(injet.constituents(), CA10);
         vector<PseudoJet>              ca_jets    = sorted_by_pt(cs_sub.inclusive_jets());
         const PseudoJet                ca_jet     = ca_jets[0];
         const PseudoJet                tagged_jet = md_tagger(ca_jet);
-        if (tagged_jet != 0) MDTJets.push_back(injets[i]);
+        if (tagged_jet != 0) MDTJets.push_back(injet);
     }
     return MDTJets;
 }
@@ -192,12 +192,12 @@ OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard co
 
     // ********************* Histogram definitions ******************
 
-    for (int i = 0; i < nAnalysis; i++) {
-        BookHistogram(new YODA::Histo1D(nCuts, 0, nCuts), "CF" + aString[i]);
-        BookHistogram(new YODA::Histo1D(nCuts, 0, nCuts), "CFN" + aString[i]);
+    for (const auto& i : aString) {
+        BookHistogram(new YODA::Histo1D(nCuts, 0, nCuts), "CF" + i);
+        BookHistogram(new YODA::Histo1D(nCuts, 0, nCuts), "CFN" + i);
 
-        for (int j = 0; j < nCuts; j++) {
-            const std::string suffix = aString[i] + cString[j] + "_" + m_btag_string;
+        for (const auto& j : cString) {
+            const std::string suffix = i + j + "_" + m_btag_string;
             std::cout << suffix << std::endl;
 
             BookHistogram(new YODA::Histo1D(nbins, pt_min, pt_max), "pt_smallR" + suffix);
@@ -359,7 +359,7 @@ void OxfordAtlasQcdAnalysis::Analyse(bool const& signal, double const& weightnor
                                         gen_weight);
         event_weight -= IntermediateAnalysis(largeRJets, smallRJets, largeRsubJets, tagType_LR,
                                              tagType_SR, signal, event_weight, gen_weight);
-        event_weight -= ResolvedAnalysis(smallRJets, tagType_SR, signal, event_weight, gen_weight);
+        ResolvedAnalysis(smallRJets, tagType_SR, signal, event_weight, gen_weight);
     }
     else {
         BoostedAnalysis(largeRJets, largeRsubJets, tagType_LR, signal, weightnorm, gen_weight);
@@ -501,8 +501,8 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
                                                 double const& event_weight, double gen_weight) {
     if (srj.size() >= 4) {
         // Reconstruct Higgs candidates from small-R jets
-        typedef std::pair<PseudoJet, PseudoJet> dijet;
-        typedef std::pair<dijet, dijet>         hpair;
+        using dijet = std::pair<PseudoJet, PseudoJet>;
+        using hpair = std::pair<dijet, dijet>;
 
         vector<hpair> hcand = {hpair(dijet(srj[0], srj[1]), dijet(srj[2], srj[3])),
                                hpair(dijet(srj[0], srj[2]), dijet(srj[1], srj[3])),
@@ -547,8 +547,8 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
 
         const bool control0 = !signal0 && diffHiggs_0 < 2.0 * massWindow;
         const bool control1 = !signal1 && diffHiggs_1 < 2.0 * massWindow;
-        weightsNTuple << m_nBTag << "," << gen_weight << "," << event_weight
-                      << "," << selWgt << std::endl;
+        weightsNTuple << m_nBTag << "," << gen_weight << "," << event_weight << "," << selWgt
+                      << std::endl;
 
         if (signal0 && signal1) {
             auto dihiggs = (higgs1 + higgs2);

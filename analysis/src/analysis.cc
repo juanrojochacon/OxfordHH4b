@@ -53,12 +53,8 @@ Analysis::~Analysis() {
     Export();
 
     // Clear all histograms
-    for (std::map<int, YODA::Histo1D*>::iterator iT = bookedHistograms_1D.begin();
-         iT != bookedHistograms_1D.end(); iT++)
-        delete iT->second;
-    for (std::map<int, YODA::Histo2D*>::iterator iT = bookedHistograms_2D.begin();
-         iT != bookedHistograms_2D.end(); iT++)
-        delete iT->second;
+    for (auto& iT : bookedHistograms_1D) delete iT.second;
+    for (auto& iT : bookedHistograms_2D) delete iT.second;
 
     bookedHistograms_1D.clear();
     bookedHistograms_2D.clear();
@@ -69,7 +65,7 @@ void Analysis::BookHistogram(YODA::Histo1D* hist, string const& name) {
     hist->setTitle(name);
     hist->setPath(analysisRoot + "histo_" + name);
 
-    std::map<int, YODA::Histo1D*>::iterator iMap = bookedHistograms_1D.find(IntHash(name));
+    auto iMap = bookedHistograms_1D.find(IntHash(name));
     if (iMap != bookedHistograms_1D.end()) {
         std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: " << name
                   << std::endl;
@@ -90,7 +86,7 @@ void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name) {
     hist->setTitle(name);
     hist->setPath(analysisRoot + "histo_" + name);
 
-    std::map<int, YODA::Histo2D*>::iterator iMap = bookedHistograms_2D.find(IntHash(name));
+    auto iMap = bookedHistograms_2D.find(IntHash(name));
     if (iMap != bookedHistograms_2D.end()) {
         std::cerr << "Analysis::BookHistogram error: HASH COLLISION for histogram: " << name
                   << std::endl;
@@ -107,7 +103,7 @@ void Analysis::BookHistogram(YODA::Histo2D* hist, string const& name) {
 }
 
 void Analysis::FillHistogram(string const& rname, double const& weight, double const& coord) {
-    std::map<int, YODA::Histo1D*>::iterator iMap = bookedHistograms_1D.find(IntHash(rname));
+    auto iMap = bookedHistograms_1D.find(IntHash(rname));
     if (iMap != bookedHistograms_1D.end()) {
         (*iMap).second->fill(coord, weight);
     }
@@ -119,7 +115,7 @@ void Analysis::FillHistogram(string const& rname, double const& weight, double c
 
 void Analysis::FillHistogram(string const& rname, double const& weight, double const& coord1,
                              double const& coord2) {
-    std::map<int, YODA::Histo2D*>::iterator iMap = bookedHistograms_2D.find(IntHash(rname));
+    auto iMap = bookedHistograms_2D.find(IntHash(rname));
     if (iMap != bookedHistograms_2D.end()) {
         (*iMap).second->fill(coord1, coord2, weight);
     }
@@ -131,7 +127,7 @@ void Analysis::FillHistogram(string const& rname, double const& weight, double c
 
 void Analysis::Export() {
     // Export histograms
-    std::map<int, YODA::Histo1D*>::iterator iMap1D = bookedHistograms_1D.begin();
+    auto iMap1D = bookedHistograms_1D.begin();
     while (iMap1D != bookedHistograms_1D.end()) {
         if (Verbose) std::cout << "Writing Histogram: " << (*iMap1D).second->path() << std::endl;
         if ((*iMap1D).second->numEntries() > 0) {
@@ -144,7 +140,7 @@ void Analysis::Export() {
     }
 
     // Export histograms
-    std::map<int, YODA::Histo2D*>::iterator iMap2D = bookedHistograms_2D.begin();
+    auto iMap2D = bookedHistograms_2D.begin();
     while (iMap2D != bookedHistograms_2D.end()) {
         if (Verbose) std::cout << "Writing Histogram: " << (*iMap2D).second->path() << std::endl;
         if ((*iMap2D).second->numEntries() > 0) {
