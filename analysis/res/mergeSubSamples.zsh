@@ -3,7 +3,7 @@
 # in a specified directory
 
 # Switch to using an alias instead of passing location of binary on the command line
-alias yoda-merge=`pwd`/yoda-merge
+alias yoda-merge=/home/stanislaus/yoda-merge
 for d in $1*
 do
     if [[ $d != *background* ]]; then
@@ -33,10 +33,13 @@ do
 
             if [ -f $basename.dat ];
             then
-                cat $f | awk ' NR>1 {print;}' >> $basename.dat
+		# remove first three lines (column headings)
+                tail -n +4 $f >> $basename.dat
             else
                 echo "Generating file"
-                cat $f > $basename.dat
+		# remove first two lines anyway, for we have three copies of
+		# the column header
+                tail -n +3 $f >> $basename.dat
             fi
 
         done
