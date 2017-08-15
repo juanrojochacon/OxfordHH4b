@@ -15,7 +15,7 @@ class OxfordAnalysis : public Analysis {
   public:
     OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subSample);
 
-    void Analyse(bool const& signal, double const& weight_norm, finalState const&);
+    void Analyse(bool const& signal, double const& weight_norm, finalState const&, double gen_weight);
 
   private:
     // Small-R B-tagging
