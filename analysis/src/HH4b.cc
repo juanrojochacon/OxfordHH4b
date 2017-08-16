@@ -88,6 +88,8 @@ int main(int argc, char* argv[]) {
             get_final_state_particles(hepmc_is, dum2, dum);
     }
 
+    std::cout << "Number of analyses loaded: " << analyses.size() << std::endl;
+
     // Begin loop over events
     cout << "*************** Analysis Begins ***************" << endl;
     const int targetSize = min(run.sub_samplesize, sample.nevt_sample - sampleStart);
@@ -107,8 +109,9 @@ int main(int argc, char* argv[]) {
         // Run over analyses
         double gen_weight = event_weight; // To plot raw weights
         event_weight *= weight_norm;
-        for (auto& analyse : analyses)
+        for (auto& analyse : analyses){
             analyse->Analyse(sample.is_signal, event_weight, fs, gen_weight);
+        }
 
         if ((iEvent + 1) % 100 == 0) cout << iEvent + 1 << " events analysed" << endl;
     }

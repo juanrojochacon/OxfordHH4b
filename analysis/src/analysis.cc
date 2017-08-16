@@ -17,7 +17,7 @@
 #include "fastjet/Selector.hh"
 
 // Default Verbosity
-bool Analysis::Verbose = false;
+bool Analysis::Verbose = true;
 
 // Create directory structure
 static inline void createPath(const std::string& path) { mkdir(path.c_str(), 0777); }

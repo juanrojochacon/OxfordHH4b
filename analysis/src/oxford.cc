@@ -208,6 +208,8 @@ OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int
             BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets" + suffix);
             BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BJets" + suffix);
             BookHistogram(new YODA::Histo1D(10, 0, 10), "N_SmallRJets_BTagged" + suffix);
+
+            if( debug ) std::cout << "Booked histograms." << std::endl;
         }
     }
 
@@ -242,8 +244,10 @@ OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int
     std::cout << "Oxford PU subtraction: " << subtractPU << std::endl;
 }
 
-void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs) {
-    Analysis::Analyse(signal, weightnorm, ifs);
+void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, finalState const& ifs, double gen_weight) {
+    Analysis::Analyse(signal, weightnorm, ifs, gen_weight);
+
+    if( debug ) std::cout << "Starting event-by-event analysis." << std::endl;
 
     // Perform softKiller subtraction
     finalState fs;
@@ -385,6 +389,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
     FillHistogram("CFN_res", 1., 0.1);
     FillHistogram("CFN_inter", 1., 0.1);
     FillHistogram("CFN_boost", 1., 0.1);
+
+    if( debug ) std::cout << "Done filling initial histograms." << std::endl;
 
     // ***************************************** B-Tagging
     // **********************************************
