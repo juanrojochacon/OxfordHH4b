@@ -16,11 +16,11 @@
 void InitAnalyses(std::vector<Analysis*>& analyses, runCard const& run, sampleCard const& sample,
                   int const& subsample) {
     // **************** PLEASE MODIFY *****************
-    analyses.push_back(new OxfordAnalysis(run, sample, subsample));
+    // analyses.push_back(new OxfordAnalysis(run, sample, subsample));
     //  analyses.push_back(new OxfordSidebandAnalysis(run, sample, subsample));
     analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 2));
-    //analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 3));
-    //analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 4));
+    analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 3));
+    analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 4));
     // **************** DO NOT MODIFY  ****************
 }
 
