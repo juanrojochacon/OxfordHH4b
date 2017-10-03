@@ -17,6 +17,7 @@
 #include "fastjet/contrib/SoftKiller.hh"
 
 #include <algorithm>
+#include <cmath>
 
 using namespace fastjet::contrib;
 
@@ -50,17 +51,30 @@ double const ycut = 0.09;
 // SoftKiller PU removal
 const fastjet::contrib::SoftKiller soft_killer(2.5, 0.4);
 
+
+/***************
 // b tagging
 // Choose working point with high purity
 const double btag_prob   = 0.80; // Probability of correct b tagging
 const double btag_mistag = 0.01; // Mistag probability
 const double ctag_prob   = 0.1;  // 0.17; // c-mistag rate ~1/6.
 
+*/
+
 // Analysis settings
 const int         nAnalysis          = 3;
 const int         nCuts              = 7;
 const std::string aString[nAnalysis] = {"_res", "_inter", "_boost"};
 const std::string cString[nCuts]     = {"_C0", "_C1a", "_C1b", "_C1c", "_C1d", "_C1e", "_C2"};
+
+
+/**************************************************************************************************
+
+Previous code had the following btagProb function:
+
+ *************************************************************************************************
+
+
 
 // nTag: How many b-tags are required
 // nB: How many true b-jets are present
@@ -90,6 +104,161 @@ static double btagProb(int const& nTag, int const& nB, int const& nC, int const&
 
     return totalProb;
 }
+
+*************************************************************************************************
+
+I have now changed it to depend on pt, and then altered its subsequent usage. Its new definition is:
+
+*************************************************************************************************/
+
+
+
+
+
+//This is the probability of correctly tagging a b jet as a b
+static double btag_prob(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 470){// 10th-order polynomial fit
+    return -2.9820*pow(10,-24)*pow(pt,10) + 8.0061*pow(10,-21)*pow(pt,9) - 9.3539*pow(10,-18)*pow(pt,8)
+      + 6.2359*pow(10,-15)*pow(pt,7) - 2.6140*pow(10,-12)*pow(pt,6) + 7.1605*pow(10,-10)*pow(pt,5)
+      - 1.2914*pow(10,-7)*pow(pt,4) + 1.5088*pow(10,-5)*pow(pt,3) - 1.0953*pow(10,-3)*pow(pt,2)
+      + 4.5102*pow(10,-2)*pt -5.5887*pow(10,-3);}
+  else {//exponential fit
+    return exp(-0.0012675*pt + 0.0842395661);}
+}
+
+
+
+// This is the probability of mistagging a light jet as a b
+static double btag_mistag(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 300){// 10th-order polynomial fit
+    return -1.2957*pow(10,-26)*pow(pt,10) + 4.5327*pow(10,-23)*pow(pt,9) -6.7665*pow(10,-20)*pow(pt,8)
+      +5.6403*pow(10,-17)*pow(pt,7) - 2.8639*pow(10,-14)*pow(pt,6) + 9.1997*pow(10,-12)*pow(pt,5)
+      - 1.8661*pow(10,-9)*pow(pt,4) + 2.3237*pow(10,-7)*pow(pt,3) - 1.6536*pow(10,-5)*pow(pt,2)
+      +5.7809*pow(10,-4)*pt + 7.8167*pow(10,-6);}
+  else {
+    return 0.0109717;}
+}
+
+// This is the probability of mistagging a c jet as a b
+static double ctag_prob(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 435.334){
+    return 5.64989*pow(10,-26)*pow(pt,10) - 8.30785*pow(10,-23)*pow(pt,9) - 2.45638*pow(10,-20)*pow(pt,8)
+      + 1.31793*pow(10,-16)*pow(pt,7) - 1.20918*pow(10,-13)*pow(pt,6) + 5.66046*pow(10,-11)*pow(pt,5)
+      - 1.55302*pow(10,-8)*pow(pt,4) + 2.55755*pow(10,-6)*pow(pt,3) - 2.44367*pow(10,-4)*pow(pt,2)
+      + 1.20369*pow(10,-2)*pt + 2.17015*pow(10,-4);}
+     
+  else {
+    return exp(-0.0020757*pt -1.10695);}
+ 
+}
+
+
+// function returning all subsets of size k of a vector of integers "vec" stored in a 
+// vector of vectors called "result"
+// std::vector<int> v is an initially blank vector for use in the function
+//idx is the index it starts at, always use 0
+// result is the variable passed as a reference, which is changed by the function
+static void subset(std::vector<int> vec,int k,int idx, std::vector<std::vector<int> > &result,std::vector<int> v){
+    int n = vec.size();
+   if(idx==n)
+ return;
+
+if(k==1){
+    for(int i=idx;i<n;i++)
+     {
+        v.push_back(vec[i]);
+        result.push_back(v);
+        v.pop_back();
+     }
+}
+
+ for(int j=idx;j<n;j++) {
+  v.push_back(vec[j]);
+  subset(vec,k-1,j+1,result,v);
+  v.pop_back();
+  }
+ }
+
+
+//added the last two arguments, and removed nB, nC and nL
+//so need to alter every usage of this fn in the existing code accordingly
+
+static double btagProb(int const& nTag, std::vector<fastjet::PseudoJet> jets, std::vector<btagType> btags) {
+
+  //creating a vector containing the probabilities that each jet is tagged as a b  
+  std::vector<double> bprob_vec;
+  //creating a vector containing the jet indices
+  std::vector<int> indices;
+
+   if (jets.size() != btags.size()){
+      return 1;
+    }
+  for (unsigned int i = 0; i < jets.size(); i++){
+    if (btags[i] == BTAG){
+      bprob_vec.push_back( btag_prob(jets[i]) );
+    }
+    else if (btags[i] == CTAG){
+      bprob_vec.push_back( ctag_prob(jets[i]) );
+    }
+    else {
+      bprob_vec.push_back( btag_mistag(jets[i]) );
+    }
+    indices.push_back(i);
+    
+  }
+  
+  std::vector<std::vector<int> > bperm;
+  std::vector<int> v;
+  subset(indices, nTag, 0, bperm, v);
+
+
+  std::vector<double> bprob, nbprob;
+  for (unsigned int j = 0; j < bperm.size(); j++){
+    bprob.push_back(1);
+    nbprob.push_back(1);
+    
+    for (unsigned int k = 0; k < indices.size(); k++){
+
+      // if the index is not in b_perm[j] we multiply into our vector of 
+      // not-btag probabilities
+      if ( std::find(bperm[j].begin(), bperm[j].end(),k) == bperm[j].end() ){
+	nbprob[j] *= ( 1 - bprob_vec[k]);
+      }
+
+      // if the index is in b_perm[j] we multiply into our vector of 
+      // btag probabilities
+      else {
+	bprob[j] *= bprob_vec[k];
+      }
+    }
+  }
+    
+    double total_prob = 0;
+
+    for (unsigned int r = 0; r < bprob.size(); r++){
+      total_prob += ( bprob[r] * nbprob[r] );
+         }
+
+    return total_prob;
+}
+  
+
+
+/************************************************************************************************
+
+    end of new definition of btagProb
+
+ ***********************************************************************************************/
+
+
+
+
+
+
+
 
 OxfordAnalysis::OxfordAnalysis(runCard const& run, sampleCard const& sample, int const& subsample)
     : Analysis("oxford", run, sample, subsample), subtractPU(run.npileup > 0) {
@@ -401,15 +570,61 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
     std::vector<int> nLSubjetsLR_vec; // Vector specifying how many l subjets there are
     std::vector<fastjet::PseudoJet> leading_subjet;
     std::vector<fastjet::PseudoJet> subleading_subjet;
+    std::vector<btagType> btag_vector;
 
-    BTagging(largeRJets, trackJets, leading_subjet, subleading_subjet, nBSubjetsLR_vec,
-             nCSubjetsLR_vec, nLSubjetsLR_vec);
+    BTagging(largeRJets, trackJets, leading_subjet, subleading_subjet, nBSubjetsLR_vec, nCSubjetsLR_vec, nLSubjetsLR_vec, btag_vector);
+
+    /* the result of the above function is that leading_subjet and subleading_subjet are now vectors
+       containing the hardest and second hardest subjets for each largeRjet. nBSubjetsLR_vec etc, are
+       now vectors containing the number of b,c or l subjets for each largeRjet. 
+
+       I changed the function so that it changes btag_vector to now include a list of all of the tags
+       of subjets in order of pt in order of which largeRjet.
+
+
+       Below I create a vector containing all the subjets, in the order corresponding to btag_vector.
+    */
+
+    std::vector<fastjet::PseudoJet> subjets_vec;
+    for (unsigned int a = 0; a < leading_subjet.size(); a++){
+      subjets_vec.push_back( leading_subjet[a] );
+      subjets_vec.push_back( subleading_subjet[a] );
+    }
+      
+
+
+
     if (largeRJets.size() != nBSubjetsLR_vec.size())
         std::cout << "ERROR: b-tagging vector sizes don't match number of fat jets" << std::endl;
 
     // b-tagging for small-R jets
     std::vector<btagType> tagType_SR;
     BTagging(smallRJets, tagType_SR);
+
+    /* For use in intermediate analysis, I combine the large R subjets with the small R jets in one
+       vector and also combine the corresponding btags into one vector. In both cases, the subjets 
+       are listed first in the vector.
+    */
+
+    
+    std::vector<fastjet::PseudoJet> inter_jets;
+    std::vector<btagType> inter_tags;
+
+    // add large R subjets
+    for (unsigned int t = 0; t < subjets_vec.size(); t++){
+      inter_jets.push_back( subjets_vec[t] );
+      inter_tags.push_back( btag_vector[t] );
+    }
+      
+
+    // add small R jets
+    for (unsigned int y = 0; y < smallRJets.size(); y++){
+      inter_jets.push_back( smallRJets[y] );
+      inter_tags.push_back( tagType_SR[y] );
+    }
+
+
+
 
     // **************************************** Boosted analysis
     // *********************************************
@@ -464,7 +679,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                         // Selection probability
                         if (nB + nC + nL == 4) // Selected 4 candidates
                         {
-                            P_select_boost = btagProb(4, nB, nC, nL);
+                            P_select_boost = btagProb(4, subjets_vec, btag_vector );
 
                             // Reweighted event weight
                             const double             boost_weight  = P_select_boost * event_weight;
@@ -579,7 +794,8 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
 
                 if (nB + nC + nL == 4) {
                     // Selection probability
-                    P_select_inter           = btagProb(4, nB, nC, nL);
+                  //  P_select_inter           = btagProb(4, nB, nC, nL);
+		  P_select_inter = btagProb(4, inter_jets, inter_tags);
                     const double P_exclusive = exclusive ? (1.0 - P_select_boost) : 1.0;
 
                     // Reweighted event weight
@@ -688,7 +904,7 @@ void OxfordAnalysis::Analyse(bool const& signal, double const& weightnorm, final
                         if (nB + nC + nL == 4) // Need 4 b-tags
                         {
                             // Selection probability
-                            P_select_resol = btagProb(4, nB, nC, nL);
+			  P_select_resol = btagProb(4, smallRJets, tagType_SR);
 
                             // Reweighted event weight
                             const double P_exclusive =
@@ -790,12 +1006,22 @@ void OxfordAnalysis::BTagging(std::vector<fastjet::PseudoJet> const& jets_vec,
     }
 }
 
+/*****************************************************************************************************
+
+   Changed the BTagging function below to have an additional paramter btag_vector passed as a 
+   reference, which will be a vector containing all of the tags of the subjets in order of pt in order
+   of which largeRjet
+ *****************************************************************************************************/
+
+
+
+
 void OxfordAnalysis::BTagging(std::vector<fastjet::PseudoJet> const& largeRJets,
                               std::vector<fastjet::PseudoJet> const& trackjets,
                               std::vector<fastjet::PseudoJet>&       subjets1,
                               std::vector<fastjet::PseudoJet>&       subjets2,
                               std::vector<int>& nBSubJets_vec, std::vector<int>& nCSubJets_vec,
-                              std::vector<int>& nLSubJets_vec) {
+                              std::vector<int>& nLSubJets_vec, std::vector<btagType>& btag_vector) {
     // Loop over all fat jets
     for (size_t i = 0; i < largeRJets.size(); i++) {
         // Get ghost associated track jets
@@ -816,6 +1042,31 @@ void OxfordAnalysis::BTagging(std::vector<fastjet::PseudoJet> const& largeRJets,
         // B-tag subjets
         std::vector<btagType> btag_vec;
         BTagging(subjets, btag_vec);
+
+/*********************************************************************************************************
+	
+	I added the below:
+
+
+ /*******************************************************************************************************/
+
+
+
+	for (unsigned int j = 0; j < btag_vec.size(); j++){
+	  btag_vector.push_back( btag_vec[j]);
+	}
+
+
+
+
+
+
+
+/**********************************************************************************************************/
+
+
+
+
 
         const int nSub = std::min((int)subjets.size(), 2); // Restrict to leading 2 subjets
         const int nBSubJets =

@@ -17,6 +17,7 @@
 #include "fastjet/contrib/SoftKiller.hh"
 
 #include <algorithm>
+#include <cmath>
 
 using std::vector;
 using namespace fastjet::contrib;
@@ -100,6 +101,13 @@ static vector<btagType> BTagging(vector<PseudoJet> const& jets_vec) {
     return btag_vec;
 }
 
+
+
+/*****************************************************************************************************************
+
+Old stuff below is commented out 
+
+*******************************************************************************************************************
 static double comb(int n, int r) {
     if (n < 0 || r < 0) return 0.;
     if (r == 0) return 1.;
@@ -119,8 +127,8 @@ static double comb(int n, int r) {
 static double btagProb(int const& nTag, int const& nB, int const& nC, int const& nL) {
     // Choose working point with high purity
     const double btag_prob   = 0.80; // Probability of correct b tagging
-    const double btag_mistag = 0.01; // Mistag probability
-    const double ctag_prob   = 0.1;  // 0.17; // c-mistag rate ~1/6.
+    const double btag_mistag = 0.01; // Probability of mistagging a light as a b
+    const double ctag_prob   = 0.1;  // Probability of mistagging a c as a b
 
     // Probability of all permutations
     double totalProb = 0;
@@ -146,6 +154,148 @@ static double btagProb(int const& nTag, int const& nB, int const& nC, int const&
 
     return totalProb;
 }
+*******************************************************************************************************************
+
+
+*******************************************************************************************************************/
+
+
+
+
+
+//This is the probability of correctly tagging a b jet as a b
+static double btag_prob(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 470){// 10th-order polynomial fit
+    return -2.9820*pow(10,-24)*pow(pt,10) + 8.0061*pow(10,-21)*pow(pt,9) - 9.3539*pow(10,-18)*pow(pt,8)
+      + 6.2359*pow(10,-15)*pow(pt,7) - 2.6140*pow(10,-12)*pow(pt,6) + 7.1605*pow(10,-10)*pow(pt,5)
+      - 1.2914*pow(10,-7)*pow(pt,4) + 1.5088*pow(10,-5)*pow(pt,3) - 1.0953*pow(10,-3)*pow(pt,2)
+      + 4.5102*pow(10,-2)*pt -5.5887*pow(10,-3);}
+  else {//exponential fit
+    return exp(-0.0012675*pt + 0.0842395661);}
+}
+
+
+
+// This is the probability of mistagging a light jet as a b
+static double btag_mistag(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 300){// 10th-order polynomial fit
+    return -1.2957*pow(10,-26)*pow(pt,10) + 4.5327*pow(10,-23)*pow(pt,9) -6.7665*pow(10,-20)*pow(pt,8)
+      +5.6403*pow(10,-17)*pow(pt,7) - 2.8639*pow(10,-14)*pow(pt,6) + 9.1997*pow(10,-12)*pow(pt,5)
+      - 1.8661*pow(10,-9)*pow(pt,4) + 2.3237*pow(10,-7)*pow(pt,3) - 1.6536*pow(10,-5)*pow(pt,2)
+      +5.7809*pow(10,-4)*pt + 7.8167*pow(10,-6);}
+  else {
+    return 0.0109717;}
+}
+
+// This is the probability of mistagging a c jet as a b
+static double ctag_prob(fastjet::PseudoJet jet){
+  double pt = jet.pt();
+  if (pt <= 435.334){
+    return 5.64989*pow(10,-26)*pow(pt,10) - 8.30785*pow(10,-23)*pow(pt,9) - 2.45638*pow(10,-20)*pow(pt,8)
+      + 1.31793*pow(10,-16)*pow(pt,7) - 1.20918*pow(10,-13)*pow(pt,6) + 5.66046*pow(10,-11)*pow(pt,5)
+      - 1.55302*pow(10,-8)*pow(pt,4) + 2.55755*pow(10,-6)*pow(pt,3) - 2.44367*pow(10,-4)*pow(pt,2)
+      + 1.20369*pow(10,-2)*pt + 2.17015*pow(10,-4);}
+     
+  else {
+    return exp(-0.0020757*pt -1.10695);}
+ 
+}
+
+
+// function returning all subsets of size k of a vector of integers "vec" stored in a 
+// vector of vectors called "result"
+// vector<int> v should be a blank vector for use inside the funtion
+//idx is the index it starts at, always use 0
+// result is the variable passed as a reference, which is changed by the function
+static void subset(vector<int> vec,int k,int idx, vector<vector<int> > &result, vector<int> v){
+    int n = vec.size();
+   if(idx==n)
+ return;
+
+if(k==1){
+    for(int i=idx;i<n;i++)
+     {
+        v.push_back(vec[i]);
+        result.push_back(v);
+        v.pop_back();
+     }
+}
+
+ for(int j=idx;j<n;j++) {
+  v.push_back(vec[j]);
+  subset(vec,k-1,j+1,result,v);
+  v.pop_back();
+  }
+ }
+
+
+//added the last two arguments, and removed nB, nC and nL
+//so need to alter every usage of this fn in the existing code accordingly
+
+static double btagProb(int const& nTag, vector<PseudoJet> jets, vector<btagType> btags) {
+
+  //creating a vector containing the probabilities that each jet is tagged as a b  
+  vector<double> bprob_vec;
+  //creating a vector containing the jet indices
+  vector<int> indices;
+
+   if (jets.size() != btags.size()){
+      return 1;
+    }
+  for (unsigned int i = 0; i < jets.size(); i++){
+    if (btags[i] == BTAG){
+      bprob_vec.push_back( btag_prob(jets[i]) );
+    }
+    else if (btags[i] == CTAG){
+      bprob_vec.push_back( ctag_prob(jets[i]) );
+    }
+    else {
+      bprob_vec.push_back( btag_mistag(jets[i]) );
+    }
+    indices.push_back(i);
+    
+  }
+  
+  vector<vector<int> > bperm;
+  vector<int> v;
+  subset(indices, nTag, 0, bperm, v);
+
+
+  vector<double> bprob, nbprob;
+  for (unsigned int j = 0; j < bperm.size(); j++){
+    bprob.push_back(1);
+    nbprob.push_back(1);
+    
+    for (unsigned int k = 0; k < indices.size(); k++){
+
+      // if the index is not in b_perm[j] we multiply into our vector of 
+      // not-btag probabilities
+      if ( std::find(bperm[j].begin(), bperm[j].end(),k) == bperm[j].end() ){
+	nbprob[j] *= ( 1 - bprob_vec[k]);
+      }
+
+      // if the index is in b_perm[j] we multiply into our vector of 
+      // btag probabilities
+      else {
+	bprob[j] *= bprob_vec[k];
+      }
+    }
+  }
+    
+    double total_prob = 0;
+
+    for (unsigned int r = 0; r < bprob.size(); r++){
+      total_prob += ( bprob[r] * nbprob[r] );
+         }
+
+    return total_prob;
+}
+  
+
+
+
 
 OxfordAtlasQcdAnalysis::OxfordAtlasQcdAnalysis(runCard const& run, sampleCard const& sample,
                                                int const& subsample, int const& nBTag)
@@ -391,8 +541,38 @@ double OxfordAtlasQcdAnalysis::BoostedAnalysis(vector<PseudoJet> const&         
             // Events weighted by probability of having exactly
             // m_nBTag tagged jets, given (in btagProb) efficiency,
             // light acceptance and charm acceptance
-            const double selEff = btagProb(m_nBTag, nB, nC, nL);
-            const double selWgt = selEff * event_weight;
+
+	    /***********************************************************************************************
+
+
+
+            /**********************************************************************************************/
+
+
+	    // code was: 
+	    // const double selEff = btagProb(m_nBTag, nB, nC, nL);
+	    // changed to:
+
+	    //make a vector with all 4 subjets, and a vector with all btags
+	    vector<PseudoJet> largeRsubJets_vec;
+	    vector<btagType> btags_vec;
+	    for (unsigned int i_jet = 0; i_jet < largeRsubJets.size(); i_jet++){
+	      for (unsigned int i_sub = 0; i_sub < largeRsubJets[i_jet].size(); i_sub++){
+		largeRsubJets_vec.push_back( largeRsubJets[i_jet][i_sub] );
+		btags_vec.push_back( btags[i_jet][i_sub] );
+	      }
+	    }
+
+	    const double selEff = btagProb(m_nBTag, largeRsubJets_vec, btags_vec);
+
+	    /********************************************************************************************
+
+
+
+	     ********************************************************************************************/	   
+
+
+	    const double selWgt = selEff * event_weight;
             HiggsFill(largeRJets[0], largeRJets[1], "boost", m_btag_string, 1, selWgt);
 
             const fastjet::PseudoJet dihiggs_boost = largeRJets[0] + largeRJets[1];
@@ -533,8 +713,36 @@ double OxfordAtlasQcdAnalysis::ResolvedAnalysis(vector<PseudoJet> const& srj,
 
         if (debug) std::cout << "nB = " << nB << std::endl;
 
-        const double selEff = btagProb(m_nBTag, nB, nC, nL);
-        const double selWgt = selEff * event_weight;
+	/*************************************************************************************************************
+
+
+	 ************************************************************************************************************/
+	// code was:
+        // const double selEff = btagProb(m_nBTag, nB, nC, nL);
+        
+	// changed to: 
+	
+
+	// create a vector with 4 highest pt jets (the srj jets come ordered in decreasing pt)
+	// and create a vector of the btags for these jets
+	vector<PseudoJet> srj_hard;
+	vector<btagType> btags_hard;
+	for (unsigned int i_smallR = 0; i_smallR < 4; i_smallR++){
+	  srj_hard.push_back( srj[i_smallR] );
+	  btags_hard.push_back( btags[i_smallR] );
+	}
+	
+	const double selEff = btagProb(m_nBTag, srj_hard, btags_hard);
+	
+
+	  /**********************************************************************************************************
+
+
+	   *********************************************************************************************************/
+
+
+
+	const double selWgt = selEff * event_weight;
         // Reco fill
         HiggsFill(higgs1, higgs2, "res", m_btag_string, 1, selWgt);
 
@@ -639,8 +847,46 @@ double OxfordAtlasQcdAnalysis::IntermediateAnalysis(vector<PseudoJet> const&    
                        + (separated_bTag[1] == LTAG); // Number of fake b-subjets
 
         if (debug) std::cout << "nB = " << nB << std::endl;
-        const double selEff = btagProb(m_nBTag, nB, nC, nL);
-        const double selWgt = selEff * event_weight;
+
+
+	/*************************************************************************************************
+
+
+        ************************************************************************************************/
+
+
+	// code was:
+        // const double selEff = btagProb(m_nBTag, nB, nC, nL);
+	// changed to: 
+
+	
+	// create a vector with two hardest subjets and two hardest smallRjets
+	// and a vector containing their respectives btags
+	vector<PseudoJet> jets_vec;
+	vector<btagType> btags_vec;
+	
+	for (unsigned int i = 0; i < largeRsubJets[0].size(); i++){
+	  jets_vec.push_back( largeRsubJets[0][i] );
+	  btags_vec.push_back ( largeRbtags[0][i]);
+	}
+
+	jets_vec.push_back( res_lead_subjet );
+	jets_vec.push_back( res_sublead_subjet );
+	btags_vec.push_back( separated_bTag[0] );
+	btags_vec.push_back( separated_bTag[1] );
+
+	const double selEff = btagProb(m_nBTag, jets_vec, btags_vec);
+
+
+	/***************************************************************************************************
+
+
+	 **************************************************************************************************/
+	
+			      
+
+
+	const double selWgt = selEff * event_weight;
 
         if (nB + nC + nL != 4) return 0;
 
