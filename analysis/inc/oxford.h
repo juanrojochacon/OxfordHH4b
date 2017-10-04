@@ -26,7 +26,7 @@ class OxfordAnalysis : public Analysis {
                   std::vector<fastjet::PseudoJet> const& trackjets,
                   std::vector<fastjet::PseudoJet>&       subjet1,
                   std::vector<fastjet::PseudoJet>& subjet2, std::vector<int>& nBSubJets_vec,
-                  std::vector<int>& nCSubJets_vec, std::vector<int>& nLSubJets_vec);
+                  std::vector<int>& nCSubJets_vec, std::vector<int>& nLSubJets_vec, std::vector<btagType>& btag_vector);
 
     // Small-R reconstruction
     void Reco_Resolved(std::vector<fastjet::PseudoJet> const& bjets_vec,

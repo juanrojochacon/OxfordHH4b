@@ -44,6 +44,23 @@ void Detector::AddPileup(finalState& particles) {
         get_final_state_particles(pythiaPileup, particles, dummy);
 }
 
+//function for energy resolution depending on pt
+double resolution(double pt){ 
+  double x = pt; // transverse momentum measured in GeV
+
+  if (x <= 13){
+    return 0.302;}
+  else if (13 < x && x <= 75){ return -2.2843*pow(10,-24)*pow(x,10) + 6.4894*pow(10,-21)*pow(x,9) 
+      - 7.7889*pow(10,-18)*pow(x,8) + 5.1536*pow(10,-15)*pow(x,7) - 2.0552*pow(10,-12)*pow(x,6) 
+      + 5.0663*pow(10,-10)*pow(x,5) - 7.5618*pow(10,-8)*pow(x,4) + 6.2909*pow(10,-6)*pow(x,3) 
+      - 2.2020*pow(10,-4)*pow(x,2) - 2.6208*pow(10,-3)*x + 3.6512*pow(10,-1);}
+  else if (75 < x && x <= 240){
+    return exp(-0.003156*x - 2.180);}
+  else {
+    return exp(-0.0006781*x -2.7747);}
+
+}
+
 void Detector::Simulate(finalState input, finalState& output) {
     AddPileup(input);
     for (auto& i : input) {
@@ -52,15 +69,29 @@ void Detector::Simulate(finalState input, finalState& output) {
         const double newPhi = floor(i.phi() / phiRes) * phiRes + phiRes / 2.0;
 
         // Lengthwise gaussian smear
-        std::normal_distribution<> normal_dist(1.0, 0.01 * jetEsmear);
-        const double               sm = normal_dist(rng);
+        std::normal_distribution<> normal_dist( 1.0, resolution(i.pt()) );
+        const double               sm = normal_dist(rng);//energy smearing
+
+        std::normal_distribution<> normal_dist_m(1.0, 0.2);
+        const double sm_m = normal_dist_m(rng) ; // mass smearing
 
         // Reconstruct smeared jet
-        const double pT = sm * i.pt();
+	const double E = sm * i.E(); // smear energy
+	const double m2 = pow(sm_m,2) * i.m2();//smear mass-squared					       
+        const double theta = 2 * atan(exp(-newEta)); 
+	const double p = sqrt(pow(E,2)-m2);//calculate new momentum from smeared mass and energy
+	const double pT = p * sin(theta);				       
+        const double px = pT * cos(newPhi);
+        const double py = pT * sin(newPhi);
+        const double pz = pT * sinh(newEta);				       
+      
+      // old method:
+      /*const double pT = sm * i.pt();
         const double px = pT * cos(newPhi);
         const double py = pT * sin(newPhi);
         const double pz = pT * sinh(newEta);
-        const double E  = sqrt(i.m2() + px * px + py * py + pz * pz);
+        const double E  = sqrt(i.m2() + px * px + py * py + pz * pz);					 
+      */
 
         // Form PseudoJet
         fastjet::PseudoJet jet(px, py, pz, E);
