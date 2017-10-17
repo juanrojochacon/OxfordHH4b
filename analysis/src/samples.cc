@@ -11,6 +11,11 @@
 
 using namespace std;
 
+int ceil_div(int x, int y) {
+    std::div_t division = std::div(x, y);
+    return division.quot + (division.rem ? 1 : 0);
+}
+
 // ************************************ Initialisation ************************************
 
 /*
@@ -137,9 +142,9 @@ void InitHepMC(runCard const& rc, sampleCard const& sc, double& weight_norm,
               std::istream_iterator<int>(),
 	      std::back_inserter(subsample_indices));
 
-    if(subsample_indices.size() != (nevts / evts_per_subsample)) {
+    if(subsample_indices.size() != ceil_div(nevts, evts_per_subsample)) {
         std::cerr << "Subsample indices vector has the wrong size: " << subsample_indices.size()
-		  << " instead of " << (nevts / evts_per_subsample) << "\n"
+		  << " instead of " << ceil_div(nevts, evts_per_subsample) << "\n"
 		  << "Is the index corrupt?\n";
 	std::exit(EXIT_FAILURE);
     }
