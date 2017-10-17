@@ -24,7 +24,7 @@ DIR=`pwd`
 #        count=$[$count+1]
 #    done
 #done
-for bkgSample in cards/atlas_boosted/SHERPA*.sample; do
+for bkgSample in cards/atlas_boosted/SHERPA_QCD_{2b2j,4b,4j}.sample; do
     for i in {0..29}; do
        echo '#!/bin/sh' > jobs/job$count.sh
        echo '#PBS -l cput=11:59:59 -l walltime=11:59:59' >> jobs/job$count.sh

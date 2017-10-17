@@ -4,6 +4,8 @@
 #include <fstream>
 #include <functional>
 #include <random>
+#include <limits>
+#include <locale>
 
 #include "analysis.h"
 #include "detector.h"
@@ -30,6 +32,10 @@ std::vector<std::uint32_t> initSeeds(runCard const& run, sampleCard const& sampl
 ////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[]) {
+    // Set locale, so we have thousands separators
+	std::locale my_locale{""};
+	std::cout.imbue(my_locale);
+
     if (argc != 4) {
         cerr << "Error: Wrong number of arguments!" << endl;
         cerr << "Usage: HH4b <run card> <sample card> <subsample>" << endl;
@@ -54,6 +60,9 @@ int main(int argc, char* argv[]) {
     const uint32_t detectorSeed = seeds[2];
     const uint32_t analysisSeed = seeds[3];
 
+    int index_subsample_size = 0;
+    std::vector<int> subsample_indices;
+
     cout << "Processing sample: " << sample.samplename << ", subsample: " << subsample << std::endl;
     cout << "  RNG Seeds - Shower:   " << pythiaSeed << std::endl
          << "            - PU:       " << pileupSeed << std::endl
@@ -69,7 +78,7 @@ int main(int argc, char* argv[]) {
     if (!sample.hepmc)
         InitPythia(run, sample, pythiaSeed, pythiaRun, weight_norm);
     else
-        InitHepMC(run, sample, weight_norm);
+        InitHepMC(run, sample, weight_norm, index_subsample_size, subsample_indices);
     weight_norm *= 1000 * sample.xsec_norm; // Includes pb->fb conversion
 
     // Initialse Analyses and detector simulation
@@ -78,15 +87,23 @@ int main(int argc, char* argv[]) {
     Detector detector(run, sample, pileupSeed, detectorSeed);
 
     // Skip to subsample x
-    cout << "Skipping to startpoint: " << sampleStart << endl;
-    for (int iEvent = 0; iEvent < sampleStart; ++iEvent) {
-        double     dum;
-        finalState dum2;
-        if (!sample.hepmc)
+    if (!sample.hepmc) {
+        cout << "Subsample " << subsample << ": skipping to event " << sampleStart << endl;
+        for (int iEvent = 0; iEvent < sampleStart; ++iEvent) {
+            double     dum;
+            finalState dum2;
             get_final_state_particles(pythiaRun, dum2, dum);
-        else
-            get_final_state_particles(hepmc_is, dum2, dum);
+        }
     }
+    else {
+	int sampleStartLine = subsample_indices[subsample * (run.sub_samplesize / index_subsample_size)];
+        cout << "Subsample " << subsample << ": skipping to event " << sampleStart
+             << " (line " << sampleStartLine << ")" << endl;
+	for (int i = 0; i < sampleStartLine; ++i) {
+	    hepmc_is.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip lines
+	}
+    }
+    
 
     std::cout << "Number of analyses loaded: " << analyses.size() << std::endl;
 

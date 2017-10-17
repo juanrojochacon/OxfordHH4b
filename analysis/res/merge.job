@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+#PBS -l cput=01:59:00
+#PBS -l walltime=01:59:00
+#PBS -o /home/stanislaus/oxfordhh4b/analysis/batchlog/
+#PBS -e /home/stanislaus/oxfordhh4b/analysis/batchlog/
+cd $PBS_O_WORKDIR
+. /home/stanislaus/PUBLIC/setupEnv.sh
+tar -cJf baseline_noPU_atlas_qcd.tar.xz baseline_noPU_atlas_qcd
+cd baseline_noPU_atlas_qcd
+../mergeSubSamples.zsh diHiggs
+../mergeSubSamples.zsh SHERPA
+echo "Merging subsamples complete" | mail -s "Subsample merging complete" beojan.stanislaus@physics.ox.ac.uk

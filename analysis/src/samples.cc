@@ -3,7 +3,10 @@
 #include "run.h"
 
 #include "sherpa-xs.hh"
+#include <algorithm>
+#include <cstdlib>
 #include <exception>
+#include <iterator>
 #include <vector>
 
 using namespace std;
@@ -98,44 +101,48 @@ void InitPythia(runCard const& rc, sampleCard const& sc, uint32_t const& seed,
     return;
 }
 
-void InitHepMC(runCard const& rc, sampleCard const& sc, double& weight_norm) {
-    int    nevt     = 0;
-    double sum_wgts = 0;
-    double sum_trls = 0;
+void InitHepMC(runCard const& rc, sampleCard const& sc, double& weight_norm,
+	       int& evts_per_subsample, std::vector<int>& subsample_indices) {
+    double comp_xsec = 0;
     double gen_xsec = 0;
+    //double weight_norm in args
+    int nevts = 0;
 
-    const std::string evtstr = "E ";
-    const std::string xscstr = "C ";
+    std::ifstream hepmc_index(sc.eventpath + ".index");
+    if(!hepmc_index) { 
+        std::cerr << "Failed to open index file ("<< sc.eventpath << ".index).\n"
+		  << "Have you run the indexer (HepMCParser) over your sample?\n";
+	std::exit(EXIT_FAILURE);
+    }
+    hepmc_index >> comp_xsec >> gen_xsec >> weight_norm >> nevts >> evts_per_subsample;
 
-    std::ifstream hepmc_is(sc.eventpath.c_str());
-    while (true) {
-        if (!hepmc_is) {
-            std::cerr << "READ ERROR" << std::endl;
-            exit(1);
-        }
-        std::string line;
-        getline(hepmc_is, line);
-        if (line.length() == 0) continue;
-        if (line.compare(0, evtstr.length(), evtstr) == 0 and nevt < sc.nevt_sample) {
-            const std::vector<std::string> temp = split(line, ' ');
-            sum_wgts += std::stod(temp[13]);
-            sum_trls += std::stod(temp[16]);
-            nevt++;
-            if (nevt % 10000 == 0) cout << "Examined " << nevt << " events ... " << endl;
-        }
-        else if (line.compare(0, xscstr.length(), xscstr) == 0) {
-            const std::vector<std::string> temp = split(line, ' ');
-            gen_xsec                            = std::stod(temp[1]);
-            if (nevt == sc.nevt_sample - 1) break;
-        }
+    std::cout << std::scientific
+	      << "Computed xsec: " << comp_xsec << "\n"
+              << "Generated xsec: " << gen_xsec << "\n"
+              << "Unit weight: " << weight_norm << "\n"
+	      << std::endl;
+    if(sc.nevt_sample != nevts) {
+        std::cerr << "nevts in sample card does not match sample index.\n"
+		  << "nevts should be " << nevts << "\n";
+	std::exit(EXIT_FAILURE);
     }
 
-    hepmc_is.close();
-    weight_norm = gen_xsec / sum_wgts;
-    std::cout << std::scientific << "Computed xsec: " << sum_wgts / sum_trls
-              << " Generated xsec: " << gen_xsec << std::endl;
-    std::cout << "Unit weight: " << gen_xsec << " / " << sum_wgts << " = " << weight_norm
-              << std::endl;
+    if(rc.sub_samplesize % evts_per_subsample != 0) {
+	std::cerr << "Subsample size in run card is not a multiple of that in sample index.\n"
+		  << "Set subsample size to a multiple of " << evts_per_subsample << ".\n";
+	std::exit(EXIT_FAILURE);
+    }
+    
+    std::copy(std::istream_iterator<int>(hepmc_index),
+              std::istream_iterator<int>(),
+	      std::back_inserter(subsample_indices));
+
+    if(subsample_indices.size() != (nevts / evts_per_subsample)) {
+        std::cerr << "Subsample indices vector has the wrong size: " << subsample_indices.size()
+		  << " instead of " << (nevts / evts_per_subsample) << "\n"
+		  << "Is the index corrupt?\n";
+	std::exit(EXIT_FAILURE);
+    }
 }
 
 // ************************************ File Input ************************************
