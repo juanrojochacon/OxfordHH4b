@@ -97,13 +97,21 @@ int main(int argc, char* argv[]) {
     }
     else {
 	int sampleStartLine = subsample_indices[subsample * (run.sub_samplesize / index_subsample_size)];
-        cout << "Subsample " << subsample << ": skipping to event " << sampleStart
+        cout << "Subsample " << subsample << ": fast-forwarding to event " << sampleStart
              << " (line " << sampleStartLine << ")" << endl;
-	for (int i = 0; i < sampleStartLine; ++i) {
-	    hepmc_is.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip lines
+	if (subsample > 0) { // don't need to fast-forward if we're starting at the beginning
+	    // HepMC *needs* to read the first event, so we do that, then rewind and skip lines
+	    HepMC::GenEvent event;
+	    cerr << "Reading first event\n";
+	    event.read(hepmc_is);
+	    cerr << "Rewinding\n";
+            hepmc_is.seekg(0);
+	    for (int i = 1; i < sampleStartLine; ++i) {
+	        hepmc_is.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip lines
+		if (i % 1000000 == 0) cerr << "Fast-forwarded line " << i << "\n";
+	    }
 	}
     }
-    
 
     std::cout << "Number of analyses loaded: " << analyses.size() << std::endl;
 
