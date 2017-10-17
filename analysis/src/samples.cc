@@ -197,11 +197,9 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles,
         cerr << "Info: end of input hepmc file reached" << endl;
         exit(-1);
     }
-    cerr << "Getting final state particles...\n";
 
     HepMC::GenEvent event;
     event.read(hepmc_is);
-    cerr << "Read event.\n";
 
     if (!event.is_valid()) {
         cerr << "Error: Invalid HepMC event!" << endl;
