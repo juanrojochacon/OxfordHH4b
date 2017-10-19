@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     const uint32_t analysisSeed = seeds[3];
 
     int index_subsample_size = 0;
-    std::vector<int> subsample_indices;
+    std::vector<long long> subsample_indices;
 
     cout << "Processing sample: " << sample.samplename << ", subsample: " << subsample << std::endl;
     cout << "  RNG Seeds - Shower:   " << pythiaSeed << std::endl
@@ -96,20 +96,17 @@ int main(int argc, char* argv[]) {
         }
     }
     else {
-	int sampleStartLine = subsample_indices[subsample * (run.sub_samplesize / index_subsample_size)];
+	long long sampleStartByte = subsample_indices[subsample * (run.sub_samplesize / index_subsample_size)];
         cout << "Subsample " << subsample << ": fast-forwarding to event " << sampleStart
-             << " (line " << sampleStartLine << ")" << endl;
+             << " (byte " << sampleStartByte << ")" << endl;
 	if (subsample > 0) { // don't need to fast-forward if we're starting at the beginning
 	    // HepMC *needs* to read the first event, so we do that, then rewind and skip lines
 	    HepMC::GenEvent event;
-	    cerr << "Reading first event\n";
+	    cout << "Reading first event\n";
 	    event.read(hepmc_is);
-	    cerr << "Rewinding\n";
-            hepmc_is.seekg(0);
-	    for (int i = 1; i < sampleStartLine; ++i) {
-	        hepmc_is.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip lines
-		if (i % 1000000 == 0) cerr << "Fast-forwarded line " << i << "\n";
-	    }
+	    cout << "Fast-forwarding\n";
+            hepmc_is.seekg(sampleStartByte);
+	    cout << "Start analysis.\n";
 	}
     }
 
@@ -120,17 +117,20 @@ int main(int argc, char* argv[]) {
     const int targetSize = min(run.sub_samplesize, sample.nevt_sample - sampleStart);
     cout << "Analysing: " << targetSize << " events" << endl;
     for (int iEvent = 0; iEvent < targetSize; ++iEvent) {
+	bool extOutput = false;
         finalState ifs, fs; // The event final state
 
         double event_weight = 0;
-        if (!sample.hepmc)
+        if (!sample.hepmc) {
             get_final_state_particles(pythiaRun, ifs, event_weight);
-        else
-            get_final_state_particles(hepmc_is, ifs, event_weight);
+	}
+        else {
+            get_final_state_particles(hepmc_is, ifs, event_weight, extOutput);
+	}
 
+	if(extOutput) continue;
         // Perform detector simulation
         detector.Simulate(ifs, fs);
-
         // Run over analyses
         double gen_weight = event_weight; // To plot raw weights
         event_weight *= weight_norm;

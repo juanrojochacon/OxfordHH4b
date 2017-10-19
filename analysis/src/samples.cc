@@ -107,11 +107,12 @@ void InitPythia(runCard const& rc, sampleCard const& sc, uint32_t const& seed,
 }
 
 void InitHepMC(runCard const& rc, sampleCard const& sc, double& weight_norm,
-	       int& evts_per_subsample, std::vector<int>& subsample_indices) {
+	       int& evts_per_subsample, std::vector<long long>& subsample_indices) {
     double comp_xsec = 0;
     double gen_xsec = 0;
     //double weight_norm in args
     int nevts = 0;
+    std::cout << "Events are at " << sc.eventpath << "\n";
 
     std::ifstream hepmc_index(sc.eventpath + ".index");
     if(!hepmc_index) { 
@@ -137,9 +138,9 @@ void InitHepMC(runCard const& rc, sampleCard const& sc, double& weight_norm,
 		  << "Set subsample size to a multiple of " << evts_per_subsample << ".\n";
 	std::exit(EXIT_FAILURE);
     }
-    
-    std::copy(std::istream_iterator<int>(hepmc_index),
-              std::istream_iterator<int>(),
+   
+    std::copy(std::istream_iterator<long long>(hepmc_index),
+              std::istream_iterator<long long>(),
 	      std::back_inserter(subsample_indices));
 
     if(subsample_indices.size() != ceil_div(nevts, evts_per_subsample)) {
@@ -192,7 +193,7 @@ void get_final_state_particles(Pythia8::Pythia& pythiaRun, finalState& particles
   Get the information on all final state particles - HepMC version
  */
 void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles,
-                               double& unit_weight) {
+                               double& unit_weight, bool print) {
     if (!hepmc_is) {
         cerr << "Info: end of input hepmc file reached" << endl;
         exit(-1);
@@ -206,6 +207,7 @@ void get_final_state_particles(std::ifstream& hepmc_is, finalState& particles,
         exit(-1);
     }
 
+    if(print) event.print();
     // Unit weight
     unit_weight = event.weights()[0];
 
