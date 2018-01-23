@@ -3,15 +3,16 @@
 #include <string>
 #include <vector>
 #include <cmath> 
+#include <cstdlib>
 
 using namespace std;
-//copy desired data files into ".cc" files, under names r1.cc, i1.cc, b1.cc for the source, for
+//copy desired data files into ".dat" files, under names r1.dat, i1.dat, b1.dat for the source, for
 //resolved, intermediate and boosted repsectives, with the backgrounds using the following numbers
-//e.g. r2.cc is the first resolved background.
+//e.g. r2.dat is the first resolved background.
 //remember to delete all text from file so there are just 5 columns of data!!!
 //diHiggs is the signal
 //b,c,d,e are the 4 background sources
-void signal_significance(string s1="1.cc", string b1="", string b2="", string b3="", string b4="",
+void signal_significance(string s1="hist1.dat", string b1="", string b2="", string b3="", string b4="",
 			   string s2="", string b5="", string b6="", string b7="", string b8="",
 			   string s3="", string b9="", string b10="", string b11="", string b12=""){
 
@@ -28,7 +29,12 @@ void signal_significance(string s1="1.cc", string b1="", string b2="", string b3
   if (myfile1.is_open() && myfile2.is_open() && myfile3.is_open() && myfile4.is_open() && myfile5.is_open()
       && myfile6.is_open() && myfile7.is_open() && myfile8.is_open() && myfile9.is_open() && myfile10.is_open()
       && myfile11.is_open() && myfile12.is_open() && myfile13.is_open() && myfile14.is_open(), myfile15.is_open() ){
-    cout << "Files opened properly" << endl;}
+    cout << "Files opened properly" << endl;
+  }
+  else {
+    cerr << "Some file(s) failed to open\n";
+    exit(1);
+  }
  
 
  
@@ -106,11 +112,11 @@ void signal_significance(string s1="1.cc", string b1="", string b2="", string b3
        cout << "Total Signal (Sum of Weights for diHiggs) = " << sig << endl;
 	
        
-  // Cross sections obtained via xsection.cc, and pheno paper for xsec_sig, measured in pb^-1
+  // Cross sections obtained via xsection.dat, and pheno paper for xsec_sig, measured in pb^-1
        double xsec_sig = 6.2 * pow(10,-3), xsec_back1 = 1.1 * pow(10,3),
 	 xsec_back2 = 2.7 * pow(10,5) , xsec_back3 = 9.9 * pow(10,6), xsec_back4 = 5.7 * pow(10,2);
       
-       // number of trials before cuts obtained via xsection.cc
+       // number of trials before cuts obtained via xsection.dat
        // HAVE JUST LEFT "ns = 1" BUT THIS NEEDS TO BE CHANGED
        double ns = 1, nb1 = 6.14405*pow(10,9), nb2 = 7.41471*pow(10,9), nb3 = 9.27505*pow(10,9) , nb4 = 4.95184*pow(10,7);
 
@@ -136,23 +142,12 @@ void signal_significance(string s1="1.cc", string b1="", string b2="", string b3
        cout << "Effective number of 2b2j events = " << n_b1 << endl;
        cout << "Effective number of 4b events = " << n_b2 << endl;
        cout << "Effective number of 4j events = " << n_b3 << endl;
-       cout << "Effective number of ttbar->X events = " << n_b4 << endl;
-
-
-    myfile1.close();
-    myfile2.close();
-    myfile3.close();
-    myfile4.close();
-    myfile5.close();
-    
-    
-    
-    
+       cout << "Effective number of ttbar->X events = " << n_b4 << endl; 
 }
 
 int main(){
 
-  signal_significance("1.cc","2.cc","3.cc","4.cc","5.cc","6.cc","7.cc","8.cc","9.cc","10.cc","11.cc","12.cc","13.cc","14.cc","15.cc");
+  signal_significance("hist1.dat","hist2.dat","hist3.dat","hist4.dat","hist5.dat","hist6.dat","hist7.dat","hist8.dat","hist9.dat","hist10.dat","hist11.dat","hist12.dat","hist13.dat","hist14.dat","hist15.dat");
 
   
  return 0;
